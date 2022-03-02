@@ -12,6 +12,8 @@ target 'unicard' do
     :hermes_enabled => false
   )
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'unicardTests' do
     inherit! :complete
     # Pods for testing

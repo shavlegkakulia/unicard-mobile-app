@@ -2,10 +2,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import axios from 'axios';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import ErrorWrapper from '../components/ErrorWraper';
 import Loader from '../components/loader';
 import AuthService, {IInterceptop} from '../services/AuthService';
 import {logout} from '../Store/actions/auth';
 import {AuthActions, IAuthReducer, IAuthState} from '../Store/types/auth';
+import { ErrorActions } from '../Store/types/errors';
 import AppNavigator from './appNavigator';
 
 export default () => {
@@ -63,12 +65,21 @@ export default () => {
         });
       })
       .finally(() => setIsLoading(false));
+
+      setTimeout(() => {
+        dispatch({
+          type: ErrorActions.push_error,
+          error: 'fdsfdsfdsfdsfd',
+        });
+      }, 5000);
   }, []);
 
   return (
     <NavigationContainer>
-      <Loader visible={isLoading} />
-      <AppNavigator />
+      <ErrorWrapper>
+        <Loader visible={isLoading} />
+        <AppNavigator />
+      </ErrorWrapper>
     </NavigationContainer>
   );
 };

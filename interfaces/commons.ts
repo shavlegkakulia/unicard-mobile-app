@@ -15,3 +15,12 @@ interface INav {
 }
 
 export type ScreenNavigationProp = INav;
+
+declare module 'axios' {
+  interface AxiosRequestConfig {
+    anonymous?: boolean;
+    fromLogin?: boolean;
+    objectResponse?: boolean;
+    skipRefresh?: boolean;
+  }
+}

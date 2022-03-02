@@ -1,9 +1,74 @@
-import { NavigationContainer } from "@react-navigation/native"
-import React from "react"
-import AppNavigator from "./appNavigator";
+import {NavigationContainer} from '@react-navigation/native';
+import axios from 'axios';
+import React, {useEffect, useRef, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import Loader from '../components/loader';
+import AuthService, {IInterceptop} from '../services/AuthService';
+import {logout} from '../Store/actions/auth';
+import {AuthActions, IAuthReducer, IAuthState} from '../Store/types/auth';
+import AppNavigator from './appNavigator';
 
 export default () => {
-    return <NavigationContainer>
-        <AppNavigator />
+  const authReducer = useSelector<IAuthReducer>(
+    state => state.AuthReducer,
+  ) as IAuthState;
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const AxiosInterceptor = useRef<IInterceptop[]>([]);
+
+  const dispatch = useDispatch();
+
+  const RegisterCommonInterceptor = () => {
+    let requestInterceptor = axios.interceptors.request.use((config: any) => {
+      config.headers['langcode'] = 'en-US';
+      return config;
+    });
+
+    let responseInterceptor = axios.interceptors.response.use(
+      (response: any) => {
+        if (!response.config.objectResponse || response.data.expires_in) {
+          return Promise.resolve(response);
+        }
+        return Promise.resolve(response);
+      },
+    );
+    return {
+      unsubscribe: () => {
+        axios.interceptors.request.eject(requestInterceptor);
+        axios.interceptors.response.eject(responseInterceptor);
+      },
+    };
+  };
+
+  const logOut = async () => {
+    await AuthService.SignOut();
+    dispatch(logout());
+  };
+
+  useEffect(() => {
+    AxiosInterceptor.current = [
+      RegisterCommonInterceptor(),
+      AuthService.registerAuthInterceptor(logOut),
+    ];
+    return () => {
+      AxiosInterceptor.current.forEach(sub => sub.unsubscribe());
+    };
+  }, [authReducer.isAuthentificated]);
+
+  useEffect(() => {
+    AuthService.isAuthenticated()
+      .then(res => {
+        dispatch({
+          type: AuthActions.setIsAuthentificated,
+          isAuthentificated: res,
+        });
+      })
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  return (
+    <NavigationContainer>
+      <Loader visible={isLoading} />
+      <AppNavigator />
     </NavigationContainer>
-}
+  );
+};

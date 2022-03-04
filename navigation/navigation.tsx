@@ -9,11 +9,19 @@ import {logout} from '../Store/actions/auth';
 import {AuthActions, IAuthReducer, IAuthState} from '../Store/types/auth';
 import { ErrorActions } from '../Store/types/errors';
 import AppNavigator from './appNavigator';
+import storage from './../services/StorageService';
+import { ka } from '../lang';
+import storage_keys from '../constants/storageKeys';
+import { use } from '../Store/actions/translate';
+import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
 
 export default () => {
   const authReducer = useSelector<IAuthReducer>(
     state => state.AuthReducer,
   ) as IAuthState;
+  const translateReducer = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const AxiosInterceptor = useRef<IInterceptop[]>([]);
 
@@ -74,10 +82,18 @@ export default () => {
       }, 5000);
   }, []);
 
+  useEffect(() => {
+    storage
+      .getItem(storage_keys.locales)
+      .then(locale => {
+        dispatch(use(locale || ka));
+      });
+  }, []);
+
   return (
     <NavigationContainer>
       <ErrorWrapper>
-        <Loader visible={isLoading} />
+        <Loader visible={isLoading || translateReducer.isLoading} />
         <AppNavigator />
       </ErrorWrapper>
     </NavigationContainer>

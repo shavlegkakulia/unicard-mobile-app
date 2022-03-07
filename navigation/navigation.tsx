@@ -79,7 +79,7 @@ export default () => {
           type: ErrorActions.push_error,
           error: 'fdsfdsfdsfdsfd',
         });
-      }, 5000);
+     }, 5000);
   }, []);
 
   useEffect(() => {

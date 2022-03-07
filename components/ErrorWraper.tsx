@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated, Easing, Modal, Platform, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Animated, Easing, Platform, Dimensions } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { IErrorState, IGlobalState as ErrorState } from '../Store/types/errors';
 import { DELETE } from '../Store/actions/errors';

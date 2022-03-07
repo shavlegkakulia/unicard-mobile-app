@@ -17,6 +17,11 @@ export interface IAuthResponse {
   status?: number;
 }
 
+interface IAyuthData {
+  email: string;
+  password: string;
+}
+
 export default new (class AuthService {
   refreshStarted: any;
   async getToken(): Promise<string | null> {
@@ -47,8 +52,9 @@ export default new (class AuthService {
     await storage.removeItem('refresh_token');
   }
 
-  SignIn() {
+  SignIn(data: IAyuthData) {
     const loginObj = new FormData();
+    loginObj.append('email', data.email)
     const promise = axios.post(`${envs.CONNECT_URL}connect/token`, loginObj, {
       fromLogin: true,
       objectResponse: true,

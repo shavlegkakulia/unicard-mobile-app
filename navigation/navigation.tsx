@@ -91,6 +91,7 @@ export default () => {
   }, []);
 
   return (
+
     <NavigationContainer>
       <ErrorWrapper>
         <Loader visible={isLoading || translateReducer.isLoading} />

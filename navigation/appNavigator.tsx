@@ -11,6 +11,7 @@ import {useSelector} from 'react-redux';
 import {IAuthReducer, IAuthState} from '../Store/types/auth';
 import LoginScreen from '../screens/notAuth/LoginScreen';
 import {BackHandler} from 'react-native';
+import RegistrationScreen from '../screens/notAuth/RegistrationScreen';
 
 const authStack = createStackNavigator();
 
@@ -40,7 +41,9 @@ const AppNavigator = () => {
   return (
     <DrawerLayout
       drawerWidth={300}
-      drawerLockMode={authReducer.isAuthentificated ? 'unlocked' : 'locked-closed'}
+      drawerLockMode={
+        authReducer.isAuthentificated ? 'unlocked' : 'locked-closed'
+      }
       keyboardDismissMode="on-drag"
       onDrawerOpen={() => (isDrawerOpened.current = true)}
       onDrawerClose={() => (isDrawerOpened.current = false)}
@@ -58,6 +61,34 @@ const AppNavigator = () => {
             <authStack.Screen
               name={notAuthRoutes.login}
               component={LoginScreen}
+              options={{
+                title: 'მოგესალმებით',
+                headerStyle: {
+                  backgroundColor: '#fff',
+                },
+                headerTintColor: '#8AD00B',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  fontSize: 20,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={notAuthRoutes.registration}
+              component={RegistrationScreen}
+              options={{
+                title: 'რეგისტრაცია',
+                headerStyle: {
+                  backgroundColor: '#fff',
+                },
+                headerTintColor: '#8AD00B',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  fontSize: 20,
+                },
+              }}
             />
           </>
         )}

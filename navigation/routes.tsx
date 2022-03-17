@@ -1,7 +1,8 @@
 export enum authRoutes {
-    home = 'home'
+  home = 'home',
 }
 
 export enum notAuthRoutes {
-    login = 'login'
+  login = 'login',
+  registration = 'registration',
 }

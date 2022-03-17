@@ -27,8 +27,8 @@ const SidebarDrawer: React.FC<any> = props => {
 export default SidebarDrawer;
 
 const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        backgroundColor: Colors.white
-    }
+  container: {
+    flexGrow: 1,
+    backgroundColor: 'red',
+  },
 });

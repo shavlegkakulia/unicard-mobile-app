@@ -8,23 +8,23 @@
  * @format
  */
 
- import { LogBox, StyleSheet } from 'react-native';
+import {LogBox, StyleSheet} from 'react-native';
 
- LogBox.ignoreLogs([
-   "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
- ]);
+LogBox.ignoreLogs([
+  "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+]);
 
-import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
-import { Provider } from 'react-redux'
+import React, {useEffect} from 'react';
+import {SafeAreaView, StatusBar} from 'react-native';
+import {Provider} from 'react-redux';
 import Navigation from './navigation/navigation';
 import store from './Store';
+import SplashScreen from 'react-native-splash-screen';
 
 const App = () => {
-
+  useEffect(() => {
+    SplashScreen.hide();
+  });
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={'light-content'} />
@@ -40,5 +40,6 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-  }
+    
+  },
 });

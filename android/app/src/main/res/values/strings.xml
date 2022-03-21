@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">unicard</string>
+    <string name="Google_Map_APY_KEY">AIzaSyA1jr6_XW2vZLemxi2KV4p6pUEKMowGW7w</string>
+    <string name="facebook_app_id">387152943243417</string>
 </resources>

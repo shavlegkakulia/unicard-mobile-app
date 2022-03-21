@@ -8,6 +8,7 @@ import { login, logout } from "../../Store/actions/auth";
 import { use } from "../../Store/actions/translate";
 import { ITranslateReducer, ITranslateState } from "../../Store/types/translate";
 import Colors from "../../theme/Colors";
+import FBAuth from "../notAuth/FBAuth";
 
 const HomeScreen: React.FC<ScreenNavigationProp> = (props) => {
     const dispatch = useDispatch();
@@ -30,14 +31,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = (props) => {
         })
       }
 
-    return <ScrollView>
-        <Text>
-            {translateReducer.t('common.name')}
-        </Text>
-        <TouchableOpacity onPress={() => dispatch(logout())} style={{padding: 10, backgroundColor: Colors.red}}>
-            <Text>logout</Text>
-        </TouchableOpacity>
-    </ScrollView>
+    return <FBAuth />
 }
 
 export default HomeScreen;

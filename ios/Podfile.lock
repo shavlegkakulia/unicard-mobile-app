@@ -347,6 +347,8 @@ PODS:
     - React-perflogger (= 0.67.3)
   - RNCAsyncStorage (1.12.1):
     - React-Core
+  - RNCCheckbox (0.5.12):
+    - React-Core
   - RNGestureHandler (2.3.0):
     - React-Core
   - RNScreens (3.13.0):
@@ -413,6 +415,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
+  - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -499,6 +502,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
+  RNCCheckbox:
+    :path: "../node_modules/@react-native-community/checkbox"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNScreens:
@@ -552,6 +557,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: af1946623656f9c5fd64ca6f36f3863516193446
   ReactCommon: 650e33cde4fb7d36781cd3143f5276da0abb2f96
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
+  RNCCheckbox: ed1b4ca295475b41e7251ebae046360a703b6eb5
   RNGestureHandler: 77d59828d40838c9fabb76a12d2d0a80c006906f
   RNScreens: aa12070b21c1d6011b3627a0b1d09b627232b070
   Yoga: 90dcd029e45d8a7c1ff059e8b3c6612ff409061a

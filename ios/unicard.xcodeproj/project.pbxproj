@@ -8,28 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* unicardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* unicardTests.m */; };
-		03510FFBD25149F48009C938 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		123BB74A893D4DD2AB6C196D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		03510FFBD25149F48009C938 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		123BB74A893D4DD2AB6C196D /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		26B0147D1BD14A97873AD435 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		4971D68F78FB4778A3667BDD /* (null) in Resources */ = {isa = PBXBuildFile; };
-		5CEF8346FCC34CA0AD74AB6D /* (null) in Resources */ = {isa = PBXBuildFile; };
-		5F7328365AC34CEC80D57519 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		26B0147D1BD14A97873AD435 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		4971D68F78FB4778A3667BDD /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		5CEF8346FCC34CA0AD74AB6D /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		5F7328365AC34CEC80D57519 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		6172F2D35A4C3AA820D92908 /* libPods-unicard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-unicard.a */; };
-		63FF563D999C45F788358E5A /* (null) in Resources */ = {isa = PBXBuildFile; };
+		63FF563D999C45F788358E5A /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 		7EF68E3733C33B6898317E18 /* libPods-unicard-unicardTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-unicard-unicardTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		A65CD135B48944719AB98954 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		A778774AAECA4217B390ACB8 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		B36811C7C6AF449B89CE7BA3 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		C2D661AA53F24E0DB9BB3455 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		C786EEEFA79A4A23B2F440A1 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		CE6C8F9DF33941CB8BEFA537 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		E4B6B3EE4CB9431497B2C069 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		E766301C104B4CF084D4A2B2 /* (null) in Resources */ = {isa = PBXBuildFile; };
-		EEAF7BBCEFF5442A8BAFACC2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		A65CD135B48944719AB98954 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		A778774AAECA4217B390ACB8 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		B36811C7C6AF449B89CE7BA3 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		C2D661AA53F24E0DB9BB3455 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		C786EEEFA79A4A23B2F440A1 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		CE6C8F9DF33941CB8BEFA537 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		E4B6B3EE4CB9431497B2C069 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		E766301C104B4CF084D4A2B2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		EEAF7BBCEFF5442A8BAFACC2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -268,22 +268,22 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				E766301C104B4CF084D4A2B2 /* (null) in Resources */,
-				63FF563D999C45F788358E5A /* (null) in Resources */,
-				A65CD135B48944719AB98954 /* (null) in Resources */,
-				26B0147D1BD14A97873AD435 /* (null) in Resources */,
-				B36811C7C6AF449B89CE7BA3 /* (null) in Resources */,
-				C2D661AA53F24E0DB9BB3455 /* (null) in Resources */,
-				EEAF7BBCEFF5442A8BAFACC2 /* (null) in Resources */,
-				5CEF8346FCC34CA0AD74AB6D /* (null) in Resources */,
-				03510FFBD25149F48009C938 /* (null) in Resources */,
-				A778774AAECA4217B390ACB8 /* (null) in Resources */,
-				5F7328365AC34CEC80D57519 /* (null) in Resources */,
-				4971D68F78FB4778A3667BDD /* (null) in Resources */,
-				C786EEEFA79A4A23B2F440A1 /* (null) in Resources */,
-				E4B6B3EE4CB9431497B2C069 /* (null) in Resources */,
-				123BB74A893D4DD2AB6C196D /* (null) in Resources */,
-				CE6C8F9DF33941CB8BEFA537 /* (null) in Resources */,
+				E766301C104B4CF084D4A2B2 /* BuildFile in Resources */,
+				63FF563D999C45F788358E5A /* BuildFile in Resources */,
+				A65CD135B48944719AB98954 /* BuildFile in Resources */,
+				26B0147D1BD14A97873AD435 /* BuildFile in Resources */,
+				B36811C7C6AF449B89CE7BA3 /* BuildFile in Resources */,
+				C2D661AA53F24E0DB9BB3455 /* BuildFile in Resources */,
+				EEAF7BBCEFF5442A8BAFACC2 /* BuildFile in Resources */,
+				5CEF8346FCC34CA0AD74AB6D /* BuildFile in Resources */,
+				03510FFBD25149F48009C938 /* BuildFile in Resources */,
+				A778774AAECA4217B390ACB8 /* BuildFile in Resources */,
+				5F7328365AC34CEC80D57519 /* BuildFile in Resources */,
+				4971D68F78FB4778A3667BDD /* BuildFile in Resources */,
+				C786EEEFA79A4A23B2F440A1 /* BuildFile in Resources */,
+				E4B6B3EE4CB9431497B2C069 /* BuildFile in Resources */,
+				123BB74A893D4DD2AB6C196D /* BuildFile in Resources */,
+				CE6C8F9DF33941CB8BEFA537 /* BuildFile in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,8 @@ import {IAuthReducer, IAuthState} from '../Store/types/auth';
 import LoginScreen from '../screens/notAuth/LoginScreen';
 import {BackHandler} from 'react-native';
 import RegistrationScreen from '../screens/notAuth/RegistrationScreen';
+import RegistrationDetailsScreen from '../screens/notAuth/RegistrationDetailsScreen';
+import PasswordInfo from '../screens/notAuth/PasswordInfo';
 
 const authStack = createStackNavigator();
 
@@ -77,6 +79,38 @@ const AppNavigator = () => {
             <authStack.Screen
               name={notAuthRoutes.registration}
               component={RegistrationScreen}
+              options={{
+                title: 'რეგისტრაცია',
+                headerStyle: {
+                  backgroundColor: '#fff',
+                },
+                headerTintColor: '#8AD00B',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  fontSize: 20,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={notAuthRoutes.registrationDetails}
+              component={RegistrationDetailsScreen}
+              options={{
+                title: 'რეგისტრაცია',
+                headerStyle: {
+                  backgroundColor: '#fff',
+                },
+                headerTintColor: '#8AD00B',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  fontSize: 20,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={notAuthRoutes.passwordInfo}
+              component={PasswordInfo}
               options={{
                 title: 'რეგისტრაცია',
                 headerStyle: {

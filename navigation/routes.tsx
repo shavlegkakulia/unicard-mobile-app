@@ -5,4 +5,6 @@ export enum authRoutes {
 export enum notAuthRoutes {
   login = 'login',
   registration = 'registration',
+  registrationDetails = 'registrationDetails',
+  passwordInfo = 'passwordInfo',
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  ScrollView,
   Text,
   TouchableOpacity,
   TextInput,
@@ -10,10 +9,12 @@ import {
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
+import {ScreenNavigationProp} from '../../interfaces/commons';
+import {notAuthRoutes} from '../../navigation/routes';
 
 import Colors from '../../theme/Colors';
 
-const RegistrationScreen: React.FC = () => {
+const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   return (
     <>
@@ -32,13 +33,17 @@ const RegistrationScreen: React.FC = () => {
       </View>
       <View style={styles.buttonWrapper}>
         <AppButton
-          onPress={() => {}}
+          onPress={() => {
+            props.navigation.navigate(notAuthRoutes.registrationDetails);
+          }}
           title={'დიახ'}
           backgroundColor={'#8AD00B'}
         />
         <View style={styles.button}>
           <AppButton
-            onPress={() => {}}
+            onPress={() => {
+              props.navigation.navigate(notAuthRoutes.registrationDetails);
+            }}
             title={'არა'}
             backgroundColor={'#F9BD15'}
           />

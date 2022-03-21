@@ -7,4 +7,5 @@ export enum notAuthRoutes {
   registration = 'registration',
   registrationDetails = 'registrationDetails',
   passwordInfo = 'passwordInfo',
+  registrationDone = 'registrationDone',
 }

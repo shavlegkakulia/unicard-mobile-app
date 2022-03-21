@@ -16,7 +16,7 @@ import {notAuthRoutes} from '../../navigation/routes';
 
 import Colors from '../../theme/Colors';
 
-const PasswordInfo: React.FC<ScreenNavigationProp> = () => {
+const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
@@ -54,7 +54,9 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = () => {
       </View>
       <View style={styles.buttonWrapper}>
         <AppButton
-          onPress={() => {}}
+          onPress={() => {
+            props.navigation.navigate(notAuthRoutes.registrationDone);
+          }}
           title={'შემდეგი'}
           backgroundColor={'#8AD00B'}
         />

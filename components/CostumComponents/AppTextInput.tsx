@@ -28,6 +28,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     : visible
     ? require('../../assets/img/passwordIcon.png')
     : require('../../assets/img/iconShow.png');
+
   return (
     <View style={styles.main}>
       <View style={styles.inputWrapper}>

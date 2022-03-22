@@ -38,10 +38,10 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
             disabled={false}
             value={toggleCheckBox}
             onValueChange={newValue => setToggleCheckBox(newValue)}
-            tintColor="#8AD00B"
-            onCheckColor="#fff"
-            onFillColor="#8AD00B"
-            onTintColor="#8AD00B"
+            tintColor={Colors.bgGreen}
+            onCheckColor={Colors.white}
+            onFillColor={Colors.bgGreen}
+            onTintColor={Colors.bgGreen}
             offAnimationType="stroke"
             style={styles.checkbox}
           />
@@ -58,7 +58,7 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
             props.navigation.navigate(notAuthRoutes.registrationDone);
           }}
           title={'შემდეგი'}
-          backgroundColor={'#8AD00B'}
+          backgroundColor={Colors.bgGreen}
         />
       </View>
     </>

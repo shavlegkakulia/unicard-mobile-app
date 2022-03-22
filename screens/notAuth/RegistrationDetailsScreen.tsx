@@ -68,7 +68,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
               props.navigation.navigate(notAuthRoutes.passwordInfo);
             }}
             title={'შემდეგი'}
-            backgroundColor={'#8AD00B'}
+            backgroundColor={Colors.bgGreen}
           />
         </View>
       </ScrollView>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     marginTop: 48,
   },
   title: {
-    color: '#6B6B6B',
+    color: Colors.darkGrey,
     fontSize: 16,
     fontWeight: '700',
     textTransform: 'uppercase',

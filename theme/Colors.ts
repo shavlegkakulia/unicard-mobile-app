@@ -1,8 +1,9 @@
 enum Colors {
-  primary = '#8AD00B',
-  bgGreen = '#94DD34',
-  orange = '#FFA001',
-  lightOrange = '#F9BD15',
+  bgColor = '#FAFAFA',
+  black = '#130D1E',
+  bgGreen = '#91C84B',
+  orange = '#FF9637',
+  lightOrange = '#FAC32D',
   dark = '#130D1E',
   bgWhite = '#E5E5E5',
   white = '#fff',
@@ -11,6 +12,8 @@ enum Colors {
   darkGrey = '#6B6B6B',
   red = '#EF1616',
   overley = '#000000',
+  gradiantDark = '#f7e2a6',
+  gradiantLight = '#f7eccb',
 }
 
 export default Colors;

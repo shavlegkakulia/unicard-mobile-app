@@ -37,7 +37,7 @@ const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
             props.navigation.navigate(notAuthRoutes.registrationDetails);
           }}
           title={'დიახ'}
-          backgroundColor={'#8AD00B'}
+          backgroundColor={Colors.bgGreen}
         />
         <View style={styles.button}>
           <AppButton
@@ -45,7 +45,7 @@ const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
               props.navigation.navigate(notAuthRoutes.registrationDetails);
             }}
             title={'არა'}
-            backgroundColor={'#F9BD15'}
+            backgroundColor={Colors.lightOrange}
           />
         </View>
       </View>
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    color: '#6B6B6B',
+    color: Colors.darkGrey,
     fontSize: 16,
     fontWeight: '700',
     textTransform: 'uppercase',

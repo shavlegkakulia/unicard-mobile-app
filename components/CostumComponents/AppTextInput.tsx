@@ -8,6 +8,7 @@ import {
   KeyboardTypeOptions,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import Colors from '../../theme/Colors';
 
 export interface IAppTextInputProps {
   placeholder?: string;
@@ -36,7 +37,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
           placeholder={placeholder?.toUpperCase() || ''}
           onChangeText={setText}
           value={text}
-          placeholderTextColor={'#6B6B6B'}
+          placeholderTextColor={Colors.darkGrey}
           keyboardType={keyboardType}
           secureTextEntry={visible}
           textContentType={textContentType}
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     width: 325,
     paddingVertical: 12,
     paddingHorizontal: 7,
-    borderBottomColor: '#6B6B6B',
+    borderBottomColor: Colors.darkGrey,
     borderBottomWidth: 1,
   },
   inputWrapper: {

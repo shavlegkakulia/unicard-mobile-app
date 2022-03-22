@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-  View,
-  Image,
-} from 'react-native';
+import {ScrollView, Text, StyleSheet, View, Image} from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -26,7 +18,7 @@ const LoginScreen: React.FC<ScreenNavigationProp> = props => {
       <AppButton
         onPress={() => {}}
         title={'facebook-ით შესვლა'}
-        backgroundColor={'#0073F6'}
+        backgroundColor={Colors.blue}
       />
 
       <View style={styles.titleView}>
@@ -37,32 +29,17 @@ const LoginScreen: React.FC<ScreenNavigationProp> = props => {
           props.navigation.navigate(notAuthRoutes.registration);
         }}
         title={'რეგისტრაცია'}
-        backgroundColor={'#8AD00B'}
+        backgroundColor={Colors.bgGreen}
       />
       <View style={styles.btnWrapper}>
         <AppButton
-          onPress={() => {}}
+          onPress={() => {
+            props.navigation.navigate(notAuthRoutes.authScreen);
+          }}
           title={'ავტორიზაცია'}
-          backgroundColor={'#F9BD15'}
+          backgroundColor={Colors.lightOrange}
         />
       </View>
-
-      <TextInput
-        style={styles.input}
-        placeholder="name"
-        keyboardType="numeric"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="email"
-        keyboardType="numeric"
-      />
-
-      <TouchableOpacity
-        onPress={() => dispatch(login())}
-        style={{padding: 10, backgroundColor: Colors.red}}>
-        <Text>login</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -83,7 +60,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     textTransform: 'uppercase',
-    color: '#8AD00B',
+    color: Colors.bgGreen,
   },
   imgContainer: {
     justifyContent: 'center',
@@ -94,7 +71,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     textTransform: 'uppercase',
-    color: '#FFAF00',
+    color: Colors.lightOrange,
   },
   btnWrapper: {
     paddingVertical: 60,

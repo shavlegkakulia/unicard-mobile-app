@@ -15,6 +15,8 @@ import RegistrationScreen from '../screens/notAuth/RegistrationScreen';
 import RegistrationDetailsScreen from '../screens/notAuth/RegistrationDetailsScreen';
 import PasswordInfo from '../screens/notAuth/PasswordInfo';
 import RegistrationDone from '../screens/notAuth/RegistrationDone';
+import AuthScreen from '../screens/notAuth/AuthScreen';
+import Colors from '../theme/Colors';
 
 const authStack = createStackNavigator();
 
@@ -57,7 +59,28 @@ const AppNavigator = () => {
       <authStack.Navigator initialRouteName={notAuthRoutes.login}>
         {authReducer.isAuthentificated ? (
           <>
-            <authStack.Screen name={authRoutes.home} component={HomeScreen} />
+            <authStack.Screen
+              name={authRoutes.home}
+              component={HomeScreen}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: 'მთავარი გვერდი',
+                // headerLeft: () => (
+
+                // ),
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerTitleStyle: {
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  fontSize: 14,
+                },
+              }}
+            />
           </>
         ) : (
           <>
@@ -65,11 +88,14 @@ const AppNavigator = () => {
               name={notAuthRoutes.login}
               component={LoginScreen}
               options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
                 title: 'მოგესალმებით',
                 headerStyle: {
-                  backgroundColor: '#fff',
+                  backgroundColor: Colors.bgColor,
                 },
-                headerTintColor: '#8AD00B',
+                headerTintColor: Colors.bgGreen,
                 headerTitleStyle: {
                   fontWeight: 'bold',
                   textTransform: 'uppercase',
@@ -81,11 +107,14 @@ const AppNavigator = () => {
               name={notAuthRoutes.registration}
               component={RegistrationScreen}
               options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
                 title: 'რეგისტრაცია',
                 headerStyle: {
-                  backgroundColor: '#fff',
+                  backgroundColor: Colors.bgColor,
                 },
-                headerTintColor: '#8AD00B',
+                headerTintColor: Colors.bgGreen,
                 headerTitleStyle: {
                   fontWeight: 'bold',
                   textTransform: 'uppercase',
@@ -97,11 +126,14 @@ const AppNavigator = () => {
               name={notAuthRoutes.registrationDetails}
               component={RegistrationDetailsScreen}
               options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
                 title: 'რეგისტრაცია',
                 headerStyle: {
-                  backgroundColor: '#fff',
+                  backgroundColor: Colors.bgColor,
                 },
-                headerTintColor: '#8AD00B',
+                headerTintColor: Colors.bgGreen,
                 headerTitleStyle: {
                   fontWeight: 'bold',
                   textTransform: 'uppercase',
@@ -113,11 +145,14 @@ const AppNavigator = () => {
               name={notAuthRoutes.passwordInfo}
               component={PasswordInfo}
               options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
                 title: 'რეგისტრაცია',
                 headerStyle: {
-                  backgroundColor: '#fff',
+                  backgroundColor: Colors.bgColor,
                 },
-                headerTintColor: '#8AD00B',
+                headerTintColor: Colors.bgGreen,
                 headerTitleStyle: {
                   fontWeight: 'bold',
                   textTransform: 'uppercase',
@@ -129,11 +164,33 @@ const AppNavigator = () => {
               name={notAuthRoutes.registrationDone}
               component={RegistrationDone}
               options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
                 title: '',
                 headerStyle: {
-                  backgroundColor: '#fff',
+                  backgroundColor: Colors.bgColor,
                 },
-                headerTintColor: '#8AD00B',
+                headerTintColor: Colors.bgGreen,
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  fontSize: 20,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={notAuthRoutes.authScreen}
+              component={AuthScreen}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: 'მოგესალმებით',
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerTintColor: Colors.bgGreen,
                 headerTitleStyle: {
                   fontWeight: 'bold',
                   textTransform: 'uppercase',

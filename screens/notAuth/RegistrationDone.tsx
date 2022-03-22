@@ -1,17 +1,11 @@
 import React from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-  View,
-  Image,
-} from 'react-native';
+import {Text, StyleSheet, View, Image} from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
-import SmsCode from '../../components/SmsCode';
+
 import {ScreenNavigationProp} from '../../interfaces/commons';
-import {notAuthRoutes} from '../../navigation/routes';
+
+import {login} from '../../Store/actions/auth';
 
 import Colors from '../../theme/Colors';
 
@@ -32,7 +26,7 @@ const RegistrationDone: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.buttonView}>
         <AppButton
-          onPress={() => {}}
+          onPress={() => dispatch(login())}
           title={'დახურვა'}
           backgroundColor={Colors.lightOrange}
         />
@@ -50,7 +44,7 @@ const styles = StyleSheet.create({
   raund: {
     width: 64,
     height: 64,
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.bgGreen,
     borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
@@ -66,12 +60,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '700',
     textTransform: 'uppercase',
-    color: Colors.primary,
+    color: Colors.bgGreen,
     textAlign: 'center',
   },
   buttonView: {
     flex: 1,
-  }
+  },
 });
 
 export default RegistrationDone;

@@ -20,6 +20,7 @@ import {Provider} from 'react-redux';
 import Navigation from './navigation/navigation';
 import store from './Store';
 import SplashScreen from 'react-native-splash-screen';
+import Colors from './theme/Colors';
 
 const App = () => {
   useEffect(() => {
@@ -40,6 +41,6 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    
+    backgroundColor: Colors.bgColor,
   },
 });

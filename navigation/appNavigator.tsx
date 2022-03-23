@@ -17,6 +17,8 @@ import PasswordInfo from '../screens/notAuth/PasswordInfo';
 import RegistrationDone from '../screens/notAuth/RegistrationDone';
 import AuthScreen from '../screens/notAuth/AuthScreen';
 import Colors from '../theme/Colors';
+import SmsCode from '../screens/notAuth/SmsCode';
+
 
 const authStack = createStackNavigator();
 
@@ -144,6 +146,25 @@ const AppNavigator = () => {
             <authStack.Screen
               name={notAuthRoutes.passwordInfo}
               component={PasswordInfo}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: 'რეგისტრაცია',
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerTintColor: Colors.bgGreen,
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  fontSize: 20,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={notAuthRoutes.smsCode}
+              component={SmsCode}
               options={{
                 cardStyle: {
                   backgroundColor: Colors.bgColor,

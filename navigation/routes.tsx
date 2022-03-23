@@ -9,4 +9,5 @@ export enum notAuthRoutes {
   passwordInfo = 'passwordInfo',
   registrationDone = 'registrationDone',
   authScreen = 'authScreen',
+  smsCode = 'smsCode',
 }

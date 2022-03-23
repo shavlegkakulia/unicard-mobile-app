@@ -55,7 +55,7 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
       <View style={styles.buttonWrapper}>
         <AppButton
           onPress={() => {
-            props.navigation.navigate(notAuthRoutes.registrationDone);
+            props.navigation.navigate(notAuthRoutes.smsCode);
           }}
           title={'შემდეგი'}
           backgroundColor={Colors.bgGreen}

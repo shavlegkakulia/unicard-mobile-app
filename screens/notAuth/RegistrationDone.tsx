@@ -18,7 +18,10 @@ const RegistrationDone: React.FC<ScreenNavigationProp> = props => {
           <Image source={require('../../assets/img/doneIcon.png')} />
         </View>
         <View style={styles.imageView}>
-          <Image source={require('../../assets/img/doneImg.png')} />
+          <Image
+            style={styles.img}
+            source={require('../../assets/img/doneImg.png')}
+          />
         </View>
         <View style={styles.textView}>
           <Text style={styles.text}>რეგისტრაცია დასრულებულია</Text>
@@ -50,11 +53,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   imageView: {
-    marginTop: 43,
+    marginTop: 17,
+    marginLeft: 45,
   },
   textView: {
     width: 182,
-    marginTop: 64,
+    marginTop: 32.78,
   },
   text: {
     fontSize: 20,
@@ -66,6 +70,11 @@ const styles = StyleSheet.create({
   buttonView: {
     flex: 1,
   },
+  img: {
+    width: 162.19,
+    height: 289.22,
+    
+  }
 });
 
 export default RegistrationDone;

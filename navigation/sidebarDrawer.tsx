@@ -1,6 +1,7 @@
 import React from 'react';
 import {ScrollView, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
+import { logout } from '../Store/actions/auth';
 import {AuthActions} from '../Store/types/auth';
 import Colors from '../theme/Colors';
 
@@ -14,7 +15,7 @@ const SidebarDrawer: React.FC<any> = props => {
   };
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity onPress={login}>
+      <TouchableOpacity onPress={() => dispath(logout())}>
         <Text>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity>
@@ -29,6 +30,8 @@ export default SidebarDrawer;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: 'red',
+    backgroundColor: Colors.lightOrange,
+    borderBottomRightRadius: 40,
+    borderTopRightRadius: 40,
   },
 });

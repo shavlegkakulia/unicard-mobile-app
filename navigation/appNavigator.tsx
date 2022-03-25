@@ -10,7 +10,7 @@ import HomeScreen from '../screens/auth/HomeScreen';
 import {useSelector} from 'react-redux';
 import {IAuthReducer, IAuthState} from '../Store/types/auth';
 import LoginScreen from '../screens/notAuth/LoginScreen';
-import {BackHandler} from 'react-native';
+import {BackHandler, Image, TouchableOpacity, View} from 'react-native';
 import RegistrationScreen from '../screens/notAuth/RegistrationScreen';
 import RegistrationDetailsScreen from '../screens/notAuth/RegistrationDetailsScreen';
 import PasswordInfo from '../screens/notAuth/PasswordInfo';
@@ -18,7 +18,7 @@ import RegistrationDone from '../screens/notAuth/RegistrationDone';
 import AuthScreen from '../screens/notAuth/AuthScreen';
 import Colors from '../theme/Colors';
 import SmsCode from '../screens/notAuth/SmsCode';
-
+import navigation from './navigation';
 
 const authStack = createStackNavigator();
 
@@ -69,9 +69,36 @@ const AppNavigator = () => {
                   backgroundColor: Colors.bgColor,
                 },
                 title: 'მთავარი გვერდი',
-                // headerLeft: () => (
-
-                // ),
+                headerLeft: () => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      isDrawerOpened.current
+                        ? sideDraver.current?.closeDrawer()
+                        : sideDraver.current?.openDrawer();
+                    }}>
+                    <Image
+                      style={{width: 25, height: 17, marginLeft: 29}}
+                      source={require('../assets/img/burgerIcon.png')}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerRight: () => (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginTop: 4,
+                      marginRight: 29,
+                    }}>
+                    <Image
+                      style={{width: 16, height: 21, marginRight: 10}}
+                      source={require('../assets/img/locationLogo.png')}
+                    />
+                    <Image
+                      style={{width: 16, height: 21}}
+                      source={require('../assets/img/notificationLogo.png')}
+                    />
+                  </View>
+                ),
                 headerTintColor: Colors.black,
                 headerStyle: {
                   backgroundColor: Colors.bgColor,

@@ -12,8 +12,9 @@ enum Colors {
   darkGrey = '#6B6B6B',
   red = '#EF1616',
   overley = '#000000',
-  gradiantDark = '#f7e2a6',
-  gradiantLight = '#f7eccb',
+  gradiantDark = '#91C84B',
+  gradiantLight = '#bddb95',
+  amountTxt = '#FFA001',
 }
 
 export default Colors;

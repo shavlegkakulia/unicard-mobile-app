@@ -1,5 +1,6 @@
 export enum authRoutes {
   home = 'home',
+  barcode = 'barcode',
 }
 
 export enum notAuthRoutes {

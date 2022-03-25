@@ -19,6 +19,7 @@ import Colors from '../../theme/Colors';
 import LinearGradient from 'react-native-linear-gradient';
 import DATA from '../../constants/shopListDummyData';
 import ShopingCard from '../../components/ShopCard';
+import {authRoutes, notAuthRoutes} from '../../navigation/routes';
 
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
@@ -55,7 +56,9 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
 
   return (
     <ScrollView>
-      <View style={styles.imageView}>
+      <TouchableOpacity
+        style={styles.imageView}
+        onPress={() => props.navigation.navigate(authRoutes.barcode)}>
         <Image
           style={styles.img}
           source={require('../../assets/img/cardGreen.png')}
@@ -67,7 +70,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           />
           <Text style={styles.amount}>54000</Text>
         </View>
-      </View>
+      </TouchableOpacity>
       <View style={styles.linearView}>
         <LinearGradient
           style={styles.linear}

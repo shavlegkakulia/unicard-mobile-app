@@ -19,6 +19,7 @@ import AuthScreen from '../screens/notAuth/AuthScreen';
 import Colors from '../theme/Colors';
 import SmsCode from '../screens/notAuth/SmsCode';
 import navigation from './navigation';
+import Barcode from '../screens/auth/Barcode';
 
 const authStack = createStackNavigator();
 
@@ -41,6 +42,12 @@ const AppNavigator = () => {
 
     return () => sub.remove();
   }, []);
+
+  useEffect(() => {
+    if (!authReducer.isAuthentificated) {
+      sideDraver.current?.closeDrawer();
+    }
+  }, [authReducer.isAuthentificated]);
 
   const sideDraver = useRef<DrawerLayout | null>();
   const isDrawerOpened = useRef<boolean>();
@@ -108,6 +115,20 @@ const AppNavigator = () => {
                   textTransform: 'uppercase',
                   fontSize: 14,
                 },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.barcode}
+              component={Barcode}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: '',
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerTintColor: Colors.bgGreen,
               }}
             />
           </>

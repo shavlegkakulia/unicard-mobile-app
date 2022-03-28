@@ -8,7 +8,7 @@
  * @format
  */
 
-import {LogBox, StyleSheet} from 'react-native';
+import {LogBox, StyleSheet, View} from 'react-native';
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
@@ -27,12 +27,12 @@ const App = () => {
     SplashScreen.hide();
   });
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={'light-content'} />
+    <View style={styles.container}>
+       <StatusBar barStyle={'light-content'} />
       <Provider store={store}>
         <Navigation />
       </Provider>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -41,6 +41,5 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: Colors.bgColor,
   },
 });

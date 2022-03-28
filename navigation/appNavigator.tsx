@@ -10,7 +10,7 @@ import HomeScreen from '../screens/auth/HomeScreen';
 import {useSelector} from 'react-redux';
 import {IAuthReducer, IAuthState} from '../Store/types/auth';
 import LoginScreen from '../screens/notAuth/LoginScreen';
-import {BackHandler, Image, TouchableOpacity, View} from 'react-native';
+import {BackHandler, Image, StatusBar, TouchableOpacity, View} from 'react-native';
 import RegistrationScreen from '../screens/notAuth/RegistrationScreen';
 import RegistrationDetailsScreen from '../screens/notAuth/RegistrationDetailsScreen';
 import PasswordInfo from '../screens/notAuth/PasswordInfo';
@@ -68,6 +68,7 @@ const AppNavigator = () => {
       <authStack.Navigator initialRouteName={notAuthRoutes.login}>
         {authReducer.isAuthentificated ? (
           <>
+           {/* <StatusBar barStyle={'light-content'} /> */}
             <authStack.Screen
               name={authRoutes.home}
               component={HomeScreen}

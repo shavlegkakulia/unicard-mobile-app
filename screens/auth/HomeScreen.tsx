@@ -19,7 +19,7 @@ import Colors from '../../theme/Colors';
 import LinearGradient from 'react-native-linear-gradient';
 import DATA from '../../constants/shopListDummyData';
 import ShopingCard from '../../components/ShopCard';
-import {authRoutes, notAuthRoutes} from '../../navigation/routes';
+import {authRoutes} from '../../navigation/routes';
 
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
@@ -91,6 +91,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           keyExtractor={keyExtractor}
+          contentInset={{right: 20}}
         />
       </View>
 
@@ -112,11 +113,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
       </ScrollView> */}
 
       <Text>{translateReducer.t('common.name')}</Text>
-      <TouchableOpacity
-        onPress={() => dispatch(logout())}
-        style={{padding: 10}}>
-        <Text>logout</Text>
-      </TouchableOpacity>
+      
     </ScrollView>
   );
 };

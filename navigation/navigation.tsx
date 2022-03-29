@@ -14,6 +14,7 @@ import { ka } from '../lang';
 import storage_keys from '../constants/storageKeys';
 import { use } from '../Store/actions/translate';
 import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
+import { StatusBar } from 'react-native';
 
 export default () => {
   const authReducer = useSelector<IAuthReducer>(
@@ -91,10 +92,13 @@ export default () => {
   }, []);
 
   return (
+
     <NavigationContainer>
       <ErrorWrapper>
+      
         <Loader visible={isLoading || translateReducer.isLoading} />
         <AppNavigator />
+        
       </ErrorWrapper>
     </NavigationContainer>
   );

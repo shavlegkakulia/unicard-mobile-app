@@ -28,12 +28,16 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
 
   const LogIn = () => {
-    // dispatch(login())
     if(!userData?.username || !userData?.password) return;
     const data: IAyuthData = {username: userData?.username, password: userData?.password};
     AuthService.SignIn(data).subscribe({
       next: Response => {
         console.log(Response.data)
+        if(Response.data.access_token) {
+          AuthService.setToken(Response.data.acces_token, Response.data.refresh_token).then(_ => {
+            dispatch(login());
+          })
+        }
       },
       complete: () => {},
       error: (e) => console.log(e.response)

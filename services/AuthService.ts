@@ -55,7 +55,9 @@ export default new (class AuthService {
   SignIn(data: IAyuthData) {
     const loginObj = new FormData();
     loginObj.append('email', data.email)
-    const promise = axios.post(`${envs.CONNECT_URL}connect/token`, loginObj, {
+    loginObj.append('client_id', envs.client_id)
+    loginObj.append('client_secret', envs.client_secret)
+    const promise = axios.post(`${envs.API_URL}connect/token`, loginObj, {
       fromLogin: true,
       objectResponse: true,
       skipRefresh: true,
@@ -152,7 +154,7 @@ export default new (class AuthService {
         );
         return await axios
           .post<IAuthResponse>(
-            `${envs.CONNECT_URL}/connect/token`,
+            `${envs.API_URL}connect/token`,
             refreshObj,
             config,
           )

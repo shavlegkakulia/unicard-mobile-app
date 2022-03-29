@@ -13,8 +13,10 @@ import {logout} from '../Store/actions/auth';
 import {AuthActions} from '../Store/types/auth';
 import Colors from '../theme/Colors';
 import {authRoutes} from './routes';
+import {useNavigation} from '@react-navigation/native';
 
 const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
+  const navigation = useNavigation();
   const dispath = useDispatch();
   const login = () => {
     dispath({
@@ -22,6 +24,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       isAuthentificated: true,
     });
   };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.imgView}>
@@ -40,7 +43,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
 
         <Text style={styles.name}>გვანცა გაბუნია</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => navigation.navigate(authRoutes.barcode)}>
         <View style={styles.iconView}>
           <Image
             style={styles.card}
@@ -51,7 +56,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => props.navigation.navigate(authRoutes.barcode)}>
+        onPress={() => navigation.navigate(authRoutes.home)}>
         <View style={styles.iconView}>
           <Image
             style={styles.homeIcon}
@@ -60,7 +65,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>მთავარი</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => navigation.navigate(authRoutes.myPage)}>
         <View style={styles.iconView}>
           <Image
             style={styles.userIcon}

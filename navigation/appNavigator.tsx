@@ -10,7 +10,7 @@ import HomeScreen from '../screens/auth/HomeScreen';
 import {useSelector} from 'react-redux';
 import {IAuthReducer, IAuthState} from '../Store/types/auth';
 import LoginScreen from '../screens/notAuth/LoginScreen';
-import {BackHandler, Image, StatusBar, TouchableOpacity, View} from 'react-native';
+import {BackHandler, Image, TouchableOpacity, View} from 'react-native';
 import RegistrationScreen from '../screens/notAuth/RegistrationScreen';
 import RegistrationDetailsScreen from '../screens/notAuth/RegistrationDetailsScreen';
 import PasswordInfo from '../screens/notAuth/PasswordInfo';
@@ -18,14 +18,18 @@ import RegistrationDone from '../screens/notAuth/RegistrationDone';
 import AuthScreen from '../screens/notAuth/AuthScreen';
 import Colors from '../theme/Colors';
 import SmsCode from '../screens/notAuth/SmsCode';
-import navigation from './navigation';
+// import navigation from './navigation';
 import Barcode from '../screens/auth/Barcode';
+import {useNavigation} from '@react-navigation/native';
+import MyPage from '../screens/auth/MyPage';
+
 
 const authStack = createStackNavigator();
 
 const DrawerContainer = gestureHandlerRootHOC(() => <AppNavigator />);
 
 const AppNavigator = () => {
+  const navigation = useNavigation();
   const authReducer = useSelector<IAuthReducer>(
     state => state.AuthReducer,
   ) as IAuthState;
@@ -68,7 +72,7 @@ const AppNavigator = () => {
       <authStack.Navigator initialRouteName={notAuthRoutes.login}>
         {authReducer.isAuthentificated ? (
           <>
-           {/* <StatusBar barStyle={'light-content'} /> */}
+            {/* <StatusBar barStyle={'light-content'} /> */}
             <authStack.Screen
               name={authRoutes.home}
               component={HomeScreen}
@@ -106,6 +110,38 @@ const AppNavigator = () => {
                       source={require('../assets/img/notificationLogo.png')}
                     />
                   </View>
+                ),
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerTitleStyle: {
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  fontSize: 14,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.myPage}
+              component={MyPage}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: 'ჩემი გვერდი',
+                headerLeft: () => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      isDrawerOpened.current
+                        ? sideDraver.current?.closeDrawer()
+                        : sideDraver.current?.openDrawer();
+                    }}>
+                    <Image
+                      style={{width: 25, height: 17, marginLeft: 29}}
+                      source={require('../assets/img/burgerIcon.png')}
+                    />
+                  </TouchableOpacity>
                 ),
                 headerTintColor: Colors.black,
                 headerStyle: {

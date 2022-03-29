@@ -10,6 +10,7 @@ enum Colors {
   lightGrey = '#B0B0B0',
   blue = '#0073F6',
   darkGrey = '#6B6B6B',
+  lightGreyTxt = '#BFBFBF',
   red = '#EF1616',
   overley = '#000000',
   gradiantDark = '#91C84B',

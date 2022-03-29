@@ -1,6 +1,7 @@
 export enum authRoutes {
   home = 'home',
   barcode = 'barcode',
+  myPage = 'myPage',
 }
 
 export enum notAuthRoutes {

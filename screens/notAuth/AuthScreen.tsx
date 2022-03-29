@@ -14,11 +14,32 @@ import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
+import AuthService, {IAyuthData} from '../../services/AuthService';
 import {login} from '../../Store/actions/auth';
 import Colors from '../../theme/Colors';
 
+interface IUserData {
+  username?: string;
+  password?: string;
+}
+
 const AuthScreen: React.FC<ScreenNavigationProp> = props => {
+  const [userData, setUserData] = useState<IUserData>();
   const dispatch = useDispatch();
+
+  const LogIn = () => {
+    // dispatch(login())
+    if(!userData?.username || !userData?.password) return;
+    const data: IAyuthData = {username: userData?.username, password: userData?.password};
+    AuthService.SignIn(data).subscribe({
+      next: Response => {
+        console.log(Response.data)
+      },
+      complete: () => {},
+      error: (e) => console.log(e.response)
+    });
+  };
+
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   return (
     <ScrollView>
@@ -32,14 +53,29 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
         />
       </View>
       <View style={styles.inputView}>
-        <AppTextInput placeholder="ელ-ფოსტა" />
-        <AppTextInput placeholder="პაროლი" secureTextEntry={true} />
+        <AppTextInput
+          placeholder="ელ-ფოსტა"
+          value={userData?.username}
+          onChange={e =>
+            setUserData({password: userData?.password, username: e})
+          }
+        />
+        <AppTextInput
+          placeholder="პაროლი"
+          secureTextEntry={true}
+          value={userData?.password}
+          onChange={e =>
+            setUserData({username: userData?.username, password: e})
+          }
+        />
         <View style={styles.checkBoxView}>
           <View style={styles.row}>
             <CheckBox
               disabled={false}
               value={toggleCheckBox}
-              onValueChange={newValue => setToggleCheckBox(newValue)}
+              onValueChange={(
+                newValue: boolean | ((prevState: boolean) => boolean),
+              ) => setToggleCheckBox(newValue)}
               style={styles.checkBox}
               onCheckColor={Colors.bgGreen}
               onTintColor={Colors.bgGreen}
@@ -53,7 +89,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.button}>
         <AppButton
-          onPress={() => dispatch(login())}
+          onPress={LogIn}
           title={'შემდეგი'}
           backgroundColor={Colors.bgGreen}
         />

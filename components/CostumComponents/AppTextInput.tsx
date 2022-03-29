@@ -16,12 +16,14 @@ export interface IAppTextInputProps {
   secureTextEntry?: boolean;
   textContentType?: any;
   keyboardType?: KeyboardTypeOptions | undefined;
+  value?: string;
+  onChange: (value: string) => void;
 }
 
 const AppTextInput: React.FC<IAppTextInputProps> = props => {
-  const {placeholder, icon, secureTextEntry, textContentType, keyboardType} =
+  const {placeholder, icon, secureTextEntry, textContentType, keyboardType, value, onChange} =
     props;
-  const [text, setText] = useState('');
+
   const [visible, setVisible] = useState(secureTextEntry);
 
   let iconUrl = !secureTextEntry
@@ -35,8 +37,8 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
       <View style={styles.inputWrapper}>
         <TextInput
           placeholder={placeholder?.toUpperCase() || ''}
-          onChangeText={setText}
-          value={text}
+          onChangeText={onChange}
+          value={value}
           placeholderTextColor={Colors.darkGrey}
           keyboardType={keyboardType}
           secureTextEntry={visible}

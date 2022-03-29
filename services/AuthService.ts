@@ -17,8 +17,8 @@ export interface IAuthResponse {
   status?: number;
 }
 
-interface IAyuthData {
-  email: string;
+export interface IAyuthData {
+  username: string;
   password: string;
 }
 
@@ -54,9 +54,12 @@ export default new (class AuthService {
 
   SignIn(data: IAyuthData) {
     const loginObj = new FormData();
-    loginObj.append('email', data.email)
+    loginObj.append('username', data.username)
+    loginObj.append('password', data.password)
     loginObj.append('client_id', envs.client_id)
     loginObj.append('client_secret', envs.client_secret)
+    loginObj.append("scope", "unicardApi");
+    loginObj.append("grant_type", "password");
     const promise = axios.post(`${envs.API_URL}connect/token`, loginObj, {
       fromLogin: true,
       objectResponse: true,

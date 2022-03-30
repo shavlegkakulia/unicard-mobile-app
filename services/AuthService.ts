@@ -61,6 +61,9 @@ export default new (class AuthService {
     loginObj.append("scope", "unicardApi");
     loginObj.append("grant_type", "password");
     const promise = axios.post(`${envs.API_URL}connect/token`, loginObj, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
       fromLogin: true,
       objectResponse: true,
       skipRefresh: true,

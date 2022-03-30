@@ -24,7 +24,7 @@ interface IUserData {
 }
 
 const AuthScreen: React.FC<ScreenNavigationProp> = props => {
-  const [userData, setUserData] = useState<IUserData>();
+  const [userData, setUserData] = useState<IUserData>({username: 'test@tes.ge', password: 'abcd123!'});
   const dispatch = useDispatch();
 
   const LogIn = () => {

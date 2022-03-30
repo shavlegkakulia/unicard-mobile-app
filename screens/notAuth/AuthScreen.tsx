@@ -24,23 +24,22 @@ interface IUserData {
 }
 
 const AuthScreen: React.FC<ScreenNavigationProp> = props => {
-  const [userData, setUserData] = useState<IUserData>({username: 'test@tes.ge', password: 'abcd123!'});
+  const [userData, setUserData] = useState<IUserData>({username: 'test@test.ge', password: 'abcd123!'});
   const dispatch = useDispatch();
 
   const LogIn = () => {
     if(!userData?.username || !userData?.password) return;
     const data: IAyuthData = {username: userData?.username, password: userData?.password};
     AuthService.SignIn(data).subscribe({
-      next: Response => {
-        console.log(Response.data)
-        if(Response.data.access_token) {
-          AuthService.setToken(Response.data.acces_token, Response.data.refresh_token).then(_ => {
-            dispatch(login());
-          })
+      next: async (Response) => {  
+        if(Response.access_token) {
+          await AuthService.setToken(Response.access_token, Response.refresh_token || '123');
+        
+          dispatch(login());
         }
       },
-      complete: () => {},
-      error: (e) => console.log(e.response)
+      complete: () => {console.log('complate')},
+      error: (e) => console.log('err', e.response)
     });
   };
 

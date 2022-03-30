@@ -77,7 +77,7 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
             </View>
           </View>
           <View>
-            <Text>+1.1</Text>
+            <Text style={styles.payAmount}>+1.1</Text>
           </View>
         </View>
       </View>
@@ -188,6 +188,10 @@ const styles = StyleSheet.create({
       color: Colors.lightGreyTxt,
       fontSize: 10,
       textTransform: 'uppercase',
+  },
+  payAmount: {
+    fontSize: 18,
+    color: Colors.bgGreen,
   }
 });
 

@@ -54,12 +54,12 @@ export default new (class AuthService {
 
   SignIn(data: IAyuthData) {
     const loginObj = new FormData();
-    loginObj.append('username', data.username)
-    loginObj.append('password', data.password)
-    loginObj.append('client_id', envs.client_id)
-    loginObj.append('client_secret', envs.client_secret)
-    loginObj.append("scope", "unicardApi");
-    loginObj.append("grant_type", "password");
+    loginObj.append('username', data.username);
+    loginObj.append('password', data.password);
+    loginObj.append('client_id', envs.client_id);
+    loginObj.append('client_secret', envs.client_secret);
+    loginObj.append('scope', 'unicardApi');
+    loginObj.append('grant_type', 'password');
     const promise = axios.post(`${envs.API_URL}connect/token`, loginObj, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -88,7 +88,9 @@ export default new (class AuthService {
     const waitForRefresh = (config?: AxiosRequestConfig) => {
       return new Promise(resolve => {
         let interval = setInterval(() => {
-          if (this.refreshStarted) return;
+          if (this.refreshStarted) {
+            return;
+          }
           clearInterval(interval);
           resolve(config);
         }, 500);
@@ -102,8 +104,9 @@ export default new (class AuthService {
           //if refreshStarted wait
           if (this.refreshStarted && !config.skipRefresh) {
             return waitForRefresh(config).then(async (config: any) => {
-              if (!(await this.getToken()))
+              if (!(await this.getToken())) {
                 return Promise.reject({status: 401});
+              }
               await setAuthToken(config);
               return Promise.resolve(config);
             });
@@ -136,7 +139,9 @@ export default new (class AuthService {
         //if refresh already started wait and retry with new token
         if (this.refreshStarted) {
           return waitForRefresh().then(async _ => {
-            if (!(await this.getToken())) return Promise.reject({status: 401});
+            if (!(await this.getToken())) {
+              return Promise.reject({status: 401});
+            }
             setAuthToken(originalRequest);
             return axios(originalRequest);
           });
@@ -165,7 +170,9 @@ export default new (class AuthService {
             config,
           )
           .then(async response => {
-            if (!response.data.access_token) throw response;
+            if (!response.data.access_token) {
+              throw response;
+            }
             await this.setToken(
               response.data.access_token,
               response.data.refresh_token,

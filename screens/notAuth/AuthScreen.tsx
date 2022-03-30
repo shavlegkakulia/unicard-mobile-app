@@ -31,9 +31,9 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     if(!userData?.username || !userData?.password) return;
     const data: IAyuthData = {username: userData?.username, password: userData?.password};
     AuthService.SignIn(data).subscribe({
-      next: async (Response) => {  
+      next: async (Response) => {  console.log(Response)
         if(Response.access_token) {
-          await AuthService.setToken(Response.access_token, Response.refresh_token || '123');
+          await AuthService.setToken(Response.access_token, Response.refresh_token);
         
           dispatch(login());
         }

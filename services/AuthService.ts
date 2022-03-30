@@ -22,6 +22,16 @@ export interface IAyuthData {
   password: string;
 }
 
+export interface IRegisterRequestData {
+  email?: string;
+  birthDate?: string;
+  name?: string;
+}
+
+interface IRegisterResponse {
+  succes: boolean;
+}
+
 export default new (class AuthService {
   refreshStarted: any;
   async getToken(): Promise<string | null> {
@@ -81,6 +91,14 @@ export default new (class AuthService {
         xhr.send(loginObj);
       },
     );
+  }
+
+  SignUp(data: IRegisterRequestData | undefined){
+    const response = axios.post<IRegisterResponse>(`${envs.API_URL}connect/token`, data, {
+      objectResponse: true
+    });
+
+    return from(response);
   }
 
   async SignOut(): Promise<void> {

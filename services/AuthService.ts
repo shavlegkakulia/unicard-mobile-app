@@ -1,5 +1,5 @@
 import axios, {AxiosRequestConfig} from 'axios';
-import {from} from 'rxjs';
+import {from, Observable, Subscriber} from 'rxjs';
 import storage from './../services/StorageService';
 import envs from './../config/env';
 
@@ -53,22 +53,34 @@ export default new (class AuthService {
   }
 
   SignIn(data: IAyuthData) {
-    const loginObj = new FormData();
-    loginObj.append('username', data.username)
-    loginObj.append('password', data.password)
-    loginObj.append('client_id', envs.client_id)
-    loginObj.append('client_secret', envs.client_secret)
-    loginObj.append("scope", "unicardApi");
-    loginObj.append("grant_type", "password");
-    const promise = axios.post(`${envs.API_URL}connect/token`, loginObj, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+    return new Observable<IAuthResponse>(
+      (observer: Subscriber<IAuthResponse>) => {
+        const loginObj = `username=${data.username}&password=${data.password}&scope=unicardApi&grant_type=password&client_secret=${envs.client_secret}&client_id=${envs.client_id}`;
+
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.responseType = 'json';
+
+        xhr.addEventListener('readystatechange', function () {
+          if (this.readyState === 4) {
+            if (xhr.status == 200) {
+              observer.next(this.response);
+              observer.complete();
+            } else {
+              observer.error(xhr);
+            }
+          }
+        });
+
+        xhr.open('POST', `${envs.API_URL}connect/token`);
+        xhr.setRequestHeader(
+          'Content-Type',
+          'application/x-www-form-urlencoded',
+        );
+
+        xhr.send(loginObj);
       },
-      fromLogin: true,
-      objectResponse: true,
-      skipRefresh: true,
-    });
-    return from(promise);
+    );
   }
 
   async SignOut(): Promise<void> {

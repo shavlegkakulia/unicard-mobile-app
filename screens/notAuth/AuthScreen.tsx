@@ -24,10 +24,7 @@ interface IUserData {
 }
 
 const AuthScreen: React.FC<ScreenNavigationProp> = props => {
-  const [userData, setUserData] = useState<IUserData>({
-    username: 'test@test.ge',
-    password: 'abcd123!',
-  });
+  const [userData, setUserData] = useState<IUserData>({username: 'test@test.ge', password: 'abcd123!'});
   const dispatch = useDispatch();
 
   const LogIn = () => {
@@ -40,23 +37,15 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
       password: userData?.password,
     };
     AuthService.SignIn(data).subscribe({
-      
-      next: Response => {
-        console.log(Response.data);
+      next: async (Response) => {  
+        if(Response.access_token) {
+          await AuthService.setToken(Response.access_token, Response.refresh_token || '123');
         
-        if (Response.data.access_token) {
-          AuthService.setToken(
-            Response.data.acces_token,
-            Response.data.refresh_token,
-          ).then(_ => {
-            dispatch(login());
-           
-          });
-          
+          dispatch(login());
         }
       },
-      complete: () => {},
-      error: e => console.log(e.response),
+      complete: () => {console.log('complate')},
+      error: (e) => console.log('err', e.response)
     });
   };
 

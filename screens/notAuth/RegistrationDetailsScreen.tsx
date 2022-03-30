@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -8,16 +8,36 @@ import {
   Image,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useStore} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
+import AuthService, { IRegisterRequestData } from '../../services/AuthService';
 
 import Colors from '../../theme/Colors';
 
 const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
+  const [regData, setRegData] = useState<IRegisterRequestData>();
+
   const dispatch = useDispatch();
+
+  const clearState = () => {
+    setRegData({email: '', name: '', birthDate: ''});
+  }
+  
+  const register = () => {
+
+    AuthService.SignUp(regData).subscribe({
+      next: Response => {
+        //Response.data.succes
+      },
+      complete: () => {},
+      error: err => {
+        console.log(err)
+      }
+    })
+  }
   return (
     <>
       <ScrollView>
@@ -30,12 +50,16 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             icon={0}
             secureTextEntry={false}
             textContentType={'name'}
+            value={regData?.name}
+            onChange={e => setRegData({name: e, email: regData?.email, birthDate: regData?.birthDate})}
           />
           <AppTextInput
             placeholder={'გვარი'}
             icon={0}
             secureTextEntry={false}
             textContentType={'name'}
+            value={regData?.email}
+            onChange={e => setRegData({email: e, name: regData?.name, birthDate: regData?.birthDate})}
           />
           <AppTextInput
             placeholder={'პირადი ნომერი'}

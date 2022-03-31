@@ -19,6 +19,7 @@ import Colors from '../../theme/Colors';
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
 
+  console.log(props.route.params);
   return (
     <View style={styles.main}>
       <View style={styles.titleWrapper}>
@@ -40,11 +41,15 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
       <View style={styles.button}>
         <AppButton
           onPress={() => {
-            props.navigation.navigate(notAuthRoutes.registrationDone);
+            props.navigation.navigate(
+              notAuthRoutes.registrationDone,
+              props.route.params,
+            );
           }}
           title={'შემდეგი'}
           backgroundColor={Colors.bgGreen}
         />
+        {console.log(props.route.params)}
       </View>
     </View>
   );

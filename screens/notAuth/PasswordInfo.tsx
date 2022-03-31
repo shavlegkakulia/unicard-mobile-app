@@ -15,10 +15,33 @@ import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 
 import Colors from '../../theme/Colors';
+import AuthService, {IRegisterRequestData} from '../../services/AuthService';
 
 const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const [passData, setPassData] = useState<IRegisterRequestData>();
+
+  const params = props.route.params;
+
+  console.log('params', props.route.params);
+
+  const OtpAuth = () => {
+    AuthService.SendOtp({phone: params.data.phone}).subscribe({
+      next: Response => {
+        //Response.data.succes
+        // console.log(regInfo);
+        // console.log('reg', regInfo);
+        props.navigation.navigate(notAuthRoutes.smsCode, {
+          data: {...params.data, ...passData},
+        });
+      },
+      complete: () => {},
+      error: err => {
+        console.log(err);
+      },
+    });
+  };
 
   return (
     <>
@@ -27,10 +50,28 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
         </View>
         <View style={styles.textInput}>
-          <AppTextInput placeholder={'პაროლი'} secureTextEntry={true} />
+          <AppTextInput
+            placeholder={'პაროლი'}
+            secureTextEntry={true}
+            value={passData?.password}
+            onChange={e => {
+              setPassData({
+                password: e,
+                confirm_password: passData?.confirm_password,
+              });
+            }}
+          />
+          {/* {console.log(passData)} */}
           <AppTextInput
             placeholder={'გაიმეორეთ პაროლი'}
             secureTextEntry={true}
+            value={passData?.confirm_password}
+            onChange={e => {
+              setPassData({
+                password: passData?.password,
+                confirm_password: e,
+              });
+            }}
           />
         </View>
         <View style={styles.checkboxWrapper}>
@@ -54,9 +95,10 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.buttonWrapper}>
         <AppButton
-          onPress={() => {
-            props.navigation.navigate(notAuthRoutes.smsCode);
-          }}
+          // onPress={() => {
+          //   // props.navigation.navigate(notAuthRoutes.smsCode, passData);
+          // }}
+          onPress={OtpAuth}
           title={'შემდეგი'}
           backgroundColor={Colors.bgGreen}
         />

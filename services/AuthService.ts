@@ -23,14 +23,23 @@ export interface IAyuthData {
 }
 
 export interface IRegisterRequestData {
-  email?: string;
+  user_name?: string;
+  surname?: string;
+  person_code?: string;
   birthDate?: string;
-  name?: string;
+  phone?: string;
+  email?: string;
+  password?: string;
+  confirm_password?: string;
 }
 
 interface IRegisterResponse {
   succes: boolean;
 }
+export interface IAuthOtp {
+  phone: string;
+}
+
 
 export default new (class AuthService {
   refreshStarted: any;
@@ -93,10 +102,17 @@ export default new (class AuthService {
     );
   }
 
-  SignUp(data: IRegisterRequestData | undefined){
-    const response = axios.post<IRegisterResponse>(`${envs.API_URL}connect/token`, data, {
-      objectResponse: true
-    });
+  SignUp(data: IRegisterRequestData | undefined) {
+    const response = axios.post<IRegisterResponse>(
+      `${envs.API_URL}api/Mobile/UserRegistration`,
+      data,
+      {
+        objectResponse: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
 
     return from(response);
   }
@@ -104,6 +120,23 @@ export default new (class AuthService {
   async SignOut(): Promise<void> {
     await this.removeToken();
   }
+
+
+  SendOtp(data: IAuthOtp | undefined) {
+    const response = axios.post<IRegisterResponse>(
+      `${envs.API_URL}api/Mobile/SendOTP`,
+      data,
+      {
+        objectResponse: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    return from(response);
+  }
+  
 
   registerAuthInterceptor(callBack: any) {
     const setAuthToken = async (config: AxiosRequestConfig) => {

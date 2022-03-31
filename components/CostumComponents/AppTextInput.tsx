@@ -21,8 +21,15 @@ export interface IAppTextInputProps {
 }
 
 const AppTextInput: React.FC<IAppTextInputProps> = props => {
-  const {placeholder, icon, secureTextEntry, textContentType, keyboardType, value, onChange} =
-    props;
+  const {
+    placeholder,
+    icon,
+    secureTextEntry,
+    textContentType,
+    keyboardType,
+    value,
+    onChange,
+  } = props;
 
   const [visible, setVisible] = useState(secureTextEntry);
 
@@ -40,9 +47,9 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
           onChangeText={onChange}
           value={value}
           placeholderTextColor={Colors.darkGrey}
-          keyboardType={keyboardType}
+          keyboardType={keyboardType || 'default'}
           secureTextEntry={visible}
-          textContentType={textContentType}
+          textContentType={textContentType || 'none'}
         />
       </View>
       <TouchableOpacity

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -8,12 +8,12 @@ import {
   Image,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useDispatch, useStore} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
-import AuthService, { IRegisterRequestData } from '../../services/AuthService';
+import AuthService, {IRegisterRequestData} from '../../services/AuthService';
 
 import Colors from '../../theme/Colors';
 
@@ -22,22 +22,15 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
 
   const dispatch = useDispatch();
 
-  const clearState = () => {
-    setRegData({email: '', name: '', birthDate: ''});
+  // const clearState = () => {
+  //   setRegData({email: '', name: '', birthDate: ''});
+  // }
+
+
+  const nextStep = () => {
+    props.navigation.navigate(notAuthRoutes.passwordInfo, {data: regData});
   }
   
-  const register = () => {
-
-    AuthService.SignUp(regData).subscribe({
-      next: Response => {
-        //Response.data.succes
-      },
-      complete: () => {},
-      error: err => {
-        console.log(err)
-      }
-    })
-  }
   return (
     <>
       <ScrollView>
@@ -50,47 +43,110 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             icon={0}
             secureTextEntry={false}
             textContentType={'name'}
-            value={regData?.name}
-            onChange={e => setRegData({name: e, email: regData?.email, birthDate: regData?.birthDate})}
+            value={regData?.user_name}
+            onChange={e =>
+              setRegData({
+                user_name: e,
+                surname: regData?.surname,
+                person_code: regData?.person_code,
+                birthDate: regData?.birthDate,
+                phone: regData?.phone,
+                email: regData?.email,
+              })
+            }
           />
           <AppTextInput
             placeholder={'გვარი'}
             icon={0}
             secureTextEntry={false}
             textContentType={'name'}
-            value={regData?.email}
-            onChange={e => setRegData({email: e, name: regData?.name, birthDate: regData?.birthDate})}
+            value={regData?.surname}
+            onChange={e =>
+              setRegData({
+                user_name: regData?.user_name,
+                surname: e,
+                person_code: regData?.person_code,
+                birthDate: regData?.birthDate,
+                phone: regData?.phone,
+                email: regData?.email,
+              })
+            }
           />
           <AppTextInput
             placeholder={'პირადი ნომერი'}
             icon={0}
             secureTextEntry={false}
             textContentType={''}
+            value={regData?.person_code}
+            onChange={e =>
+              setRegData({
+                user_name: regData?.user_name,
+                surname: regData?.surname,
+                person_code: e,
+                birthDate: regData?.birthDate,
+                phone: regData?.phone,
+                email: regData?.email,
+              })
+            }
           />
+
           <AppTextInput
             placeholder={'დაბადების თარიღი'}
             icon={0}
             secureTextEntry={false}
             textContentType={''}
+            value={regData?.birthDate}
+            onChange={e =>
+              setRegData({
+                user_name: regData?.user_name,
+                surname: regData?.surname,
+                person_code: regData?.person_code,
+                birthDate: e,
+                phone: regData?.phone,
+                email: regData?.email,
+              })
+            }
           />
+
           <AppTextInput
             placeholder={'+995 5xx xxx xxx'}
             icon={0}
             secureTextEntry={false}
             textContentType={'telephoneNumber'}
+            value={regData?.phone}
+            onChange={e =>
+              setRegData({
+                user_name: regData?.user_name,
+                surname: regData?.surname,
+                person_code: regData?.person_code,
+                birthDate: regData?.birthDate,
+                phone: e,
+                email: regData?.email,
+              })
+            }
           />
+
           <AppTextInput
             placeholder={'ელ-ფოსტა'}
             icon={0}
             secureTextEntry={false}
             textContentType={'emailAddress'}
+            value={regData?.email}
+            onChange={e =>
+              setRegData({
+                user_name: regData?.user_name,
+                surname: regData?.surname,
+                person_code: regData?.person_code,
+                birthDate: regData?.birthDate,
+                phone: regData?.phone,
+                email: e,
+              })
+            }
           />
         </View>
         <View style={styles.button}>
           <AppButton
-            onPress={() => {
-              props.navigation.navigate(notAuthRoutes.passwordInfo);
-            }}
+            onPress={nextStep}
             title={'შემდეგი'}
             backgroundColor={Colors.bgGreen}
           />

@@ -22,6 +22,7 @@ import SmsCode from '../screens/notAuth/SmsCode';
 import Barcode from '../screens/auth/Barcode';
 import {useNavigation} from '@react-navigation/native';
 import MyPage from '../screens/auth/MyPage';
+import SingleOfferScreen from '../screens/auth/SingleOfferScreen';
 
 
 const authStack = createStackNavigator();
@@ -166,6 +167,25 @@ const AppNavigator = () => {
                   backgroundColor: Colors.bgColor,
                 },
                 headerTintColor: Colors.bgGreen,
+              }}
+            />
+             <authStack.Screen
+              name={authRoutes.singleOffer}
+              component={SingleOfferScreen}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: 'რაში დავხარჯო',
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerTitleStyle: {
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  fontSize: 14,
+                },
               }}
             />
           </>

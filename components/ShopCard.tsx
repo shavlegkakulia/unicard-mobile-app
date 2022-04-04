@@ -1,19 +1,36 @@
 import React from 'react';
-import {Image, ImageSourcePropType, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import Colors from '../theme/Colors';
+import {authRoutes} from '../navigation/routes';
 
 export interface ShoplistProps {
   amount: number;
   image: ImageSourcePropType;
   description: string;
+  id: number;
 }
 
+
 const ShopingCard: React.FC<ShoplistProps> = props => {
-  const {amount, image, description} = props;
+  const {amount, image, description, id} = props;
+  const navigation = useNavigation();
+  
 
   return (
-    <View style={styles.cardWrapper}>
+    <TouchableOpacity
+      style={styles.cardWrapper}
+      onPress={navigation.navigate.bind(this, authRoutes.singleOffer, {
+        itemId: id,
+      })}>
       <View>
         <Image source={image} style={styles.img} />
       </View>
@@ -28,7 +45,7 @@ const ShopingCard: React.FC<ShoplistProps> = props => {
 
         <Text style={styles.descriptionText}>{description}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -1,6 +1,7 @@
 import type {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 interface IRoute {
+  data: any;
   key: string;
   name: string;
   params: any;

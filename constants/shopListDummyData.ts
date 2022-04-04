@@ -1,3 +1,5 @@
+
+
 export interface ShopList {
   id: number;
   amount: number;
@@ -10,7 +12,7 @@ export default [
     id: 1,
     image: require('../assets/img/shop.png'),
     amount: 1000,
-    description: 'ტექნიკის 100 ლარიანი სასაჩუქრე ბარათი',
+    description: 'ტექნიკის ',
   },
   {
     id: 2,

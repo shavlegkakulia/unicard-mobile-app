@@ -25,11 +25,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const renderItem = useCallback(({item}) => {
     console.log('essssssssssi', item);
-    return (
-      <View>
-        <ShopingCard {...item} />
-      </View>
-    );
+    return <ShopingCard {...item} />;
   }, []);
 
   const translateReducer = useSelector<ITranslateReducer>(
@@ -113,7 +109,6 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
       </ScrollView> */}
 
       <Text>{translateReducer.t('common.name')}</Text>
-      
     </ScrollView>
   );
 };

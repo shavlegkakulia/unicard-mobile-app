@@ -35,7 +35,7 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = ({route}) => {
   return (
     <ScrollView contentContainerStyle={styles.main}>
       <View style={styles.imgBtn}>
-        <Image style={styles.img} source={offer?.image_url} />
+        <Image style={styles.img} source={{uri: offer?.image_url}} />
         <View style={styles.imgText}>
           <Text style={styles.text}>1 სურათი</Text>
         </View>

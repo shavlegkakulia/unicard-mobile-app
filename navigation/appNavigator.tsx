@@ -23,6 +23,7 @@ import Barcode from '../screens/auth/Barcode';
 import {useNavigation} from '@react-navigation/native';
 import MyPage from '../screens/auth/MyPage';
 import SingleOfferScreen from '../screens/auth/SingleOfferScreen';
+import UserInactivity from '../components/UserInactivity';
 
 
 const authStack = createStackNavigator();
@@ -72,7 +73,7 @@ const AppNavigator = () => {
       renderNavigationView={props => <SideBarDrawer props={props} />}>
       <authStack.Navigator initialRouteName={notAuthRoutes.login}>
         {authReducer.isAuthentificated ? (
-          <>
+          <UserInactivity timeForInactivity={80 * 1000} checkInterval={1000}>
             {/* <StatusBar barStyle={'light-content'} /> */}
             <authStack.Screen
               name={authRoutes.home}
@@ -188,7 +189,7 @@ const AppNavigator = () => {
                 },
               }}
             />
-          </>
+          </UserInactivity>
         ) : (
           <>
             <authStack.Screen

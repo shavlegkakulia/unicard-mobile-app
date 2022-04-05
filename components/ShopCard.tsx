@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -11,39 +11,52 @@ import {useNavigation} from '@react-navigation/native';
 
 import Colors from '../theme/Colors';
 import {authRoutes} from '../navigation/routes';
+import {IgetProducteResponse} from '../services/ProductService';
+import ProductList, {
+  Igeneralresp,
+  IgetProducteListRequest,
+  IgetProducteListResponse,
+} from '../services/ProductListService';
+import navigation from '../navigation/navigation';
 
-export interface ShoplistProps {
-  amount: number;
-  image: ImageSourcePropType;
-  description: string;
-  id: number;
-}
+// export interface ShoplistProps {
+//   id?: number;
+//   name: string;
+//   description?: string;
+//   price: string;
+//   title?: string;
+//   short_desc?: string;
+//   images?: string[];
+//   show_brand: boolean;
+//   show_delivery_form: boolean;
+// }
 
-
-const ShopingCard: React.FC<ShoplistProps> = props => {
-  const {amount, image, description, id} = props;
+const ShopingCard: React.FC<IgetProducteResponse> = props => {
   const navigation = useNavigation();
-  
-
+  let imgUrl = '';
+  if (props.images?.length) {
+    imgUrl = props.images[0];
+  }
+  console.log('props=======>', props);
   return (
     <TouchableOpacity
       style={styles.cardWrapper}
       onPress={navigation.navigate.bind(this, authRoutes.singleOffer, {
-        itemId: id,
+        // id: list?.id,
       })}>
       <View>
-        <Image source={image} style={styles.img} />
+        <Image source={{uri: imgUrl}} style={styles.img} />
       </View>
       <View style={styles.describeView}>
         <View style={styles.markView}>
-          <Text style={styles.amountTxt}>{amount}</Text>
+          <Text style={styles.amountTxt}>{props.price}</Text>
           <Image
             style={styles.mark}
             source={require('../assets/img/UniMark.png')}
           />
         </View>
 
-        <Text style={styles.descriptionText}>{description}</Text>
+        <Text style={styles.descriptionText}>{props.name}123</Text>
       </View>
     </TouchableOpacity>
   );

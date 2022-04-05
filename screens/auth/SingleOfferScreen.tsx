@@ -3,24 +3,26 @@ import {Image, StyleSheet, ScrollView, View, Text} from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import DATA from '../../constants/shopListDummyData';
 import Colors from '../../theme/Colors';
-import OfferService, {
-  IgetOfferDetailsRequest,
-  IgetOfferResponse,
-} from '../../services/OfferService';
+import ProducteService, {
+  IgetProducteDetailsRequest,
+  IgetProducteResponse,
+} from '../../services/ProductService';
 
 const SingleOfferScreen: React.FC<ScreenNavigationProp> = ({route}) => {
-  const [offer, setOffer] = useState<IgetOfferResponse>();
-  const id = route.params.itemId;
+  const [offer, setOffer] = useState<IgetProducteResponse>();
+  const id = route.params.id;
+  console.log('es aris id', id);
 
   // const selectedOffer = offer.find(e => id === e.id);
-  const getOfferDetails = () => {
-    const req: IgetOfferDetailsRequest = {
-      offer_id: id,
+  const getProductDetails = () => {
+    const req: IgetProducteDetailsRequest = {
+      product_id: id,
+      lang: '',
     };
-    OfferService.getOfferDetails(req).subscribe({
+    ProducteService.getOfferDetails(req).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-          setOffer(Response.data.offer);
+          setOffer(Response.data);
         }
       },
       error: err => {
@@ -28,25 +30,24 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = ({route}) => {
       },
     });
   };
-  console.log('offersssssssss', offer);
   useEffect(() => {
-    getOfferDetails();
+    getProductDetails();
   }, []);
   return (
     <ScrollView contentContainerStyle={styles.main}>
       <View style={styles.imgBtn}>
-        <Image style={styles.img} source={offer?.image_url} />
+        <Image style={styles.img} source={offer?.images} />
         <View style={styles.imgText}>
           <Text style={styles.text}>1 სურათი</Text>
         </View>
       </View>
       <View style={styles.titleView}>
         <View style={styles.titleWrapper}>
-          <Text style={styles.title}>{offer?.description}</Text>
+          <Text style={styles.title}>{offer?.name}</Text>
         </View>
 
         <View style={styles.amountView}>
-          <Text style={styles.amount}>{offer?.beacon_id}</Text>
+          <Text style={styles.amount}>{offer?.price}</Text>
           <Image
             style={styles.mark}
             source={require('../../assets/img/UniMark.png')}

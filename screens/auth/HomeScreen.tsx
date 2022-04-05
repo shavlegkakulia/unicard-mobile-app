@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -20,11 +20,15 @@ import LinearGradient from 'react-native-linear-gradient';
 import DATA from '../../constants/shopListDummyData';
 import ShopingCard from '../../components/ShopCard';
 import {authRoutes} from '../../navigation/routes';
+import ProductList, {
+  Igeneralresp,
+  IgetProducteListRequest,
+  IgetProducteListResponse,
+} from '../../services/ProductListService';
 
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const renderItem = useCallback(({item}) => {
-    console.log('essssssssssi', item);
     return <ShopingCard {...item} />;
   }, []);
 
@@ -32,23 +36,46 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     state => state.TranslateReducer,
   ) as ITranslateState;
 
-  const keyExtractor = useCallback(item => {
-    return item.id;
-  }, []);
+  const keyExtractor = (item: IgetProducteListResponse) => {
+    return item?.id + new Date().toLocaleTimeString();
+  };
+  const [list, setList] = useState<Igeneralresp>();
+  // const {price, images, description, id} = props;
 
-  const signin = () => {
-    AuthService.SignIn({email: 'fhjdskhfjd', password: 'fdsfds'}).subscribe({
-      next: async Response => {
-        await AuthService.setToken(
-          Response.data.token,
-          Response.data.refresh_token,
-        );
-        dispatch(login());
+  const getProductList = () => {
+    const req: IgetProducteListRequest = {
+      page_index: '1',
+      lang: '',
+    };
+    ProductList.getList(req).subscribe({
+      next: Response => {
+        if (Response.data.resultCode === '200') {
+          setList(Response.data);
+          // console.log('response=========>', Response.data);
+        }
       },
-      error: err => {},
-      complete: () => {},
+      error: err => {
+        console.log(err.response);
+      },
     });
   };
+  useEffect(() => {
+    getProductList();
+  }, []);
+
+  // const signin = () => {
+  //   AuthService.SignIn({email: 'fhjdskhfjd', password: 'fdsfds'}).subscribe({
+  //     next: async Response => {
+  //       await AuthService.setToken(
+  //         Response.data.token,
+  //         Response.data.refresh_token,
+  //       );
+  //       dispatch(login());
+  //     },
+  //     error: err => {},
+  //     complete: () => {},
+  //   });
+  // };
 
   return (
     <ScrollView>
@@ -81,8 +108,8 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           contentContainerStyle={{
             alignSelf: 'flex-start',
           }}
-          numColumns={DATA.length / 2}
-          data={DATA}
+          numColumns={(list?.products?.length || 2) / 2}
+          data={list?.products}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}

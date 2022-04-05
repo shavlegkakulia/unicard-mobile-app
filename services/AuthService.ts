@@ -74,7 +74,7 @@ export default new (class AuthService {
   SignIn(data: IAyuthData) {
     return new Observable<IAuthResponse>(
       (observer: Subscriber<IAuthResponse>) => {
-        const loginObj = `username=${data.username}&password=${data.password}&scope=unicardApi&grant_type=password&client_secret=${envs.client_secret}&client_id=${envs.client_id}`;
+        const loginObj = `username=${data.username}&password=${data.password}&scope=unicardApi%20offline_access&grant_type=password&client_secret=${envs.client_secret}&client_id=${envs.client_id}`;
 
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = true;

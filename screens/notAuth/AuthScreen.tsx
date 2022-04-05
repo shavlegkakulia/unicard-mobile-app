@@ -40,10 +40,11 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     };
     AuthService.SignIn(data).subscribe({
       next: async Response => {
+        console.log(Response);
         if (Response.access_token) {
           await AuthService.setToken(
             Response.access_token,
-            Response.refresh_token || '123',
+            Response.refresh_token,
           );
 
           dispatch(login());

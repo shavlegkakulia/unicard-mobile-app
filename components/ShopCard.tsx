@@ -31,32 +31,41 @@ import navigation from '../navigation/navigation';
 //   show_delivery_form: boolean;
 // }
 
-const ShopingCard: React.FC<IgetProducteResponse> = props => {
+const ShopingCard: React.FC<IgetProducteListResponse> = props => {
   const navigation = useNavigation();
   let imgUrl = '';
   if (props.images?.length) {
     imgUrl = props.images[0];
   }
-  console.log('props=======>', props);
+  console.log('props=======>', props.name);
   return (
     <TouchableOpacity
       style={styles.cardWrapper}
       onPress={navigation.navigate.bind(this, authRoutes.singleOffer, {
-        // id: list?.id,
+        id: props.id,
       })}>
       <View>
         <Image source={{uri: imgUrl}} style={styles.img} />
       </View>
       <View style={styles.describeView}>
-        <View style={styles.markView}>
-          <Text style={styles.amountTxt}>{props.price}</Text>
-          <Image
-            style={styles.mark}
-            source={require('../assets/img/UniMark.png')}
-          />
+        <View style={styles.seeMoreView}>
+          <View style={styles.markView}>
+            <Text style={styles.amountTxt}>{props.price}</Text>
+            <Image
+              style={styles.mark}
+              source={require('../assets/img/UniMark.png')}
+            />
+          </View>
+          <View style={styles.seeMoreView}>
+            <Text style={styles.seemoreTxt}>ვრცლად</Text>
+            <Image
+              style={styles.leftArrow}
+              source={require('../assets/img/leftArrow.png')}
+            />
+          </View>
         </View>
 
-        <Text style={styles.descriptionText}>{props.name}123</Text>
+        <Text style={styles.descriptionText}>{props.name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -101,6 +110,20 @@ const styles = StyleSheet.create({
   markView: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  seeMoreView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  seemoreTxt: {
+    fontSize: 8,
+    color: Colors.darkGrey,
+  },
+  leftArrow: {
+    width: 5,
+    height: 8,
+    left: 4,
   },
 });
 

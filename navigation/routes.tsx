@@ -3,6 +3,7 @@ export enum authRoutes {
   barcode = 'barcode',
   myPage = 'myPage',
   singleOffer = 'singleOffer',
+  spendOptions = 'spendOptions',
 }
 
 export enum notAuthRoutes {

@@ -27,11 +27,12 @@ export interface IgetProducteResponse extends IresponseData {
   images?: string[];
   show_brand: boolean;
   show_delivery_form: boolean;
+  catalog_id: string;
 }
 
 class ProducteService {
   getOfferDetails(data: IgetProducteDetailsRequest) {
-    console.log('dataaaaaaaaad', data);
+    // console.log('dataaaaaaaaad', data);
     let query = `?product_id=${data.product_id}`;
     if (data.lang) {
       query += `&lang=${data.lang}`;

@@ -25,6 +25,7 @@ import ProductList, {
   IgetProducteListRequest,
   IgetProducteListResponse,
 } from '../../services/ProductListService';
+import {tapGestureHandlerProps} from 'react-native-gesture-handler/lib/typescript/handlers/TapGestureHandler';
 
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const keyExtractor = (item: IgetProducteListResponse) => {
     return item?.id + new Date().toLocaleTimeString();
   };
+
   const [list, setList] = useState<Igeneralresp>();
   // const {price, images, description, id} = props;
 
@@ -102,13 +104,25 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.titleWrapper}>
         <Text style={styles.title}>რაში დავხარჯო</Text>
+        <View style={styles.circleView}>
+          <View style={styles.circle} />
+          <View style={styles.circle} />
+          <View style={styles.circle} />
+          <View style={styles.circle} />
+          <Image
+            style={styles.leftArrow}
+            source={require('../../assets/img/leftArrowBold.png')}
+          />
+        </View>
       </View>
       <View style={styles.flatlist}>
         <FlatList
           contentContainerStyle={{
             alignSelf: 'flex-start',
           }}
-          numColumns={(list?.products?.length || 2) / 2}
+          bounces={false}
+          numColumns={list && Math.ceil(list?.products.length || 2) / 2}
+          key={list && new Date().toLocaleTimeString()}
           data={list?.products}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
@@ -178,6 +192,9 @@ const styles = StyleSheet.create({
   titleWrapper: {
     marginHorizontal: 46,
     marginTop: 35,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   title: {
     fontSize: 14,
@@ -187,6 +204,22 @@ const styles = StyleSheet.create({
   },
   flatlist: {
     marginTop: 28,
+  },
+  circle: {
+    width: 4,
+    height: 4,
+    backgroundColor: Colors.lightGrey,
+    marginLeft: 6,
+    borderRadius: 50,
+  },
+  circleView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  leftArrow: {
+    width: 5,
+    height: 8,
+    left: 6,
   },
 });
 

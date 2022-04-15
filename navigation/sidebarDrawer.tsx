@@ -54,6 +54,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>ბარათი</Text>
       </TouchableOpacity>
+      <View style={styles.lineView} />
       <TouchableOpacity
         style={styles.row}
         onPress={() => navigation.navigate(authRoutes.home)}>
@@ -76,7 +77,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>ჩემი გვერდი</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => navigation.navigate(authRoutes.spendOptions)}>
         <View style={styles.iconView}>
           <Image
             style={styles.cartIcon}
@@ -243,5 +246,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     textTransform: 'uppercase',
+  },
+  lineView: {
+    borderBottomColor: Colors.white,
+    borderBottomWidth: 1,
+    marginTop: 26,
+    width: 195,
   },
 });

@@ -1,10 +1,37 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, StyleSheet, View, ScrollView, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {ScreenNavigationProp} from '../../interfaces/commons';
+import TransactionService, {
+  IgetProducteDetailsRequest,
+  IgetTransactionsResponse,
+} from '../../services/TransactionsListService';
 import Colors from '../../theme/Colors';
 
 const MyPage: React.FC<ScreenNavigationProp> = () => {
+  const [transactions, setTransactions] =
+    useState<IgetTransactionsResponse[]>();
+  const getTransaction = () => {
+    const req: IgetProducteDetailsRequest = {
+      user_id: '',
+      lang: '',
+    };
+    TransactionService.getTransactions(req).subscribe({
+      next: Response => {
+        console.log('****', Response.data);
+        if (Response.data.resultCode === '200') {
+          setTransactions(Response.data.transactions);
+          console.log('response=========>', Response.data);
+        }
+      },
+      error: err => {
+        console.log(err.response);
+      },
+    });
+  };
+  useEffect(() => {
+    getTransaction();
+  }, []);
   return (
     <ScrollView>
       <View style={styles.titleView}>
@@ -58,28 +85,33 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
         />
       </View>
       <View style={styles.listMainView}>
-        <View style={styles.listView}>
-          <View>
-            <Text style={styles.payUnicard}>Payunicard</Text>
-            <View style={styles.listIconView}>
-              <Image
-                style={styles.timeIcon}
-                source={require('../../assets/img/timeIcon.png')}
-              />
-              <Text style={styles.timeText}>გუშინ 14:16 11.67₾</Text>
+        {transactions &&
+          [...transactions, ...transactions]?.map(tr => (
+            <View style={styles.listView} key={tr.organisation_id}>
+              <View>
+                <Text style={styles.payUnicard}>{tr.organisation_name}</Text>
+                <View style={styles.listIconView}>
+                  <Image
+                    style={styles.timeIcon}
+                    source={require('../../assets/img/timeIcon.png')}
+                  />
+                  <Text style={styles.timeText}>{tr.date}</Text>
+                </View>
+                <View style={styles.listIconView}>
+                  <Image
+                    style={styles.pinIcon}
+                    source={require('../../assets/img/pinGrey.png')}
+                  />
+                  <Text style={styles.addrsText}>
+                    ვაჟა-ფშაველას გამზირი #71
+                  </Text>
+                </View>
+              </View>
+              <View>
+                <Text style={styles.payAmount}>+{tr.score}</Text>
+              </View>
             </View>
-            <View style={styles.listIconView}>
-              <Image
-                style={styles.pinIcon}
-                source={require('../../assets/img/pinGrey.png')}
-              />
-              <Text style={styles.addrsText}>ვაჟა-ფშაველას გამზირი #71</Text>
-            </View>
-          </View>
-          <View>
-            <Text style={styles.payAmount}>+1.1</Text>
-          </View>
-        </View>
+          ))}
       </View>
     </ScrollView>
   );
@@ -153,11 +185,13 @@ const styles = StyleSheet.create({
   },
   listMainView: {
     marginHorizontal: 25,
+    marginTop: 7,
   },
   listView: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 26,
   },
   payUnicard: {
     fontSize: 14,
@@ -180,19 +214,19 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   timeText: {
-      fontSize: 12,
-      color: Colors.darkGrey,
-      textTransform: 'uppercase',
+    fontSize: 12,
+    color: Colors.darkGrey,
+    textTransform: 'uppercase',
   },
   addrsText: {
-      color: Colors.lightGreyTxt,
-      fontSize: 10,
-      textTransform: 'uppercase',
+    color: Colors.lightGreyTxt,
+    fontSize: 10,
+    textTransform: 'uppercase',
   },
   payAmount: {
     fontSize: 18,
     color: Colors.bgGreen,
-  }
+  },
 });
 
 export default MyPage;

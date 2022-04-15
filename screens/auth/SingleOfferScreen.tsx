@@ -1,19 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, ScrollView, View, Text} from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
-import DATA from '../../constants/shopListDummyData';
 import Colors from '../../theme/Colors';
 import ProducteService, {
   IgetProducteDetailsRequest,
   IgetProducteResponse,
 } from '../../services/ProductService';
+import Loader from '../../components/loader';
+import {htmlToString} from '../../utils/converts';
+import AppButton from '../../components/CostumComponents/AppButton';
 
-const SingleOfferScreen: React.FC<ScreenNavigationProp> = ({route}) => {
+const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   const [offer, setOffer] = useState<IgetProducteResponse>();
-  const id = route.params.id;
-  console.log('es aris id', id);
+  const [loading, setLoading] = useState<boolean>();
+  const id = props.route.params.id;
 
-  // const selectedOffer = offer.find(e => id === e.id);
+  const regex = /<a\s+(?:[^>]*?\s+)\1/; //ლინკს პოულობს კოდში და იღებს//თუმცა ეიჩტიემელის ატრიბუტები ვერ მოვაშორე
+  const linkTag = offer?.description?.match(regex);
   const getProductDetails = () => {
     const req: IgetProducteDetailsRequest = {
       product_id: id,
@@ -34,27 +37,52 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = ({route}) => {
     getProductDetails();
   }, []);
   return (
-    <ScrollView contentContainerStyle={styles.main}>
-      <View style={styles.imgBtn}>
-        <Image style={styles.img} source={offer?.images} />
-        <View style={styles.imgText}>
-          <Text style={styles.text}>1 სურათი</Text>
-        </View>
-      </View>
-      <View style={styles.titleView}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>{offer?.name}</Text>
-        </View>
+    <View>
+      {!loading && offer ? (
+        <>
+          <ScrollView contentContainerStyle={styles.main}>
+            <View style={styles.imgBtn}>
+              <Image style={styles.img} source={offer?.images} />
+              <View style={styles.imgText}>
+                <Text style={styles.text}>1 სურათი</Text>
+              </View>
+            </View>
+            <View style={styles.titleView}>
+              <View style={styles.titleWrapper}>
+                <Text style={styles.title}>{offer?.name}</Text>
+              </View>
 
-        <View style={styles.amountView}>
-          <Text style={styles.amount}>{offer?.price}</Text>
-          <Image
-            style={styles.mark}
-            source={require('../../assets/img/UniMark.png')}
-          />
-        </View>
+              <View style={styles.amountView}>
+                <Text style={styles.amount}>{offer?.price}</Text>
+                <Image
+                  style={styles.mark}
+                  source={require('../../assets/img/UniMark.png')}
+                />
+              </View>
+            </View>
+            <View style={styles.catId}>
+              <Text style={styles.catIdTxt}>{offer?.catalog_id}</Text>
+            </View>
+            <View>
+              <Text>{htmlToString(offer?.description)}</Text>
+            </View>
+            <View>
+              <Text>{htmlToString(linkTag?.toString())}</Text>
+            </View>
+            <View style={styles.btn}>
+        <AppButton
+          onPress={() => {}}
+          title={'საჩუქრის მიღება'}
+          backgroundColor={Colors.bgGreen}
+        />
       </View>
-    </ScrollView>
+          </ScrollView>
+        </>
+      ) : (
+        <Loader visible={true} />
+      )}
+
+    </View>
   );
 };
 const styles = StyleSheet.create({
@@ -109,6 +137,21 @@ const styles = StyleSheet.create({
   },
   titleWrapper: {
     width: 200,
+  },
+  loader: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  catId: {
+    marginTop: 14,
+  },
+  catIdTxt: {
+    fontSize: 12,
+    color: Colors.lightGreyTxt,
+  },
+  btn: {
+    marginTop: 15,
   },
 });
 

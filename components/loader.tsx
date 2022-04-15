@@ -6,7 +6,7 @@ const Loader = ({visible}: {visible: boolean}) => {
   return (
     <Modal transparent={true} visible={visible}>
       <View style={styles.container}>
-        <ActivityIndicator size={'small'} color={Colors.dark} />
+        <ActivityIndicator size={'small'} color={Colors.bgGreen} />
       </View>
     </Modal>
   );

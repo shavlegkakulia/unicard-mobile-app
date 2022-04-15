@@ -11,13 +11,9 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {en} from '../../lang';
-import AuthService from '../../services/AuthService';
-import {login, logout} from '../../Store/actions/auth';
-import {use} from '../../Store/actions/translate';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 import LinearGradient from 'react-native-linear-gradient';
-import DATA from '../../constants/shopListDummyData';
 import ShopingCard from '../../components/ShopCard';
 import {authRoutes} from '../../navigation/routes';
 import ProductList, {
@@ -25,7 +21,7 @@ import ProductList, {
   IgetProducteListRequest,
   IgetProducteListResponse,
 } from '../../services/ProductListService';
-import {tapGestureHandlerProps} from 'react-native-gesture-handler/lib/typescript/handlers/TapGestureHandler';
+import Loader from '../../components/loader';
 
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
@@ -65,20 +61,6 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     getProductList();
   }, []);
 
-  // const signin = () => {
-  //   AuthService.SignIn({email: 'fhjdskhfjd', password: 'fdsfds'}).subscribe({
-  //     next: async Response => {
-  //       await AuthService.setToken(
-  //         Response.data.token,
-  //         Response.data.refresh_token,
-  //       );
-  //       dispatch(login());
-  //     },
-  //     error: err => {},
-  //     complete: () => {},
-  //   });
-  // };
-
   return (
     <ScrollView>
       <TouchableOpacity
@@ -115,39 +97,26 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           />
         </View>
       </View>
-      <View style={styles.flatlist}>
-        <FlatList
-          contentContainerStyle={{
-            alignSelf: 'flex-start',
-          }}
-          bounces={false}
-          numColumns={list && Math.ceil(list?.products.length || 2) / 2}
-          key={list && new Date().toLocaleTimeString()}
-          data={list?.products}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={keyExtractor}
-          contentInset={{right: 20}}
-        />
-      </View>
-
-      {/* <ScrollView
-        horizontal={true}
-        pagingEnabled={true}
-        style={{flex: 1}}
-        contentContainerStyle={{
-          flex: 1,
-          flexWrap: 'wrap',
-          // flexDirection: 'row',
-          justifyContent: 'space-evenly',
-        }}>
-        {DATA.map((data, i) => (
-          <View key={i}>
-            <ShopingCard {...data} />
-          </View>
-        ))}
-      </ScrollView> */}
+      {list ? (
+        <View style={styles.flatlist}>
+          <FlatList
+            contentContainerStyle={{
+              alignSelf: 'flex-start',
+            }}
+            bounces={false}
+            numColumns={list && Math.ceil(list?.products.length || 2) / 2}
+            key={list && new Date().toLocaleTimeString()}
+            data={list?.products}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={keyExtractor}
+            contentInset={{right: 20}}
+          />
+        </View>
+      ) : (
+        <Loader visible={true} />
+      )}
 
       <Text>{translateReducer.t('common.name')}</Text>
     </ScrollView>

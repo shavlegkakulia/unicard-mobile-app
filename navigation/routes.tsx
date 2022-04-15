@@ -4,6 +4,7 @@ export enum authRoutes {
   myPage = 'myPage',
   singleOffer = 'singleOffer',
   spendOptions = 'spendOptions',
+  aboutUs = 'aboutUs',
 }
 
 export enum notAuthRoutes {

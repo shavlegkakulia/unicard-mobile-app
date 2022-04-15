@@ -18,13 +18,12 @@ import RegistrationDone from '../screens/notAuth/RegistrationDone';
 import AuthScreen from '../screens/notAuth/AuthScreen';
 import Colors from '../theme/Colors';
 import SmsCode from '../screens/notAuth/SmsCode';
-// import navigation from './navigation';
 import Barcode from '../screens/auth/Barcode';
 import {useNavigation} from '@react-navigation/native';
 import MyPage from '../screens/auth/MyPage';
 import SingleOfferScreen from '../screens/auth/SingleOfferScreen';
 import SpendOptions from '../screens/auth/SpendOptions';
-
+import AboutUs from '../screens/auth/AboutUs';
 
 const authStack = createStackNavigator();
 
@@ -202,7 +201,7 @@ const AppNavigator = () => {
                 },
               }}
             />
-             <authStack.Screen
+            <authStack.Screen
               name={authRoutes.singleOffer}
               component={SingleOfferScreen}
               options={{
@@ -210,6 +209,38 @@ const AppNavigator = () => {
                   backgroundColor: Colors.bgColor,
                 },
                 title: 'რაში დავხარჯო',
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerTitleStyle: {
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  fontSize: 14,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.aboutUs}
+              component={AboutUs}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: 'ჩვენს შესახებ',
+                headerLeft: () => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      isDrawerOpened.current
+                        ? sideDraver.current?.closeDrawer()
+                        : sideDraver.current?.openDrawer();
+                    }}>
+                    <Image
+                      style={{width: 25, height: 17, marginLeft: 29}}
+                      source={require('../assets/img/burgerIcon.png')}
+                    />
+                  </TouchableOpacity>
+                ),
                 headerTintColor: Colors.black,
                 headerStyle: {
                   backgroundColor: Colors.bgColor,

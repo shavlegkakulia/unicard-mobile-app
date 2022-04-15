@@ -18,9 +18,11 @@ import ProductList, {
   IgetProducteListResponse,
 } from '../../services/ProductListService';
 import Colors from '../../theme/Colors';
+import Loader from '../../components/loader';
 
 const SpendOptions: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState();
   const renderItem = useCallback(({item}) => {
     return <ShopingCard {...item} />;
   }, []);
@@ -57,35 +59,40 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
 
   return (
     <ScrollView>
-        <View style={styles.circleWrapper}>
-        <View style={styles.circleView}>
-        <View style={styles.circle} />
-        <View style={styles.circle} />
-        <View style={styles.circle} />
-        <View style={styles.circle} />
-        <Image
-          style={styles.leftArrow}
-          source={require('../../assets/img/leftArrowBold.png')}
-        />
-      </View>
-        </View>
-      
-      <View style={styles.flatlist}>
-        <FlatList
-          contentContainerStyle={{
-            alignSelf: 'flex-start',
-          }}
-          bounces={false}
-          data={list?.products}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={keyExtractor}
-          contentInset={{right: 20}}
-          numColumns={list && Math.ceil(list?.products.length || 4) / 4}
-          key={list && new Date().toLocaleTimeString()}
-        />
-      </View>
+      {!loading && list ? (
+        <>
+          <View style={styles.circleWrapper}>
+            <View style={styles.circleView}>
+              <View style={styles.circle} />
+              <View style={styles.circle} />
+              <View style={styles.circle} />
+              <View style={styles.circle} />
+              <Image
+                style={styles.leftArrow}
+                source={require('../../assets/img/leftArrowBold.png')}
+              />
+            </View>
+          </View>
+          <View style={styles.flatlist}>
+            <FlatList
+              contentContainerStyle={{
+                alignSelf: 'flex-start',
+              }}
+              bounces={false}
+              data={list?.products}
+              renderItem={renderItem}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={keyExtractor}
+              contentInset={{right: 20}}
+              numColumns={list && Math.ceil(list?.products.length || 4) / 4}
+              key={list && new Date().toLocaleTimeString()}
+            />
+          </View>
+        </>
+      ) : (
+        <Loader visible={true} />
+      )}
 
       <Text>{translateReducer.t('common.name')}</Text>
     </ScrollView>

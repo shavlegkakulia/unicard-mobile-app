@@ -106,7 +106,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>პარტნიორები</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => navigation.navigate(authRoutes.news)}>
         <View style={styles.iconView}>
           <Image
             style={styles.newsIcon}
@@ -242,6 +244,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 160,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+
+    elevation: 7,
   },
   btnText: {
     color: Colors.white,

@@ -8,11 +8,9 @@ import ContactService, {
   IgetContactResponse,
 } from '../../services/ContactService';
 import Colors from '../../theme/Colors';
-import MerchantsMap from './MerchantsMap';
 
 const AboutUs: React.FC<ScreenNavigationProp> = () => {
   const [contact, setContact] = useState<IgetContactResponse>();
-  const [loading, setLoading] = useState();
 
   const getBarcode = () => {
     const req: IgetContactDetailsRequest = {
@@ -21,7 +19,7 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
     ContactService.GenerateContact(req).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-            setContact(Response.data);
+          setContact(Response.data);
         }
       },
       error: err => {
@@ -55,71 +53,75 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
           source={require('../../assets/img/UniCardImg.png')}
         />
       </View>
-      <View style={styles.listView}>
-        <View style={styles.row}>
-          <View style={styles.IconView}>
-            <Image
-              style={styles.icon}
-              source={require('../../assets/img/timeIconGreen.png')}
-            />
+      {contact ? (
+        <View style={styles.listView}>
+          <View style={styles.row}>
+            <View style={styles.IconView}>
+              <Image
+                style={styles.icon}
+                source={require('../../assets/img/timeIconGreen.png')}
+              />
+            </View>
+            <Text style={styles.txt}>{contact?.work_hours}</Text>
           </View>
-          <Text style={styles.txt}>ragac</Text>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.IconView}>
-            <Image
-              style={styles.phoneIcon}
-              source={require('../../assets/img/phoneIcon.png')}
-            />
+          <View style={styles.row}>
+            <View style={styles.IconView}>
+              <Image
+                style={styles.phoneIcon}
+                source={require('../../assets/img/phoneIcon.png')}
+              />
+            </View>
+            <Text style={styles.txt}>{contact?.phone}</Text>
           </View>
-          <Text style={styles.txt}>ragac</Text>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.IconView}>
-            <Image
-              style={styles.mailIcon}
-              source={require('../../assets/img/mailIcon.png')}
-            />
+          <View style={styles.row}>
+            <View style={styles.IconView}>
+              <Image
+                style={styles.mailIcon}
+                source={require('../../assets/img/mailIcon.png')}
+              />
+            </View>
+            <Text style={styles.txt}>{contact?.contact_email}</Text>
           </View>
-          <Text style={styles.txt}>ragac</Text>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.IconView}>
-            <Image
-              style={styles.icon}
-              source={require('../../assets/img/globeIcon.png')}
-            />
+          <View style={styles.row}>
+            <View style={styles.IconView}>
+              <Image
+                style={styles.icon}
+                source={require('../../assets/img/globeIcon.png')}
+              />
+            </View>
+            <Text style={styles.txt}>{contact?.web_page_link}</Text>
           </View>
-          <Text style={styles.txt}>ragac</Text>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.IconView}>
-            <Image
-              style={styles.icon}
-              source={require('../../assets/img/fbIcon.png')}
-            />
+          <View style={styles.row}>
+            <View style={styles.IconView}>
+              <Image
+                style={styles.icon}
+                source={require('../../assets/img/fbIcon.png')}
+              />
+            </View>
+            <Text style={styles.txt}>{contact?.fb_link}</Text>
           </View>
-          <Text style={styles.txt}>ragac</Text>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.IconView}>
-            <Image
-              style={styles.shareIcon}
-              source={require('../../assets/img/shareIcon.png')}
-            />
+          <View style={styles.row}>
+            <View style={styles.IconView}>
+              <Image
+                style={styles.shareIcon}
+                source={require('../../assets/img/shareIcon.png')}
+              />
+            </View>
+            <Text style={styles.txt}>გააზიარეთ აპლიკაცია</Text>
           </View>
-          <Text style={styles.txt}>ragac</Text>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.IconView}>
-            <Image
-              style={styles.starIcon}
-              source={require('../../assets/img/starIcon.png')}
-            />
+          <View style={styles.row}>
+            <View style={styles.IconView}>
+              <Image
+                style={styles.starIcon}
+                source={require('../../assets/img/starIcon.png')}
+              />
+            </View>
+            <Text style={styles.txt}>შეაფასეთ აპლიკაცია</Text>
           </View>
-          <Text style={styles.txt}>ragac</Text>
         </View>
-      </View>
+      ) : (
+        <Loader visible={true} />
+      )}
     </ScrollView>
   );
 };
@@ -175,6 +177,8 @@ const styles = StyleSheet.create({
   txt: {
     color: Colors.bgGreen,
     fontSize: 14,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
 });
 

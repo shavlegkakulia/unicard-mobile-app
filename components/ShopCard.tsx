@@ -94,13 +94,16 @@ const styles = StyleSheet.create({
     color: Colors.amountTxt,
     fontWeight: '700',
     fontSize: 16,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 19.2,
   },
   descriptionText: {
     fontSize: 10,
-    textTransform: 'uppercase',
     fontWeight: '400',
     color: Colors.black,
     marginTop: 3,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 12,
   },
   mark: {
     width: 13,
@@ -119,6 +122,8 @@ const styles = StyleSheet.create({
   seemoreTxt: {
     fontSize: 8,
     color: Colors.darkGrey,
+    fontFamily: 'BPG DejaVu Sans',
+    lineHeight: 9.31,
   },
   leftArrow: {
     width: 5,

@@ -2,26 +2,26 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<key>CFBundleURLTypes</key>
-<array>
-  <dict>
-    <key>CFBundleURLSchemes</key>
-    <array>
-      <string>fb{387152943243417}</string>
-    </array>
-  </dict>
-</array>
-<key>FacebookAppID</key>
-<string>{387152943243417}</string>
-<key>FacebookDisplayName</key>
-<string>{unicard_mobile_app_rn}</string>
-<key>LSApplicationQueriesSchemes</key>
-<array>
-  <string>fbapi</string>
-  <string>fb-messenger-share-api</string>
-  <string>fbauth2</string>
-  <string>fbshareextension</string>
-</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb{387152943243417}</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>{387152943243417}</string>
+	<key>FacebookDisplayName</key>
+	<string>{unicard_mobile_app_rn}</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -89,6 +89,21 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>BPG DejaVuSans Caps_2.ttf</string>
+		<string>BPG DejaVuSans_2.ttf</string>
+		<string>BPG DejaVuSans-Bold_2.ttf</string>
+		<string>BPG DejaVuSans-BoldOblique_2.ttf</string>
+		<string>BPG DejaVuSans-Oblique_2.ttf</string>
+		<string>BPG GEL DejaVu Sans Condensed Caps_2.ttf</string>
+		<string>BPG GEL DejaVu Sans Condensed_2.ttf</string>
+		<string>BPG GEL DejaVu Sans ExtraLight Caps_2.ttf</string>
+		<string>BPG GEL DejaVu Sans ExtraLight_2.ttf</string>
+		<string>BPG GEL DejaVuSans Caps_2.ttf</string>
+		<string>BPG GEL DejaVuSans_2.ttf</string>
+		<string>BPG GEL DejaVuSerif Caps_2.ttf</string>
+		<string>BPG GEL DejaVuSerif_2.ttf</string>
+		<string>BPG_DEJAVUSANSMT_2.TTF</string>
+		<string>BPG_DEJAVUSANSMT_BOLD_2.TTF</string>
 	</array>
 </dict>
 </plist>

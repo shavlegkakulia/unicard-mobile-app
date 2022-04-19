@@ -11,9 +11,13 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {en} from '../../lang';
+import AuthService from '../../services/AuthService';
+import {login, logout} from '../../Store/actions/auth';
+import {use} from '../../Store/actions/translate';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 import LinearGradient from 'react-native-linear-gradient';
+import DATA from '../../constants/shopListDummyData';
 import ShopingCard from '../../components/ShopCard';
 import {authRoutes} from '../../navigation/routes';
 import ProductList, {
@@ -21,7 +25,6 @@ import ProductList, {
   IgetProducteListRequest,
   IgetProducteListResponse,
 } from '../../services/ProductListService';
-import Loader from '../../components/loader';
 
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
@@ -61,6 +64,20 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     getProductList();
   }, []);
 
+  // const signin = () => {
+  //   AuthService.SignIn({email: 'fhjdskhfjd', password: 'fdsfds'}).subscribe({
+  //     next: async Response => {
+  //       await AuthService.setToken(
+  //         Response.data.token,
+  //         Response.data.refresh_token,
+  //       );
+  //       dispatch(login());
+  //     },
+  //     error: err => {},
+  //     complete: () => {},
+  //   });
+  // };
+
   return (
     <ScrollView>
       <TouchableOpacity
@@ -86,37 +103,23 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.titleWrapper}>
         <Text style={styles.title}>რაში დავხარჯო</Text>
-        <View style={styles.circleView}>
-          <View style={styles.circle} />
-          <View style={styles.circle} />
-          <View style={styles.circle} />
-          <View style={styles.circle} />
-          <Image
-            style={styles.leftArrow}
-            source={require('../../assets/img/leftArrowBold.png')}
-          />
-        </View>
       </View>
-      {list ? (
-        <View style={styles.flatlist}>
-          <FlatList
-            contentContainerStyle={{
-              alignSelf: 'flex-start',
-            }}
-            bounces={false}
-            numColumns={list && Math.ceil(list?.products.length || 2) / 2}
-            key={list && new Date().toLocaleTimeString()}
-            data={list?.products}
-            renderItem={renderItem}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={keyExtractor}
-            contentInset={{right: 20}}
-          />
-        </View>
-      ) : (
-        <Loader visible={true} />
-      )}
+      <View style={styles.flatlist}>
+        <FlatList
+          contentContainerStyle={{
+            alignSelf: 'flex-start',
+          }}
+          bounces={false}
+          data={list?.products}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          keyExtractor={keyExtractor}
+          contentInset={{right: 20}}
+          numColumns={list && Math.ceil(list?.products.length || 2) / 2}
+          key={list && new Date().toLocaleTimeString()}
+        />
+      </View>
 
       <Text>{translateReducer.t('common.name')}</Text>
     </ScrollView>
@@ -161,34 +164,16 @@ const styles = StyleSheet.create({
   titleWrapper: {
     marginHorizontal: 46,
     marginTop: 35,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   title: {
     fontSize: 14,
-    textTransform: 'uppercase',
     color: Colors.black,
     fontWeight: '400',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   flatlist: {
     marginTop: 28,
-  },
-  circle: {
-    width: 4,
-    height: 4,
-    backgroundColor: Colors.lightGrey,
-    marginLeft: 6,
-    borderRadius: 50,
-  },
-  circleView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  leftArrow: {
-    width: 5,
-    height: 8,
-    left: 6,
   },
 });
 

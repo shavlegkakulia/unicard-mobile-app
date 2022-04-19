@@ -5,6 +5,7 @@ export enum authRoutes {
   singleOffer = 'singleOffer',
   spendOptions = 'spendOptions',
   aboutUs = 'aboutUs',
+  news = 'news',
 }
 
 export enum notAuthRoutes {

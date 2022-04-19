@@ -10,7 +10,13 @@ import HomeScreen from '../screens/auth/HomeScreen';
 import {useSelector} from 'react-redux';
 import {IAuthReducer, IAuthState} from '../Store/types/auth';
 import LoginScreen from '../screens/notAuth/LoginScreen';
-import {BackHandler, Image, TouchableOpacity, View} from 'react-native';
+import {
+  BackHandler,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import RegistrationScreen from '../screens/notAuth/RegistrationScreen';
 import RegistrationDetailsScreen from '../screens/notAuth/RegistrationDetailsScreen';
 import PasswordInfo from '../screens/notAuth/PasswordInfo';
@@ -24,6 +30,7 @@ import MyPage from '../screens/auth/MyPage';
 import SingleOfferScreen from '../screens/auth/SingleOfferScreen';
 import SpendOptions from '../screens/auth/SpendOptions';
 import AboutUs from '../screens/auth/AboutUs';
+import News from '../screens/auth/News';
 
 const authStack = createStackNavigator();
 
@@ -190,6 +197,19 @@ const AppNavigator = () => {
                     />
                   </TouchableOpacity>
                 ),
+                headerRight: () => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      isDrawerOpened.current
+                        ? sideDraver.current?.closeDrawer()
+                        : sideDraver.current?.openDrawer();
+                    }}>
+                    <Image
+                      style={{width: 22, height: 21, marginRight: 29}}
+                      source={require('../assets/img/cartIconsec.png')}
+                    />
+                  </TouchableOpacity>
+                ),
                 headerTintColor: Colors.black,
                 headerStyle: {
                   backgroundColor: Colors.bgColor,
@@ -209,6 +229,38 @@ const AppNavigator = () => {
                   backgroundColor: Colors.bgColor,
                 },
                 title: 'რაში დავხარჯო',
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerTitleStyle: {
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  fontSize: 14,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.news}
+              component={News}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: 'სიახლეები',
+                headerLeft: () => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      isDrawerOpened.current
+                        ? sideDraver.current?.closeDrawer()
+                        : sideDraver.current?.openDrawer();
+                    }}>
+                    <Image
+                      style={{width: 25, height: 17, marginLeft: 29}}
+                      source={require('../assets/img/burgerIcon.png')}
+                    />
+                  </TouchableOpacity>
+                ),
                 headerTintColor: Colors.black,
                 headerStyle: {
                   backgroundColor: Colors.bgColor,

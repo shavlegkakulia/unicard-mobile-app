@@ -95,10 +95,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    color: Colors.bgGreen,
+    fontWeight: '400',
+    color: Colors.darkGrey,
     textAlign: 'center',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 24,
   },
   buttonView: {
     flex: 1,

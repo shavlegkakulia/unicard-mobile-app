@@ -22,6 +22,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
 
   const dispatch = useDispatch();
 
+  console.log('regdataaaaaa', regData);
+
   // const clearState = () => {
   //   setRegData({email: '', name: '', birthDate: ''});
   // }
@@ -34,10 +36,10 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   return (
     <>
       <ScrollView>
+        <View style={styles.textInput}>
         <View style={styles.titleWrapper}>
           <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
         </View>
-        <View style={styles.textInput}>
           <AppTextInput
             placeholder={'სახელი'}
             icon={0}
@@ -159,14 +161,15 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
 const styles = StyleSheet.create({
   titleWrapper: {
     width: 325,
-    alignItems: 'center',
+    // alignItems: 'center',
     marginTop: 48,
   },
   title: {
     color: Colors.darkGrey,
     fontSize: 16,
     fontWeight: '700',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 19.2,
   },
   textInput: {
     alignItems: 'center',

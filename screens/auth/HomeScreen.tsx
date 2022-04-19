@@ -95,12 +95,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.amount}>54000</Text>
         </View>
       </TouchableOpacity>
-      <View style={styles.linearView}>
-        <LinearGradient
-          style={styles.linear}
-          colors={[Colors.gradiantDark, Colors.gradiantLight, Colors.bgColor]}
-        />
-      </View>
+      
       <View style={styles.titleWrapper}>
         <Text style={styles.title}>რაში დავხარჯო</Text>
       </View>
@@ -129,12 +124,12 @@ const styles = StyleSheet.create({
   imageView: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 265,
-    shadowColor: '#000',
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-    elevation: 5,
+    height: 300,
+    backgroundColor: Colors.white,
+    shadowOffset: {width: 0, height: 11},
+    shadowColor: Colors.bgGreen,
+    shadowOpacity: 5,
+    shadowRadius: 8,
   },
   img: {
     width: 289.14,
@@ -142,8 +137,8 @@ const styles = StyleSheet.create({
   },
   markView: {
     position: 'absolute',
-    left: 35,
-    bottom: -18,
+    left: 55,
+    bottom: 10,
     alignItems: 'center',
   },
   mark: {
@@ -153,6 +148,10 @@ const styles = StyleSheet.create({
   amount: {
     color: Colors.amountTxt,
     fontSize: 28,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    // lineHeight: 24,
+    marginTop: 5,
+    fontWeight: '700',
   },
   linearView: {
     width: '100%',
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
   },
   titleWrapper: {
     marginHorizontal: 46,
-    marginTop: 35,
+    marginTop: 62,
   },
   title: {
     fontSize: 14,

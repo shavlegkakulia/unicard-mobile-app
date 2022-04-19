@@ -39,5 +39,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
 });

@@ -46,10 +46,11 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   return (
     <>
       <View style={styles.flex1}>
+        
+        <View style={styles.textInput}>
         <View style={styles.titleWrapper}>
           <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
         </View>
-        <View style={styles.textInput}>
           <AppTextInput
             placeholder={'პაროლი'}
             secureTextEntry={true}
@@ -113,14 +114,14 @@ const styles = StyleSheet.create({
   },
   titleWrapper: {
     width: 325,
-    alignItems: 'center',
     marginTop: 48,
   },
   title: {
     color: '#6B6B6B',
     fontSize: 16,
     fontWeight: '700',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   textInput: {
     alignItems: 'center',
@@ -134,9 +135,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#8AD00B',
-    textTransform: 'uppercase',
     fontSize: 14,
     marginLeft: 10,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   subText: {
     textDecorationLine: 'underline',

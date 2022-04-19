@@ -43,13 +43,14 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     <View style={styles.main}>
       <View style={styles.inputWrapper}>
         <TextInput
-          placeholder={placeholder?.toUpperCase() || ''}
+          placeholder={placeholder || ''}
           onChangeText={onChange}
           value={value}
           placeholderTextColor={Colors.darkGrey}
           keyboardType={keyboardType || 'default'}
           secureTextEntry={visible}
           textContentType={textContentType || 'none'}
+          style={styles.inputPlaceholder}
         />
       </View>
       <TouchableOpacity
@@ -84,5 +85,9 @@ const styles = StyleSheet.create({
   icon: {
     width: 23,
     height: 19,
+  },
+  inputPlaceholder: {
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
 });

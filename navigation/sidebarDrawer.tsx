@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -14,9 +14,14 @@ import {AuthActions} from '../Store/types/auth';
 import Colors from '../theme/Colors';
 import {authRoutes} from './routes';
 import {useNavigation} from '@react-navigation/native';
+import UserInfoService, {
+  IgetUserInfoDetailsRequest,
+  IgetUserServiceResponse,
+} from '../services/UserInfoService';
 
 const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
   const navigation = useNavigation();
+  const [userInfo, setUserInfo] = useState<IgetUserServiceResponse>();
   const dispath = useDispatch();
   const login = () => {
     dispath({
@@ -24,6 +29,25 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       isAuthentificated: true,
     });
   };
+  const getUserInfo = () => {
+    const req: IgetUserInfoDetailsRequest = {
+      user_id: '',
+      lang: '',
+    };
+    UserInfoService.GenerateUserInfo(req).subscribe({
+      next: Response => {
+        if (Response.data.resultCode === '200') {
+          setUserInfo(Response.data);
+        }
+      },
+      error: err => {
+        console.log(err.response);
+      },
+    });
+  };
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -33,7 +57,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
           source={require('../assets/img/uniLogo.png')}
         />
       </View>
-      <TouchableOpacity style={styles.row}>
+      <View style={styles.row}>
         <View style={styles.avatarView}>
           <Image
             style={styles.avatar}
@@ -41,8 +65,10 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
           />
         </View>
 
-        <Text style={styles.name}>გვანცა გაბუნია</Text>
-      </TouchableOpacity>
+        <Text style={styles.name}>
+          {userInfo?.name} {userInfo?.surname}
+        </Text>
+      </View>
       <TouchableOpacity
         style={styles.row}
         onPress={() => navigation.navigate(authRoutes.barcode)}>
@@ -193,7 +219,8 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 14,
     fontWeight: 'bold',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   card: {
     width: 23,
@@ -258,7 +285,8 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 14,
     fontWeight: '700',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   lineView: {
     borderBottomColor: Colors.white,

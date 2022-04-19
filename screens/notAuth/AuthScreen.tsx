@@ -25,10 +25,11 @@ interface IUserData {
 
 const AuthScreen: React.FC<ScreenNavigationProp> = props => {
   const [userData, setUserData] = useState<IUserData>({
-    username: 'test@test.ge',
-    password: 'abcd123!',
+    username: 'levani1308@gmail.com',
+    password: 'Abcd123!',
   });
   const dispatch = useDispatch();
+  console.log('userdataaaaaaaaaa', userData);
 
   const LogIn = () => {
     if (!userData?.username || !userData?.password) {
@@ -123,8 +124,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 12,
     fontWeight: 'bold',
-    textTransform: 'uppercase',
     color: Colors.darkGrey,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 14.4,
   },
   imgView: {
     alignItems: 'center',
@@ -156,7 +158,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     fontWeight: '400',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 14.4,
     color: Colors.darkGrey,
   },
   button: {

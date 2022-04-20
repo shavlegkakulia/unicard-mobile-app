@@ -10,13 +10,14 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
+import {authRoutes} from '../../navigation/routes';
 import UserInfoService, {
   IgetUserInfoDetailsRequest,
   IgetUserServiceResponse,
 } from '../../services/UserInfoService';
 import Colors from '../../theme/Colors';
 
-const Parameters: React.FC<ScreenNavigationProp> = () => {
+const Parameters: React.FC<ScreenNavigationProp> = props => {
   const [user, setUser] = useState<IgetUserServiceResponse>();
   const [isEnabled, setIsEnabled] = useState(false);
 
@@ -60,7 +61,9 @@ const Parameters: React.FC<ScreenNavigationProp> = () => {
           <Text style={styles.email}>{user?.email}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.paramView}>
+      <TouchableOpacity
+        style={styles.paramView}
+        onPress={() => props.navigation.navigate(authRoutes.changePassword)}>
         <View style={styles.wrapp}>
           <Image
             style={styles.lockIcon}

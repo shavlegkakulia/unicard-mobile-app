@@ -7,6 +7,7 @@ export enum authRoutes {
   aboutUs = 'aboutUs',
   news = 'news',
   parameters = 'parameters',
+  changePassword = 'changePassword',
 }
 
 export enum notAuthRoutes {

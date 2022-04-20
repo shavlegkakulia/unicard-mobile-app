@@ -41,12 +41,12 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
       {!loading && offer ? (
         <>
           <ScrollView contentContainerStyle={styles.main}>
-            <View style={styles.imgBtn}>
-              <Image style={styles.img} source={offer?.images} />
-              <View style={styles.imgText}>
-                <Text style={styles.text}>1 სურათი</Text>
-              </View>
-            </View>
+           <View style={styles.imgView}>
+           <Image style={styles.img} source={offer?.images} />
+           </View>
+              
+              
+            
             <View style={styles.titleView}>
               <View style={styles.titleWrapper}>
                 <Text style={styles.title}>{offer?.name}</Text>
@@ -87,21 +87,15 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
 };
 const styles = StyleSheet.create({
   img: {
-    width: 343,
+    width: 349,
     height: 235.52,
+    borderRadius: 15,
   },
   main: {
-    paddingHorizontal: 32,
-    // alignItems: 'center',
+    marginHorizontal: 40,
   },
-  imgBtn: {
-    height: 281,
-    backgroundColor: Colors.bgGreen,
-    borderRadius: 15,
-    overflow: 'hidden',
-    marginTop: 44,
-  },
-  imgText: {
+  imgView: {
+    marginTop: 54,
     alignItems: 'center',
   },
   text: {
@@ -113,7 +107,7 @@ const styles = StyleSheet.create({
   titleView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 29,
+    marginTop: 20.48,
   },
   title: {
     fontSize: 16,

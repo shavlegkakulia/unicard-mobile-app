@@ -32,6 +32,7 @@ import SpendOptions from '../screens/auth/SpendOptions';
 import AboutUs from '../screens/auth/AboutUs';
 import News from '../screens/auth/News';
 import Parameters from '../screens/auth/Parameters';
+import ChangePassword from '../screens/auth/ChangePassword';
 
 const authStack = createStackNavigator();
 
@@ -326,6 +327,26 @@ const AppNavigator = () => {
                     />
                   </TouchableOpacity>
                 ),
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerTitleStyle: {
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  fontSize: 14,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.changePassword}
+              component={ChangePassword}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerBackTitle: '',
+                title: 'პაროლის შეცვლა',
                 headerTintColor: Colors.black,
                 headerStyle: {
                   backgroundColor: Colors.bgColor,

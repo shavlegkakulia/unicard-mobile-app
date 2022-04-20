@@ -154,7 +154,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>ჩვენ შესახებ</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => navigation.navigate(authRoutes.parameters)}>
         <View style={styles.iconView}>
           <Image
             style={styles.paramIcon}

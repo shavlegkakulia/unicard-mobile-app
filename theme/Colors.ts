@@ -16,6 +16,7 @@ enum Colors {
   gradiantDark = '#91C84B',
   gradiantLight = '#bddb95',
   amountTxt = '#FFA001',
+  switchGrey = '#898A8D',
 }
 
 export default Colors;

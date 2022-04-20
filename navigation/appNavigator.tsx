@@ -31,6 +31,7 @@ import SingleOfferScreen from '../screens/auth/SingleOfferScreen';
 import SpendOptions from '../screens/auth/SpendOptions';
 import AboutUs from '../screens/auth/AboutUs';
 import News from '../screens/auth/News';
+import Parameters from '../screens/auth/Parameters';
 
 const authStack = createStackNavigator();
 
@@ -280,6 +281,38 @@ const AppNavigator = () => {
                   backgroundColor: Colors.bgColor,
                 },
                 title: 'ჩვენს შესახებ',
+                headerLeft: () => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      isDrawerOpened.current
+                        ? sideDraver.current?.closeDrawer()
+                        : sideDraver.current?.openDrawer();
+                    }}>
+                    <Image
+                      style={{width: 25, height: 17, marginLeft: 29}}
+                      source={require('../assets/img/burgerIcon.png')}
+                    />
+                  </TouchableOpacity>
+                ),
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerTitleStyle: {
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  fontSize: 14,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.parameters}
+              component={Parameters}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: 'პარამეტრები',
                 headerLeft: () => (
                   <TouchableOpacity
                     onPress={() => {

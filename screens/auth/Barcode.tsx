@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   },
   main: {
     alignItems: 'center',
+    marginTop: 51,
   },
   barcodeNum: {
     position: 'absolute',

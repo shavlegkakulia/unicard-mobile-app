@@ -24,7 +24,6 @@ export interface IgetContactResponse extends IresponseData {
 
 class ContactService {
   GenerateContact(data: IgetContactDetailsRequest) {
-    console.log('contact', data);
     const result = axios.get<IresponseData>(
       `${envs.API_URL}api/Mobile/GetContactInfo`,
     );

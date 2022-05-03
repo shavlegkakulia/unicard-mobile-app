@@ -32,7 +32,6 @@ export interface IgetProducteResponse extends IresponseData {
 
 class ProducteService {
   getOfferDetails(data: IgetProducteDetailsRequest) {
-    // console.log('dataaaaaaaaad', data);
     let query = `?product_id=${data.product_id}`;
     if (data.lang) {
       query += `&lang=${data.lang}`;

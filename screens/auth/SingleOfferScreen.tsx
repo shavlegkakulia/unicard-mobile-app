@@ -9,6 +9,7 @@ import ProducteService, {
 import Loader from '../../components/loader';
 import {htmlToString} from '../../utils/converts';
 import AppButton from '../../components/CostumComponents/AppButton';
+import {authRoutes} from '../../navigation/routes';
 
 const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   const [offer, setOffer] = useState<IgetProducteResponse>();
@@ -41,12 +42,10 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
       {!loading && offer ? (
         <>
           <ScrollView contentContainerStyle={styles.main}>
-           <View style={styles.imgView}>
-           <Image style={styles.img} source={offer?.images} />
-           </View>
-              
-              
-            
+            <View style={styles.imgView}>
+              <Image style={styles.img} source={offer?.images} />
+            </View>
+
             <View style={styles.titleView}>
               <View style={styles.titleWrapper}>
                 <Text style={styles.title}>{offer?.name}</Text>
@@ -70,18 +69,19 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
               <Text>{htmlToString(linkTag?.toString())}</Text>
             </View>
             <View style={styles.btn}>
-        <AppButton
-          onPress={() => {}}
-          title={'საჩუქრის მიღება'}
-          backgroundColor={Colors.bgGreen}
-        />
-      </View>
+              <AppButton
+                onPress={() =>
+                  props.navigation.navigate(authRoutes.getGift, {data: offer})
+                }
+                title={'საჩუქრის მიღება'}
+                backgroundColor={Colors.bgGreen}
+              />
+            </View>
           </ScrollView>
         </>
       ) : (
         <Loader visible={true} />
       )}
-
     </View>
   );
 };

@@ -20,7 +20,6 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
     AuthService.ChangePassword(data).subscribe({
       next: Response => {
         props.navigation.navigate(authRoutes.barcode);
-        console.log('response', Response.data);
       },
       complete: () => {},
       error: err => {
@@ -70,8 +69,10 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.btn}>
         <AppButton
-        //   onPress={changePassword}
-        onPress={() => props.navigation.navigate(authRoutes.barcode)}
+          //   onPress={changePassword}
+          onPress={() =>
+            props.navigation.navigate(authRoutes.PasswordChangingMessage)
+          }
           title={'შეცვლა'}
           backgroundColor={Colors.bgGreen}
         />

@@ -49,6 +49,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
     getUserInfo();
   }, []);
 
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.imgView}>

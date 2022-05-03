@@ -44,7 +44,6 @@ export interface IgetProducteListResponse {
 
 class ProductList {
   getList(data: IgetProducteListRequest) {
-    // console.log('liiiiiiiiist', data);
 
     const result = axios.get<Igeneralresp>(
       `${envs.API_URL}api/Mobile/GetProductList`,

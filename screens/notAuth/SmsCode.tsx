@@ -19,7 +19,6 @@ import Colors from '../../theme/Colors';
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
 
-  console.log(props.route.params);
   return (
     <View style={styles.main}>
       <View style={styles.titleWrapper}>
@@ -49,7 +48,6 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
           title={'შემდეგი'}
           backgroundColor={Colors.bgGreen}
         />
-        {console.log(props.route.params)}
       </View>
     </View>
   );

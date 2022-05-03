@@ -8,6 +8,11 @@ export enum authRoutes {
   news = 'news',
   parameters = 'parameters',
   changePassword = 'changePassword',
+  getGift = 'getGift',
+  orderDone = 'orderDone',
+  PasswordChangingMessage = 'PasswordChangingMessage',
+  PasswordChangingError = 'PasswordChangingError',
+  changePin = 'changePin',
 }
 
 export enum notAuthRoutes {

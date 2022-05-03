@@ -25,7 +25,6 @@ export interface IgetBalanceResponse extends IresponseData {
 
 class CardBalance {
   GenerateBalance(data: IgetBalanceDetailsRequest) {
-    console.log('balancee', data);
     const result = axios.get<IresponseData>(
       `${envs.API_URL}api/Mobile/GetUserBalance`,
     );

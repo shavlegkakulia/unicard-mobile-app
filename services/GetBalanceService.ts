@@ -8,23 +8,23 @@ interface IresponseData {
   errorMessage?: string;
 }
 
-export interface IgetBarcodeDetailsRequest {
+export interface IgetBalanceRequest {
   user_id?: string;
   lang: string;
   app_source?: string;
   culture?: string;
 }
 
-export interface IgetBarcodeResponse extends IresponseData {
-  vcard?: string;
+export interface IgetBalanceResponse extends IresponseData {
+    balance?: number;
 }
 
-class CardService {
-  GenerateBarcode(data: IgetBarcodeDetailsRequest) {
+class BalanceService {
+  GenerateBalance(data: IgetBalanceRequest) {
     const result = axios.get<IresponseData>(
-      `${envs.API_URL}api/Mobile/GetVirtualCard`,
+      `${envs.API_URL}api/Mobile/DepositGetBalance`,
     );
     return from(result);
   }
 }
-export default new CardService();
+export default new BalanceService();

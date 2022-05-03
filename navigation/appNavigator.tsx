@@ -33,6 +33,12 @@ import AboutUs from '../screens/auth/AboutUs';
 import News from '../screens/auth/News';
 import Parameters from '../screens/auth/Parameters';
 import ChangePassword from '../screens/auth/ChangePassword';
+import DrawerRight from './DrawerRight';
+import GetGift from '../screens/auth/getGift';
+import OrderIsDone from '../screens/auth/OrderIsDone';
+import PasswordChangingMessage from '../screens/auth/PasswordChangingMessage';
+import PasswordChangingError from '../screens/auth/PasswordChangingError';
+import ChangePinCode from '../components/CostumComponents/ChangePinCode';
 
 const authStack = createStackNavigator();
 
@@ -77,6 +83,9 @@ const AppNavigator = () => {
       onDrawerClose={() => (isDrawerOpened.current = false)}
       ref={drawer => {
         sideDraver.current = drawer;
+        isDrawerOpened.current
+          ? sideDraver.current?.closeDrawer()
+          : sideDraver.current?.openDrawer();
       }}
       renderNavigationView={props => <SideBarDrawer props={props} />}>
       <authStack.Navigator initialRouteName={notAuthRoutes.login}>
@@ -109,16 +118,20 @@ const AppNavigator = () => {
                     style={{
                       flexDirection: 'row',
                       marginTop: 4,
-                      marginRight: 29,
+                      marginRight: 23,
                     }}>
-                    <Image
-                      style={{width: 16, height: 21, marginRight: 10}}
-                      source={require('../assets/img/locationLogo.png')}
-                    />
-                    <Image
-                      style={{width: 16, height: 21}}
-                      source={require('../assets/img/notificationLogo.png')}
-                    />
+                    <TouchableOpacity>
+                      <Image
+                        style={{width: 18, height: 25, marginRight: 15}}
+                        source={require('../assets/img/locationLogo.png')}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                      <Image
+                        style={{width: 19, height: 25}}
+                        source={require('../assets/img/notificationLogo.png')}
+                      />
+                    </TouchableOpacity>
                   </View>
                 ),
                 headerTintColor: Colors.black,
@@ -200,12 +213,7 @@ const AppNavigator = () => {
                   </TouchableOpacity>
                 ),
                 headerRight: () => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      isDrawerOpened.current
-                        ? sideDraver.current?.closeDrawer()
-                        : sideDraver.current?.openDrawer();
-                    }}>
+                  <TouchableOpacity onPress={() => <DrawerRight />}>
                     <Image
                       style={{width: 22, height: 21, marginRight: 29}}
                       source={require('../assets/img/cartIconsec.png')}
@@ -231,10 +239,106 @@ const AppNavigator = () => {
                   backgroundColor: Colors.bgColor,
                 },
                 title: 'რაში დავხარჯო',
+
                 headerTintColor: Colors.black,
                 headerStyle: {
                   backgroundColor: Colors.bgColor,
                 },
+
+                headerTitleStyle: {
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  fontSize: 14,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.getGift}
+              component={GetGift}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: 'საჩუქრის მიღება',
+                headerRight: () => (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginRight: 41,
+                    }}>
+                    <View
+                      style={{
+                        width: 4,
+                        height: 4,
+                        backgroundColor: Colors.lightGrey,
+                        marginLeft: 6,
+                        borderRadius: 50,
+                      }}
+                    />
+                    <View
+                      style={{
+                        width: 4,
+                        height: 4,
+                        backgroundColor: Colors.lightGrey,
+                        marginLeft: 6,
+                        borderRadius: 50,
+                      }}
+                    />
+                  </View>
+                ),
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+
+                headerTitleStyle: {
+                  fontWeight: '400',
+                  textTransform: 'uppercase',
+                  fontSize: 14,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.orderDone}
+              component={OrderIsDone}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                title: 'საჩუქრის მიღება',
+                headerRight: () => (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginRight: 41,
+                    }}>
+                    <View
+                      style={{
+                        width: 4,
+                        height: 4,
+                        backgroundColor: Colors.lightGrey,
+                        marginLeft: 6,
+                        borderRadius: 50,
+                      }}
+                    />
+                    <View
+                      style={{
+                        width: 4,
+                        height: 4,
+                        backgroundColor: Colors.lightGrey,
+                        marginLeft: 6,
+                        borderRadius: 50,
+                      }}
+                    />
+                  </View>
+                ),
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+
                 headerTitleStyle: {
                   fontWeight: '400',
                   textTransform: 'uppercase',
@@ -355,6 +459,51 @@ const AppNavigator = () => {
                   fontWeight: '400',
                   textTransform: 'uppercase',
                   fontSize: 14,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.PasswordChangingMessage}
+              component={PasswordChangingMessage}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerBackTitle: '',
+                title: '',
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.PasswordChangingError}
+              component={PasswordChangingError}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerBackTitle: '',
+                title: '',
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+              }}
+            />
+            <authStack.Screen
+              name={authRoutes.changePin}
+              component={ChangePinCode}
+              options={{
+                cardStyle: {
+                  backgroundColor: Colors.bgColor,
+                },
+                headerBackTitle: '',
+                title: '',
+                headerTintColor: Colors.black,
+                headerStyle: {
+                  backgroundColor: Colors.bgColor,
                 },
               }}
             />

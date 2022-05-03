@@ -28,12 +28,8 @@ const RegistrationDone: React.FC<ScreenNavigationProp> = props => {
       email,
       password,
     };
-    console.log(data);
     AuthService.SignUp(data).subscribe({
       next: Response => {
-        //Response.data.succes
-        console.log('response', Response.data);
-        // dispatch(login())
         props.navigation.navigate(notAuthRoutes.authScreen)
       
       },

@@ -29,7 +29,6 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     password: 'Abcd123!',
   });
   const dispatch = useDispatch();
-  console.log('userdataaaaaaaaaa', userData);
 
   const LogIn = () => {
     if (!userData?.username || !userData?.password) {
@@ -41,7 +40,6 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     };
     AuthService.SignIn(data).subscribe({
       next: async Response => {
-        console.log(Response);
         if (Response.access_token) {
           await AuthService.setToken(
             Response.access_token,

@@ -22,13 +22,6 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
 
   const dispatch = useDispatch();
 
-  console.log('regdataaaaaa', regData);
-
-  // const clearState = () => {
-  //   setRegData({email: '', name: '', birthDate: ''});
-  // }
-
-
   const nextStep = () => {
     props.navigation.navigate(notAuthRoutes.passwordInfo, {data: regData});
   }

@@ -32,7 +32,6 @@ export interface IgetNewsResponse {
 
 class NewsService {
   GenerateNews(data: IgetNewsDetailsRequest) {
-    console.log('newssssssss', data);
     const result = axios.get<IresponseData>(
       `${envs.API_URL}api/Mobile/GetNewsList`,
     );

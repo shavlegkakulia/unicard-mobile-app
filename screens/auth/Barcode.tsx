@@ -49,12 +49,13 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
 };
 const styles = StyleSheet.create({
   img: {
-    width: 343,
-    height: 704,
+    width: 315,
+    height: 640,
   },
   main: {
     alignItems: 'center',
-    marginTop: 51,
+    marginTop: 30,
+    justifyContent: 'center',
   },
   barcodeNum: {
     position: 'absolute',

@@ -37,7 +37,6 @@ const ShopingCard: React.FC<IgetProducteListResponse> = props => {
   if (props.images?.length) {
     imgUrl = props.images[0];
   }
-  console.log('props=======>', props.name);
   return (
     <TouchableOpacity
       style={styles.cardWrapper}

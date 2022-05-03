@@ -24,14 +24,10 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
 
   const params = props.route.params;
 
-  console.log('params', props.route.params);
 
   const OtpAuth = () => {
     AuthService.SendOtp({phone: params.data.phone}).subscribe({
       next: Response => {
-        //Response.data.succes
-        // console.log(regInfo);
-        // console.log('reg', regInfo);
         props.navigation.navigate(notAuthRoutes.smsCode, {
           data: {...params.data, ...passData},
         });
@@ -62,7 +58,6 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
               });
             }}
           />
-          {/* {console.log(passData)} */}
           <AppTextInput
             placeholder={'გაიმეორეთ პაროლი'}
             secureTextEntry={true}

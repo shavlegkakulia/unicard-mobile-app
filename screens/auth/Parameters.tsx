@@ -6,9 +6,11 @@ import {
   View,
   TouchableOpacity,
   Switch,
+  Modal,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import Loader from '../../components/loader';
+
+// import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {authRoutes} from '../../navigation/routes';
 import UserInfoService, {
@@ -20,6 +22,7 @@ import Colors from '../../theme/Colors';
 const Parameters: React.FC<ScreenNavigationProp> = props => {
   const [user, setUser] = useState<IgetUserServiceResponse>();
   const [isEnabled, setIsEnabled] = useState(false);
+  const [cameraHandler, setCameraHandler] = useState(false);
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -42,74 +45,156 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getUserInfo();
   }, []);
+
   return (
-    <ScrollView style={styles.main}>
-      <View style={styles.wrapper}>
-        <View style={styles.wrapp}>
-          <View style={styles.circle}>
+    <>
+      <ScrollView style={styles.main}>
+        <View style={styles.wrapper}>
+          <View style={styles.wrapp}>
+            <TouchableOpacity
+              style={styles.circle}
+              onPress={() => setCameraHandler(true)}>
+              <Image
+                style={styles.avatar}
+                source={require('../../assets/img/avatar.png')}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.info}>
+            <Text style={styles.txt}>
+              {user?.name} {user?.surname}
+            </Text>
+            <Text style={styles.email}>{user?.email}</Text>
+          </View>
+        </View>
+        <TouchableOpacity
+          style={styles.paramView}
+          onPress={() => props.navigation.navigate(authRoutes.changePassword)}>
+          <View style={styles.wrapp}>
             <Image
-              style={styles.avatar}
-              source={require('../../assets/img/avatar.png')}
+              style={styles.lockIcon}
+              source={require('../../assets/img/lockIcon.png')}
+            />
+          </View>
+          <View style={styles.info}>
+            <Text style={styles.infoText}>პაროლის შევცვლა</Text>
+          </View>
+        </TouchableOpacity>
+        <View style={styles.param}>
+          <View style={styles.wrapp}>
+            <Image
+              style={styles.pinIcon}
+              source={require('../../assets/img/pinCodeIcon.png')}
+            />
+          </View>
+          <View style={styles.infoPassword}>
+            <Text style={styles.infoText}>პინ-კოდის შეცვლა</Text>
+            <Switch
+              trackColor={{true: Colors.bgGreen}}
+              thumbColor={Colors.white}
+              ios_backgroundColor={Colors.switchGrey}
+              onValueChange={toggleSwitch}
+              value={isEnabled}
             />
           </View>
         </View>
 
-        <View style={styles.info}>
-          <Text style={styles.txt}>
-            {user?.name} {user?.surname}
-          </Text>
-          <Text style={styles.email}>{user?.email}</Text>
-        </View>
-      </View>
-      <TouchableOpacity
-        style={styles.paramView}
-        onPress={() => props.navigation.navigate(authRoutes.changePassword)}>
-        <View style={styles.wrapp}>
-          <Image
-            style={styles.lockIcon}
-            source={require('../../assets/img/lockIcon.png')}
-          />
-        </View>
-        <View style={styles.info}>
-          <Text style={styles.infoText}>პაროლის შევცვლა</Text>
-        </View>
-      </TouchableOpacity>
-      <View style={styles.param}>
-        <View style={styles.wrapp}>
-          <Image
-            style={styles.pinIcon}
-            source={require('../../assets/img/pinCodeIcon.png')}
-          />
-        </View>
-        <View style={styles.infoPassword}>
-          <Text style={styles.infoText}>პინ-კოდის შეცვლა</Text>
-          <Switch
-            trackColor={{true: Colors.bgGreen}}
-            thumbColor={Colors.white}
-            ios_backgroundColor={Colors.switchGrey}
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-        </View>
-      </View>
-
-      <TouchableOpacity style={styles.param}>
-        <View style={styles.wrapp}>
-          <Image
-            style={styles.cameraIcon}
-            source={require('../../assets/img/cameraIcon.png')}
-          />
-        </View>
-        <View style={styles.info}>
-          <Text style={styles.infoText}>ფოტო სურათის შეცვლა</Text>
-        </View>
-      </TouchableOpacity>
-    </ScrollView>
+        <TouchableOpacity
+          style={styles.param}
+          onPress={() => setCameraHandler(true)}>
+          <View style={styles.wrapp}>
+            <Image
+              style={styles.cameraIcon}
+              source={require('../../assets/img/cameraIcon.png')}
+            />
+          </View>
+          <View style={styles.info}>
+            <Text style={styles.infoText}>ფოტო სურათის შეცვლა</Text>
+          </View>
+        </TouchableOpacity>
+        <Modal animationType="slide" transparent={true} visible={cameraHandler}>
+          <TouchableOpacity
+            style={styles.centeredView}
+            onPress={() => setCameraHandler(!cameraHandler)}>
+            <View style={styles.modalView}>
+              <TouchableOpacity>
+                <Text style={styles.modalText}>სურათის გადაღება</Text>
+              </TouchableOpacity>
+              <View style={styles.border} />
+              <TouchableOpacity style={styles.galery}>
+                <Text style={styles.modalText}>ტელეფონის გალერეა</Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              style={styles.btnWrapp}
+              onPress={() => setCameraHandler(!cameraHandler)}>
+              <View style={styles.btnStyle}>
+                <Text style={styles.btnTitle}>გაუქმება</Text>
+              </View>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        </Modal>
+      </ScrollView>
+    </>
   );
 };
 const styles = StyleSheet.create({
   main: {
     marginHorizontal: 20,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: Colors.overley,
+  },
+  modalView: {
+    paddingTop: 15,
+    backgroundColor: Colors.white,
+    borderRadius: 20,
+    width: 327,
+    height: 99,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  btnWrapp: {
+    marginTop: 43,
+    marginBottom: 105,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    color: Colors.bgGreen,
+    fontWeight: '400',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   wrapper: {
     flexDirection: 'row',
@@ -138,7 +223,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: 300,
+    width: 275,
   },
   txt: {
     fontSize: 14,
@@ -191,6 +276,31 @@ const styles = StyleSheet.create({
   switch: {
     width: 150,
     justifyContent: 'flex-end',
+  },
+  galery: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  border: {
+    borderBottomColor: Colors.darkGrey,
+    borderBottomWidth: 0.4,
+    width: '100%',
+    marginBottom: 14,
+  },
+  btnStyle: {
+    width: 327,
+    height: 55,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 30,
+    backgroundColor: Colors.cancelBtnCol,
+  },
+  btnTitle: {
+    color: Colors.darkGrey,
+    fontSize: 14,
+    fontWeight: '700',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
 });
 

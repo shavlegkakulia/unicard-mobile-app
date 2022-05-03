@@ -25,7 +25,6 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
       next: Response => {
         if (Response.data.resultCode === '200') {
           setTransactions(Response.data.transactions);
-          console.log('response=========>', Response.data);
         }
       },
       error: err => {
@@ -44,10 +43,8 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
     };
     CardBalance.GenerateBalance(balanceReq).subscribe({
       next: Response => {
-        console.log('****', Response.data);
         if (Response.data.resultCode === '200') {
           setBalance(Response.data);
-          console.log('balance', Response.data);
         }
       },
       error: err => {

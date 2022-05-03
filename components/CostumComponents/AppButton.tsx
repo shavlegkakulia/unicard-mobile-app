@@ -15,7 +15,9 @@ const AppButton: React.FC<IAppBtnProps> = props => {
       <TouchableOpacity
         style={[styles.btnStyle, {backgroundColor: backgroundColor}]}
         onPress={onPress}>
-        <Text style={styles.btnTitle}>{title}</Text>
+        <Text style={styles.btnTitle}>
+          {title}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -38,7 +40,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     fontWeight: '700',
-    textTransform: 'uppercase',
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.8,
   },

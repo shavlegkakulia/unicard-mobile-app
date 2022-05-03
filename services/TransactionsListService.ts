@@ -40,7 +40,6 @@ export interface IgetTransactionsResponse {
 
 class TransactionService {
   getTransactions(data: IgetProducteDetailsRequest) {
-    console.log('dataaaaaaaaad', data);
 
     const result = axios.get<IgetTransactionDetailResp>(
       `${envs.API_URL}api/Mobile/GetAccountStatement`,

@@ -25,6 +25,7 @@ import ProductList, {
   IgetProducteListRequest,
   IgetProducteListResponse,
 } from '../../services/ProductListService';
+import GetBalanceService, { IgetBalanceRequest, IgetBalanceResponse } from '../../services/GetBalanceService';
 
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   };
 
   const [list, setList] = useState<Igeneralresp>();
-  // const {price, images, description, id} = props;
+  const [balance, setBalance] = useState<IgetBalanceResponse>();
 
   const getProductList = () => {
     const req: IgetProducteListRequest = {
@@ -52,7 +53,6 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
       next: Response => {
         if (Response.data.resultCode === '200') {
           setList(Response.data);
-          // console.log('response=========>', Response.data);
         }
       },
       error: err => {
@@ -63,6 +63,30 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getProductList();
   }, []);
+
+
+  const getBalance = () => {
+    const req: IgetBalanceRequest = {
+      user_id: '',
+      lang: '',
+    };
+    GetBalanceService.GenerateBalance(req).subscribe({
+      next: Response => {
+        if (Response.data.resultCode === '200') {
+          setBalance(Response.data);
+          // console.log('balanceeeee=========>', Response.data);
+        }
+      },
+      error: err => {
+        console.log(err.response);
+      },
+    });
+  };
+  useEffect(() => {
+    getBalance();
+  }, []);
+  
+
 
   // const signin = () => {
   //   AuthService.SignIn({email: 'fhjdskhfjd', password: 'fdsfds'}).subscribe({
@@ -92,7 +116,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
             style={styles.mark}
             source={require('../../assets/img/UniMark.png')}
           />
-          <Text style={styles.amount}>54000</Text>
+          <Text style={styles.amount}>{balance?.balance}</Text>
         </View>
       </TouchableOpacity>
       
@@ -137,7 +161,7 @@ const styles = StyleSheet.create({
   },
   markView: {
     position: 'absolute',
-    left: 55,
+    left: 35,
     bottom: 10,
     alignItems: 'center',
   },

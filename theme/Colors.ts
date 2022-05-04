@@ -19,6 +19,8 @@ enum Colors {
   switchGrey = '#898A8D',
   cancelBtnCol = '#F6F6F4',
   buttonGrey = '#F1F1F1',
+  authBtn = '#ff8f0038',
+  authBtnText = '#FF9637',
 }
 
 export default Colors;

@@ -16,7 +16,7 @@ const NewsCard: React.FC<IgetNewsResponse> = props => {
   return (
     <TouchableOpacity
       style={styles.cardWrapper}
-      onPress={navigation.navigate.bind(this, authRoutes.singleOffer, {
+      onPress={navigation.navigate.bind(this, authRoutes.singleNewsScreen, {
         id: props.id,
       })}>
       <Image style={styles.img} source={{uri: imgUrl}} />
@@ -41,7 +41,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     // alignItems: 'center',
-  },
+    paddingVertical: 10,
+
+},
   img: {
     width: 187,
   },

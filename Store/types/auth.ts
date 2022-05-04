@@ -1,15 +1,19 @@
+import {IgetUserServiceResponse} from '../../services/UserInfoService';
+
 export interface IAuthState {
-    isAuthentificated: boolean;
+  isAuthentificated: boolean;
+  userInfo?: IgetUserServiceResponse;
 }
 
 export interface IAuthAction extends IAuthState {
-    type: string;
+  type: string;
 }
 
 export enum AuthActions {
-    setIsAuthentificated = 'setIsAuthentificated'
+  setIsAuthentificated = 'setIsAuthentificated',
+  setUserInfo = 'setUserInfo',
 }
 
 export interface IAuthReducer {
-    AuthReducer: IAuthState
+  AuthReducer: IAuthState;
 }

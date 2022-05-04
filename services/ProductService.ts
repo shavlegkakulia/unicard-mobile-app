@@ -1,6 +1,5 @@
-import axios, {AxiosRequestConfig} from 'axios';
-import {from, Observable, Subscriber} from 'rxjs';
-import storage from './StorageService';
+import axios from 'axios';
+import {from} from 'rxjs';
 import envs from '../config/env';
 
 interface IresponseData {

@@ -13,6 +13,7 @@ export enum authRoutes {
   PasswordChangingMessage = 'PasswordChangingMessage',
   PasswordChangingError = 'PasswordChangingError',
   changePin = 'changePin',
+  singleNewsScreen = 'singleNewsScreen',
 }
 
 export enum notAuthRoutes {
@@ -23,4 +24,5 @@ export enum notAuthRoutes {
   registrationDone = 'registrationDone',
   authScreen = 'authScreen',
   smsCode = 'smsCode',
+  authPage = 'authPage',
 }

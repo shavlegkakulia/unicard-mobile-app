@@ -50,7 +50,7 @@ export interface IgetUserServiceResponse extends IresponseData {
 
 class UserInfoService {
   GenerateUserInfo(data: IgetUserInfoDetailsRequest) {
-    const result = axios.get<IresponseData>(
+    const result = axios.get<IgetUserServiceResponse>(
       `${envs.API_URL}api/Mobile/GetClientInfo`,
     );
     return from(result);

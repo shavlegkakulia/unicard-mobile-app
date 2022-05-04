@@ -1,5 +1,5 @@
 import CheckBox from '@react-native-community/checkbox';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   Text,
@@ -15,7 +15,8 @@ import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 import AuthService, {IAyuthData} from '../../services/AuthService';
-import {login} from '../../Store/actions/auth';
+import AsyncStorage from '../../services/StorageService';
+import {getUserInfo, login} from '../../Store/actions/auth';
 import Colors from '../../theme/Colors';
 
 interface IUserData {
@@ -45,7 +46,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
             Response.access_token,
             Response.refresh_token,
           );
-
+          dispatch(getUserInfo(toggleCheckBox));
           dispatch(login());
         }
       },
@@ -55,6 +56,14 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
       error: e => console.log('err', e.response),
     });
   };
+
+  useEffect(() => {
+    AsyncStorage.getItem('userInfo').then(res => {
+      if (res !== null) {
+        props.navigation.navigate(notAuthRoutes.authPage);
+      }
+    });
+  }, []);
 
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   return (

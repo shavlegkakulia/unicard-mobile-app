@@ -27,11 +27,8 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const getUserInfo = () => {
-    const req: IgetUserInfoDetailsRequest = {
-      user_id: '',
-      lang: '',
-    };
-    UserInfoService.GenerateUserInfo(req).subscribe({
+   
+    UserInfoService.GenerateUserInfo().subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
           setUser(Response.data);

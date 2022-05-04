@@ -18,11 +18,17 @@ import UserInfoService, {
   IgetUserInfoDetailsRequest,
   IgetUserServiceResponse,
 } from '../services/UserInfoService';
+import { subscriptionService } from '../services/SubscribeService';
 
 const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
   const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState<IgetUserServiceResponse>();
   const dispath = useDispatch();
+
+  const goTo = (roteName: string) => {
+    subscriptionService?.sendData('close-leftdrawer', true);
+    navigation.navigate(roteName);
+  }
   const login = () => {
     dispath({
       type: AuthActions.setIsAuthentificated,
@@ -72,7 +78,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       </View>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => navigation.navigate(authRoutes.barcode)}>
+        onPress={() => goTo(authRoutes.barcode)}>
         <View style={styles.iconView}>
           <Image
             style={styles.card}
@@ -84,7 +90,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       <View style={styles.lineView} />
       <TouchableOpacity
         style={styles.row}
-        onPress={() => navigation.navigate(authRoutes.home)}>
+        onPress={() => goTo(authRoutes.home)}>
         <View style={styles.iconView}>
           <Image
             style={styles.homeIcon}
@@ -95,7 +101,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => navigation.navigate(authRoutes.myPage)}>
+        onPress={() => goTo(authRoutes.myPage)}>
         <View style={styles.iconView}>
           <Image
             style={styles.userIcon}
@@ -106,7 +112,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => navigation.navigate(authRoutes.spendOptions)}>
+        onPress={() => goTo(authRoutes.spendOptions)}>
         <View style={styles.iconView}>
           <Image
             style={styles.cartIcon}
@@ -135,7 +141,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => navigation.navigate(authRoutes.news)}>
+        onPress={() => goTo(authRoutes.news)}>
         <View style={styles.iconView}>
           <Image
             style={styles.newsIcon}
@@ -146,7 +152,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => navigation.navigate(authRoutes.aboutUs)}>
+        onPress={() => goTo(authRoutes.aboutUs)}>
         <View style={styles.iconView}>
           <Image
             style={styles.aboutIcon}
@@ -157,7 +163,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => navigation.navigate(authRoutes.parameters)}>
+        onPress={() => goTo(authRoutes.parameters)}>
         <View style={styles.iconView}>
           <Image
             style={styles.paramIcon}

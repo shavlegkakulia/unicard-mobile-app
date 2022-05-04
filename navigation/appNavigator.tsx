@@ -39,6 +39,9 @@ import OrderIsDone from '../screens/auth/OrderIsDone';
 import PasswordChangingMessage from '../screens/auth/PasswordChangingMessage';
 import PasswordChangingError from '../screens/auth/PasswordChangingError';
 import ChangePinCode from '../components/CostumComponents/ChangePinCode';
+import AuthPage from '../components/CostumComponents/AuthPage';
+import SingleNewsScreen from '../screens/auth/SingleNewsScreen';
+import {subscriptionService} from '../services/SubscribeService';
 
 const authStack = createStackNavigator();
 
@@ -72,581 +75,638 @@ const AppNavigator = () => {
   const sideDraver = useRef<DrawerLayout | null>();
   const isDrawerOpened = useRef<boolean>();
 
-  return (
-    <DrawerLayout
-      drawerWidth={300}
-      drawerLockMode={
-        authReducer.isAuthentificated ? 'unlocked' : 'locked-closed'
+  useEffect(() => {
+    const subscription = subscriptionService?.getData()?.subscribe(data => {
+      if (data?.key === 'close-leftdrawer') {
+        sideDraver.current?.closeDrawer();
       }
-      keyboardDismissMode="on-drag"
-      onDrawerOpen={() => (isDrawerOpened.current = true)}
-      onDrawerClose={() => (isDrawerOpened.current = false)}
-      ref={drawer => {
-        sideDraver.current = drawer;
-        isDrawerOpened.current
-          ? sideDraver.current?.closeDrawer()
-          : sideDraver.current?.openDrawer();
-      }}
-      renderNavigationView={props => <SideBarDrawer props={props} />}>
-      <authStack.Navigator initialRouteName={notAuthRoutes.login}>
-        {authReducer.isAuthentificated ? (
-          <>
-            {/* <StatusBar barStyle={'light-content'} /> */}
-            <authStack.Screen
-              name={authRoutes.home}
-              component={HomeScreen}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'მთავარი გვერდი',
-                headerLeft: () => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      isDrawerOpened.current
-                        ? sideDraver.current?.closeDrawer()
-                        : sideDraver.current?.openDrawer();
-                    }}>
-                    <Image
-                      style={{width: 25, height: 17, marginLeft: 29}}
-                      source={require('../assets/img/burgerIcon.png')}
-                    />
-                  </TouchableOpacity>
-                ),
-                headerRight: () => (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: 4,
-                      marginRight: 23,
-                    }}>
-                    <TouchableOpacity>
-                      <Image
-                        style={{width: 18, height: 25, marginRight: 15}}
-                        source={require('../assets/img/locationLogo.png')}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <Image
-                        style={{width: 19, height: 25}}
-                        source={require('../assets/img/notificationLogo.png')}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                ),
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTitleStyle: {
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  fontSize: 14,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.myPage}
-              component={MyPage}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'ჩემი გვერდი',
-                headerLeft: () => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      isDrawerOpened.current
-                        ? sideDraver.current?.closeDrawer()
-                        : sideDraver.current?.openDrawer();
-                    }}>
-                    <Image
-                      style={{width: 25, height: 17, marginLeft: 29}}
-                      source={require('../assets/img/burgerIcon.png')}
-                    />
-                  </TouchableOpacity>
-                ),
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTitleStyle: {
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  fontSize: 14,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.barcode}
-              component={Barcode}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: '',
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTintColor: Colors.bgGreen,
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.spendOptions}
-              component={SpendOptions}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'რაში დავხარჯო',
-                headerLeft: () => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      isDrawerOpened.current
-                        ? sideDraver.current?.closeDrawer()
-                        : sideDraver.current?.openDrawer();
-                    }}>
-                    <Image
-                      style={{width: 25, height: 17, marginLeft: 29}}
-                      source={require('../assets/img/burgerIcon.png')}
-                    />
-                  </TouchableOpacity>
-                ),
-                headerRight: () => (
-                  <TouchableOpacity onPress={() => <DrawerRight />}>
-                    <Image
-                      style={{width: 22, height: 21, marginRight: 29}}
-                      source={require('../assets/img/cartIconsec.png')}
-                    />
-                  </TouchableOpacity>
-                ),
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTitleStyle: {
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  fontSize: 14,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.singleOffer}
-              component={SingleOfferScreen}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'რაში დავხარჯო',
+    });
 
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
+    return () => {
+      subscriptionService?.clearData();
+      subscription?.unsubscribe();
+    };
+  }, []);
 
-                headerTitleStyle: {
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  fontSize: 14,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.getGift}
-              component={GetGift}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'საჩუქრის მიღება',
-                headerRight: () => (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginRight: 41,
-                    }}>
-                    <View
-                      style={{
-                        width: 4,
-                        height: 4,
-                        backgroundColor: Colors.lightGrey,
-                        marginLeft: 6,
-                        borderRadius: 50,
-                      }}
-                    />
-                    <View
-                      style={{
-                        width: 4,
-                        height: 4,
-                        backgroundColor: Colors.lightGrey,
-                        marginLeft: 6,
-                        borderRadius: 50,
-                      }}
-                    />
-                  </View>
-                ),
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
+  return (
+    <>
+      <DrawerLayout
+        drawerWidth={300}
+        drawerLockMode={
+          authReducer.isAuthentificated ? 'unlocked' : 'locked-closed'
+        }
+        keyboardDismissMode="on-drag"
+        onDrawerOpen={() => (isDrawerOpened.current = true)}
+        onDrawerClose={() => (isDrawerOpened.current = false)}
+        ref={drawer => {
+          sideDraver.current = drawer;
+          // isDrawerOpened.current
+          //   ? sideDraver.current?.closeDrawer()
+          //   : sideDraver.current?.openDrawer();
+        }}
+        renderNavigationView={props => <SideBarDrawer props={props} />}>
+        <DrawerRight>
+          <authStack.Navigator initialRouteName={notAuthRoutes.login}>
+            {authReducer.isAuthentificated ? (
+              <>
+                {/* <StatusBar barStyle={'light-content'} /> */}
+                <authStack.Screen
+                  name={authRoutes.home}
+                  component={HomeScreen}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'მთავარი გვერდი',
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerRight: () => (
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          marginTop: 4,
+                          marginRight: 23,
+                        }}>
+                        <TouchableOpacity>
+                          <Image
+                            style={{width: 18, height: 25, marginRight: 15}}
+                            source={require('../assets/img/locationLogo.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity>
+                          <Image
+                            style={{width: 19, height: 25}}
+                            source={require('../assets/img/notificationLogo.png')}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.myPage}
+                  component={MyPage}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'ჩემი გვერდი',
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.barcode}
+                  component={Barcode}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: '',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.spendOptions}
+                  component={SpendOptions}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'რაში დავხარჯო',
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          subscriptionService?.sendData(
+                            'open-RightDrawer',
+                            true,
+                          );
+                        }}>
+                        <Image
+                          style={{width: 22, height: 21, marginRight: 29}}
+                          source={require('../assets/img/cartIconsec.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.singleOffer}
+                  component={SingleOfferScreen}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'რაში დავხარჯო',
 
-                headerTitleStyle: {
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  fontSize: 14,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.orderDone}
-              component={OrderIsDone}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'საჩუქრის მიღება',
-                headerRight: () => (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginRight: 41,
-                    }}>
-                    <View
-                      style={{
-                        width: 4,
-                        height: 4,
-                        backgroundColor: Colors.lightGrey,
-                        marginLeft: 6,
-                        borderRadius: 50,
-                      }}
-                    />
-                    <View
-                      style={{
-                        width: 4,
-                        height: 4,
-                        backgroundColor: Colors.lightGrey,
-                        marginLeft: 6,
-                        borderRadius: 50,
-                      }}
-                    />
-                  </View>
-                ),
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
 
-                headerTitleStyle: {
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  fontSize: 14,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.news}
-              component={News}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'სიახლეები',
-                headerLeft: () => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      isDrawerOpened.current
-                        ? sideDraver.current?.closeDrawer()
-                        : sideDraver.current?.openDrawer();
-                    }}>
-                    <Image
-                      style={{width: 25, height: 17, marginLeft: 29}}
-                      source={require('../assets/img/burgerIcon.png')}
-                    />
-                  </TouchableOpacity>
-                ),
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTitleStyle: {
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  fontSize: 14,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.aboutUs}
-              component={AboutUs}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'ჩვენს შესახებ',
-                headerLeft: () => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      isDrawerOpened.current
-                        ? sideDraver.current?.closeDrawer()
-                        : sideDraver.current?.openDrawer();
-                    }}>
-                    <Image
-                      style={{width: 25, height: 17, marginLeft: 29}}
-                      source={require('../assets/img/burgerIcon.png')}
-                    />
-                  </TouchableOpacity>
-                ),
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTitleStyle: {
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  fontSize: 14,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.parameters}
-              component={Parameters}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'პარამეტრები',
-                headerLeft: () => (
-                  <TouchableOpacity
-                    onPress={() => {
-                      isDrawerOpened.current
-                        ? sideDraver.current?.closeDrawer()
-                        : sideDraver.current?.openDrawer();
-                    }}>
-                    <Image
-                      style={{width: 25, height: 17, marginLeft: 29}}
-                      source={require('../assets/img/burgerIcon.png')}
-                    />
-                  </TouchableOpacity>
-                ),
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTitleStyle: {
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  fontSize: 14,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.changePassword}
-              component={ChangePassword}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerBackTitle: '',
-                title: 'პაროლის შეცვლა',
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTitleStyle: {
-                  fontWeight: '400',
-                  textTransform: 'uppercase',
-                  fontSize: 14,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.PasswordChangingMessage}
-              component={PasswordChangingMessage}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerBackTitle: '',
-                title: '',
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.PasswordChangingError}
-              component={PasswordChangingError}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerBackTitle: '',
-                title: '',
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={authRoutes.changePin}
-              component={ChangePinCode}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerBackTitle: '',
-                title: '',
-                headerTintColor: Colors.black,
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-              }}
-            />
-          </>
-        ) : (
-          <>
-            <authStack.Screen
-              name={notAuthRoutes.login}
-              component={LoginScreen}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'მოგესალმებით',
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTintColor: Colors.bgGreen,
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase',
-                  fontSize: 20,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={notAuthRoutes.registration}
-              component={RegistrationScreen}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'რეგისტრაცია',
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTintColor: Colors.bgGreen,
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase',
-                  fontSize: 20,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={notAuthRoutes.registrationDetails}
-              component={RegistrationDetailsScreen}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'რეგისტრაცია',
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTintColor: Colors.bgGreen,
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase',
-                  fontSize: 20,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={notAuthRoutes.passwordInfo}
-              component={PasswordInfo}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'რეგისტრაცია',
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTintColor: Colors.bgGreen,
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase',
-                  fontSize: 20,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={notAuthRoutes.smsCode}
-              component={SmsCode}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'რეგისტრაცია',
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTintColor: Colors.bgGreen,
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase',
-                  fontSize: 20,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={notAuthRoutes.registrationDone}
-              component={RegistrationDone}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: '',
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTintColor: Colors.bgGreen,
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase',
-                  fontSize: 20,
-                },
-              }}
-            />
-            <authStack.Screen
-              name={notAuthRoutes.authScreen}
-              component={AuthScreen}
-              options={{
-                cardStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                title: 'მოგესალმებით',
-                headerStyle: {
-                  backgroundColor: Colors.bgColor,
-                },
-                headerTintColor: Colors.bgGreen,
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                  textTransform: 'uppercase',
-                  fontSize: 20,
-                },
-              }}
-            />
-          </>
-        )}
-      </authStack.Navigator>
-    </DrawerLayout>
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.getGift}
+                  component={GetGift}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'საჩუქრის მიღება',
+                    headerRight: () => (
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginRight: 41,
+                        }}>
+                        <View
+                          style={{
+                            width: 4,
+                            height: 4,
+                            backgroundColor: Colors.lightGrey,
+                            marginLeft: 6,
+                            borderRadius: 50,
+                          }}
+                        />
+                        <View
+                          style={{
+                            width: 4,
+                            height: 4,
+                            backgroundColor: Colors.lightGrey,
+                            marginLeft: 6,
+                            borderRadius: 50,
+                          }}
+                        />
+                      </View>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.orderDone}
+                  component={OrderIsDone}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'საჩუქრის მიღება',
+                    headerRight: () => (
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          marginRight: 41,
+                        }}>
+                        <View
+                          style={{
+                            width: 4,
+                            height: 4,
+                            backgroundColor: Colors.lightGrey,
+                            marginLeft: 6,
+                            borderRadius: 50,
+                          }}
+                        />
+                        <View
+                          style={{
+                            width: 4,
+                            height: 4,
+                            backgroundColor: Colors.lightGrey,
+                            marginLeft: 6,
+                            borderRadius: 50,
+                          }}
+                        />
+                      </View>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.news}
+                  component={News}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'სიახლეები',
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.singleNewsScreen}
+                  component={SingleNewsScreen}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerBackTitle: '',
+                    title: 'სიახლეები',
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.aboutUs}
+                  component={AboutUs}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'ჩვენს შესახებ',
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.parameters}
+                  component={Parameters}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'პარამეტრები',
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.changePassword}
+                  component={ChangePassword}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerBackTitle: '',
+                    title: 'პაროლის შეცვლა',
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.PasswordChangingMessage}
+                  component={PasswordChangingMessage}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerBackTitle: '',
+                    title: '',
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.PasswordChangingError}
+                  component={PasswordChangingError}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerBackTitle: '',
+                    title: '',
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.changePin}
+                  component={ChangePinCode}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerBackTitle: '',
+                    title: '',
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <authStack.Screen
+                  name={notAuthRoutes.login}
+                  component={LoginScreen}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'მოგესალმებით',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={notAuthRoutes.registration}
+                  component={RegistrationScreen}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'რეგისტრაცია',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={notAuthRoutes.registrationDetails}
+                  component={RegistrationDetailsScreen}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'რეგისტრაცია',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={notAuthRoutes.passwordInfo}
+                  component={PasswordInfo}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'რეგისტრაცია',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={notAuthRoutes.smsCode}
+                  component={SmsCode}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'რეგისტრაცია',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={notAuthRoutes.registrationDone}
+                  component={RegistrationDone}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: '',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={notAuthRoutes.authScreen}
+                  component={AuthScreen}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'მოგესალმებით',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={notAuthRoutes.authPage}
+                  component={AuthPage}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'ავტორიზაცია',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
+                  }}
+                />
+              </>
+            )}
+          </authStack.Navigator>
+        </DrawerRight>
+      </DrawerLayout>
+    </>
   );
 };
 

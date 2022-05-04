@@ -26,8 +26,7 @@ const OrderIsDone: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.buttonView}>
         <AppButton
-          // onPress={() => dispatch(login())}
-          onPress={() => props.navigation.navigate(authRoutes.changePin)}
+          onPress={() => {}}
           title={'გაგრძელება'}
           backgroundColor={Colors.bgGreen}
         />

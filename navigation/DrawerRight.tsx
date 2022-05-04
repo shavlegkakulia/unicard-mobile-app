@@ -1,30 +1,19 @@
 import React, {useEffect, useRef} from 'react';
-import {
-  DrawerLayout,
-  gestureHandlerRootHOC,
-} from 'react-native-gesture-handler';
+import {DrawerLayout} from 'react-native-gesture-handler';
 import {createStackNavigator} from '@react-navigation/stack';
-import SideBarDrawer from './sidebarDrawer';
-import {authRoutes, notAuthRoutes} from './routes';
-import HomeScreen from '../screens/auth/HomeScreen';
 import {useSelector} from 'react-redux';
 import {IAuthReducer, IAuthState} from '../Store/types/auth';
-import LoginScreen from '../screens/notAuth/LoginScreen';
-import {
-  BackHandler,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {BackHandler} from 'react-native';
 import SidebarRightDrawer from './sidebarRightDrawer';
 import Colors from '../theme/Colors';
-import navigation from './navigation';
+import {subscriptionService} from '../services/SubscribeService';
 
 const authStack = createStackNavigator();
 
 const DrawerRight: React.FC = props => {
+  const authReducer = useSelector<IAuthReducer>(
+    state => state.AuthReducer,
+  ) as IAuthState;
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
       if (isDrawerOpened.current) {
@@ -38,26 +27,51 @@ const DrawerRight: React.FC = props => {
     return () => sub.remove();
   }, []);
 
+  useEffect(() => {
+    if (!authReducer.isAuthentificated) {
+      sideDraver.current?.closeDrawer();
+    }
+  }, [authReducer.isAuthentificated]);
+
   const sideDraver = useRef<DrawerLayout | null>();
   const isDrawerOpened = useRef<boolean>();
+
+  useEffect(() => {
+    const subscription = subscriptionService?.getData()?.subscribe(data => {
+      if (data?.key === 'open-RightDrawer') {
+        if (isDrawerOpened.current) {
+          sideDraver.current?.closeDrawer();
+        } else {
+          sideDraver.current?.openDrawer();
+        }
+      }
+    });
+
+    return () => {
+      subscriptionService?.clearData();
+      subscription?.unsubscribe();
+    };
+  }, []);
 
   return (
     <DrawerLayout
       drawerWidth={300}
       drawerPosition="right"
-      drawerLockMode={'unlocked'}
+      drawerLockMode={
+        authReducer.isAuthentificated ? 'unlocked' : 'locked-closed'
+      }
       keyboardDismissMode="on-drag"
-      drawerBackgroundColor={Colors.bgGreen}
       onDrawerOpen={() => (isDrawerOpened.current = true)}
       onDrawerClose={() => (isDrawerOpened.current = false)}
       ref={drawer => {
         sideDraver.current = drawer;
-        isDrawerOpened.current
-          ? sideDraver.current?.closeDrawer()
-          : sideDraver.current?.openDrawer();
+        // isDrawerOpened.current
+        //   ? sideDraver.current?.closeDrawer()
+        //   : sideDraver.current?.openDrawer();
       }}
-      renderNavigationView={() => <SidebarRightDrawer props={props} />}
-    />
+      renderNavigationView={() => <SidebarRightDrawer props={props} />}>
+      {props.children}
+    </DrawerLayout>
   );
 };
 

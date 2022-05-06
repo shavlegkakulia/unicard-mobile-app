@@ -14,6 +14,7 @@ export enum authRoutes {
   PasswordChangingError = 'PasswordChangingError',
   changePin = 'changePin',
   singleNewsScreen = 'singleNewsScreen',
+  partners = 'partners',
 }
 
 export enum notAuthRoutes {

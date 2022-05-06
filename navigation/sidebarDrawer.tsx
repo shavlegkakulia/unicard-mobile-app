@@ -18,7 +18,7 @@ import UserInfoService, {
   IgetUserInfoDetailsRequest,
   IgetUserServiceResponse,
 } from '../services/UserInfoService';
-import { subscriptionService } from '../services/SubscribeService';
+import {subscriptionService} from '../services/SubscribeService';
 
 const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
   const navigation = useNavigation();
@@ -28,7 +28,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
   const goTo = (roteName: string) => {
     subscriptionService?.sendData('close-leftdrawer', true);
     navigation.navigate(roteName);
-  }
+  };
   const login = () => {
     dispath({
       type: AuthActions.setIsAuthentificated,
@@ -54,7 +54,6 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getUserInfo();
   }, []);
-
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -130,7 +129,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>ჩემ გარშემო</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => goTo(authRoutes.partners)}>
         <View style={styles.iconView}>
           <Image
             style={styles.hendsIcon}

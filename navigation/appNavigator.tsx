@@ -42,6 +42,7 @@ import ChangePinCode from '../components/CostumComponents/ChangePinCode';
 import AuthPage from '../components/CostumComponents/AuthPage';
 import SingleNewsScreen from '../screens/auth/SingleNewsScreen';
 import {subscriptionService} from '../services/SubscribeService';
+import Partners from '../screens/auth/Partners';
 
 const authStack = createStackNavigator();
 
@@ -470,6 +471,26 @@ const AppNavigator = () => {
                         />
                       </TouchableOpacity>
                     ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.partners}
+                  component={Partners}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerBackTitle: '',
+                    title: 'ჩემ გარშემო',
                     headerTintColor: Colors.black,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,

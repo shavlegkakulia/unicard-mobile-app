@@ -14,7 +14,6 @@ import {ScreenNavigationProp} from '../interfaces/commons';
 import {useNavigation} from '@react-navigation/native';
 import Colors from '../theme/Colors';
 import CategoryButton from '../components/CostumComponents/CategoryButton';
-import POINTDATA from '../constants/PointData';
 import ProductFiltersService, {
   IgetfilterCategoriesResponse,
 } from '../services/ProductFiltersService';

@@ -10,11 +10,13 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
-import AppTextInput, { requireTypes } from '../../components/CostumComponents/AppTextInput';
+import AppTextInput, {
+  requireTypes,
+} from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
-import { gError } from './../../components/CostumComponents/AppTextInput';
+import {gError} from './../../components/CostumComponents/AppTextInput';
 
 import Colors from '../../theme/Colors';
 
@@ -24,27 +26,30 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
 
   const nextStep = () => {
-    if(gError.errors.length > 0) {
+    if (gError.errors.length > 0) {
+      
       return;
     }
+    console.log('shesvla', gError.errors);
     props.navigation.navigate(notAuthRoutes.passwordInfo, {data: regData});
-  }
-  
+    
+  };
+
   return (
     <>
       <ScrollView>
         <View style={styles.textInput}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
-        </View>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
+          </View>
           <AppTextInput
             placeholder={'სახელი'}
             icon={0}
             secureTextEntry={false}
             textContentType={'name'}
             value={regData?.user_name}
-            requireType = {requireTypes.require}
-            name='name'
+            requireType={requireTypes.require}
+            name="name"
             onChange={e =>
               setRegData({
                 user_name: e,
@@ -62,8 +67,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={'name'}
             value={regData?.surname}
-            requireType = {requireTypes.email}
-            name='lastname'
+            requireType={requireTypes.email}
+            name="lastname"
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -81,9 +86,9 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={''}
             value={regData?.person_code}
-            requireType = {requireTypes.min}
+            requireType={requireTypes.min}
             minValue={6}
-            name='personalnumber'
+            name="personalnumber"
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -102,9 +107,9 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={''}
             value={regData?.birthDate}
-            requireType = {requireTypes.minLength}
+            requireType={requireTypes.minLength}
             minLength={4}
-            name='birthdate'
+            name="birthdate"
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -123,9 +128,9 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={'telephoneNumber'}
             value={regData?.phone}
-            requireType = {requireTypes.maxLength}
+            requireType={requireTypes.maxLength}
             maxLength={18}
-            name='telephoneNumber'
+            name="telephoneNumber"
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,

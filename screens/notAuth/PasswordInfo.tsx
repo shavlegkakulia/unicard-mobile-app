@@ -10,7 +10,7 @@ import CheckBox from '@react-native-community/checkbox';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
-import AppTextInput from '../../components/CostumComponents/AppTextInput';
+import AppTextInput, { gError, requireTypes } from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 
@@ -28,6 +28,9 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   const OtpAuth = () => {
     AuthService.SendOtp({phone: params.data.phone}).subscribe({
       next: Response => {
+        if (gError.errors.length > 0) {
+          return;
+        }
         props.navigation.navigate(notAuthRoutes.smsCode, {
           data: {...params.data, ...passData},
         });
@@ -51,6 +54,8 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
             placeholder={'პაროლი'}
             secureTextEntry={true}
             value={passData?.password}
+            requireType={requireTypes.password}
+            name="password"
             onChange={e => {
               setPassData({
                 password: e,
@@ -62,6 +67,7 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
             placeholder={'გაიმეორეთ პაროლი'}
             secureTextEntry={true}
             value={passData?.confirm_password}
+            name="password"
             onChange={e => {
               setPassData({
                 password: passData?.password,

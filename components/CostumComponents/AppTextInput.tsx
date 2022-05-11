@@ -13,6 +13,7 @@ import Colors from '../../theme/Colors';
 
 export const requireTypes = {
   email: 'email',
+  password: 'password',
   require: 'require',
   min: 'min',
   minLength: 'minLength',
@@ -35,10 +36,11 @@ export interface IAppTextInputProps {
 }
 
 let inputErrors: any[] = [];
+console.log('shesvla1', inputErrors);
 
 export const gError = {
-  errors: inputErrors
-}
+  errors: inputErrors,
+};
 
 const AppTextInput: React.FC<IAppTextInputProps> = props => {
   const {
@@ -58,6 +60,8 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
 
   const errorMessages = {
     email: 'wrong email',
+    password:
+      'პაროლი უნდა შეიცავდეს მინიმუმ: \n- 8 სიმბოლოს \n- ერთ დიდ ასოს \n- ერთ პატარა ასოს \n- ერთ ციფრს \n- ერთ სპეციალურ სიმბოლოს (გარდა წერტილისა და @ სიმბოლოსი)',
     required: 'fill field',
     min: 'min value must ' + minValue,
     minLength: 'min length must ' + minLength,
@@ -81,17 +85,28 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
   };
+  const validatePassword = () => {
+    return String(value)
+      .toLowerCase()
+      .match(
+        '^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,}$',
+      );
+  };
 
   const check = () => {
-    if (isFocused)
+    if (isFocused) {
       switch (requireType) {
         case requireTypes.require:
           {
             if (!value) {
-              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+              if (inputErrors.indexOf(name) < 0) {
+                inputErrors.push(name);
+              }
               setHasEror(errorMessages.required);
             } else if (value && value?.trim().length <= 0) {
-              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+              if (inputErrors.indexOf(name) < 0) {
+                inputErrors.push(name);
+              }
               setHasEror(errorMessages.required);
             } else {
               inputErrors = [...inputErrors.filter(n => n !== name)];
@@ -102,14 +117,39 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         case requireTypes.email:
           {
             if (!value) {
-              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+              if (inputErrors.indexOf(name) < 0) {
+                inputErrors.push(name);
+              }
               setHasEror(errorMessages.email);
             } else if (
               (value && value?.trim().length <= 0) ||
               !validateEmail()
             ) {
-              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+              if (inputErrors.indexOf(name) < 0) {
+                inputErrors.push(name);
+              }
               setHasEror(errorMessages.email);
+            } else {
+              inputErrors = [...inputErrors.filter(n => n !== name)];
+              setHasEror(undefined);
+            }
+          }
+          break;
+        case requireTypes.password:
+          {
+            if (!value) {
+              if (inputErrors.indexOf(name) < 0) {
+                inputErrors.push(name);
+              }
+              setHasEror(errorMessages.password);
+            } else if (
+              (value && value?.trim().length <= 0) ||
+              !validatePassword()
+            ) {
+              if (inputErrors.indexOf(name) < 0) {
+                inputErrors.push(name);
+              }
+              setHasEror(errorMessages.password);
             } else {
               inputErrors = [...inputErrors.filter(n => n !== name)];
               setHasEror(undefined);
@@ -120,13 +160,19 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
           {
             if (minValue) {
               if (!value) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                if (inputErrors.indexOf(name) < 0) {
+                  inputErrors.push(name);
+                }
                 setHasEror(errorMessages.min);
               } else if (isNaN(parseFloat(value))) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                if (inputErrors.indexOf(name) < 0) {
+                  inputErrors.push(name);
+                }
                 setHasEror(errorMessages.min);
               } else if (value && parseFloat(value) < minValue) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                if (inputErrors.indexOf(name) < 0) {
+                  inputErrors.push(name);
+                }
                 setHasEror(errorMessages.min);
               } else {
                 inputErrors = [...inputErrors.filter(n => n !== name)];
@@ -139,10 +185,14 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
           {
             if (minLength) {
               if (!value) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                if (inputErrors.indexOf(name) < 0) {
+                  inputErrors.push(name);
+                }
                 setHasEror(errorMessages.minLength);
               } else if (value && value.length < minLength) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                if (inputErrors.indexOf(name) < 0) {
+                  inputErrors.push(name);
+                }
                 setHasEror(errorMessages.minLength);
               } else {
                 inputErrors = [...inputErrors.filter(n => n !== name)];
@@ -155,10 +205,14 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
           {
             if (maxLength) {
               if (!value) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                if (inputErrors.indexOf(name) < 0) {
+                  inputErrors.push(name);
+                }
                 setHasEror(errorMessages.maxLength);
               } else if (value && value.length > maxLength) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                if (inputErrors.indexOf(name) < 0) {
+                  inputErrors.push(name);
+                }
                 setHasEror(errorMessages.maxLength);
               } else {
                 inputErrors = [...inputErrors.filter(n => n !== name)];
@@ -168,6 +222,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
           }
           break;
       }
+    }
     setIsFocused(true);
   };
 

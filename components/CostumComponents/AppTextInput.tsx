@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ImageSourcePropType,
   StyleSheet,
@@ -6,9 +6,18 @@ import {
   TextInput,
   Image,
   KeyboardTypeOptions,
+  Text,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../theme/Colors';
+
+export const requireTypes = {
+  email: 'email',
+  require: 'require',
+  min: 'min',
+  minLength: 'minLength',
+  maxLength: 'maxLength',
+};
 
 export interface IAppTextInputProps {
   placeholder?: string;
@@ -17,8 +26,15 @@ export interface IAppTextInputProps {
   textContentType?: any;
   keyboardType?: KeyboardTypeOptions | undefined;
   value?: string;
+  minValue?: number;
+  minLength?: number;
+  maxLength?: number;
   onChange: (value: string) => void;
+  name?: string;
+  requireType?: string;
 }
+
+let inputErrors: any[] = [];
 
 const AppTextInput: React.FC<IAppTextInputProps> = props => {
   const {
@@ -28,10 +44,25 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     textContentType,
     keyboardType,
     value,
+    minValue,
+    minLength,
+    maxLength,
+    name,
+    requireType,
     onChange,
   } = props;
 
+  const errorMessages = {
+    email: 'wrong email',
+    required: 'fill field',
+    min: 'min value must ' + minValue,
+    minLength: 'min length must ' + minLength,
+    maxLength: 'max length must ' + maxLength,
+  };
+
   const [visible, setVisible] = useState(secureTextEntry);
+  const [hasError, setHasEror] = useState<string | undefined>(undefined);
+  const [isFocused, setIsFocused] = useState(false);
 
   let iconUrl = !secureTextEntry
     ? icon
@@ -39,6 +70,110 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     ? require('../../assets/img/passwordIcon.png')
     : require('../../assets/img/iconShow.png');
 
+  const validateEmail = () => {
+    return String(value)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      );
+  };
+
+  const check = () => {
+    if (isFocused)
+      switch (requireType) {
+        case requireTypes.require:
+          {
+            if (!value) {
+              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+              setHasEror(errorMessages.required);
+            } else if (value && value?.trim().length <= 0) {
+              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+              setHasEror(errorMessages.required);
+            } else {
+              inputErrors = [...inputErrors.filter(n => n !== name)];
+              setHasEror(undefined);
+            }
+          }
+          break;
+        case requireTypes.email:
+          {
+            if (!value) {
+              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+              setHasEror(errorMessages.email);
+            } else if (
+              (value && value?.trim().length <= 0) ||
+              !validateEmail()
+            ) {
+              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+              setHasEror(errorMessages.email);
+            } else {
+              inputErrors = [...inputErrors.filter(n => n !== name)];
+              setHasEror(undefined);
+            }
+          }
+          break;
+        case requireTypes.min:
+          {
+            if (minValue) {
+              if (!value) {
+                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                setHasEror(errorMessages.min);
+              } else if (isNaN(parseFloat(value))) {
+                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                setHasEror(errorMessages.min);
+              } else if (value && parseFloat(value) < minValue) {
+                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                setHasEror(errorMessages.min);
+              } else {
+                inputErrors = [...inputErrors.filter(n => n !== name)];
+                setHasEror(undefined);
+              }
+            }
+          }
+          break;
+        case requireTypes.minLength:
+          {
+            if (minLength) {
+              if (!value) {
+                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                setHasEror(errorMessages.minLength);
+              } else if (value && value.length < minLength) {
+                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                setHasEror(errorMessages.minLength);
+              } else {
+                inputErrors = [...inputErrors.filter(n => n !== name)];
+                setHasEror(undefined);
+              }
+            }
+          }
+          break;
+        case requireTypes.maxLength:
+          {
+            if (maxLength) {
+              if (!value) {
+                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                setHasEror(errorMessages.maxLength);
+              } else if (value && value.length > maxLength) {
+                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
+                setHasEror(errorMessages.maxLength);
+              } else {
+                inputErrors = [...inputErrors.filter(n => n !== name)];
+                setHasEror(undefined);
+              }
+            }
+          }
+          break;
+      }
+    setIsFocused(true);
+  };
+
+  useEffect(() => {
+    setIsFocused(true);
+    if (requireType) {
+      check();
+    }
+  }, [value]);
+  console.log(inputErrors);
   return (
     <View style={styles.main}>
       <View style={styles.inputWrapper}>
@@ -52,6 +187,9 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
           textContentType={textContentType || 'none'}
           style={styles.inputPlaceholder}
         />
+        {hasError !== undefined && isFocused && (
+          <Text style={styles.errMessage}>{hasError}</Text>
+        )}
       </View>
       <TouchableOpacity
         style={styles.iconWrapper}
@@ -89,5 +227,9 @@ const styles = StyleSheet.create({
   inputPlaceholder: {
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.8,
+  },
+  errMessage: {
+    color: Colors.red,
+    fontSize: 10,
   },
 });

@@ -10,7 +10,7 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
-import AppTextInput from '../../components/CostumComponents/AppTextInput';
+import AppTextInput, { requireTypes } from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
@@ -39,6 +39,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={'name'}
             value={regData?.user_name}
+            requireType = {requireTypes.require}
+            name='name'
             onChange={e =>
               setRegData({
                 user_name: e,
@@ -56,6 +58,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={'name'}
             value={regData?.surname}
+            requireType = {requireTypes.email}
+            name='lastname'
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -73,6 +77,9 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={''}
             value={regData?.person_code}
+            requireType = {requireTypes.min}
+            minValue={6}
+            name='personalnumber'
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -91,6 +98,9 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={''}
             value={regData?.birthDate}
+            requireType = {requireTypes.minLength}
+            minLength={4}
+            name='birthdate'
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -109,6 +119,9 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={'telephoneNumber'}
             value={regData?.phone}
+            requireType = {requireTypes.maxLength}
+            maxLength={18}
+            name='telephoneNumber'
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,

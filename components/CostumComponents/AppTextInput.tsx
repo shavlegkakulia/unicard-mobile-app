@@ -36,6 +36,10 @@ export interface IAppTextInputProps {
 
 let inputErrors: any[] = [];
 
+export const gError = {
+  errors: inputErrors
+}
+
 const AppTextInput: React.FC<IAppTextInputProps> = props => {
   const {
     placeholder,

@@ -14,6 +14,7 @@ import AppTextInput, { requireTypes } from '../../components/CostumComponents/Ap
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
+import { gError } from './../../components/CostumComponents/AppTextInput';
 
 import Colors from '../../theme/Colors';
 
@@ -23,6 +24,9 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
 
   const nextStep = () => {
+    if(gError.errors.length > 0) {
+      return;
+    }
     props.navigation.navigate(notAuthRoutes.passwordInfo, {data: regData});
   }
   

@@ -10,10 +10,13 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
-import AppTextInput, { requireTypes } from '../../components/CostumComponents/AppTextInput';
+import AppTextInput, {
+  requireTypes,
+} from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
+
 import {inputErrors} from './../../components/CostumComponents/AppTextInput';
 
 import Colors from '../../theme/Colors';
@@ -24,20 +27,26 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
 
   const nextStep = () => {
+
     setChekCount(t => ++t);
     if(inputErrors.length > 0) {
+
+      
+
       return;
     }
+   
     props.navigation.navigate(notAuthRoutes.passwordInfo, {data: regData});
-  }
-  
+    
+  };
+
   return (
     <>
       <ScrollView>
         <View style={styles.textInput}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
-        </View>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
+          </View>
           <AppTextInput
             placeholder={'სახელი'}
             icon={0}
@@ -84,7 +93,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={''}
             value={regData?.person_code}
-            requireType = {requireTypes.min}
+            requireType={requireTypes.min}
             minValue={6}
             name='personalnumber'
             chekCount={chekCount}
@@ -106,7 +115,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={''}
             value={regData?.birthDate}
-            requireType = {requireTypes.minLength}
+            requireType={requireTypes.minLength}
             minLength={4}
             chekCount={chekCount}
             name='birthdate'
@@ -128,7 +137,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={'telephoneNumber'}
             value={regData?.phone}
-            requireType = {requireTypes.maxLength}
+            requireType={requireTypes.maxLength}
             maxLength={18}
             chekCount={chekCount}
             name='telephoneNumber'

@@ -14,17 +14,18 @@ import AppTextInput, { requireTypes } from '../../components/CostumComponents/Ap
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
-import { gError } from './../../components/CostumComponents/AppTextInput';
+import {inputErrors} from './../../components/CostumComponents/AppTextInput';
 
 import Colors from '../../theme/Colors';
 
 const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const [regData, setRegData] = useState<IRegisterRequestData>();
-
+  const [chekCount, setChekCount] = useState<number>(0);
   const dispatch = useDispatch();
 
   const nextStep = () => {
-    if(gError.errors.length > 0) {
+    setChekCount(t => ++t);
+    if(inputErrors.length > 0) {
       return;
     }
     props.navigation.navigate(notAuthRoutes.passwordInfo, {data: regData});
@@ -45,6 +46,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             value={regData?.user_name}
             requireType = {requireTypes.require}
             name='name'
+            chekCount={chekCount}
             onChange={e =>
               setRegData({
                 user_name: e,
@@ -64,6 +66,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             value={regData?.surname}
             requireType = {requireTypes.email}
             name='lastname'
+            chekCount={chekCount}
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -84,6 +87,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             requireType = {requireTypes.min}
             minValue={6}
             name='personalnumber'
+            chekCount={chekCount}
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -104,6 +108,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             value={regData?.birthDate}
             requireType = {requireTypes.minLength}
             minLength={4}
+            chekCount={chekCount}
             name='birthdate'
             onChange={e =>
               setRegData({
@@ -125,6 +130,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             value={regData?.phone}
             requireType = {requireTypes.maxLength}
             maxLength={18}
+            chekCount={chekCount}
             name='telephoneNumber'
             onChange={e =>
               setRegData({
@@ -185,7 +191,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    top: 116,
+    marginTop: 116,
   },
 });
 

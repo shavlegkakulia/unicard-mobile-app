@@ -13,6 +13,7 @@ import Colors from '../../theme/Colors';
 
 export const requireTypes = {
   email: 'email',
+  password: 'password',
   require: 'require',
   min: 'min',
   minLength: 'minLength',
@@ -32,13 +33,10 @@ export interface IAppTextInputProps {
   onChange: (value: string) => void;
   name?: string;
   requireType?: string;
+  chekCount?: number;
 }
 
-let inputErrors: any[] = [];
-
-export const gError = {
-  errors: inputErrors
-}
+export const inputErrors: any[] = [];
 
 const AppTextInput: React.FC<IAppTextInputProps> = props => {
   const {
@@ -53,11 +51,14 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     maxLength,
     name,
     requireType,
+    chekCount,
     onChange,
   } = props;
 
   const errorMessages = {
     email: 'wrong email',
+    password:
+      'პაროლი უნდა შეიცავდეს მინიმუმ: \n- 8 სიმბოლოს \n- ერთ დიდ ასოს \n- ერთ პატარა ასოს \n- ერთ ციფრს \n- ერთ სპეციალურ სიმბოლოს (გარდა წერტილისა და @ სიმბოლოსი)',
     required: 'fill field',
     min: 'min value must ' + minValue,
     minLength: 'min length must ' + minLength,
@@ -81,93 +82,158 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
   };
+  const validatePassword = () => {
+    return String(value)
+      .toLowerCase()
+      .match(
+        '^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,}$',
+      );
+  };
 
-  const check = () => {
-    if (isFocused)
-      switch (requireType) {
-        case requireTypes.require:
-          {
-            if (!value) {
-              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-              setHasEror(errorMessages.required);
-            } else if (value && value?.trim().length <= 0) {
-              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-              setHasEror(errorMessages.required);
-            } else {
-              inputErrors = [...inputErrors.filter(n => n !== name)];
-              setHasEror(undefined);
-            }
-          }
-          break;
-        case requireTypes.email:
-          {
-            if (!value) {
-              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-              setHasEror(errorMessages.email);
-            } else if (
-              (value && value?.trim().length <= 0) ||
-              !validateEmail()
-            ) {
-              if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-              setHasEror(errorMessages.email);
-            } else {
-              inputErrors = [...inputErrors.filter(n => n !== name)];
-              setHasEror(undefined);
-            }
-          }
-          break;
-        case requireTypes.min:
-          {
-            if (minValue) {
-              if (!value) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-                setHasEror(errorMessages.min);
-              } else if (isNaN(parseFloat(value))) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-                setHasEror(errorMessages.min);
-              } else if (value && parseFloat(value) < minValue) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-                setHasEror(errorMessages.min);
-              } else {
-                inputErrors = [...inputErrors.filter(n => n !== name)];
-                setHasEror(undefined);
-              }
-            }
-          }
-          break;
-        case requireTypes.minLength:
-          {
-            if (minLength) {
-              if (!value) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-                setHasEror(errorMessages.minLength);
-              } else if (value && value.length < minLength) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-                setHasEror(errorMessages.minLength);
-              } else {
-                inputErrors = [...inputErrors.filter(n => n !== name)];
-                setHasEror(undefined);
-              }
-            }
-          }
-          break;
-        case requireTypes.maxLength:
-          {
-            if (maxLength) {
-              if (!value) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-                setHasEror(errorMessages.maxLength);
-              } else if (value && value.length > maxLength) {
-                if (inputErrors.indexOf(name) < 0) inputErrors.push(name);
-                setHasEror(errorMessages.maxLength);
-              } else {
-                inputErrors = [...inputErrors.filter(n => n !== name)];
-                setHasEror(undefined);
-              }
-            }
-          }
-          break;
+  const check = (imediately?: boolean) => {  console.log('>>>1', value, requireType);
+    if (requireType === requireTypes.require) {
+      if (!value) {
+        if (inputErrors.indexOf(name) < 0) {
+          inputErrors.push(name);
+        }
+        if (isFocused || imediately) {
+          setHasEror(errorMessages.required);
+        }
+       
+      } else if (value && value?.trim().length <= 0) {
+        if (inputErrors.indexOf(name) < 0) {
+          inputErrors.push(name);
+        }
+        if (isFocused || imediately) {
+          setHasEror(errorMessages.required);
+        }
+      
+      } else {
+        const filtered = [...inputErrors.filter(n => n !== name)];
+        inputErrors.splice(0, inputErrors.length);
+        inputErrors.push(...filtered);
+        setHasEror(undefined);
       }
+    } else if (requireType === requireTypes.email) {
+      if (!value) {
+        if (inputErrors.indexOf(name) < 0) {
+          inputErrors.push(name);
+        }
+        if (isFocused || imediately) {
+          setHasEror(errorMessages.email);
+        }
+      } else if ((value && value?.trim().length <= 0) || !validateEmail()) {
+        if (inputErrors.indexOf(name) < 0) {
+          inputErrors.push(name);
+        }
+        if (isFocused || imediately) {
+          setHasEror(errorMessages.email);
+        }
+      } else {
+        const filtered = [...inputErrors.filter(n => n !== name)];
+        inputErrors.splice(0, inputErrors.length);
+        inputErrors.push(...filtered);
+        setHasEror(undefined);
+      }
+    } else if (requireType === requireTypes.password) {
+      if (!value) {
+        if (inputErrors.indexOf(name) < 0) {
+          inputErrors.push(name);
+        }
+        if (isFocused || imediately) {
+          setHasEror(errorMessages.password);
+        }
+      } else if ((value && value?.trim().length <= 0) || !validatePassword()) {
+        if (inputErrors.indexOf(name) < 0) {
+          inputErrors.push(name);
+        }
+        if (isFocused || imediately) {
+          setHasEror(errorMessages.password);
+        }
+      } else {
+        const filtered = [...inputErrors.filter(n => n !== name)];
+        inputErrors.splice(0, inputErrors.length);
+        inputErrors.push(...filtered);
+        setHasEror(undefined);
+      }
+    } else if (requireType === requireTypes.min) {
+      if (minValue) {
+        if (!value) {
+          if (inputErrors.indexOf(name) < 0) {
+            inputErrors.push(name);
+          }
+          if (isFocused || imediately) {
+            setHasEror(errorMessages.min);
+          }
+        } else if (isNaN(parseFloat(value))) {
+          if (inputErrors.indexOf(name) < 0) {
+            inputErrors.push(name);
+          }
+          if (isFocused || imediately) {
+            setHasEror(errorMessages.min);
+          }
+        } else if (value && parseFloat(value) < minValue) {
+          if (inputErrors.indexOf(name) < 0) {
+            inputErrors.push(name);
+          }
+          if (isFocused || imediately) {
+            setHasEror(errorMessages.min);
+          }
+        } else {
+          const filtered = [...inputErrors.filter(n => n !== name)];
+          inputErrors.splice(0, inputErrors.length);
+          inputErrors.push(...filtered);
+          setHasEror(undefined);
+        }
+      }
+    } else if (requireType === requireTypes.minLength) {
+      if (minLength) {
+        if (!value) {
+          if (inputErrors.indexOf(name) < 0) {
+            inputErrors.push(name);
+          }
+          if (isFocused || imediately) {
+            setHasEror(errorMessages.minLength);
+          }
+        } else if (value && value.length < minLength) {
+          if (inputErrors.indexOf(name) < 0) {
+            inputErrors.push(name);
+          }
+          if (isFocused || imediately) {
+            setHasEror(errorMessages.minLength);
+          }
+        } else {
+          const filtered = [...inputErrors.filter(n => n !== name)];
+          inputErrors.splice(0, inputErrors.length);
+          inputErrors.push(...filtered);
+          setHasEror(undefined);
+        }
+      }
+    } else if (requireType === requireTypes.maxLength) {
+      if (maxLength) {
+        if (!value) {
+          if (inputErrors.indexOf(name) < 0) {
+            inputErrors.push(name);
+          }
+          if (isFocused || imediately) {
+            setHasEror(errorMessages.maxLength);
+          }
+        } else if (value && value.length > maxLength) {
+          if (inputErrors.indexOf(name) < 0) {
+            inputErrors.push(name);
+          }
+          if (isFocused || imediately) {
+            setHasEror(errorMessages.maxLength);
+          }
+        } else {
+          const filtered = [...inputErrors.filter(n => n !== name)];
+          inputErrors.splice(0, inputErrors.length);
+          inputErrors.push(...filtered);
+          setHasEror(undefined);
+        }
+      }
+    }
+
     setIsFocused(true);
   };
 
@@ -176,7 +242,8 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     if (requireType) {
       check();
     }
-  }, [value]);
+  }, [value, chekCount]);
+
   console.log(inputErrors);
   return (
     <View style={styles.main}>

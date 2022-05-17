@@ -37,7 +37,7 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
   console.log('>>>>>>>>>>>', organization?.organization?.url);
   return (
     <ScrollView style={styles.main}>
-      {/* <Image source={require(organization?.organization?.url)} /> */}
+      <Image style={{width: 200, height: 200}} source={{uri: organization?.organization?.url}} />
     </ScrollView>
   );
 };

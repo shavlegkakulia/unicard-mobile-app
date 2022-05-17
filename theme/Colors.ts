@@ -2,6 +2,7 @@ enum Colors {
   bgColor = '#FAFAFA',
   black = '#130D1E',
   bgGreen = '#91C84B',
+  bgGreenLight = '#A6DA64',
   orange = '#FF9637',
   lightOrange = '#FAC32D',
   dark = '#130D1E',
@@ -12,10 +13,16 @@ enum Colors {
   darkGrey = '#6B6B6B',
   lightGreyTxt = '#BFBFBF',
   red = '#EF1616',
-  overley = '#000000',
+  overley = '#000000ba',
   gradiantDark = '#91C84B',
   gradiantLight = '#bddb95',
   amountTxt = '#FFA001',
+  switchGrey = '#898A8D',
+  cancelBtnCol = '#F6F6F4',
+  buttonGrey = '#F1F1F1',
+  authBtn = '#ff8f0038',
+  authBtnText = '#FF9637',
+
 }
 
 export default Colors;

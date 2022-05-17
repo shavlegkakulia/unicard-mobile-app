@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -14,16 +14,46 @@ import {AuthActions} from '../Store/types/auth';
 import Colors from '../theme/Colors';
 import {authRoutes} from './routes';
 import {useNavigation} from '@react-navigation/native';
+import UserInfoService, {
+  IgetUserInfoDetailsRequest,
+  IgetUserServiceResponse,
+} from '../services/UserInfoService';
+import {subscriptionService} from '../services/SubscribeService';
 
 const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
   const navigation = useNavigation();
+  const [userInfo, setUserInfo] = useState<IgetUserServiceResponse>();
   const dispath = useDispatch();
+
+  const goTo = (roteName: string) => {
+    subscriptionService?.sendData('close-leftdrawer', true);
+    navigation.navigate(roteName);
+  };
   const login = () => {
     dispath({
       type: AuthActions.setIsAuthentificated,
       isAuthentificated: true,
     });
   };
+  const getUserInfo = () => {
+    const req: IgetUserInfoDetailsRequest = {
+      user_id: '',
+      lang: '',
+    };
+    UserInfoService.GenerateUserInfo(req).subscribe({
+      next: Response => {
+        if (Response.data.resultCode === '200') {
+          setUserInfo(Response.data);
+        }
+      },
+      error: err => {
+        console.log(err.response);
+      },
+    });
+  };
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -33,7 +63,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
           source={require('../assets/img/uniLogo.png')}
         />
       </View>
-      <TouchableOpacity style={styles.row}>
+      <View style={styles.row}>
         <View style={styles.avatarView}>
           <Image
             style={styles.avatar}
@@ -41,11 +71,13 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
           />
         </View>
 
-        <Text style={styles.name}>გვანცა გაბუნია</Text>
-      </TouchableOpacity>
+        <Text style={styles.name}>
+          {userInfo?.name} {userInfo?.surname}
+        </Text>
+      </View>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => navigation.navigate(authRoutes.barcode)}>
+        onPress={() => goTo(authRoutes.barcode)}>
         <View style={styles.iconView}>
           <Image
             style={styles.card}
@@ -54,9 +86,10 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>ბარათი</Text>
       </TouchableOpacity>
+      <View style={styles.lineView} />
       <TouchableOpacity
         style={styles.row}
-        onPress={() => navigation.navigate(authRoutes.home)}>
+        onPress={() => goTo(authRoutes.home)}>
         <View style={styles.iconView}>
           <Image
             style={styles.homeIcon}
@@ -67,7 +100,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => navigation.navigate(authRoutes.myPage)}>
+        onPress={() => goTo(authRoutes.myPage)}>
         <View style={styles.iconView}>
           <Image
             style={styles.userIcon}
@@ -76,7 +109,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>ჩემი გვერდი</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => goTo(authRoutes.spendOptions)}>
         <View style={styles.iconView}>
           <Image
             style={styles.cartIcon}
@@ -94,7 +129,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>ჩემ გარშემო</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => goTo(authRoutes.partners)}>
         <View style={styles.iconView}>
           <Image
             style={styles.hendsIcon}
@@ -103,7 +140,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>პარტნიორები</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => goTo(authRoutes.news)}>
         <View style={styles.iconView}>
           <Image
             style={styles.newsIcon}
@@ -112,7 +151,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>სიახლეები</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => goTo(authRoutes.aboutUs)}>
         <View style={styles.iconView}>
           <Image
             style={styles.aboutIcon}
@@ -121,7 +162,9 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
         <Text style={styles.name}>ჩვენ შესახებ</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => goTo(authRoutes.parameters)}>
         <View style={styles.iconView}>
           <Image
             style={styles.paramIcon}
@@ -186,7 +229,8 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 14,
     fontWeight: 'bold',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   card: {
     width: 23,
@@ -237,11 +281,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 160,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+
+    elevation: 7,
   },
   btnText: {
     color: Colors.white,
     fontSize: 14,
     fontWeight: '700',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
+  },
+  lineView: {
+    borderBottomColor: Colors.white,
+    borderBottomWidth: 1,
+    marginTop: 26,
+    width: 195,
   },
 });

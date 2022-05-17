@@ -19,19 +19,18 @@ import Colors from '../../theme/Colors';
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
 
-  console.log(props.route.params);
   return (
     <View style={styles.main}>
       <View style={styles.titleWrapper}>
-        <Text style={styles.title}>შეიყვანეთ სმს კოდი</Text>
+        <Text style={styles.title}>შეიყვანეთ SMS კოდი</Text>
       </View>
       <View style={styles.sendTextView}>
         <Text style={styles.sendText}>
-          ავტორიზაციისთვის საჭირო სმს კოდი გამოგზავნილია
+          ავტორიზაციისთვის საჭირო SMS კოდი გამოგზავნილია
         </Text>
       </View>
       <View style={styles.inputView}>
-        <Text style={styles.text}>სმს კოდი</Text>
+        <Text style={styles.text}>SMS კოდი</Text>
 
         <TextInput style={styles.input} keyboardType="numeric" />
         <TouchableOpacity>
@@ -49,7 +48,6 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
           title={'შემდეგი'}
           backgroundColor={Colors.bgGreen}
         />
-        {console.log(props.route.params)}
       </View>
     </View>
   );
@@ -66,7 +64,8 @@ const styles = StyleSheet.create({
     color: '#6B6B6B',
     fontSize: 16,
     fontWeight: '700',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 24,
   },
   sendTextView: {
     marginTop: 35,
@@ -74,8 +73,9 @@ const styles = StyleSheet.create({
   sendText: {
     fontSize: 14,
     fontWeight: '400',
-    textTransform: 'uppercase',
     color: Colors.darkGrey,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   inputView: {
     marginTop: 35,
@@ -92,6 +92,8 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.bgGreen,
     textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   button: {
     top: 150,

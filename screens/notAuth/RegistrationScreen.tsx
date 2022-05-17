@@ -63,7 +63,8 @@ const styles = StyleSheet.create({
     color: Colors.darkGrey,
     fontSize: 16,
     fontWeight: '700',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   imageWrapper: {
     flexDirection: 'row',

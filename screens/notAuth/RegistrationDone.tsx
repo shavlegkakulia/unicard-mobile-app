@@ -28,12 +28,8 @@ const RegistrationDone: React.FC<ScreenNavigationProp> = props => {
       email,
       password,
     };
-    console.log(data);
     AuthService.SignUp(data).subscribe({
       next: Response => {
-        //Response.data.succes
-        console.log('response', Response.data);
-        // dispatch(login())
         props.navigation.navigate(notAuthRoutes.authScreen)
       
       },
@@ -95,10 +91,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    color: Colors.bgGreen,
+    fontWeight: '400',
+    color: Colors.darkGrey,
     textAlign: 'center',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 24,
   },
   buttonView: {
     flex: 1,

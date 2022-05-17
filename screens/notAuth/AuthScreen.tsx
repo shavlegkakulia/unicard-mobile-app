@@ -1,5 +1,5 @@
 import CheckBox from '@react-native-community/checkbox';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   Text,
@@ -15,7 +15,8 @@ import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 import AuthService, {IAyuthData} from '../../services/AuthService';
-import {login} from '../../Store/actions/auth';
+import AsyncStorage from '../../services/StorageService';
+import {getUserInfo, login} from '../../Store/actions/auth';
 import Colors from '../../theme/Colors';
 
 interface IUserData {
@@ -25,8 +26,8 @@ interface IUserData {
 
 const AuthScreen: React.FC<ScreenNavigationProp> = props => {
   const [userData, setUserData] = useState<IUserData>({
-    username: 'test@test.ge',
-    password: 'abcd123!',
+    username: 'levani1308@gmail.com',
+    password: 'Abcd123!',
   });
   const dispatch = useDispatch();
 
@@ -40,13 +41,12 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     };
     AuthService.SignIn(data).subscribe({
       next: async Response => {
-        console.log(Response);
         if (Response.access_token) {
           await AuthService.setToken(
             Response.access_token,
             Response.refresh_token,
           );
-
+          dispatch(getUserInfo(toggleCheckBox));
           dispatch(login());
         }
       },
@@ -56,6 +56,14 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
       error: e => console.log('err', e.response),
     });
   };
+
+  useEffect(() => {
+    AsyncStorage.getItem('userInfo').then(res => {
+      if (res !== null) {
+        props.navigation.navigate(notAuthRoutes.authPage);
+      }
+    });
+  }, []);
 
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   return (
@@ -123,8 +131,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 12,
     fontWeight: 'bold',
-    textTransform: 'uppercase',
     color: Colors.darkGrey,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 14.4,
   },
   imgView: {
     alignItems: 'center',
@@ -156,7 +165,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 12,
     fontWeight: '400',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 14.4,
     color: Colors.darkGrey,
   },
   button: {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -11,39 +11,49 @@ import {useNavigation} from '@react-navigation/native';
 
 import Colors from '../theme/Colors';
 import {authRoutes} from '../navigation/routes';
+import {IgetProducteResponse} from '../services/ProductService';
+import ProductList, {
+  Igeneralresp,
+  IgetProducteListRequest,
+  IgetProducteListResponse,
+} from '../services/ProductListService';
+import navigation from '../navigation/navigation';
 
-export interface ShoplistProps {
-  amount: number;
-  image: ImageSourcePropType;
-  description: string;
-  id: number;
-}
 
-
-const ShopingCard: React.FC<ShoplistProps> = props => {
-  const {amount, image, description, id} = props;
+const ShopingCard: React.FC<IgetProducteListResponse> = props => {
   const navigation = useNavigation();
-  
-
+  let imgUrl = '';
+  if (props.images?.length) {
+    imgUrl = props.images[0];
+  }
   return (
     <TouchableOpacity
       style={styles.cardWrapper}
       onPress={navigation.navigate.bind(this, authRoutes.singleOffer, {
-        itemId: id,
+        id: props.id,
       })}>
       <View>
-        <Image source={image} style={styles.img} />
+        <Image source={{uri: imgUrl}} style={styles.img} />
       </View>
       <View style={styles.describeView}>
-        <View style={styles.markView}>
-          <Text style={styles.amountTxt}>{amount}</Text>
-          <Image
-            style={styles.mark}
-            source={require('../assets/img/UniMark.png')}
-          />
+        <View style={styles.seeMoreView}>
+          <View style={styles.markView}>
+            <Text style={styles.amountTxt}>{props.price}</Text>
+            <Image
+              style={styles.mark}
+              source={require('../assets/img/UniMark.png')}
+            />
+          </View>
+          <View style={styles.seeMoreView}>
+            <Text style={styles.seemoreTxt}>ვრცლად</Text>
+            <Image
+              style={styles.leftArrow}
+              source={require('../assets/img/leftArrow.png')}
+            />
+          </View>
         </View>
 
-        <Text style={styles.descriptionText}>{description}</Text>
+        <Text style={styles.descriptionText}>{props.name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -72,13 +82,16 @@ const styles = StyleSheet.create({
     color: Colors.amountTxt,
     fontWeight: '700',
     fontSize: 16,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 19.2,
   },
   descriptionText: {
     fontSize: 10,
-    textTransform: 'uppercase',
     fontWeight: '400',
     color: Colors.black,
     marginTop: 3,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 12,
   },
   mark: {
     width: 13,
@@ -88,6 +101,22 @@ const styles = StyleSheet.create({
   markView: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  seeMoreView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  seemoreTxt: {
+    fontSize: 8,
+    color: Colors.darkGrey,
+    fontFamily: 'BPG DejaVu Sans',
+    lineHeight: 9.31,
+  },
+  leftArrow: {
+    width: 5,
+    height: 8,
+    left: 4,
   },
 });
 

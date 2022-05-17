@@ -47,3 +47,14 @@ export const getArray = (value: Array<any> | undefined) => {
 
   return array;
 };
+
+export function htmlToString(str: string | undefined) {
+  let regex = /(<([^>]+)>)/gi;
+
+  return str?.replace(regex, '');
+}
+export function linkTag(str: string | undefined) {
+  let regex = /<a\s+(?:[^>]*?\s+)?href=(["'])(.*?)\1/;
+
+  return str?.replace(regex, '');
+}

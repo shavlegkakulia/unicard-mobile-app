@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -20,11 +20,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import DATA from '../../constants/shopListDummyData';
 import ShopingCard from '../../components/ShopCard';
 import {authRoutes} from '../../navigation/routes';
+import ProductList, {
+  Igeneralresp,
+  IgetProducteListRequest,
+  IgetProducteListResponse,
+} from '../../services/ProductListService';
+import GetBalanceService, { IgetBalanceRequest, IgetBalanceResponse } from '../../services/GetBalanceService';
 
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const renderItem = useCallback(({item}) => {
-    console.log('essssssssssi', item);
     return <ShopingCard {...item} />;
   }, []);
 
@@ -32,23 +37,70 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     state => state.TranslateReducer,
   ) as ITranslateState;
 
-  const keyExtractor = useCallback(item => {
-    return item.id;
-  }, []);
+  const keyExtractor = (item: IgetProducteListResponse) => {
+    return item?.id + new Date().toLocaleTimeString();
+  };
 
-  const signin = () => {
-    AuthService.SignIn({email: 'fhjdskhfjd', password: 'fdsfds'}).subscribe({
-      next: async Response => {
-        await AuthService.setToken(
-          Response.data.token,
-          Response.data.refresh_token,
-        );
-        dispatch(login());
+  const [list, setList] = useState<Igeneralresp>();
+  const [balance, setBalance] = useState<IgetBalanceResponse>();
+
+  const getProductList = () => {
+    const req: IgetProducteListRequest = {
+      page_index: '1',
+      lang: '',
+    };
+    ProductList.getList(req).subscribe({
+      next: Response => {
+        if (Response.data.resultCode === '200') {
+          setList(Response.data);
+        }
       },
-      error: err => {},
-      complete: () => {},
+      error: err => {
+        console.log(err.response);
+      },
     });
   };
+  useEffect(() => {
+    getProductList();
+  }, []);
+
+
+  const getBalance = () => {
+    const req: IgetBalanceRequest = {
+      user_id: '',
+      lang: '',
+    };
+    GetBalanceService.GenerateBalance(req).subscribe({
+      next: Response => {
+        if (Response.data.resultCode === '200') {
+          setBalance(Response.data);
+          // console.log('balanceeeee=========>', Response.data);
+        }
+      },
+      error: err => {
+        console.log(err.response);
+      },
+    });
+  };
+  useEffect(() => {
+    getBalance();
+  }, []);
+  
+
+
+  // const signin = () => {
+  //   AuthService.SignIn({email: 'fhjdskhfjd', password: 'fdsfds'}).subscribe({
+  //     next: async Response => {
+  //       await AuthService.setToken(
+  //         Response.data.token,
+  //         Response.data.refresh_token,
+  //       );
+  //       dispatch(login());
+  //     },
+  //     error: err => {},
+  //     complete: () => {},
+  //   });
+  // };
 
   return (
     <ScrollView>
@@ -64,15 +116,10 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
             style={styles.mark}
             source={require('../../assets/img/UniMark.png')}
           />
-          <Text style={styles.amount}>54000</Text>
+          <Text style={styles.amount}>{balance?.balance}</Text>
         </View>
       </TouchableOpacity>
-      <View style={styles.linearView}>
-        <LinearGradient
-          style={styles.linear}
-          colors={[Colors.gradiantDark, Colors.gradiantLight, Colors.bgColor]}
-        />
-      </View>
+      
       <View style={styles.titleWrapper}>
         <Text style={styles.title}>რაში დავხარჯო</Text>
       </View>
@@ -81,32 +128,17 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           contentContainerStyle={{
             alignSelf: 'flex-start',
           }}
-          numColumns={DATA.length / 2}
-          data={DATA}
+          bounces={false}
+          data={list?.products}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           keyExtractor={keyExtractor}
           contentInset={{right: 20}}
+          numColumns={list && Math.ceil(list?.products.length || 2) / 2}
+          key={list && new Date().toLocaleTimeString()}
         />
       </View>
-
-      {/* <ScrollView
-        horizontal={true}
-        pagingEnabled={true}
-        style={{flex: 1}}
-        contentContainerStyle={{
-          flex: 1,
-          flexWrap: 'wrap',
-          // flexDirection: 'row',
-          justifyContent: 'space-evenly',
-        }}>
-        {DATA.map((data, i) => (
-          <View key={i}>
-            <ShopingCard {...data} />
-          </View>
-        ))}
-      </ScrollView> */}
 
       <Text>{translateReducer.t('common.name')}</Text>
     </ScrollView>
@@ -116,12 +148,12 @@ const styles = StyleSheet.create({
   imageView: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 265,
-    shadowColor: '#000',
-    shadowOffset: {width: 1, height: 1},
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-    elevation: 5,
+    height: 300,
+    backgroundColor: Colors.white,
+    shadowOffset: {width: 0, height: 11},
+    shadowColor: Colors.bgGreen,
+    shadowOpacity: 5,
+    shadowRadius: 8,
   },
   img: {
     width: 289.14,
@@ -130,7 +162,7 @@ const styles = StyleSheet.create({
   markView: {
     position: 'absolute',
     left: 35,
-    bottom: -18,
+    bottom: 10,
     alignItems: 'center',
   },
   mark: {
@@ -140,6 +172,10 @@ const styles = StyleSheet.create({
   amount: {
     color: Colors.amountTxt,
     fontSize: 28,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    // lineHeight: 24,
+    marginTop: 5,
+    fontWeight: '700',
   },
   linearView: {
     width: '100%',
@@ -150,13 +186,14 @@ const styles = StyleSheet.create({
   },
   titleWrapper: {
     marginHorizontal: 46,
-    marginTop: 35,
+    marginTop: 62,
   },
   title: {
     fontSize: 14,
-    textTransform: 'uppercase',
     color: Colors.black,
     fontWeight: '400',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   flatlist: {
     marginTop: 28,

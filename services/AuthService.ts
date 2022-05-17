@@ -40,6 +40,12 @@ export interface IAuthOtp {
   phone: string;
 }
 
+export interface IChangePasswordRequestData {
+  password?: string;
+  new_password?: string;
+  confirm_password?: string;
+}
+
 
 export default new (class AuthService {
   refreshStarted: any;
@@ -136,7 +142,21 @@ export default new (class AuthService {
 
     return from(response);
   }
-  
+
+  ChangePassword(data: IChangePasswordRequestData | undefined) {
+    const response = axios.post<IRegisterResponse>(
+      `${envs.API_URL}api/Mobile/ChangePassword`,
+      data,
+      {
+        objectResponse: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+
+    return from(response);
+  }
 
   registerAuthInterceptor(callBack: any) {
     const setAuthToken = async (config: AxiosRequestConfig) => {

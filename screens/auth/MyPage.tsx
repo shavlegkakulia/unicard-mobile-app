@@ -1,90 +1,156 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, StyleSheet, View, ScrollView, Image} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
+import CardBalance, {
+  IgetBalanceDetailsRequest,
+  IgetBalanceResponse,
+} from '../../services/CardBalanceService';
+import TransactionService, {
+  IgetProducteDetailsRequest,
+  IgetTransactionsResponse,
+} from '../../services/TransactionsListService';
 import Colors from '../../theme/Colors';
 
 const MyPage: React.FC<ScreenNavigationProp> = () => {
+  const [balance, setBalance] = useState<IgetBalanceResponse>();
+  const [transactions, setTransactions] =
+    useState<IgetTransactionsResponse[]>();
+  const getTransaction = () => {
+    const req: IgetProducteDetailsRequest = {
+      user_id: '',
+      lang: '',
+    };
+    TransactionService.getTransactions(req).subscribe({
+      next: Response => {
+        if (Response.data.resultCode === '200') {
+          setTransactions(Response.data.transactions);
+        }
+      },
+      error: err => {
+        console.log(err.response);
+      },
+    });
+  };
+  useEffect(() => {
+    getTransaction();
+  }, []);
+
+  useEffect(() => {
+    const balanceReq: IgetBalanceDetailsRequest = {
+      user_id: '',
+      lang: '',
+    };
+    CardBalance.GenerateBalance(balanceReq).subscribe({
+      next: Response => {
+        if (Response.data.resultCode === '200') {
+          setBalance(Response.data);
+        }
+      },
+      error: err => {
+        console.log(err.response);
+      },
+    });
+  }, []);
+
   return (
     <ScrollView>
-      <View style={styles.titleView}>
-        <Text style={styles.title}>მიმდინარე ნაშთი</Text>
-        <View style={styles.amountView}>
-          <Text style={styles.amount}>862.4</Text>
-          <Image
-            style={styles.icon}
-            source={require('../../assets/img/UniMark.png')}
-          />
-        </View>
-        <View style={styles.detailView}>
-          <View style={styles.borderView}>
-            <Text style={styles.detailTitle}>დაბლოკილი</Text>
-            <View style={styles.row}>
-              <Text style={styles.detailAmount}>0</Text>
-              <Image
-                style={styles.detailIcon}
-                source={require('../../assets/img/UniMark.png')}
-              />
-            </View>
-            <Text />
-          </View>
-          <View style={styles.borderView}>
-            <Text style={styles.detailTitle}>დახარჯული</Text>
-            <View style={styles.row}>
-              <Text style={styles.detailAmount}>1117.4</Text>
-              <Image
-                style={styles.detailIcon}
-                source={require('../../assets/img/UniMark.png')}
-              />
-            </View>
-            <Text />
-          </View>
-          <View style={styles.last}>
-            <Text style={styles.detailTitle}>დაგროვებული</Text>
-            <View style={styles.row}>
-              <Text style={styles.detailAmount}>1979.8</Text>
-              <Image
-                style={styles.detailIcon}
-                source={require('../../assets/img/UniMark.png')}
-              />
-            </View>
-          </View>
-        </View>
-      </View>
-      <View style={styles.linearView}>
-        <LinearGradient
-          style={styles.linear}
-          colors={[Colors.gradiantDark, Colors.gradiantLight, Colors.bgColor]}
-        />
-      </View>
-      <View style={styles.listMainView}>
-        <View style={styles.listView}>
-          <View>
-            <Text style={styles.payUnicard}>Payunicard</Text>
-            <View style={styles.listIconView}>
-              <Image
-                style={styles.timeIcon}
-                source={require('../../assets/img/timeIcon.png')}
-              />
-              <Text style={styles.timeText}>გუშინ 14:16 11.67₾</Text>
-            </View>
-            <View style={styles.listIconView}>
-              <Image
-                style={styles.pinIcon}
-                source={require('../../assets/img/pinGrey.png')}
-              />
-              <Text style={styles.addrsText}>ვაჟა-ფშაველას გამზირი #71</Text>
+      {balance && transactions ? (
+        <>
+          <View style={styles.border}>
+            <View style={styles.titleView}>
+              <Text style={styles.title}>მიმდინარე ნაშთი</Text>
+              <View style={styles.amountView}>
+                <Text style={styles.amount}>{balance?.scores_left}</Text>
+                <Image
+                  style={styles.icon}
+                  source={require('../../assets/img/UniMark.png')}
+                />
+              </View>
+              <View style={styles.detailView}>
+                <View style={styles.borderView}>
+                  <Text style={styles.detailTitle}>დაბლოკილი</Text>
+                  <View style={styles.row}>
+                    <Text style={styles.detailAmount}>
+                      {balance?.scores_blocked}
+                    </Text>
+                    <Image
+                      style={styles.detailIcon}
+                      source={require('../../assets/img/UniMark.png')}
+                    />
+                  </View>
+                </View>
+                <View style={styles.borderView}>
+                  <Text style={styles.detailTitle}>დახარჯული</Text>
+                  <View style={styles.row}>
+                    <Text style={styles.detailAmount}>
+                      {balance?.scores_spent}
+                    </Text>
+                    <Image
+                      style={styles.detailIcon}
+                      source={require('../../assets/img/UniMark.png')}
+                    />
+                  </View>
+                </View>
+                <View style={styles.last}>
+                  <Text style={styles.detailTitle}>დაგროვებული</Text>
+                  <View style={styles.row}>
+                    <Text style={styles.detailAmount}>
+                      {balance?.scores_saved}
+                    </Text>
+                    <Image
+                      style={styles.detailIcon}
+                      source={require('../../assets/img/UniMark.png')}
+                    />
+                  </View>
+                </View>
+              </View>
             </View>
           </View>
-          <View>
-            <Text style={styles.payAmount}>+1.1</Text>
+          <View style={styles.listMainView}>
+            {transactions &&
+              [...transactions, ...transactions]?.map(tr => (
+                <View style={styles.listView} key={tr.organisation_id}>
+                  <View>
+                    <Text style={styles.name}>{tr.organisation_name}</Text>
+                    <View style={styles.listIconView}>
+                      <Image
+                        style={styles.timeIcon}
+                        source={require('../../assets/img/timeIcon.png')}
+                      />
+                      <Text style={styles.timeText}>{tr.date}</Text>
+                    </View>
+                    <View style={styles.listIconView}>
+                      <Image
+                        style={styles.pinIcon}
+                        source={require('../../assets/img/pinGrey.png')}
+                      />
+                      <Text style={styles.addrsText}>
+                        ვაჟა-ფშაველას გამზირი #71
+                      </Text>
+                    </View>
+                  </View>
+                  <View>
+                    <Text style={styles.payAmount}>+{tr.score}</Text>
+                  </View>
+                </View>
+              ))}
           </View>
-        </View>
-      </View>
+        </>
+      ) : (
+        <Loader visible={true} />
+      )}
     </ScrollView>
   );
 };
 const styles = StyleSheet.create({
+  border: {
+    backgroundColor: Colors.white,
+    shadowOffset: {width: 0, height: 11},
+    shadowColor: Colors.bgGreen,
+    shadowOpacity: 5,
+    shadowRadius: 8,
+  },
   titleView: {
     alignItems: 'center',
     marginTop: 40,
@@ -92,9 +158,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 15,
-    fontWeight: 'bold',
+    fontWeight: '700',
     color: Colors.bgGreen,
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 18,
   },
   amountView: {
     flexDirection: 'row',
@@ -112,7 +179,7 @@ const styles = StyleSheet.create({
   },
   detailView: {
     flexDirection: 'row',
-    marginTop: 43,
+    marginVertical: 43,
   },
   row: {
     flexDirection: 'row',
@@ -131,7 +198,8 @@ const styles = StyleSheet.create({
   detailTitle: {
     fontSize: 12,
     fontWeight: '400',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 14.4,
     color: Colors.bgGreen,
   },
   detailIcon: {
@@ -143,6 +211,8 @@ const styles = StyleSheet.create({
   detailAmount: {
     fontSize: 20,
     color: Colors.amountTxt,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 24,
   },
   linearView: {
     width: '100%',
@@ -153,17 +223,20 @@ const styles = StyleSheet.create({
   },
   listMainView: {
     marginHorizontal: 25,
+    marginTop: 29,
   },
   listView: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginBottom: 26,
   },
-  payUnicard: {
+  name: {
     fontSize: 14,
     fontWeight: '400',
     color: Colors.darkGrey,
-    lineHeight: 17,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   listIconView: {
     flexDirection: 'row',
@@ -180,19 +253,23 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   timeText: {
-      fontSize: 12,
-      color: Colors.darkGrey,
-      textTransform: 'uppercase',
+    fontSize: 12,
+    color: Colors.darkGrey,
+    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 14.4,
   },
   addrsText: {
-      color: Colors.lightGreyTxt,
-      fontSize: 10,
-      textTransform: 'uppercase',
+    color: Colors.lightGreyTxt,
+    fontSize: 10,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    marginTop: 10,
+    lineHeight: 12,
   },
   payAmount: {
     fontSize: 18,
     color: Colors.bgGreen,
-  }
+  },
 });
 
 export default MyPage;

@@ -10,40 +10,47 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
-import AppTextInput from '../../components/CostumComponents/AppTextInput';
+import AppTextInput, {
+  requireTypes,
+} from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
+
+import {inputErrors} from './../../components/CostumComponents/AppTextInput';
 
 import Colors from '../../theme/Colors';
 
 const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const [regData, setRegData] = useState<IRegisterRequestData>();
-
+  const [chekCount, setChekCount] = useState<number>(0);
   const dispatch = useDispatch();
 
-  // const clearState = () => {
-  //   setRegData({email: '', name: '', birthDate: ''});
-  // }
-
-
   const nextStep = () => {
+    setChekCount(t => ++t);
+    if (inputErrors.length > 0) {
+      return;
+    }
+
     props.navigation.navigate(notAuthRoutes.passwordInfo, {data: regData});
-  }
-  
+  };
+
   return (
     <>
       <ScrollView>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
-        </View>
         <View style={styles.textInput}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
+          </View>
           <AppTextInput
             placeholder={'სახელი'}
             icon={0}
             secureTextEntry={false}
             textContentType={'name'}
             value={regData?.user_name}
+            requireType={requireTypes.require}
+            name="name"
+            chekCount={chekCount}
             onChange={e =>
               setRegData({
                 user_name: e,
@@ -61,6 +68,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={'name'}
             value={regData?.surname}
+            chekCount={chekCount}
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -78,6 +86,10 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={''}
             value={regData?.person_code}
+            requireType={requireTypes.min}
+            minValue={6}
+            name="personalnumber"
+            chekCount={chekCount}
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -96,6 +108,10 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={''}
             value={regData?.birthDate}
+            requireType={requireTypes.minLength}
+            minLength={4}
+            chekCount={chekCount}
+            name="birthdate"
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -114,6 +130,10 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={'telephoneNumber'}
             value={regData?.phone}
+            requireType={requireTypes.maxLength}
+            maxLength={18}
+            chekCount={chekCount}
+            name="telephoneNumber"
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,
@@ -131,6 +151,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             icon={0}
             secureTextEntry={false}
             textContentType={'emailAddress'}
+            requireType={requireTypes.email}
+            name="email"
             value={regData?.email}
             onChange={e =>
               setRegData({
@@ -159,20 +181,21 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
 const styles = StyleSheet.create({
   titleWrapper: {
     width: 325,
-    alignItems: 'center',
+    // alignItems: 'center',
     marginTop: 48,
   },
   title: {
     color: Colors.darkGrey,
     fontSize: 16,
     fontWeight: '700',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 19.2,
   },
   textInput: {
     alignItems: 'center',
   },
   button: {
-    top: 116,
+    marginTop: 116,
   },
 });
 

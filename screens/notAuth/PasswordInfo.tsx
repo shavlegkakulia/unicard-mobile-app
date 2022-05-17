@@ -10,7 +10,11 @@ import CheckBox from '@react-native-community/checkbox';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
-import AppTextInput from '../../components/CostumComponents/AppTextInput';
+import AppTextInput, {
+  gError,
+  inputErrors,
+  requireTypes,
+} from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 
@@ -24,14 +28,16 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
 
   const params = props.route.params;
 
-  console.log('params', props.route.params);
-
   const OtpAuth = () => {
     AuthService.SendOtp({phone: params.data.phone}).subscribe({
       next: Response => {
-        //Response.data.succes
-        // console.log(regInfo);
-        // console.log('reg', regInfo);
+        if (inputErrors.length > 0) {
+          return;
+        }
+        if (passData?.password !== passData?.confirm_password) {
+          return;
+        }
+
         props.navigation.navigate(notAuthRoutes.smsCode, {
           data: {...params.data, ...passData},
         });
@@ -46,14 +52,16 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   return (
     <>
       <View style={styles.flex1}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
-        </View>
         <View style={styles.textInput}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
+          </View>
           <AppTextInput
             placeholder={'პაროლი'}
             secureTextEntry={true}
             value={passData?.password}
+            requireType={requireTypes.password}
+            name="password"
             onChange={e => {
               setPassData({
                 password: e,
@@ -61,11 +69,12 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
               });
             }}
           />
-          {/* {console.log(passData)} */}
           <AppTextInput
             placeholder={'გაიმეორეთ პაროლი'}
             secureTextEntry={true}
             value={passData?.confirm_password}
+            requireType={requireTypes.repeatPassword}
+            name="repeatPassword"
             onChange={e => {
               setPassData({
                 password: passData?.password,
@@ -113,14 +122,14 @@ const styles = StyleSheet.create({
   },
   titleWrapper: {
     width: 325,
-    alignItems: 'center',
     marginTop: 48,
   },
   title: {
     color: '#6B6B6B',
     fontSize: 16,
     fontWeight: '700',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   textInput: {
     alignItems: 'center',
@@ -134,9 +143,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#8AD00B',
-    textTransform: 'uppercase',
     fontSize: 14,
     marginLeft: 10,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
   subText: {
     textDecorationLine: 'underline',

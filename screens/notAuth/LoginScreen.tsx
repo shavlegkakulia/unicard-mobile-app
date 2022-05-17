@@ -26,17 +26,18 @@ const LoginScreen: React.FC<ScreenNavigationProp> = props => {
       </View>
       <AppButton
         onPress={() => {
-          props.navigation.navigate(notAuthRoutes.registration);
+          props.navigation.navigate(notAuthRoutes.authScreen);
         }}
-        title={'რეგისტრაცია'}
+        title={'ავტორიზაცია'}
         backgroundColor={Colors.bgGreen}
       />
       <View style={styles.btnWrapper}>
         <AppButton
           onPress={() => {
-            props.navigation.navigate(notAuthRoutes.authScreen);
+            props.navigation.navigate(notAuthRoutes.registration);
+           
           }}
-          title={'ავტორიზაცია'}
+          title={'რეგისტრაცია'}
           backgroundColor={Colors.lightOrange}
         />
       </View>
@@ -70,7 +71,8 @@ const styles = StyleSheet.create({
   or: {
     fontSize: 14,
     fontWeight: '700',
-    textTransform: 'uppercase',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
     color: Colors.lightOrange,
   },
   btnWrapper: {

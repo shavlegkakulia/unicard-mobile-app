@@ -18,6 +18,7 @@ export const requireTypes = {
   min: 'min',
   minLength: 'minLength',
   maxLength: 'maxLength',
+  repeatPassword: 'repeatPassword',
 };
 
 export interface IAppTextInputProps {
@@ -63,6 +64,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     min: 'min value must ' + minValue,
     minLength: 'min length must ' + minLength,
     maxLength: 'max length must ' + maxLength,
+    repeatPassword: 'პაროლი არასწორია',
   };
 
   const [visible, setVisible] = useState(secureTextEntry);
@@ -82,15 +84,22 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
   };
+  
   const validatePassword = () => {
-    return String(value)
-      .toLowerCase()
-      .match(
-        '^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*?&])[A-Za-zd@$!%*?&]{8,}$',
-      );
+    if (!value) {
+      return false;
+    }
+    const text = value;
+    const pattern =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!=+\/\\#$%^&*~`}{\]\[|()_+-])[A-Za-z\d#?!$()>`}{\]\[|=+\/\\<%^&_,*-]{8,100}$/gm;
+    const result = pattern.test(text);
+
+    console.log('>>>>', result);
+    return result;
   };
 
-  const check = (imediately?: boolean) => {  console.log('>>>1', value, requireType);
+  const check = (imediately?: boolean) => {
+    console.log('>>>1', value, requireType);
     if (requireType === requireTypes.require) {
       if (!value) {
         if (inputErrors.indexOf(name) < 0) {
@@ -99,7 +108,6 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         if (isFocused || imediately) {
           setHasEror(errorMessages.required);
         }
-       
       } else if (value && value?.trim().length <= 0) {
         if (inputErrors.indexOf(name) < 0) {
           inputErrors.push(name);
@@ -107,7 +115,6 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         if (isFocused || imediately) {
           setHasEror(errorMessages.required);
         }
-      
       } else {
         const filtered = [...inputErrors.filter(n => n !== name)];
         inputErrors.splice(0, inputErrors.length);
@@ -149,6 +156,27 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         }
         if (isFocused || imediately) {
           setHasEror(errorMessages.password);
+        }
+      } else {
+        const filtered = [...inputErrors.filter(n => n !== name)];
+        inputErrors.splice(0, inputErrors.length);
+        inputErrors.push(...filtered);
+        setHasEror(undefined);
+      }
+    } else if (requireType === requireTypes.repeatPassword) {
+      if (!value) {
+        if (inputErrors.indexOf(name) < 0) {
+          inputErrors.push(name);
+        }
+        if (isFocused || imediately) {
+          setHasEror(errorMessages.repeatPassword);
+        }
+      } else if (value && value?.trim().length <= 0) {
+        if (inputErrors.indexOf(name) < 0) {
+          inputErrors.push(name);
+        }
+        if (isFocused || imediately) {
+          setHasEror(errorMessages.repeatPassword);
         }
       } else {
         const filtered = [...inputErrors.filter(n => n !== name)];
@@ -246,30 +274,33 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
 
   console.log(inputErrors);
   return (
-    <View style={styles.main}>
-      <View style={styles.inputWrapper}>
-        <TextInput
-          placeholder={placeholder || ''}
-          onChangeText={onChange}
-          value={value}
-          placeholderTextColor={Colors.darkGrey}
-          keyboardType={keyboardType || 'default'}
-          secureTextEntry={visible}
-          textContentType={textContentType || 'none'}
-          style={styles.inputPlaceholder}
-        />
-        {hasError !== undefined && isFocused && (
-          <Text style={styles.errMessage}>{hasError}</Text>
-        )}
+    <>
+      <View style={styles.main}>
+        <View style={styles.inputWrapper}>
+          <TextInput
+            placeholder={placeholder || ''}
+            onChangeText={onChange}
+            value={value}
+            placeholderTextColor={Colors.darkGrey}
+            keyboardType={keyboardType || 'default'}
+            secureTextEntry={visible}
+            textContentType={textContentType || 'none'}
+            style={styles.inputPlaceholder}
+          />
+        </View>
+
+        <TouchableOpacity
+          style={styles.iconWrapper}
+          onPress={() => setVisible(!visible)}>
+          {iconUrl !== undefined && (
+            <Image source={iconUrl} style={styles.icon} />
+          )}
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity
-        style={styles.iconWrapper}
-        onPress={() => setVisible(!visible)}>
-        {iconUrl !== undefined && (
-          <Image source={iconUrl} style={styles.icon} />
-        )}
-      </TouchableOpacity>
-    </View>
+      {hasError !== undefined && isFocused && (
+        <Text style={styles.errMessage}>{hasError}</Text>
+      )}
+    </>
   );
 };
 export default AppTextInput;

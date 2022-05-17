@@ -43,6 +43,7 @@ import AuthPage from '../components/CostumComponents/AuthPage';
 import SingleNewsScreen from '../screens/auth/SingleNewsScreen';
 import {subscriptionService} from '../services/SubscribeService';
 import Partners from '../screens/auth/Partners';
+import SinglePartners from '../screens/auth/SinglePartners';
 
 const authStack = createStackNavigator();
 
@@ -490,7 +491,49 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitle: '',
-                    title: 'ჩემ გარშემო',
+                    title: 'პარტნიორები',
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={() => {}}>
+                        <Image
+                          style={{width: 21.01, height: 21, marginRight: 29}}
+                          source={require('../assets/img/greenSearch.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.singlePartners}
+                  component={SinglePartners}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerBackTitle: '',
+                    title: 'პარტნიორები',
                     headerTintColor: Colors.black,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,

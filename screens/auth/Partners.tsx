@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import PartnersCard from '../../components/CostumComponents/PartnersCard';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -12,7 +12,7 @@ const Partners: React.FC<ScreenNavigationProp> = () => {
   const [partners, setPartners] = useState<IgetPartnersResponse>();
   const [loading, setLoading] = useState();
   console.log(partners);
-  let logo = {uri: partners?.partner_logo};
+  let logo = {uri: partners?.url};
   const getPartners = () => {
     PartnersService.GeneratePartners().subscribe({
       next: Response => {
@@ -29,15 +29,18 @@ const Partners: React.FC<ScreenNavigationProp> = () => {
     getPartners();
   }, []);
   return (
-    <View>
-      {partners?.partners?.map(e => (
+    <ScrollView>
+      {partners?.organizations?.map(e => (
         <PartnersCard
-          key={e?.partner_id}
-          name={e?.partner_name}
-          logo={e?.partner_logo}
+          key={e?.org_id}
+          name={e?.name}
+          logo={e?.url}
+          point={e?.unit_score}
+          pointDesc={e?.unit_desc}
+          id={e?.org_id}
         />
       ))}
-    </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({});

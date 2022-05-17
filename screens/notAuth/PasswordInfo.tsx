@@ -10,7 +10,11 @@ import CheckBox from '@react-native-community/checkbox';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
-import AppTextInput, { gError, requireTypes } from '../../components/CostumComponents/AppTextInput';
+import AppTextInput, {
+  gError,
+  inputErrors,
+  requireTypes,
+} from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 
@@ -24,13 +28,16 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
 
   const params = props.route.params;
 
-
   const OtpAuth = () => {
     AuthService.SendOtp({phone: params.data.phone}).subscribe({
       next: Response => {
-        if (gError.errors.length > 0) {
+        if (inputErrors.length > 0) {
           return;
         }
+        if (passData?.password !== passData?.confirm_password) {
+          return;
+        }
+
         props.navigation.navigate(notAuthRoutes.smsCode, {
           data: {...params.data, ...passData},
         });
@@ -45,11 +52,10 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   return (
     <>
       <View style={styles.flex1}>
-        
         <View style={styles.textInput}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
-        </View>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
+          </View>
           <AppTextInput
             placeholder={'პაროლი'}
             secureTextEntry={true}
@@ -67,7 +73,8 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
             placeholder={'გაიმეორეთ პაროლი'}
             secureTextEntry={true}
             value={passData?.confirm_password}
-            name="password"
+            requireType={requireTypes.repeatPassword}
+            name="repeatPassword"
             onChange={e => {
               setPassData({
                 password: passData?.password,

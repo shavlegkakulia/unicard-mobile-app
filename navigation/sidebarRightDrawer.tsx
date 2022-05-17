@@ -24,7 +24,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const [userType, setUserType] = useState<boolean>(false);
   const [point, setPoint] = useState<boolean>(false);
   const navigation = useNavigation();
-  console.log('category', catdata);
+  console.log('category', catdata?.customer_types);
 
   const toggleCategory = () => {
     setCategory(prev => !prev);
@@ -51,6 +51,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   useEffect(() => {
     getProducFiltertList();
   }, []);
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -80,8 +81,9 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
           source={require('../assets/img/downWhiteArrow.png')}
         />
       </TouchableOpacity>
-      {catdata?.categories &&
-        category &&
+      {category &&
+        catdata?.categories &&
+        
         catdata.categories.map(cat => (
           <View key={cat.id} style={styles.catMain}>
             <CategoryButton onPress={() => {}} title={cat.name} />

@@ -15,6 +15,7 @@ export enum authRoutes {
   changePin = 'changePin',
   singleNewsScreen = 'singleNewsScreen',
   partners = 'partners',
+  singlePartners = 'singlePartners',
 }
 
 export enum notAuthRoutes {

@@ -19,17 +19,6 @@ import ProductList, {
 } from '../services/ProductListService';
 import navigation from '../navigation/navigation';
 
-// export interface ShoplistProps {
-//   id?: number;
-//   name: string;
-//   description?: string;
-//   price: string;
-//   title?: string;
-//   short_desc?: string;
-//   images?: string[];
-//   show_brand: boolean;
-//   show_delivery_form: boolean;
-// }
 
 const ShopingCard: React.FC<IgetProducteListResponse> = props => {
   const navigation = useNavigation();

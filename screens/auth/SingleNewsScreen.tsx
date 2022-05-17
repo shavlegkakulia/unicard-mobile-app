@@ -7,8 +7,7 @@ import SingleNewsService, {
   IgetSingleNewsDetailsRequest,
   IgetSingleNewsResponse,
 } from '../../services/SingleNewsService';
-import { htmlToString } from '../../utils/converts';
-
+import {htmlToString} from '../../utils/converts';
 
 const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
   const [news, setNews] = useState<IgetSingleNewsResponse>();
@@ -38,11 +37,11 @@ const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
   console.log(id);
   return (
     <ScrollView style={styles.main}>
-<View>
-      <Text style={styles.title}>{news?.news?.title}</Text>
-      <Text style={styles.date}>{news?.news?.createDate}</Text>
-      <Text style={styles.desc}>{htmlToString(news?.news?.description)}</Text>
-      {/* {!loading && offer ? (
+      <View>
+        <Text style={styles.title}>{news?.news?.title}</Text>
+        <Text style={styles.date}>{news?.news?.createDate}</Text>
+        <Text style={styles.desc}>{htmlToString(news?.news?.description)}</Text>
+        {/* {!loading && offer ? (
         <>
           <ScrollView contentContainerStyle={styles.main}>
             <View style={styles.imgView}>
@@ -85,17 +84,15 @@ const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
       ) : (
         <Loader visible={true} />
       )} */}
-    </View>
-
+      </View>
     </ScrollView>
-    
   );
 };
 const styles = StyleSheet.create({
   main: {
     margin: 30,
   },
-  
+
   title: {
     fontSize: 14,
     fontFamily: 'BPG DejaVu Sans Mt',

@@ -31,7 +31,7 @@ export interface IgetPartnersResponse extends IPartnersresponseData {
   org_short_desc?: string;
   org_service_desc?: string;
   org_phone?: string;
-  org_phone_s?: string[];
+  org_phone_s?: string;
   org_fb?: string;
   org_email?: string;
   org_working_hours?: string;

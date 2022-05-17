@@ -22,6 +22,7 @@ enum Colors {
   buttonGrey = '#F1F1F1',
   authBtn = '#ff8f0038',
   authBtnText = '#FF9637',
+  borderCol = '#C1C1C1'
 
 }
 

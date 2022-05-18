@@ -15,6 +15,8 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   const [offer, setOffer] = useState<IgetProducteResponse>();
   const [loading, setLoading] = useState<boolean>();
   const id = props.route.params.id;
+  const type = props.route.params.type;
+  console.log('type>>>>>>', type);
 
   const regex = /<a\s+(?:[^>]*?\s+)\1/; //ლინკს პოულობს კოდში და იღებს//თუმცა ეიჩტიემელის ატრიბუტები ვერ მოვაშორე
   const linkTag = offer?.description?.match(regex);
@@ -71,7 +73,10 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
             <View style={styles.btn}>
               <AppButton
                 onPress={() =>
-                  props.navigation.navigate(authRoutes.getGift, {data: offer})
+                  props.navigation.navigate(authRoutes.getGift, {
+                    data: offer,
+                    type: type,
+                  })
                 }
                 title={'საჩუქრის მიღება'}
                 backgroundColor={Colors.bgGreen}

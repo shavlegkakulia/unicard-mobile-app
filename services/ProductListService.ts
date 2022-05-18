@@ -40,6 +40,7 @@ export interface IgetProducteListResponse {
   price: string;
   images?: string[];
   org_image?: string;
+  type_id?: string;
 }
 
 class ProductList {

@@ -1,5 +1,13 @@
-import React, {useState} from 'react';
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
@@ -14,7 +22,9 @@ import moment from 'moment';
 
 const GetGift: React.FC<ScreenNavigationProp> = props => {
   const [client, setClient] = useState<IBuyProductServiceResponse>();
+  const [check, setCheck] = useState<boolean>(false);
   const params = props.route.params;
+  const typeId = params.type;
   let date = new Date().toString();
   const buyProduct = () => {
     const data: IBuyProductServiceResponse = {
@@ -56,46 +66,68 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           </View>
         </View>
       </View>
-      <View style={styles.optionView}>
-        <Text style={styles.optionTxt}>შეარჩიეთ მომსახურების ცენტრი</Text>
-      </View>
-      <TouchableOpacity style={styles.optionWrap}>
-        <Text style={styles.optText}>აირჩიეთ</Text>
-        <Image
-          style={styles.arrow}
-          source={require('../../assets/img/downArrow.png')}
-        />
-      </TouchableOpacity>
-      <View style={styles.userInfoView}>
-        <Text style={styles.userTxt}>უფლებამოსილი პირი:</Text>
-        <Text style={styles.infoTxt}>
-          იმისთვის, რომ თქვენ მიერ შერჩეული საჩუქარი სხვამ მიიღოს, გთხოვთ,
-          მიუთითეთ უფლებამოსილი პირის მონაცემები
-        </Text>
-      </View>
-      <View>
-        <AppTextInput
-          placeholder="სახელი"
-          value={client?.recipient_full_name}
-          onChange={e => {
-            setClient({
-              recipient_full_name: e,
-              recipient_personal_id: client?.recipient_personal_id,
-            });
-          }}
-        />
-        <AppTextInput
-          placeholder="გვარი"
-          value={client?.recipient_personal_id}
-          onChange={e => {
-            setClient({
-              recipient_full_name: client?.recipient_full_name,
-              recipient_personal_id: e,
-            });
-          }}
-        />
-        <AppTextInput onChange={() => {}} placeholder="პირადი ნომერი" />
-      </View>
+      {typeId === '8' ? (
+        <>
+          <View style={styles.textView}>
+            <Text style={styles.text}>შეიყვანეთ აბონენტის ნომერი</Text>
+          </View>
+          <KeyboardAvoidingView style={styles.row}>
+            <View style={styles.inputView}>
+              <TextInput style={styles.input} multiline />
+            </View>
+            <TouchableOpacity style={styles.chekView}>
+              <Text style={styles.chekTxt}>შემოწმება</Text>
+            </TouchableOpacity>
+          </KeyboardAvoidingView>
+          <View style={styles.clientMainView}>
+            <View style={styles.clientInfoView}>
+              <Text style={styles.clientInfo}>აბონენტის სახელი</Text>
+              <Text style={styles.clientInfo}>თ.კ</Text>
+            </View>
+            <View style={styles.clientInfoView}>
+              <Text style={styles.clientInfo}>აბონენტის მისამართი</Text>
+              <Text style={styles.clientAddress}>
+                ასპინძის 1 ქ.013 2059, ბოლო რეგულარული დარიცხვის თარიღი:
+                20220427
+              </Text>
+            </View>
+          </View>
+          <View style={styles.border} />
+        </>
+      ) : (
+        <>
+          <View style={styles.userInfoView}>
+            <Text style={styles.userTxt}>უფლებამოსილი პირი:</Text>
+            <Text style={styles.infoTxt}>
+              იმისთვის, რომ თქვენ მიერ შერჩეული საჩუქარი სხვამ მიიღოს, გთხოვთ,
+              მიუთითეთ უფლებამოსილი პირის მონაცემები
+            </Text>
+          </View>
+          <KeyboardAvoidingView>
+            <AppTextInput
+              placeholder="სახელი"
+              value={client?.recipient_full_name}
+              onChange={e => {
+                setClient({
+                  recipient_full_name: e,
+                  recipient_personal_id: client?.recipient_personal_id,
+                });
+              }}
+            />
+            <AppTextInput
+              placeholder="გვარი"
+              value={client?.recipient_personal_id}
+              onChange={e => {
+                setClient({
+                  recipient_full_name: client?.recipient_full_name,
+                  recipient_personal_id: e,
+                });
+              }}
+            />
+            <AppTextInput onChange={() => {}} placeholder="პირადი ნომერი" />
+          </KeyboardAvoidingView>
+        </>
+      )}
       <View style={styles.totalView}>
         <Text style={styles.totalTxt}>
           საბოლოო ფასი:{' '}
@@ -208,6 +240,81 @@ const styles = StyleSheet.create({
   btnView: {
     marginTop: 69,
     marginBottom: 99,
+  },
+  textView: {
+    marginTop: 41,
+  },
+  text: {
+    fontSize: 14,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
+    color: Colors.darkGrey,
+  },
+  inputView: {
+    width: 164,
+    height: 47,
+    borderColor: Colors.switchGrey,
+    borderRadius: 30,
+    borderWidth: 1,
+    paddingHorizontal: 20,
+    justifyContent: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 19,
+  },
+  chekView: {
+    width: 144,
+    height: 47,
+    backgroundColor: Colors.bgGreen,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 47,
+  },
+  chekTxt: {
+    fontSize: 14,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
+    color: Colors.white,
+    fontWeight: '700',
+  },
+  input: {
+    fontSize: 16,
+    color: Colors.darkGrey,
+    fontFamily: 'BPG DejaVu Sans Mt',
+  },
+  border: {
+    borderBottomColor: Colors.lightGreyTxt,
+    borderBottomWidth: 1,
+    marginTop: 36,
+  },
+  clientMainView: {
+    marginTop: 20,
+  },
+  clientInfoView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.lightGreyTxt,
+    paddingBottom: 11,
+    paddingHorizontal: 10,
+    marginTop: 11,
+  },
+  clientInfo: {
+    fontSize: 12,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.4,
+    color: Colors.darkGrey,
+  },
+  clientAddress: {
+    fontSize: 12,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.4,
+    color: Colors.darkGrey,
+    width: 136,
   },
 });
 

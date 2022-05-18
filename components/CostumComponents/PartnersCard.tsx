@@ -26,6 +26,7 @@ const PartnersCard: React.FC<IPartnersProps> = props => {
       <View style={styles.main}>
         <View style={styles.imgView}>
           <Image
+           resizeMode="contain"
             style={styles.logo}
             source={{
               uri: logo,

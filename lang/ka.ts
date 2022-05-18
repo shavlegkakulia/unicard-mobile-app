@@ -1,5 +1,6 @@
 export default {
     common: {
-        name: 'სახელი'
+        name: 'სახელი',
+        all: 'ყველა'
     }
 }

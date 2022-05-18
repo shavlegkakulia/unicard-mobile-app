@@ -1,5 +1,6 @@
 export default {
     common: {
-        name: 'Name'
+        name: 'Name',
+        all: 'All'
     }
 }

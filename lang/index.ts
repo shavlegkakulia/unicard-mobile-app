@@ -12,7 +12,7 @@ export const ka = 'ka';
 export const en = 'en';
 
 const translateList: IKey = {
-     ka, en
+     ka: _ka, en: _en
 }
 
 export default translateList

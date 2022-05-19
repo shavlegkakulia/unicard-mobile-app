@@ -1,4 +1,4 @@
-import { RouteProp, useRoute } from '@react-navigation/native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   Image,
@@ -24,6 +24,7 @@ import UserInfoService, {
 import Colors from '../../theme/Colors';
 
 export const PASSCODEENABLED = 'PASSCODEENABLED';
+export const BIOMETRICENABLED = 'BIOMETRICENABLED';
 
 type RouteParamList = {
   params: {
@@ -36,27 +37,36 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
 
   const [user, setUser] = useState<IgetUserServiceResponse>();
   const [isPinEnabled, setIsPinEnabled] = useState(false);
+  const [isBiometricEnabled, setIsBiometricEnabled] = useState(false);
   const [cameraHandler, setCameraHandler] = useState(false);
 
-  const togglePinSwitch = async() => {
-    if(isPinEnabled) {
+  const togglePinSwitch = async () => {
+    if (isPinEnabled) {
       setIsPinEnabled(false);
       await AsyncStorage.removeItem(PASSCODEENABLED);
       await AuthService.removeToken();
     } else {
       AsyncStorage.getItem(PASSCODEENABLED).then(pass => {
-        if(pass) {
+        if (pass) {
           setIsPinEnabled(true);
         } else {
           props.navigation.navigate(authRoutes.changePin);
         }
       });
-
     }
-  }
+  };
+
+  const toggleBiometricSwitch = async () => {
+    if (isBiometricEnabled) {
+      setIsBiometricEnabled(false);
+      await AsyncStorage.removeItem(BIOMETRICENABLED);
+    } else {
+      await AsyncStorage.setItem(BIOMETRICENABLED, '1');
+      setIsBiometricEnabled(true);
+    }
+  };
 
   const getUserInfo = () => {
-   
     UserInfoService.GenerateUserInfo().subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
@@ -74,11 +84,19 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
 
   useEffect(() => {
     AsyncStorage.getItem(PASSCODEENABLED).then(pass => {
-      if(pass) {
+      if (pass) {
         setIsPinEnabled(true);
       }
-    })
+    });
   }, [route?.params?.isPassEnabled]);
+
+  useEffect(() => {
+    AsyncStorage.getItem(BIOMETRICENABLED).then(biometric => {
+      if (biometric) {
+        setIsBiometricEnabled(true);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -122,11 +140,13 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
               source={require('../../assets/img/pinCodeIcon.png')}
             />
           </View>
-          <TouchableOpacity style={styles.infoPassword} onPress={() => {
-            if(isPinEnabled) {
-              props.navigation.navigate(authRoutes.changePin);
-            }
-          }}>
+          <TouchableOpacity
+            style={styles.infoPassword}
+            onPress={() => {
+              if (isPinEnabled) {
+                props.navigation.navigate(authRoutes.changePin);
+              }
+            }}>
             <Text style={styles.infoText}>პინ-კოდის შეცვლა</Text>
             <Switch
               trackColor={{true: Colors.bgGreen}}
@@ -134,6 +154,31 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
               ios_backgroundColor={Colors.switchGrey}
               onValueChange={togglePinSwitch}
               value={isPinEnabled}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.param}>
+          <View style={styles.wrapp}>
+            <Image
+              style={styles.pinIcon}
+              source={require('../../assets/img/pinCodeIcon.png')}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.infoPassword}
+            onPress={() => {
+              if (isPinEnabled) {
+                //props.navigation.navigate(authRoutes.changePin);
+              }
+            }}>
+            <Text style={styles.infoText}>Biometric</Text>
+            <Switch
+              trackColor={{true: Colors.bgGreen}}
+              thumbColor={Colors.white}
+              ios_backgroundColor={Colors.switchGrey}
+              onValueChange={toggleBiometricSwitch}
+              value={isBiometricEnabled}
             />
           </TouchableOpacity>
         </View>

@@ -21,9 +21,20 @@ import {useDispatch, useSelector} from 'react-redux';
 import {login} from '../../Store/actions/auth';
 import AuthService from '../../services/AuthService';
 import { IAuthReducer, IAuthState } from '../../Store/types/auth';
+import { PUSH } from '../../Store/actions/errors';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 interface IPageProps {
   isLogin?: boolean;
+  onRefresh: () => Promise<{
+    accesToken: string;
+    refreshToken: string;
+    skip: boolean;
+} | {
+    accesToken: undefined;
+    refreshToken: undefined;
+    skip: boolean;
+}>
 }
 
 const PassCode: React.FC<IPageProps> = props => {
@@ -33,6 +44,9 @@ const PassCode: React.FC<IPageProps> = props => {
 
   const nav = useNavigation();
   const dispatch = useDispatch();
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const Check = (c: string) => {
     let _code = code + c;
@@ -106,7 +120,18 @@ const PassCode: React.FC<IPageProps> = props => {
       (async () => {
         const token = await AuthService.getToken();
         const refresh = await AuthService.getRefreshToken();
-        if (token && refresh) dispatch(login(token, refresh));
+        if (token && refresh) { 
+          props.onRefresh().then(res => { console.log(res)
+            const {accesToken, refreshToken, skip} = res;
+            if (accesToken !== undefined) {
+              dispatch(login(accesToken, refreshToken));
+            } else {
+              if (!skip) {
+                dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
+              }
+            }
+          });
+        }
       })();
       if (code.length === 4 && code !== code2) {
         setCode({code: '', code2: code2});

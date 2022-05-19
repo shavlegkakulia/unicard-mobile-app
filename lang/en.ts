@@ -1,6 +1,13 @@
 export default {
     common: {
         name: 'Name',
-        all: 'All'
+        all: 'All',
+        cancel: 'cancel'
+    },
+    settings: {
+        easyLogin: 'Easy login'
+    },
+    generalErrors: {
+        errorOccurred: 'error'
     }
 }

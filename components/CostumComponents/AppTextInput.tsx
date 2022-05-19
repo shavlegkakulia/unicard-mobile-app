@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 23,
-    height: 19,
+    height: 21,
   },
   inputPlaceholder: {
     fontFamily: 'BPG DejaVu Sans Mt',

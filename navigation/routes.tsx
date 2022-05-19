@@ -16,7 +16,8 @@ export enum authRoutes {
   singleNewsScreen = 'singleNewsScreen',
   partners = 'partners',
   singlePartners = 'singlePartners',
-  aroundUs = 'aroundUs'
+  aroundUs = 'aroundUs',
+  searchScreen = 'searchScreen',
 }
 
 export enum notAuthRoutes {

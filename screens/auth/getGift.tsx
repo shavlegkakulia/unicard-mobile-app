@@ -25,7 +25,14 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
   const [check, setCheck] = useState<boolean>(false);
   const params = props.route.params;
   const typeId = params.type;
+  const utilityId = '8';
   let date = new Date().toString();
+
+  //იუზერის ინფოს რომ წამოიღებს, ლოგიკა უნდა შეიცვალოს, თაგლი არაა საჭირო
+  //თვალსაჩინოებისთვის იყოს
+  const chackHandler = () => {
+    setCheck(prev => !prev);
+  };
   const buyProduct = () => {
     const data: IBuyProductServiceResponse = {
       recipient_full_name: client?.recipient_full_name,
@@ -66,32 +73,49 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           </View>
         </View>
       </View>
-      {typeId === '8' ? (
+      {typeId === utilityId ? (
         <>
           <View style={styles.textView}>
             <Text style={styles.text}>შეიყვანეთ აბონენტის ნომერი</Text>
           </View>
           <KeyboardAvoidingView style={styles.row}>
             <View style={styles.inputView}>
-              <TextInput style={styles.input} multiline />
+              <TextInput style={styles.input} />
             </View>
-            <TouchableOpacity style={styles.chekView}>
+            <TouchableOpacity style={styles.chekView} onPress={chackHandler}>
               <Text style={styles.chekTxt}>შემოწმება</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
-          <View style={styles.clientMainView}>
-            <View style={styles.clientInfoView}>
-              <Text style={styles.clientInfo}>აბონენტის სახელი</Text>
-              <Text style={styles.clientInfo}>თ.კ</Text>
+          {check && (
+            <View style={styles.clientMainView}>
+              <View style={styles.clientInfoView}>
+                <Text style={styles.clientInfo}>აბონენტის სახელი</Text>
+                <Text style={styles.clientInfo}>თ.კ</Text>
+              </View>
+              <View style={styles.clientInfoView}>
+                <Text style={styles.clientInfo}>აბონენტის მისამართი</Text>
+                <View>
+                  <Text style={styles.clientAddress}>
+                    ასპინძის 1 ქ.013 2059, ბოლო რეგულარული დარიცხვის თარიღი:
+                    20220427
+                  </Text>
+                </View>
+              </View>
+              <View style={styles.clientInfoView}>
+                <Text style={styles.clientInfo}>დავალიანება</Text>
+                <Text style={styles.clientInfo}>0</Text>
+              </View>
+              <View style={styles.clientInfoView}>
+                <Text style={styles.clientInfo}>პროვაიდერის საკომისიო</Text>
+                <Text style={styles.clientInfo}>0</Text>
+              </View>
+              <View style={styles.clientInfoView}>
+                <Text style={styles.clientInfo}>ქულა</Text>
+                <Text style={styles.clientInfo}>0</Text>
+              </View>
             </View>
-            <View style={styles.clientInfoView}>
-              <Text style={styles.clientInfo}>აბონენტის მისამართი</Text>
-              <Text style={styles.clientAddress}>
-                ასპინძის 1 ქ.013 2059, ბოლო რეგულარული დარიცხვის თარიღი:
-                20220427
-              </Text>
-            </View>
-          </View>
+          )}
+
           <View style={styles.border} />
         </>
       ) : (
@@ -292,6 +316,7 @@ const styles = StyleSheet.create({
   },
   clientMainView: {
     marginTop: 20,
+    marginBottom: 91,
   },
   clientInfoView: {
     flexDirection: 'row',
@@ -304,6 +329,7 @@ const styles = StyleSheet.create({
     marginTop: 11,
   },
   clientInfo: {
+    alignSelf: 'flex-start',
     fontSize: 12,
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.4,

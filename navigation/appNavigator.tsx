@@ -45,7 +45,7 @@ import {subscriptionService} from '../services/SubscribeService';
 import Partners from '../screens/auth/Partners';
 import SinglePartners from '../screens/auth/SinglePartners';
 import MerchantsMap from '../screens/auth/merchants/MerchantsMap';
-
+import SearchScreen from '../screens/auth/SearchScreen';
 
 const authStack = createStackNavigator();
 
@@ -280,7 +280,7 @@ const AppNavigator = () => {
                     },
                   }}
                 />
-                 <authStack.Screen
+                <authStack.Screen
                   name={authRoutes.aroundUs}
                   component={MerchantsMap}
                   options={{
@@ -554,7 +554,10 @@ const AppNavigator = () => {
                       </TouchableOpacity>
                     ),
                     headerRight: () => (
-                      <TouchableOpacity onPress={() => {}}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          navigation.navigate(authRoutes.searchScreen);
+                        }}>
                         <Image
                           style={{width: 21.01, height: 21, marginRight: 29}}
                           source={require('../assets/img/greenSearch.png')}
@@ -675,6 +678,39 @@ const AppNavigator = () => {
                     headerTintColor: Colors.black,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.searchScreen}
+                  component={SearchScreen}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerBackTitle: '',
+                    title: '',
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
                     },
                   }}
                 />

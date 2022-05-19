@@ -140,7 +140,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
         />
       </View>
 
-      <Text>{translateReducer.t('common.name')}</Text>
+      {/* <Text>{translateReducer.t('common.name')}</Text> */}
     </ScrollView>
   );
 };

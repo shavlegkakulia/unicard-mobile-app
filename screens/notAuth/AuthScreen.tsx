@@ -18,6 +18,7 @@ import AuthService, {IAyuthData} from '../../services/AuthService';
 import AsyncStorage from '../../services/StorageService';
 import {getUserInfo, login} from '../../Store/actions/auth';
 import Colors from '../../theme/Colors';
+import { PASSCODEENABLED } from '../auth/Parameters';
 
 interface IUserData {
   username?: string;
@@ -29,7 +30,17 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     username: 'levani1308@gmail.com',
     password: 'Abcd123!',
   });
+
+  const [isPasscodeEnabled, setIsPasscodeEnabed] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    AsyncStorage.getItem(PASSCODEENABLED).then(pass => {
+      if(pass) {
+        setIsPasscodeEnabed(true);
+      }
+    })
+  }, []);
 
   const LogIn = () => {
     if (!userData?.username || !userData?.password) {
@@ -42,12 +53,15 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     AuthService.SignIn(data).subscribe({
       next: async Response => {
         if (Response.access_token) {
-          await AuthService.setToken(
-            Response.access_token,
-            Response.refresh_token,
-          );
+
+          if(isPasscodeEnabled) {
+            await AuthService.setToken(
+              Response.access_token,
+              Response.refresh_token,
+            );
+          }
           dispatch(getUserInfo(toggleCheckBox));
-          dispatch(login());
+          dispatch(login(Response.access_token, Response.refresh_token));
         }
       },
       complete: () => {

@@ -228,7 +228,7 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
       <Modal visible={isPasscodeEnabled} onRequestClose={() => {
         setIsPasscodeEnabed(false);
       }}>
-        <PassCode isLogin={true} onRefresh={goRefreshToken} />
+        <PassCode isLogin={true} />
       </Modal>
       <BiometricAuthScreen
         start={startBiometric}

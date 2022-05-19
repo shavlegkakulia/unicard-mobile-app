@@ -1,8 +1,10 @@
 import {IgetUserServiceResponse} from '../../services/UserInfoService';
 
 export interface IAuthState {
-  isAuthentificated: boolean;
+  isAuthentificated?: boolean;
   userInfo?: IgetUserServiceResponse;
+  token?: string; 
+  refreshToken?: string
 }
 
 export interface IAuthAction extends IAuthState {
@@ -12,6 +14,8 @@ export interface IAuthAction extends IAuthState {
 export enum AuthActions {
   setIsAuthentificated = 'setIsAuthentificated',
   setUserInfo = 'setUserInfo',
+  setToken = 'setToken',
+  setRefreshToken = 'setRefreshToken'
 }
 
 export interface IAuthReducer {

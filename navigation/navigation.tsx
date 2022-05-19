@@ -15,6 +15,8 @@ import storage_keys from '../constants/storageKeys';
 import { use } from '../Store/actions/translate';
 import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
 import { StatusBar } from 'react-native';
+import AsyncStorage from './../services/StorageService';
+import { PASSCODEENABLED } from '../screens/auth/Parameters';
 
 export default () => {
   const authReducer = useSelector<IAuthReducer>(
@@ -66,21 +68,41 @@ export default () => {
   }, [authReducer.isAuthentificated]);
 
   useEffect(() => {
-    AuthService.isAuthenticated()
-      .then(res => {
-        dispatch({
-          type: AuthActions.setIsAuthentificated,
-          isAuthentificated: res,
-        });
-      })
-      .finally(() => setIsLoading(false));
-
-      setTimeout(() => {
-        dispatch({
-          type: ErrorActions.push_error,
-          error: 'fdsfdsfdsfdsfd',
-        });
-     }, 5000);
+    // AsyncStorage.getItem(PASSCODEENABLED).then(async pass => {
+    //   if(pass) {
+    //     const token = await AuthService.getToken();
+    //     const refresh = await AuthService.getRefreshToken();
+    //     AuthService.isAuthenticated()
+    //     .then(_ => {
+    //       dispatch({
+    //         type: AuthActions.setToken,
+    //         token: token,
+    //       });
+    //       dispatch({
+    //         type: AuthActions.setRefreshToken,
+    //         refreshToken: refresh,
+    //       });
+    //       dispatch({
+    //         type: AuthActions.setIsAuthentificated,
+    //         isAuthentificated: true,
+    //       });
+    //       dispatch({
+    //         type: AuthActions.setIsAuthentificated,
+    //         isAuthentificated: true,
+    //       });
+    //     })
+    //     .finally(() => setIsLoading(false));
+    //   } else {
+    //     setIsLoading(false);
+    //   }
+    //});
+    setIsLoading(false);
+    //   setTimeout(() => {
+    //     dispatch({
+    //       type: ErrorActions.push_error,
+    //       error: 'fdsfdsfdsfdsfd',
+    //     });
+    //  }, 5000);
   }, []);
 
   useEffect(() => {

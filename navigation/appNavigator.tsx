@@ -38,7 +38,7 @@ import GetGift from '../screens/auth/getGift';
 import OrderIsDone from '../screens/auth/OrderIsDone';
 import PasswordChangingMessage from '../screens/auth/PasswordChangingMessage';
 import PasswordChangingError from '../screens/auth/PasswordChangingError';
-import ChangePinCode from '../components/CostumComponents/ChangePinCode';
+import PassCode from '../components/CostumComponents/PassCode';
 import AuthPage from '../components/CostumComponents/AuthPage';
 import SingleNewsScreen from '../screens/auth/SingleNewsScreen';
 import {subscriptionService} from '../services/SubscribeService';
@@ -668,7 +668,7 @@ const AppNavigator = () => {
                 />
                 <authStack.Screen
                   name={authRoutes.changePin}
-                  component={ChangePinCode}
+                  component={PassCode}
                   options={{
                     cardStyle: {
                       backgroundColor: Colors.bgColor,

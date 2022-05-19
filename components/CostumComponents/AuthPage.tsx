@@ -6,6 +6,7 @@ import {
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Modal,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import CheckBox from '@react-native-community/checkbox';
@@ -25,6 +26,8 @@ import AppButton from './AppButton';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import AsyncStorage from '../../services/StorageService';
 import {notAuthRoutes} from '../../navigation/routes';
+import { PASSCODEENABLED } from '../../screens/auth/Parameters';
+import PassCode from './PassCode';
 
 interface IUserData {
   password?: string;
@@ -40,7 +43,16 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
     password: '',
     email: '',
   });
+  const [isPasscodeEnabled, setIsPasscodeEnabed] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    AsyncStorage.getItem(PASSCODEENABLED).then(pass => {
+      if(pass) {
+        setIsPasscodeEnabed(true);
+      }
+    })
+  }, []);
 
   useEffect(() => {
     AsyncStorage.getItem('userInfo').then(res => {
@@ -67,12 +79,14 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
     AuthService.SignIn(data).subscribe({
       next: async Response => {
         if (Response.access_token) {
-          await AuthService.setToken(
-            Response.access_token,
-            Response.refresh_token,
-          );
+          if(isPasscodeEnabled) {
+            await AuthService.setToken(
+              Response.access_token,
+              Response.refresh_token,
+            );
+          }
 
-          dispatch(login());
+          dispatch(login(Response.access_token, Response.refresh_token));
         }
       },
       complete: () => {
@@ -84,6 +98,11 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
 
   return (
     <ScrollView>
+      <Modal visible={isPasscodeEnabled} onRequestClose={() => {
+        setIsPasscodeEnabed(false);
+      }}>
+        <PassCode isLogin={true} />
+      </Modal>
       <View style={styles.avatarView}>
         <Image
           style={styles.avatar}

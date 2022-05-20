@@ -8,8 +8,10 @@ import {
   TouchableOpacity,
   Switch,
   Modal,
+  PermissionsAndroid,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 // import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -39,6 +41,64 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
   const [isPinEnabled, setIsPinEnabled] = useState(false);
   const [isBiometricEnabled, setIsBiometricEnabled] = useState(false);
   const [cameraHandler, setCameraHandler] = useState(false);
+
+  const choosePhoto = async () => { console.log('*******************')
+    const result = await launchImageLibrary({
+      mediaType: 'photo',
+      selectionLimit: 1,
+      includeBase64: true,
+      quality: 0.2,
+      maxWidth: 300,
+      maxHeight: 300,
+    });
+    if (result.assets) {
+      const { base64, fileName } = result.assets[0];
+      console.log(base64, fileName)
+      //uploadImage(getString(fileName), getString(base64));
+    }
+    setCameraHandler(!cameraHandler)
+  };
+
+  const takePhoto = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: "App Camera Permission",
+          message:"App needs access to your camera ",
+          buttonNegative: "Cancel",
+          buttonPositive: "OK"
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("Camera permission given");
+        const result = await launchCamera(
+          {
+            mediaType: 'photo',
+            includeBase64: true,
+            quality: 0.2,
+            maxWidth: 300,
+            maxHeight: 300,
+          },
+          r => {
+            console.log(r)
+          },
+        );console.log(result)
+        if (result.assets) {
+          const { base64, fileName } = result.assets[0];
+          console.log(base64, fileName)
+          //uploadImage(getString(fileName), getString(base64));
+          //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
+        }
+      } else {
+        console.log("Camera permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+    
+    setCameraHandler(!cameraHandler)
+  };
 
   const togglePinSwitch = async () => {
     if (isPinEnabled) {
@@ -199,19 +259,20 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
         <Modal animationType="slide" transparent={true} visible={cameraHandler}>
           <TouchableOpacity
             style={styles.centeredView}
-            onPress={() => setCameraHandler(!cameraHandler)}>
+            onPress={() => setCameraHandler(false)}
+            >
             <View style={styles.modalView}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={takePhoto}>
                 <Text style={styles.modalText}>სურათის გადაღება</Text>
               </TouchableOpacity>
               <View style={styles.border} />
-              <TouchableOpacity style={styles.galery}>
+              <TouchableOpacity style={styles.galery} onPress={choosePhoto}>
                 <Text style={styles.modalText}>ტელეფონის გალერეა</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
               style={styles.btnWrapp}
-              onPress={() => setCameraHandler(!cameraHandler)}>
+              onPress={() => setCameraHandler(false)}>
               <View style={styles.btnStyle}>
                 <Text style={styles.btnTitle}>გაუქმება</Text>
               </View>

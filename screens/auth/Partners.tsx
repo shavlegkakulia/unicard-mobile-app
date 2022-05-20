@@ -11,7 +11,7 @@ import PartnersService, {
 const Partners: React.FC<ScreenNavigationProp> = () => {
   const [partners, setPartners] = useState<IgetPartnersResponse>();
   const [loading, setLoading] = useState();
-  console.log(partners);
+  console.log('>>>>>>>>', partners);
   let logo = {uri: partners?.url};
   const getPartners = () => {
     PartnersService.GeneratePartners().subscribe({

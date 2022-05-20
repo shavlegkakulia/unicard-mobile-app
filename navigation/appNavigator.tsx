@@ -556,7 +556,9 @@ const AppNavigator = () => {
                     headerRight: () => (
                       <TouchableOpacity
                         onPress={() => {
-                          navigation.navigate(authRoutes.searchScreen);
+                          navigation.navigate(authRoutes.searchScreen, {
+                            key: 'partners',
+                          });
                         }}>
                         <Image
                           style={{width: 21.01, height: 21, marginRight: 29}}

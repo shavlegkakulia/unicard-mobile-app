@@ -2,6 +2,9 @@ import axios, {AxiosRequestConfig} from 'axios';
 import {from, Observable, Subscriber} from 'rxjs';
 import storage from './../services/StorageService';
 import envs from './../config/env';
+import Store from '../Store';
+import { PASSCODEENABLED } from '../screens/auth/Parameters';
+import { AuthActions, IAuthAction } from '../Store/types/auth';
 
 export interface IInterceptop {
   unsubscribe: () => void;
@@ -161,7 +164,7 @@ export default new (class AuthService {
   registerAuthInterceptor(callBack: any) {
     const setAuthToken = async (config: AxiosRequestConfig) => {
       config.headers = config.headers || {};
-      let token = await this.getToken();
+      let { token } = Store.getState().AuthReducer;
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -187,7 +190,8 @@ export default new (class AuthService {
           //if refreshStarted wait
           if (this.refreshStarted && !config.skipRefresh) {
             return waitForRefresh(config).then(async (config: any) => {
-              if (!(await this.getToken())) {
+              let { token } = Store.getState().AuthReducer;
+              if (!token) {
                 return Promise.reject({status: 401});
               }
               await setAuthToken(config);
@@ -222,7 +226,8 @@ export default new (class AuthService {
         //if refresh already started wait and retry with new token
         if (this.refreshStarted) {
           return waitForRefresh().then(async _ => {
-            if (!(await this.getToken())) {
+            let { token } = Store.getState().AuthReducer;
+            if (!token) {
               return Promise.reject({status: 401});
             }
             setAuthToken(originalRequest);
@@ -232,19 +237,21 @@ export default new (class AuthService {
 
         //refresh token
         this.refreshStarted = true;
+        const isPassCodeEnabled = await storage.getItem(PASSCODEENABLED);
         const config = {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
           skipRefresh: true,
         };
+        let { refreshToken } = Store.getState().AuthReducer;
         const refreshObj = new URLSearchParams();
         refreshObj.append('grant_type', 'refresh_token');
         refreshObj.append('client_id', 'ClientApp');
         refreshObj.append('client_secret', 'secret');
         refreshObj.append(
           'refresh_token',
-          (await this.getRefreshToken()) || '',
+          (refreshToken) || '',
         );
         return await axios
           .post<IAuthResponse>(
@@ -256,10 +263,21 @@ export default new (class AuthService {
             if (!response.data.access_token) {
               throw response;
             }
+            if(isPassCodeEnabled) {
+              await this.removeToken();
             await this.setToken(
               response.data.access_token,
               response.data.refresh_token,
             );
+            }
+            Store.dispatch<IAuthAction>({
+              type: AuthActions.setToken,
+              token: response.data.access_token,
+            });
+            Store.dispatch<IAuthAction>({
+              type: AuthActions.setRefreshToken,
+              refreshToken: response.data.refresh_token,
+            });
             this.refreshStarted = false;
             setAuthToken(originalRequest);
             return axios(originalRequest);

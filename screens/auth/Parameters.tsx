@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   Image,
@@ -12,19 +13,47 @@ import {ScrollView} from 'react-native-gesture-handler';
 
 // import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
+import navigation from '../../navigation/navigation';
 import {authRoutes} from '../../navigation/routes';
+import AuthService from '../../services/AuthService';
+import AsyncStorage from '../../services/StorageService';
 import UserInfoService, {
   IgetUserInfoDetailsRequest,
   IgetUserServiceResponse,
 } from '../../services/UserInfoService';
 import Colors from '../../theme/Colors';
 
+export const PASSCODEENABLED = 'PASSCODEENABLED';
+
+type RouteParamList = {
+  params: {
+    isPassEnabled?: boolean;
+  };
+};
+
 const Parameters: React.FC<ScreenNavigationProp> = props => {
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
+
   const [user, setUser] = useState<IgetUserServiceResponse>();
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [isPinEnabled, setIsPinEnabled] = useState(false);
   const [cameraHandler, setCameraHandler] = useState(false);
 
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  const togglePinSwitch = async() => {
+    if(isPinEnabled) {
+      setIsPinEnabled(false);
+      await AsyncStorage.removeItem(PASSCODEENABLED);
+      await AuthService.removeToken();
+    } else {
+      AsyncStorage.getItem(PASSCODEENABLED).then(pass => {
+        if(pass) {
+          setIsPinEnabled(true);
+        } else {
+          props.navigation.navigate(authRoutes.changePin);
+        }
+      });
+
+    }
+  }
 
   const getUserInfo = () => {
    
@@ -42,6 +71,14 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getUserInfo();
   }, []);
+
+  useEffect(() => {
+    AsyncStorage.getItem(PASSCODEENABLED).then(pass => {
+      if(pass) {
+        setIsPinEnabled(true);
+      }
+    })
+  }, [route?.params?.isPassEnabled]);
 
   return (
     <>
@@ -85,16 +122,20 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
               source={require('../../assets/img/pinCodeIcon.png')}
             />
           </View>
-          <View style={styles.infoPassword}>
+          <TouchableOpacity style={styles.infoPassword} onPress={() => {
+            if(isPinEnabled) {
+              props.navigation.navigate(authRoutes.changePin);
+            }
+          }}>
             <Text style={styles.infoText}>პინ-კოდის შეცვლა</Text>
             <Switch
               trackColor={{true: Colors.bgGreen}}
               thumbColor={Colors.white}
               ios_backgroundColor={Colors.switchGrey}
-              onValueChange={toggleSwitch}
-              value={isEnabled}
+              onValueChange={togglePinSwitch}
+              value={isPinEnabled}
             />
-          </View>
+          </TouchableOpacity>
         </View>
 
         <TouchableOpacity

@@ -17,6 +17,8 @@ target 'unicard' do
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
   
 
+  pod 'react-native-fingerprint-scanner', :path => '../node_modules/react-native-fingerprint-scanner'
+
   target 'unicardTests' do
     inherit! :complete
     # Pods for testing

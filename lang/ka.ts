@@ -1,6 +1,13 @@
 export default {
     common: {
         name: 'სახელი',
-        all: 'ყველა'
+        all: 'ყველა',
+        cancel: 'გაუქმება'
+    },
+    settings: {
+        easyLogin: 'მარტივი შესვლა'
+    },
+    generalErrors: {
+        errorOccurred: 'error'
     }
 }

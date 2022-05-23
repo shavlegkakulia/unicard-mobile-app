@@ -23,18 +23,11 @@ import AuthService from '../../services/AuthService';
 import { IAuthReducer, IAuthState } from '../../Store/types/auth';
 import { PUSH } from '../../Store/actions/errors';
 import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import { IRefreshCallbakParams } from './AuthPage';
 
 interface IPageProps {
   isLogin?: boolean;
-  onRefresh: () => Promise<{
-    accesToken: string;
-    refreshToken: string;
-    skip: boolean;
-} | {
-    accesToken: undefined;
-    refreshToken: undefined;
-    skip: boolean;
-}>
+  onRefresh: (callback: (par: IRefreshCallbakParams) => void) => Promise<void>
 }
 
 const PassCode: React.FC<IPageProps> = props => {
@@ -121,7 +114,7 @@ const PassCode: React.FC<IPageProps> = props => {
         const token = await AuthService.getToken();
         const refresh = await AuthService.getRefreshToken();
         if (token && refresh) { 
-          props.onRefresh().then(res => { console.log(res)
+          props.onRefresh(res => {
             const {accesToken, refreshToken, skip} = res;
             if (accesToken !== undefined) {
               dispatch(login(accesToken, refreshToken));
@@ -130,7 +123,7 @@ const PassCode: React.FC<IPageProps> = props => {
                 dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
               }
             }
-          });
+          })
         }
       })();
       if (code.length === 4 && code !== code2) {
@@ -208,6 +201,9 @@ const PassCode: React.FC<IPageProps> = props => {
           {user?.name} {user?.surname}
         </Text>
       </View>
+      <TouchableOpacity onPress={() => nav.goBack()}>
+        <Text>another</Text>
+      </TouchableOpacity>
       <View style={styles.dotCenter}>
         <View style={styles.dotsView}>
           <View style={[styles.dot, p1 && styles.activeDot]} />

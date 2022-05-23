@@ -42,6 +42,12 @@ interface IUserData {
   name?: string;
 }
 
+export interface IRefreshCallbakParams {
+  accesToken: string | undefined, 
+  refreshToken: string | undefined, 
+  skip: boolean
+}
+
 const AuthPage: React.FC<ScreenNavigationProp> = props => {
   const navigation = useNavigation();
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
@@ -54,97 +60,80 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
   const [biometricAvailable, setBiometricAvailable] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const goRefreshToken = async () => {
+  const goRefreshToken = async (callback: (par: IRefreshCallbakParams) => void) => {
     setIsLoading(true);
     const _refreshToken = await AuthService.getRefreshToken();
-    const config = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      skipRefresh: true,
-    };
-    let refreshToken = Store.getState().AuthReducer.refreshToken?.trim() || _refreshToken;console.log('????????????????????????????', _refreshToken, refreshToken)
-    const refreshObj = new URLSearchParams();
-    refreshObj.append('scope', 'unicardApi offline_access');
-    refreshObj.append('grant_type', 'refresh_token');
-    refreshObj.append('client_id', 'ClientApp');
-    refreshObj.append('client_secret', 'secret');
-    refreshObj.append(
-      'refresh_token',
-      (refreshToken) || '',
-    );
-    return await axios
-      .post<IAuthResponse>(
-        `${envs.API_URL}connect/token`,
-        refreshObj,
-        config,
-      )
-      .then(async response => { 
-        if (!response.data.access_token) throw response;
+    let refreshToken = Store.getState().AuthReducer.refreshToken?.trim() || _refreshToken;
+    const loginObj = `refresh_token=${(refreshToken) || ''}&scope=unicardApi%20offline_access&grant_type=refresh_token&client_secret=${envs.client_secret}&client_id=${envs.client_id}`;
 
-        // const date = new Date();
-        // date.setSeconds(date.getSeconds() + response.data.expires_in);
-        // const expObject = {
-        //   expDate: date,
-        // };
-        // await storage.removeItem(TOKEN_EXPIRE);
-        // await storage.setItem(TOKEN_EXPIRE, JSON.stringify(expObject));
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.responseType = 'json';
+
+    xhr.addEventListener('readystatechange', async function () {
+      if (this.readyState === 4) { console.log('<<<<<<<>>>>>>>>>>', this.response, loginObj)
+        if (xhr.status == 200) {
+          if (!this.response.access_token) throw this.response;
 
         await AuthService.removeToken();
         await AuthService.setToken(
-          response.data.access_token,
-          response.data.refresh_token,
+          this.response.access_token,
+          this.response.refresh_token,
         );
 
         Store.dispatch<IAuthAction>({
           type: AuthActions.setToken,
-          token: response.data.access_token,
+          token: this.response.access_token,
         });
         Store.dispatch<IAuthAction>({
           type: AuthActions.setRefreshToken,
-          refreshToken: response.data.refresh_token,
+          refreshToken: this.response.refresh_token,
         });
-        return {
-          accesToken: response.data.access_token,
-          refreshToken: response.data.refresh_token,
-          skip: false,
-        };
-      })
-      .catch(error => {console.log(error.response)
-        // if (stringToObject(error.response).data.error === require_otp) {
-        //   navigation.navigate(Routes.RefreshTokenOtp);
-        // }
-        return {accesToken: undefined, refreshToken: undefined, skip: true};
-      })
-      .finally(() => {
-        setIsLoading(false);
-        return {accesToken: undefined, refreshToken: undefined, skip: false};
-      });
+       
+        callback({
+          accesToken: this.response.access_token,
+          refreshToken: this.response.refresh_token,
+          skip: false
+        });
+        } else {
+          callback({accesToken: undefined, refreshToken: undefined, skip: true});
+        }
+      }
+    });
+
+    xhr.open('POST', `${envs.API_URL}connect/token`);
+    xhr.setRequestHeader(
+      'Content-Type', 'application/x-www-form-urlencoded',
+    );
+
+    xhr.send(loginObj);
   };
 
   const onSuccesBiometric = () => {
-
-    goRefreshToken().then(res => { console.log(res)
+    goRefreshToken(res => {
       const {accesToken, refreshToken, skip} = res;
-      if (accesToken !== undefined) {
-        dispatch({
-          type: AuthActions.setToken,
-          token: accesToken,
-        });
-        dispatch({
-          type: AuthActions.setRefreshToken,
-          refreshToken: refreshToken,
-        });
-        dispatch({
-          type: AuthActions.setIsAuthentificated,
-          isAuthentificated: true,
-        });
+      if(res.accesToken !== undefined) {
+   
+          dispatch({
+            type: AuthActions.setToken,
+            token: accesToken,
+          });
+          dispatch({
+            type: AuthActions.setRefreshToken,
+            refreshToken: refreshToken,
+          });
+          dispatch({
+            type: AuthActions.setIsAuthentificated,
+            isAuthentificated: true,
+          });
       } else {
         if (!skip) {
           dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
         }
       }
-    });
+    })
+   
+  
   };
 
   const onBiometric = () => {

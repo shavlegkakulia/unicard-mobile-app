@@ -46,6 +46,7 @@ import Partners from '../screens/auth/Partners';
 import SinglePartners from '../screens/auth/SinglePartners';
 import MerchantsMap from '../screens/auth/merchants/MerchantsMap';
 import SearchScreen from '../screens/auth/SearchScreen';
+import SingleMerchantsScreen from '../screens/auth/merchants/SingleMerchantsScreen';
 
 const authStack = createStackNavigator();
 
@@ -306,6 +307,39 @@ const AppNavigator = () => {
                         />
                       </TouchableOpacity>
                     ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          // isDrawerOpened.current
+                          //   ? sideDraver.current?.closeDrawer()
+                          //   : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, marginRight: 29}}
+                          source={require('../assets/img/icon-search.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                 <authStack.Screen
+                  name={authRoutes.singleMerchants}
+                  component={SingleMerchantsScreen}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'ჩემ გარშემო',
+                    headerBackTitle: '',
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
                     headerRight: () => (
                       <TouchableOpacity
                         onPress={() => {

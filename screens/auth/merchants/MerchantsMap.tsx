@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import MapView from 'react-native-map-clustering';
-import {Callout, Marker} from 'react-native-maps';
+import {Callout, CalloutSubview, Marker} from 'react-native-maps';
 import {useSelector} from 'react-redux';
 import {ScreenNavigationProp} from '../../../interfaces/commons';
 import {authRoutes} from '../../../navigation/routes';
@@ -115,12 +115,18 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
               </View>
               <View style={styles.scoreView}>
                 <Text style={styles.scoreTxt}>-{m.unit_score} ქულა</Text>
-                <TouchableOpacity>
+                <CalloutSubview
+                  onPress={() =>
+                    props.navigation.navigate(authRoutes.singleMerchants, {
+                      merchId: m.new_id,
+                    })
+                  }
+                  >
                   <Image
                     style={styles.seeMore}
                     source={require('../../../assets/img/seeMoreIcon.png')}
                   />
-                </TouchableOpacity>
+                </CalloutSubview>
               </View>
             </Callout>
           </Marker>

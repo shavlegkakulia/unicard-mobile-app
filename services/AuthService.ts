@@ -186,11 +186,12 @@ export default new (class AuthService {
     //add auth header
     let requestInterceptor = axios.interceptors.request.use(
       async (config: AxiosRequestConfig) => {
-        if ((await this.isAuthenticated()) && !config.anonymous) {
+        let { token, isAuthentificated } = Store.getState().AuthReducer;
+        if (isAuthentificated && !config.anonymous) {
           //if refreshStarted wait
           if (this.refreshStarted && !config.skipRefresh) {
             return waitForRefresh(config).then(async (config: any) => {
-              let { token } = Store.getState().AuthReducer;
+              
               if (!token) {
                 return Promise.reject({status: 401});
               }

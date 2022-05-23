@@ -5,7 +5,7 @@ import UserInfoService from '../../services/UserInfoService';
 import {AuthActions} from '../types/auth';
 
 export const login = (token?: string, refreshToken?: string) => (dispatch: any) => {
-  dispatch({type: AuthActions.setIsAuthentificated, isAuthentificated: true, token: token, refreshToken: refreshToken});
+  dispatch({type: AuthActions.setIsAuthentificated, isAuthentificated: true});
   dispatch({type: AuthActions.setToken, token: token});
   dispatch({type: AuthActions.setRefreshToken, refreshToken: refreshToken});
 };

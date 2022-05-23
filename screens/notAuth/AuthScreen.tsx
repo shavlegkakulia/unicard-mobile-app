@@ -72,6 +72,8 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
   };
 
   useEffect(() => {
+
+   
     AsyncStorage.getItem('userInfo').then(res => {
       if (res !== null) {
         props.navigation.navigate(notAuthRoutes.authPage);

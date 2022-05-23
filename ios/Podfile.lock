@@ -389,6 +389,8 @@ PODS:
     - React-Core
   - RNGestureHandler (2.3.0):
     - React-Core
+  - RNPermissions (3.3.1):
+    - React-Core
   - RNScreens (3.13.0):
     - React-Core
     - React-RCTImage
@@ -461,6 +463,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -565,6 +568,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/checkbox"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   Yoga:
@@ -606,10 +611,10 @@ SPEC CHECKSUMS:
   React-jsinspector: 1e1e03345cf6d47779e2061d679d0a87d9ae73d8
   React-logger: 1e10789cb84f99288479ba5f20822ce43ced6ffe
   react-native-fbsdk: 8e92c7a334fd8d9c2b5d8b8fcd7ae2c314161099
-  react-native-fingerprint-scanner: c68136ca57e3704d7bdf5faa554ea535ce15b1d0
-  react-native-image-picker: eb0a159c2a00bcfb49f0469fcc6b164329e9d4ca
+  react-native-fingerprint-scanner: ac6656f18c8e45a7459302b84da41a44ad96dbbe
+  react-native-image-picker: e95b4785b685cfc06609bc50ed6fb55b59990c99
   react-native-maps: d752b0dd0e1951d815b1336332835aab6b4a836f
-  react-native-safe-area-context: 1bda964fb473c30913cd44ebe1ebd2a2574107fa
+  react-native-safe-area-context: 114e9a74df2643012b9d6cc1460b94f3b6a90780
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   React-perflogger: 93d3f142d6d9a46e635f09ba0518027215a41098
   React-RCTActionSheet: 87327c3722203cc79cf79d02fb83e7332aeedd18
@@ -623,10 +628,11 @@ SPEC CHECKSUMS:
   React-RCTVibration: d0361f15ea978958fab7ffb6960f475b5063d83f
   React-runtimeexecutor: af1946623656f9c5fd64ca6f36f3863516193446
   ReactCommon: 650e33cde4fb7d36781cd3143f5276da0abb2f96
-  ReactNativeART: f003b07dfa7098aa419ed95b69560923440b1eee
-  RNCAsyncStorage: cb9a623793918c6699586281f0b51cbc38f046f9
-  RNCCheckbox: 934e11d33abb6b0db105cfa5a22a42bd89dfb4b9
+  ReactNativeART: 78edc68dd4a1e675338cd0cd113319cf3a65f2ab
+  RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
+  RNCCheckbox: ed1b4ca295475b41e7251ebae046360a703b6eb5
   RNGestureHandler: 77d59828d40838c9fabb76a12d2d0a80c006906f
+  RNPermissions: 34d678157c800b25b22a488e4d8babb57456e796
   RNScreens: aa12070b21c1d6011b3627a0b1d09b627232b070
   Yoga: 90dcd029e45d8a7c1ff059e8b3c6612ff409061a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a

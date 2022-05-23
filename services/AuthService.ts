@@ -191,6 +191,7 @@ export default new (class AuthService {
           if (this.refreshStarted && !config.skipRefresh) {
             return waitForRefresh(config).then(async (config: any) => {
               let { token } = Store.getState().AuthReducer;
+              console.log('>>>',token)
               if (!token) {
                 return Promise.reject({status: 401});
               }

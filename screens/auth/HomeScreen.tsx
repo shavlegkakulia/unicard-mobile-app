@@ -124,7 +124,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
         <Text style={styles.title}>რაში დავხარჯო</Text>
       </View>
       <View style={styles.flatlist}>
-        <FlatList
+         <FlatList
           contentContainerStyle={{
             alignSelf: 'flex-start',
           }}
@@ -137,7 +137,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           contentInset={{right: 20}}
           numColumns={list && Math.ceil(list?.products.length || 2) / 2}
           key={list && new Date().toLocaleTimeString()}
-        />
+        /> 
       </View>
 
       {/* <Text>{translateReducer.t('common.name')}</Text> */}

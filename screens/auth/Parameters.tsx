@@ -9,6 +9,7 @@ import {
   Switch,
   Modal,
   PermissionsAndroid,
+  Platform,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
@@ -60,6 +61,7 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
   };
 
   const takePhoto = async () => {
+    if(Platform.OS === 'android'){
     try {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -95,8 +97,27 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
       }
     } catch (err) {
       console.warn(err);
-    }
+    } } else{
     
+        const result = await launchCamera(
+          {
+            mediaType: 'photo',
+            includeBase64: true,
+            quality: 0.2,
+            maxWidth: 300,
+            maxHeight: 300,
+          },
+          r => {
+            console.log(r)
+          },
+        );console.log(result)
+        if (result.assets) {
+          const { base64, fileName } = result.assets[0];
+          console.log(base64, fileName)
+          //uploadImage(getString(fileName), getString(base64));
+          //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
+        }
+      }
     setCameraHandler(!cameraHandler)
   };
 

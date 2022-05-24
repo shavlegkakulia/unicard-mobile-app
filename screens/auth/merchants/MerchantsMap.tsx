@@ -71,11 +71,6 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
     ?.sort(() => Math.random() - Math.random())
     .slice(0, 2);
 
-  // const infoHandler = () => {
-  //   console.log('lallall  is clicked');
-  //   // setMerchView(prev => !prev);
-
-  // }
 
   return (
     <View style={styles.mapcontainer}>

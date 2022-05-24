@@ -7,12 +7,26 @@ const MerchantItem: React.FC<IMerchants> = props => {
   console.log(props.address);
   return (
     <TouchableOpacity style={styles.item}>
-      <View style={styles.cardShadow}>
-        <View style={styles.cardContainer}>
-          <Image source={{uri: props.logo_url}} style={styles.logo} />
+      <View style={styles.cardContainer}>
+        <Image
+          resizeMode="contain"
+          source={{uri: props.logo_url}}
+          style={styles.logo}
+        />
+      </View>
+      <View style={styles.main}>
+        <Text style={styles.name}>{props.merch_name}</Text>
+        <View style={styles.mapView}>
+        <Image
+            source={require('./../../../assets/img/icon-pin.png')}
+            style={styles.pin}
+          />
+          <Text style={styles.address}>
+            {props.address?.trim().replace(/<[^>]*>?/gm, '')}
+          </Text>
         </View>
       </View>
-      <View style={styles.desc}>
+      {/* <View style={styles.desc}>
         <Text style={styles.name}>{props.merch_name}</Text>
         <Text style={styles.address}>
           <Image
@@ -21,7 +35,7 @@ const MerchantItem: React.FC<IMerchants> = props => {
           />{' '}
           {props.address?.trim().replace(/<[^>]*>?/gm, '')}
         </Text>
-      </View>
+      </View> */}
     </TouchableOpacity>
   );
 };
@@ -33,26 +47,21 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     flex: 1,
   },
-  cardShadow: {
-    borderRadius: 25,
-    backgroundColor: 'transparent',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
-  },
   cardContainer: {
-    backgroundColor: '#fff',
-    borderRadius: 25,
-    overflow: 'hidden',
-  },
-  logo: {
     width: 50,
     height: 50,
+    shadowOffset: {width: 0, height: 2},
+    shadowColor: Colors.bgGreen,
+    shadowOpacity: 5,
+    shadowRadius: 1.5,
+    backgroundColor: Colors.white,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  logo: {
+    width: 25,
+    height: 23,
   },
   desc: {
     marginLeft: 15,
@@ -60,11 +69,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   name: {
-    color: Colors.dark,
+    color: Colors.black,
     fontSize: 14,
     lineHeight: 17,
     fontFamily: 'BPG DejaVu Sans Mt',
-    fontWeight: '400',
   },
   address: {
     color: Colors.darkGrey,
@@ -73,7 +81,17 @@ const styles = StyleSheet.create({
     fontFamily: 'BPG DejaVu Sans Mt',
   },
   pin: {
-      marginRight: 7
+    marginRight: 7,
+    width: 8.78,
+    height: 11.49,
+  },
+  mapView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 7,
+  },
+  main: {
+    marginLeft: 16,
   },
 });
 

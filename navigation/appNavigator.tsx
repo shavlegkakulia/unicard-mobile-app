@@ -709,7 +709,8 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    headerBackTitle: '',
+                    headerBackTitleVisible: false,
+                  
                     title: '',
                     headerTintColor: Colors.black,
                     headerStyle: {

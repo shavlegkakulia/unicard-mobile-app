@@ -3,13 +3,20 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import CardService, {
+  IBarcodeRequestData,
+  IBarcodeResponseData,
   IgetBarcodeDetailsRequest,
   IgetBarcodeResponse,
 } from '../../services/CardService';
+import Colors from '../../theme/Colors';
 
 const Barcode: React.FC<ScreenNavigationProp> = () => {
   const [cardInfo, setCardInfo] = useState<IgetBarcodeResponse>();
+  const [file, setFile] = useState<IBarcodeResponseData>();
   const [loading, setLoading] = useState();
+  // console.log('esssssfile>>>>>>', file?.barcode);
+  let barcode = file?.barcode;
+  console.log('!!!!!!!!!!!!!', barcode);
   const getBarcode = () => {
     const req: IgetBarcodeDetailsRequest = {
       user_id: '',
@@ -29,12 +36,49 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
   useEffect(() => {
     getBarcode();
   }, []);
+
+  const getBarcodeFile = () => {
+    const data: IBarcodeRequestData = {
+      input: cardInfo?.vcard,
+    };
+    CardService.GenerateBarcodeFile(data).subscribe({
+      next: Response => {
+        if (Response.data.resultCode === '200') {
+          // setFile(Response.data);
+          setFile(Response.data);
+        }
+      },
+      complete: () => {},
+      error: err => {
+        console.log('>>>', err);
+      },
+    });
+  };
+  useEffect(() => {
+    getBarcodeFile();
+  }, []);
+
   return (
     <View style={styles.main}>
       {!loading && cardInfo ? (
         <>
+          <View style={styles.barcodeImageView}>
+            <Image
+              resizeMode="cover"
+              style={{
+                width: 330,
+                height: 50,
+              }}
+              source={{uri: `data:image/gif;base64,${barcode}`}}
+            />
+          </View>
           <View style={styles.barcodeNum}>
-            <Text style={styles.num}>{cardInfo?.vcard}</Text>
+            <Text style={styles.num}>
+              {cardInfo?.vcard?.replace(
+                /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
+                '$1  $2  $3  $4',
+              )}
+            </Text>
           </View>
           <Image
             style={styles.img}
@@ -70,6 +114,21 @@ const styles = StyleSheet.create({
   },
   num: {
     fontSize: 24,
+  },
+  barcodeImageView: {
+    position: 'absolute',
+    top: 280,
+    left: -90,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 100,
+    transform: [{rotate: '90deg'}],
+    backgroundColor: Colors.white,
+    width: 400,
+    height: 70,
+    borderRadius: 10,
   },
 });
 

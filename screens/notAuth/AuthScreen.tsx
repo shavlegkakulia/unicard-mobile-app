@@ -8,6 +8,7 @@ import {
   StyleSheet,
   View,
   Image,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
@@ -84,6 +85,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   return (
     <ScrollView>
+      <KeyboardAvoidingView>
       <View style={styles.titleView}>
         <Text style={styles.title}>ავტორიზაცია</Text>
       </View>
@@ -135,6 +137,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
           backgroundColor={Colors.bgGreen}
         />
       </View>
+      </KeyboardAvoidingView>
     </ScrollView>
   );
 };

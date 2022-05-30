@@ -21,6 +21,7 @@
     "moment": "^2.29.3",
     "react": "17.0.2",
     "react-native": "0.67.3",
+    "react-native-animated-pagination-dots": "^0.1.72",
     "react-native-base64": "^0.2.1",
     "react-native-fbsdk": "^3.0.0",
     "react-native-fingerprint-scanner": "^6.0.0",

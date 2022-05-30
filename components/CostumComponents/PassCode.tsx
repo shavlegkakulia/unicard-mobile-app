@@ -201,9 +201,6 @@ const PassCode: React.FC<IPageProps> = props => {
           {user?.name} {user?.surname}
         </Text>
       </View>
-      <TouchableOpacity onPress={() => nav.goBack()}>
-        <Text>another</Text>
-      </TouchableOpacity>
       <View style={styles.dotCenter}>
         <View style={styles.dotsView}>
           <View style={[styles.dot, p1 && styles.activeDot]} />
@@ -281,6 +278,9 @@ const PassCode: React.FC<IPageProps> = props => {
           </TouchableOpacity>
         </View>
       </View>
+      <TouchableOpacity style={styles.goback} onPress={() => nav.goBack()}>
+        <Text style={styles.gobackTxt}>X</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -288,7 +288,7 @@ const PassCode: React.FC<IPageProps> = props => {
 const styles = StyleSheet.create({
   titleView: {
     alignItems: 'center',
-    marginTop: 10,
+    // marginTop: 10,
   },
   title: {
     fontSize: 20,
@@ -330,14 +330,14 @@ const styles = StyleSheet.create({
   },
   dotCenter: {
     alignItems: 'center',
-    marginTop: 80,
+    marginTop: 60,
   },
   numbersMainView: {
     alignItems: 'center',
-    marginTop: 80,
+    marginTop: 60,
     height: 360,
     justifyContent: 'space-between',
-    marginBottom: 59,
+    marginBottom: 35,
   },
   numberView: {
     width: 280,
@@ -367,6 +367,16 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
   },
+  goback: {
+    alignItems: 'center',
+  },
+  gobackTxt: {
+    fontSize: 18,
+    color: Colors.bgGreen,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    fontWeight: '700',
+    lineHeight: 24,
+  }
 });
 
 export default PassCode;

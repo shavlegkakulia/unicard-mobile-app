@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState, useRef} from 'react';
 import {
   Image,
   ScrollView,
@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   View,
   FlatList,
+  Dimensions,
+  Animated,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -16,16 +18,18 @@ import {login, logout} from '../../Store/actions/auth';
 import {use} from '../../Store/actions/translate';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
-import LinearGradient from 'react-native-linear-gradient';
-import DATA from '../../constants/shopListDummyData';
 import ShopingCard from '../../components/ShopCard';
 import {authRoutes} from '../../navigation/routes';
+import Paginator from '../../components/Paginator';
 import ProductList, {
   Igeneralresp,
   IgetProducteListRequest,
   IgetProducteListResponse,
 } from '../../services/ProductListService';
-import GetBalanceService, { IgetBalanceRequest, IgetBalanceResponse } from '../../services/GetBalanceService';
+import GetBalanceService, {
+  IgetBalanceRequest,
+  IgetBalanceResponse,
+} from '../../services/GetBalanceService';
 
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
@@ -43,10 +47,19 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
 
   const [list, setList] = useState<Igeneralresp>();
   const [balance, setBalance] = useState<IgetBalanceResponse>();
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const scrollX = useRef(new Animated.Value(0)).current;
+
+  const viewableItemsChanged = useRef(({viewableItems}) => {
+    setCurrentIndex(viewableItems[0].index);
+  }).current;
+
+  const viewConfig = useRef({itemVisiblePercentThreshold: 20}).current;
+  const slidesRef = useRef(null);
 
   const getProductList = () => {
     const req: IgetProducteListRequest = {
-      page_index: '1',
+      page_index: '',
       lang: '',
     };
     ProductList.getList(req).subscribe({
@@ -63,7 +76,6 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getProductList();
   }, []);
-
 
   const getBalance = () => {
     const req: IgetBalanceRequest = {
@@ -85,22 +97,6 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getBalance();
   }, []);
-  
-
-
-  // const signin = () => {
-  //   AuthService.SignIn({email: 'fhjdskhfjd', password: 'fdsfds'}).subscribe({
-  //     next: async Response => {
-  //       await AuthService.setToken(
-  //         Response.data.token,
-  //         Response.data.refresh_token,
-  //       );
-  //       dispatch(login());
-  //     },
-  //     error: err => {},
-  //     complete: () => {},
-  //   });
-  // };
 
   return (
     <ScrollView>
@@ -109,7 +105,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
         onPress={() => props.navigation.navigate(authRoutes.barcode)}>
         <Image
           style={styles.img}
-          source={require('../../assets/img/cardGreen.png')}
+          source={require('../../assets/img/greenCard.png')}
         />
         <View style={styles.markView}>
           <Image
@@ -119,16 +115,22 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.amount}>{balance?.balance}</Text>
         </View>
       </TouchableOpacity>
-      
+
       <View style={styles.titleWrapper}>
         <Text style={styles.title}>რაში დავხარჯო</Text>
+        <View style={styles.paginator}>
+        <Paginator data={list?.products} scrollX={scrollX} />
+        </View>
+        
       </View>
+          
       <View style={styles.flatlist}>
-         <FlatList
+        <FlatList
           contentContainerStyle={{
             alignSelf: 'flex-start',
           }}
           bounces={false}
+          pagingEnabled
           data={list?.products}
           renderItem={renderItem}
           showsVerticalScrollIndicator={false}
@@ -137,7 +139,15 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           contentInset={{right: 20}}
           numColumns={list && Math.ceil(list?.products.length || 2) / 2}
           key={list && new Date().toLocaleTimeString()}
-        /> 
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {x: scrollX}}}],
+            {useNativeDriver: false},
+          )}
+          onViewableItemsChanged={viewableItemsChanged}
+          viewabilityConfig={viewConfig}
+          ref={slidesRef}
+          scrollEventThrottle={32}
+        />
       </View>
 
       {/* <Text>{translateReducer.t('common.name')}</Text> */}
@@ -187,6 +197,8 @@ const styles = StyleSheet.create({
   titleWrapper: {
     marginHorizontal: 46,
     marginTop: 62,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: 14,
@@ -194,10 +206,24 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.8,
+    width: 220,
   },
   flatlist: {
     marginTop: 28,
   },
+  // circleWrapper: {
+  //   marginTop: 20,
+  //   alignItems: 'flex-end',
+  //   paddingHorizontal: 29,
+  // },
+  circle: {
+    width: 4,
+    height: 4,
+    backgroundColor: Colors.lightGrey,
+    marginLeft: 6,
+    borderRadius: 50,
+  },
+  
 });
 
 export default HomeScreen;

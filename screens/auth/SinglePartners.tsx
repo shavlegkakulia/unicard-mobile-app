@@ -35,14 +35,13 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getOrgDetails();
   }, []);
-  console.log('>>>>>>>>>>>', organization?.organization?.address);
   return (
     <ScrollView>
       <View style={styles.shadow}>
         <View style={styles.main}>
           <Image
             resizeMode="contain"
-            style={{width: 100, height: 140.4}}
+            style={styles.orgLogo}
             source={{uri: organization?.organization?.url}}
           />
         </View>
@@ -141,9 +140,12 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
         </View>
       ) : null}
       <View style={styles.btn}>
-      <AppButton onPress={() => {}} title={'ობიექტების სია'} backgroundColor={Colors.bgGreen} />
+        <AppButton
+          onPress={() => {}}
+          title={'ობიექტების სია'}
+          backgroundColor={Colors.bgGreen}
+        />
       </View>
-     
     </ScrollView>
   );
 };
@@ -245,6 +247,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 48,
     marginBottom: 41,
+  },
+  orgLogo: {
+    width: 150,
+    height: 160,
   },
 });
 

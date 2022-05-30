@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {from} from 'rxjs';
+import {from, subscribeOn} from 'rxjs';
 import envs from '../config/env';
 
 interface IresponseData {
@@ -34,6 +34,8 @@ export interface IBuyProductServiceResponse extends IresponseData {
   delivery_date?: string;
   comment?: string;
   product_type?: string;
+  surname?: string;
+  name?: string;
 }
 
 class BuyProductService {

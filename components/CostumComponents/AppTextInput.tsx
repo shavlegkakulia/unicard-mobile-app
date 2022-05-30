@@ -7,6 +7,7 @@ import {
   Image,
   KeyboardTypeOptions,
   Text,
+  KeyboardAvoidingView,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../theme/Colors';
@@ -275,7 +276,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
   console.log(inputErrors);
   return (
     <>
-      <View style={styles.main}>
+      <KeyboardAvoidingView style={styles.main}>
         <View style={styles.inputWrapper}>
           <TextInput
             placeholder={placeholder || ''}
@@ -296,7 +297,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
             <Image source={iconUrl} style={styles.icon} />
           )}
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
       {hasError !== undefined && isFocused && (
         <Text style={styles.errMessage}>{hasError}</Text>
       )}

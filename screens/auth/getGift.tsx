@@ -23,6 +23,7 @@ import moment from 'moment';
 const GetGift: React.FC<ScreenNavigationProp> = props => {
   const [client, setClient] = useState<IBuyProductServiceResponse>();
   const [check, setCheck] = useState<boolean>(false);
+  const [chekCount, setChekCount] = useState<number>(0);
   const params = props.route.params;
   const typeId = params.type;
   const utilityId = '8';
@@ -35,7 +36,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
   };
   const buyProduct = () => {
     const data: IBuyProductServiceResponse = {
-      recipient_full_name: client?.recipient_full_name,
+      recipient_full_name: `${client?.name}${' '}${client?.surname}`,
       recipient_personal_id: client?.recipient_personal_id,
       product_id: params.data.id,
       amount: parseInt(params.data.price, 10),
@@ -43,6 +44,15 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       delivery_date: moment(date).format('DD/MM/YYYY'),
       recipient_phone: '', // დალოგინებული იუზერის ტელ ნომერი.
       tran_date: moment(date).format('DD/MM/YYYY'),
+      discount_id: '0',
+      guid: '',
+      bonus_amount: '',
+      quantity: '1', //gasarkvevia, unda daixatos tu ara appshi,
+      service_center_id: '0',
+      online_payment_identifier: '0',
+      recipient_address: '',
+      comment: '0',
+      product_type: '0',
     };
 
     BuyProductService.GenerateProduct(data).subscribe({
@@ -127,29 +137,44 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
               მიუთითეთ უფლებამოსილი პირის მონაცემები
             </Text>
           </View>
-          <KeyboardAvoidingView>
+       
             <AppTextInput
               placeholder="სახელი"
-              value={client?.recipient_full_name}
+              value={client?.name}
               onChange={e => {
                 setClient({
-                  recipient_full_name: e,
+                  name: e,
                   recipient_personal_id: client?.recipient_personal_id,
+                  surname: client?.surname,
                 });
               }}
             />
+     
             <AppTextInput
               placeholder="გვარი"
-              value={client?.recipient_personal_id}
+              value={client?.surname}
               onChange={e => {
                 setClient({
-                  recipient_full_name: client?.recipient_full_name,
-                  recipient_personal_id: e,
+                  name: client?.name,
+                  recipient_personal_id: client?.recipient_personal_id,
+                  surname: e,
                 });
               }}
             />
-            <AppTextInput onChange={() => {}} placeholder="პირადი ნომერი" />
-          </KeyboardAvoidingView>
+     
+
+       
+            <AppTextInput
+              placeholder="პირადი ნომერი"
+              onChange={e => {
+                setClient({
+                  name: client?.name,
+                  recipient_personal_id: e,
+                  surname: client?.surname,
+                });
+              }}
+            />
+          
         </>
       )}
       <View style={styles.totalView}>

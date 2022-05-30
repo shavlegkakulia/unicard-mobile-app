@@ -1,4 +1,4 @@
-import {useNavigation} from '@react-navigation/native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
@@ -24,7 +24,13 @@ import {
 import Colors from '../../../theme/Colors';
 import MerchantItem from './merchantItem';
 
-const INITIAL_REGION = {
+type RouteParamList = {
+  params: {
+    merchant: IMerchants;
+  };
+};
+
+const _INITIAL_REGION = {
   latitude: 41.80737670360194,
   longitude: 44.793170490777214,
   latitudeDelta: 8.5,
@@ -35,10 +41,23 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
   const [merchants, setMerchnts] = useState<IMerchants[]>();
   const [isLoading, setIsLoading] = useState(true);
   const [merchView, setMerchView] = useState(false);
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const translate = useSelector<ITranslateReducer>(
     tran => tran.TranslateReducer,
   ) as ITranslateState;
   const navigation = useNavigation();
+  const [INITIAL_REGION, setInitialRegion] = useState<any>({
+    ..._INITIAL_REGION,
+  });
+  useEffect(() => {
+    if (route.params?.merchant?.lon) {
+      setInitialRegion({
+        ..._INITIAL_REGION,
+        latitudeDelta: route.params.merchant.lat,
+        longitudeDelta: route.params.merchant.lon,
+      });
+    }
+  }, [route.params?.merchant]);
 
   useEffect(() => {
     const data: IgetMerchantsRequest = {};
@@ -71,10 +90,9 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
     ?.sort(() => Math.random() - Math.random())
     .slice(0, 2);
 
-
   return (
     <View style={styles.mapcontainer}>
-      <MapView initialRegion={INITIAL_REGION} style={styles.map}>
+      <MapView initialRegion={_INITIAL_REGION} style={styles.map}>
         {merchants?.map((m, i) => (
           <Marker
             coordinate={{
@@ -115,8 +133,7 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
                     props.navigation.navigate(authRoutes.singleMerchants, {
                       merchId: m.new_id,
                     })
-                  }
-                  >
+                  }>
                   <Image
                     style={styles.seeMore}
                     source={require('../../../assets/img/seeMoreIcon.png')}
@@ -128,11 +145,16 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
         ))}
       </MapView>
       <View style={styles.bottomView}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            props.navigation.navigate(authRoutes.allMerchants, {
+              merchants: merchants,
+            })
+          }>
           <Text style={styles.allText}>{translate.t('common.all')}</Text>
         </TouchableOpacity>
         {randomElements?.map((m, i) => (
-          <MerchantItem {...m} key={m.lat + i} />
+          <MerchantItem merchant={m} key={m.lat + i} />
         ))}
       </View>
     </View>

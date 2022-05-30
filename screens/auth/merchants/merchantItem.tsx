@@ -1,28 +1,41 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {authRoutes} from '../../../navigation/routes';
 import {IMerchants} from '../../../services/MerchantsService';
 import Colors from '../../../theme/Colors';
 
-const MerchantItem: React.FC<IMerchants> = props => {
-  console.log(props.address);
+interface IPageProps {
+  merchant: IMerchants;
+}
+
+const MerchantItem: React.FC<IPageProps> = props => {
+  const navigation = useNavigation();
+  console.log('>>>>>>>>', props);
   return (
-    <TouchableOpacity style={styles.item}>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() =>
+        navigation.navigate(authRoutes.aroundUs, {
+          merchant: {...props?.merchant},
+        })
+      }>
       <View style={styles.cardContainer}>
         <Image
           resizeMode="contain"
-          source={{uri: props.logo_url}}
+          source={{uri: props?.merchant.logo_url}}
           style={styles.logo}
         />
       </View>
       <View style={styles.main}>
-        <Text style={styles.name}>{props.merch_name}</Text>
+        <Text style={styles.name}>{props?.merchant.merch_name}</Text>
         <View style={styles.mapView}>
-        <Image
+          <Image
             source={require('./../../../assets/img/icon-pin.png')}
             style={styles.pin}
           />
           <Text style={styles.address}>
-            {props.address?.trim().replace(/<[^>]*>?/gm, '')}
+            {props?.merchant.address?.trim().replace(/<[^>]*>?/gm, '')}
           </Text>
         </View>
       </View>
@@ -46,6 +59,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
     flex: 1,
+    width: 272,
   },
   cardContainer: {
     width: 50,

@@ -47,6 +47,7 @@ import SinglePartners from '../screens/auth/SinglePartners';
 import MerchantsMap from '../screens/auth/merchants/MerchantsMap';
 import SearchScreen from '../screens/auth/SearchScreen';
 import SingleMerchantsScreen from '../screens/auth/merchants/SingleMerchantsScreen';
+import AllMerchants from '../screens/auth/merchants/AllMerchants';
 
 const authStack = createStackNavigator();
 
@@ -340,6 +341,52 @@ const AppNavigator = () => {
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          // isDrawerOpened.current
+                          //   ? sideDraver.current?.closeDrawer()
+                          //   : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, marginRight: 29}}
+                          source={require('../assets/img/icon-search.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.allMerchants}
+                  component={AllMerchants}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'ჩემ გარშემო',
+
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
                     headerRight: () => (
                       <TouchableOpacity
                         onPress={() => {

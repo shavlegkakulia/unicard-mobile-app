@@ -85,7 +85,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       );
   };
-  
+
   const validatePassword = () => {
     if (!value) {
       return false;
@@ -299,7 +299,9 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         </TouchableOpacity>
       </KeyboardAvoidingView>
       {hasError !== undefined && isFocused && (
-        <Text style={styles.errMessage}>{hasError}</Text>
+        <View style={styles.errWrapper}>
+          <Text style={styles.errMessage}>{hasError}</Text>
+        </View>
       )}
     </>
   );
@@ -331,8 +333,15 @@ const styles = StyleSheet.create({
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.8,
   },
+  errWrapper: {
+    width: 325,
+    paddingHorizontal: 7,
+    marginTop: 6,
+  },
   errMessage: {
     color: Colors.red,
     fontSize: 10,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
 });

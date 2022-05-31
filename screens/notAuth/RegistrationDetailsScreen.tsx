@@ -1,21 +1,13 @@
 import React, {useState} from 'react';
-import {
-  Text,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-  View,
-  Image,
-} from 'react-native';
+import {Text, StyleSheet, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput, {
   requireTypes,
 } from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
-import AuthService, {IRegisterRequestData} from '../../services/AuthService';
+import {IRegisterRequestData} from '../../services/AuthService';
 
 import {inputErrors} from './../../components/CostumComponents/AppTextInput';
 
@@ -24,7 +16,6 @@ import Colors from '../../theme/Colors';
 const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const [regData, setRegData] = useState<IRegisterRequestData>();
   const [chekCount, setChekCount] = useState<number>(0);
-  const dispatch = useDispatch();
 
   const nextStep = () => {
     setChekCount(t => ++t);
@@ -196,6 +187,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 116,
+    marginBottom: 102,
   },
 });
 

@@ -44,7 +44,6 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     CardService.GenerateBarcodeFile(data).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-          // setFile(Response.data);
           setFile(Response.data);
         }
       },

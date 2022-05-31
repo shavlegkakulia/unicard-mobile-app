@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginTop: 15,
+    marginBottom: 40,
   },
 });
 

@@ -1,5 +1,5 @@
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import React, {LegacyRef, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import MapView from 'react-native-map-clustering';
-import {Callout, CalloutSubview, Marker} from 'react-native-maps';
+import {Callout, CalloutSubview, Camera, Marker} from 'react-native-maps';
 import {useSelector} from 'react-redux';
 import {ScreenNavigationProp} from '../../../interfaces/commons';
 import {authRoutes} from '../../../navigation/routes';
@@ -30,7 +30,7 @@ type RouteParamList = {
   };
 };
 
-const _INITIAL_REGION = {
+const INITIAL_REGION = {
   latitude: 41.80737670360194,
   longitude: 44.793170490777214,
   latitudeDelta: 8.5,
@@ -45,16 +45,23 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
   const translate = useSelector<ITranslateReducer>(
     tran => tran.TranslateReducer,
   ) as ITranslateState;
-  const navigation = useNavigation();
-  const [INITIAL_REGION, setInitialRegion] = useState<any>({
-    ..._INITIAL_REGION,
-  });
+ 
+  const map: LegacyRef<MapView> = useRef(null);
   useEffect(() => {
     if (route.params?.merchant?.lon) {
-      setInitialRegion({
-        ..._INITIAL_REGION,
-        latitudeDelta: route.params.merchant.lat,
-        longitudeDelta: route.params.merchant.lon,
+      const _Camera: Camera = {
+        center: {
+          latitude: parseFloat(route.params.merchant.lat),
+          longitude: parseFloat(route.params.merchant.lon),
+        },
+
+        zoom: 18,
+        heading: 0,
+        pitch: 0,
+        altitude: 0
+      };
+      map?.current?.getCamera().then(() => {
+          map?.current?.animateCamera(_Camera);
       });
     }
   }, [route.params?.merchant]);
@@ -92,7 +99,7 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
 
   return (
     <View style={styles.mapcontainer}>
-      <MapView initialRegion={_INITIAL_REGION} style={styles.map}>
+      <MapView initialRegion={INITIAL_REGION} style={styles.map} ref={map}>
         {merchants?.map((m, i) => (
           <Marker
             coordinate={{
@@ -129,6 +136,7 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
               <View style={styles.scoreView}>
                 <Text style={styles.scoreTxt}>-{m.unit_score} ქულა</Text>
                 <CalloutSubview
+                style={{flex: 1, width: 40, height: 40}}
                   onPress={() =>
                     props.navigation.navigate(authRoutes.singleMerchants, {
                       merchId: m.new_id,
@@ -150,6 +158,7 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
             props.navigation.navigate(authRoutes.allMerchants, {
               merchants: merchants,
             })
+           
           }>
           <Text style={styles.allText}>{translate.t('common.all')}</Text>
         </TouchableOpacity>

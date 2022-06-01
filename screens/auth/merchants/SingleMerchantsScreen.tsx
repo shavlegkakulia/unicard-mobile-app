@@ -8,6 +8,7 @@ import {
 } from '../../../services/SinglePartnersService';
 import SinglePartnersService from '../../../services/SinglePartnersService';
 import AppButton from '../../../components/CostumComponents/AppButton';
+import { authRoutes } from '../../../navigation/routes';
 
 const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
   const [organization, setOrganization] = useState<IgetPartnersResponse>();
@@ -36,7 +37,6 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
   console.log('>>>>>>>>>>>', organization?.organization?.name);
   return (
     <ScrollView>
- 
       <View style={styles.shadow}>
         <View style={styles.main}>
           <Image
@@ -132,9 +132,12 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
         </View>
       ) : null}
       <View style={styles.btn}>
-      <AppButton onPress={() => {}} title={'ობიექტების სია'} backgroundColor={Colors.bgGreen} />
+        <AppButton
+          onPress={() => props.navigation.goBack(authRoutes.aroundUs)}
+          title={'ობიექტების სია'}
+          backgroundColor={Colors.bgGreen}
+        />
       </View>
-     
     </ScrollView>
   );
 };

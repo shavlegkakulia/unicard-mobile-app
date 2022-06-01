@@ -136,7 +136,7 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
               <View style={styles.scoreView}>
                 <Text style={styles.scoreTxt}>-{m.unit_score} ქულა</Text>
                 <CalloutSubview
-                style={{flex: 1, width: 40, height: 40}}
+                style={{width: 40, height: 40}}
                   onPress={() =>
                     props.navigation.navigate(authRoutes.singleMerchants, {
                       merchId: m.new_id,
@@ -246,6 +246,7 @@ const styles = StyleSheet.create({
   },
   merchlocation: {
     paddingLeft: 10,
+    width: 151,
   },
   addressText: {
     width: 129.82,
@@ -279,6 +280,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.8,
+    marginBottom: 10,
   },
   seeMore: {
     width: 21,

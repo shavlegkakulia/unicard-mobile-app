@@ -65,11 +65,11 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
               <Text style={styles.catIdTxt}>{offer?.catalog_id}</Text>
             </View>
             <View>
-              <Text>{htmlToString(offer?.description)}</Text>
+              <Text>{offer?.description}</Text>
             </View>
-            <View>
-              <Text>{htmlToString(linkTag?.toString())}</Text>
-            </View>
+            {/* <View>
+              <Text>{linkTag}</Text>
+            </View> */}
             <View style={styles.btn}>
               <AppButton
                 onPress={() =>

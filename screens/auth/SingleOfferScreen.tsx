@@ -45,7 +45,7 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
         <>
           <ScrollView contentContainerStyle={styles.main}>
             <View style={styles.imgView}>
-              <Image style={styles.img} source={offer?.images} />
+              <Image style={styles.img} source={{uri: offer?.images?.[0]}} />
             </View>
 
             <View style={styles.titleView}>

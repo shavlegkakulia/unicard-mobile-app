@@ -16,7 +16,7 @@ const LoginScreen: React.FC<ScreenNavigationProp> = props => {
       </View>
 
       <AppButton
-        onPress={() => {}}
+        onPress={() => {props.navigation.navigate(notAuthRoutes.FBAuth)}}
         title={'facebook-ით შესვლა'}
         backgroundColor={Colors.blue}
       />

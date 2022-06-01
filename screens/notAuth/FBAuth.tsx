@@ -55,7 +55,7 @@ export default class FBAuth extends Component {
             if(accessToken) {
                 this.getInfoFromToken(accessToken);
             }
-          });
+          }).catch(e => console.log(e));
         }
       },
       error => {
@@ -80,10 +80,10 @@ export default class FBAuth extends Component {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text>{buttonText}</Text>
+          <Text style={{color: 'white'}}>{buttonText}</Text>
         </TouchableOpacity>
         {this.state.userInfo.name && (
-          <Text style={{fontSize: 16, marginVertical: 16}}>
+          <Text style={{fontSize: 16, marginVertical: 16, color: '#fff'}}>
             Logged in As {this.state.userInfo.name}
           </Text>
         )}

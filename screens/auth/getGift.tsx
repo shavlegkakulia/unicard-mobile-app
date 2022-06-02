@@ -19,6 +19,7 @@ import BuyProductService, {
 } from '../../services/BuyProductService';
 import Colors from '../../theme/Colors';
 import moment from 'moment';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const GetGift: React.FC<ScreenNavigationProp> = props => {
   const [client, setClient] = useState<IBuyProductServiceResponse>();
@@ -66,7 +67,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
     });
   };
   return (
-    <ScrollView style={styles.main}>
+    <KeyboardAwareScrollView style={styles.main}>
       <View style={styles.imageView}>
         <View>
           <Image style={styles.img} source={params?.data?.images} />
@@ -137,44 +138,41 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
               მიუთითეთ უფლებამოსილი პირის მონაცემები
             </Text>
           </View>
-       
-            <AppTextInput
-              placeholder="სახელი"
-              value={client?.name}
-              onChange={e => {
-                setClient({
-                  name: e,
-                  recipient_personal_id: client?.recipient_personal_id,
-                  surname: client?.surname,
-                });
-              }}
-            />
-     
-            <AppTextInput
-              placeholder="გვარი"
-              value={client?.surname}
-              onChange={e => {
-                setClient({
-                  name: client?.name,
-                  recipient_personal_id: client?.recipient_personal_id,
-                  surname: e,
-                });
-              }}
-            />
-     
 
-       
-            <AppTextInput
-              placeholder="პირადი ნომერი"
-              onChange={e => {
-                setClient({
-                  name: client?.name,
-                  recipient_personal_id: e,
-                  surname: client?.surname,
-                });
-              }}
-            />
-          
+          <AppTextInput
+            placeholder="სახელი"
+            value={client?.name}
+            onChange={e => {
+              setClient({
+                name: e,
+                recipient_personal_id: client?.recipient_personal_id,
+                surname: client?.surname,
+              });
+            }}
+          />
+
+          <AppTextInput
+            placeholder="გვარი"
+            value={client?.surname}
+            onChange={e => {
+              setClient({
+                name: client?.name,
+                recipient_personal_id: client?.recipient_personal_id,
+                surname: e,
+              });
+            }}
+          />
+
+          <AppTextInput
+            placeholder="პირადი ნომერი"
+            onChange={e => {
+              setClient({
+                name: client?.name,
+                recipient_personal_id: e,
+                surname: client?.surname,
+              });
+            }}
+          />
         </>
       )}
       <View style={styles.totalView}>
@@ -190,7 +188,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           backgroundColor={Colors.bgGreen}
         />
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 const styles = StyleSheet.create({

@@ -109,7 +109,7 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
           </View>
           <View style={styles.listMainView}>
             {transactions &&
-              [...transactions, ...transactions]?.map(tr => (
+              [...transactions]?.map(tr => (
                 <View style={styles.listView} key={tr.organisation_id}>
                   <View>
                     <Text style={styles.name}>{tr.organisation_name}</Text>
@@ -131,7 +131,18 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
                     </View>
                   </View>
                   <View>
-                    <Text style={styles.payAmount}>+{tr.score}</Text>
+                    <Text
+                      style={[
+                        styles.payAmount,
+                        {
+                          color:
+                            tr.score && tr.score < 0
+                              ? Colors.red
+                              : Colors.bgGreen,
+                        },
+                      ]}>
+                      {tr.score && tr.score > 0 ? `+${tr.score}` : tr.score}
+                    </Text>
                   </View>
                 </View>
               ))}

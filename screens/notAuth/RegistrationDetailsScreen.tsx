@@ -8,7 +8,7 @@ import AppTextInput, {
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 import {IRegisterRequestData} from '../../services/AuthService';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {inputErrors} from './../../components/CostumComponents/AppTextInput';
 
 import Colors from '../../theme/Colors';
@@ -28,7 +28,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
 
   return (
     <>
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <View style={styles.textInput}>
           <View style={styles.titleWrapper}>
             <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
@@ -164,7 +164,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             backgroundColor={Colors.bgGreen}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </>
   );
 };

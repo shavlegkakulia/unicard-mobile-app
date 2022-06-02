@@ -38,6 +38,7 @@ import axios from 'axios';
 import Store from '../../Store';
 import envs from './../../config/env';
 import {AuthActions, IAuthAction} from '../../Store/types/auth';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 interface IUserData {
   password?: string;
@@ -231,7 +232,7 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
 
   return (
     <>
-      <ScrollView>
+      <KeyboardAwareScrollView>
         <View style={styles.avatarView}>
           <Image
             style={styles.avatar}
@@ -263,7 +264,7 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
             />
           </View>
         </KeyboardAvoidingView>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <Modal
         visible={isPasscodeEnabled}
         onRequestClose={() => {

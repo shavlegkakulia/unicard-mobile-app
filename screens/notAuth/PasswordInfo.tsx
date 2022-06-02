@@ -21,6 +21,7 @@ import {notAuthRoutes} from '../../navigation/routes';
 import Colors from '../../theme/Colors';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
 
+
 const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const [toggleCheckBox, setToggleCheckBox] = useState(false);

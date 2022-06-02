@@ -20,6 +20,7 @@ import AsyncStorage from '../../services/StorageService';
 import {getUserInfo, login} from '../../Store/actions/auth';
 import Colors from '../../theme/Colors';
 import { PASSCODEENABLED } from '../auth/Parameters';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 interface IUserData {
   username?: string;
@@ -84,8 +85,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
 
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   return (
-    <ScrollView>
-      <KeyboardAvoidingView>
+    <KeyboardAwareScrollView>
       <View style={styles.titleView}>
         <Text style={styles.title}>ავტორიზაცია</Text>
       </View>
@@ -137,8 +137,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
           backgroundColor={Colors.bgGreen}
         />
       </View>
-      </KeyboardAvoidingView>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -78,6 +78,7 @@ const AllMerchants: React.FC<IMerchants> = props => {
     //   ))}
     // </ScrollView>
     <FlatList
+    showsVerticalScrollIndicator={true}
       style={styles.main}
       data={merchants}
       onEndReached={fetchMore}

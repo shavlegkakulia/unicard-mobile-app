@@ -57,7 +57,6 @@ console.log(loading)
           console.log('login info has error: ' + error);
         } else {
           setUserInfo(user);
-          setLoading(false);
           console.log('result:', user);
         }
       },
@@ -112,8 +111,9 @@ console.log(loading)
       },
       complete: () => {
         console.log('complate');
+        setLoading(false);
       },
-      error: e => console.log('err', e.response),
+      error: e => {console.log('err', e.response); setLoading(false);},
     });
   };
 

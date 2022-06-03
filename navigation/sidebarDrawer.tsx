@@ -23,6 +23,7 @@ import {subscriptionService} from '../services/SubscribeService';
 const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
   const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState<IgetUserServiceResponse>();
+  const [loading, setLoading] = useState<boolean>();
   const dispath = useDispatch();
 
   const goTo = (roteName: string) => {
@@ -43,6 +44,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
     UserInfoService.GenerateUserInfo(req).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
+          setLoading(false);
           setUserInfo(Response.data);
         }
       },
@@ -72,7 +74,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         </View>
 
         <Text style={styles.name}>
-          {userInfo?.name} {userInfo?.surname}
+          {!loading && userInfo?.name} {userInfo?.surname}
         </Text>
       </View>
       <TouchableOpacity

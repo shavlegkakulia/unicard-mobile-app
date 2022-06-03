@@ -44,10 +44,21 @@ export interface IgetProducteListResponse {
 }
 
 class ProductList {
-  getList() {
+  getList(data?: IgetProducteListRequest) {
+    let q = '';
+    if (data?.page_index) {
+      q = '?page_index=' + data.page_index;
+    }
+    if (data?.row_count) {
+      if (q.length) {
+        q += `&row_count=${data.row_count}`;
+      } else {
+        q = `?row_count=${data.row_count}`;
+      }
+    }
 
     const result = axios.get<Igeneralresp>(
-      `${envs.API_URL}api/Mobile/GetProductList`,
+      `${envs.API_URL}api/Mobile/GetProductList${q}`,
     );
     return from(result);
   }

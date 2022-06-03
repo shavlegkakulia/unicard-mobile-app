@@ -22,6 +22,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const [catdata, setCatData] = useState<IgetfilterCategoriesResponse>();
   const [category, setCategory] = useState<boolean>(false);
   const [userType, setUserType] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>();
   const [point, setPoint] = useState<boolean>(false);
   const navigation = useNavigation();
   console.log('category', catdata?.customer_types);
@@ -40,6 +41,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
     ProductFiltersService.GenerateFilter().subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
+          setLoading(false);
           setCatData(Response.data);
         }
       },
@@ -51,7 +53,6 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   useEffect(() => {
     getProducFiltertList();
   }, []);
-
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -81,9 +82,9 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
           source={require('../assets/img/downWhiteArrow.png')}
         />
       </TouchableOpacity>
-      {category &&
+      {!loading &&
+        category &&
         catdata?.categories &&
-        
         catdata.categories.map(cat => (
           <View key={cat.id} style={styles.catMain}>
             <CategoryButton onPress={() => {}} title={cat.name} />
@@ -97,7 +98,8 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
           source={require('../assets/img/downWhiteArrow.png')}
         />
       </TouchableOpacity>
-      {userType &&
+      {!loading &&
+        userType &&
         catdata?.customer_types &&
         catdata?.customer_types.map(user => (
           <View key={user.id} style={styles.catMain}>
@@ -111,7 +113,8 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
           source={require('../assets/img/downWhiteArrow.png')}
         />
       </TouchableOpacity>
-      {point &&
+      {!loading &&
+        point &&
         catdata?.price_ranges &&
         catdata?.price_ranges.map(p => (
           <View key={p.id} style={styles.catMain}>

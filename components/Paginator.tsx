@@ -4,36 +4,22 @@ import Colors from '../theme/Colors';
 import AppButton from './AppButton';
 
 export interface IMessagesWrapperProp {
-  data: any;
-  scrollX: any;
+  pageNumber: number;
+  dotCount: number;
 }
 
 const Paginator: React.FC<IMessagesWrapperProp> = props => {
-  const {data, scrollX} = props;
+  const {pageNumber, dotCount} = props;
 
-  const {width} = useWindowDimensions();
-
+  const _dotCount = (dotCount * 20) / 4;
+  const dots = [];
+  for (let p = 0; p < _dotCount; p++) {
+    dots.push(
+      <View style={[styles.circle, pageNumber === p && styles.activeCircle]} />,
+    );
+  }
   return (
-    <View style={{flexDirection: 'row', height: 64}}>
-      {data?.map((_: any, i: any) => {
-        const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
-        const dotWidth = scrollX.interpolate({
-          inputRange,
-          outputRange: [5, 5, 5],
-          //   extrapolate: 'clamp',
-        });
-        const opacity = scrollX.interpolate({
-          inputRange,
-          outputRange: [0.3, 1, 0.3],
-        });
-        return (
-          <Animated.View
-            style={[styles.circle, {width: dotWidth, opacity}]}
-            key={i.toString()}
-          />
-        );
-      })}
-    </View>
+    <View style={{flexDirection: 'row', height: 64}}>{dots.map(el => el)}</View>
   );
 };
 export default Paginator;
@@ -45,5 +31,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.orange,
     marginLeft: 6,
     borderRadius: 50,
+  },
+  activeCircle: {
+    backgroundColor: Colors.black,
   },
 });

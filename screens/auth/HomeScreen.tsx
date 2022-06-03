@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useRef} from 'react';
+import React, {useCallback, useEffect, useState, useRef, useMemo} from 'react';
 import {
   Image,
   ScrollView,
@@ -45,12 +45,17 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     return item?.id + new Date().toLocaleTimeString();
   };
 
-  const [list, setList] = useState<Igeneralresp>();
+  const [list, setList] = useState<IgetProducteListResponse[]>();
   const [balance, setBalance] = useState<IgetBalanceResponse>();
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [pageIndex, setPageIndex] = useState(1);
+  const [canFetching, setCanfetching] = useState(true);
+  const [dotPage, setDotPage] = useState(0);
+
   const scrollX = useRef(new Animated.Value(0)).current;
 
   const viewableItemsChanged = useRef(({viewableItems}) => {
+    // console.log('>>>>>>>>>ragacaaaa', viewableItems);
     setCurrentIndex(viewableItems[0].index);
   }).current;
 
@@ -58,14 +63,21 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const slidesRef = useRef(null);
 
   const getProductList = () => {
+    if (!canFetching) {
+      return;
+    }
     const req: IgetProducteListRequest = {
-      page_index: '',
+      page_index: pageIndex.toString(),
+      row_count: '20',
       lang: '',
     };
     ProductList.getList(req).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-          setList(Response.data);
+          if (Response.data.products.length < 20) {
+            setCanfetching(false);
+          }
+          setList([...Response.data.products, ...(list || [])]);
         }
       },
       error: err => {
@@ -75,7 +87,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   };
   useEffect(() => {
     getProductList();
-  }, []);
+  }, [pageIndex]);
 
   const getBalance = () => {
     const req: IgetBalanceRequest = {
@@ -98,6 +110,49 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     getBalance();
   }, []);
 
+  const listElements = useMemo(
+    () => (
+      <FlatList
+        contentContainerStyle={{
+          alignSelf: 'flex-start',
+        }}
+        bounces={false}
+        // pagingEnabled
+        data={list}
+        renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        keyExtractor={keyExtractor}
+        contentInset={{right: 20}}
+        numColumns={list && Math.ceil(list.length || 2) / 2}
+        key={list && new Date().toLocaleTimeString()}
+        onScroll={event => {
+          const {contentOffset, contentSize, layoutMeasurement} =
+            event.nativeEvent;
+          const mode =
+            contentSize.width /
+            (contentSize.width - (contentOffset.x + layoutMeasurement.width));
+
+          console.log('mode', mode);
+          if (
+            contentOffset.x + layoutMeasurement.width >=
+            contentSize.width - 10
+          ) {
+            if (canFetching) {
+              setPageIndex(prev => ++prev);
+            }
+          }
+          setDotPage(Math.round(mode));
+        }}
+        onViewableItemsChanged={viewableItemsChanged}
+        viewabilityConfig={viewConfig}
+        ref={slidesRef}
+        scrollEventThrottle={32}
+      />
+    ),
+    [list],
+  );
+
   return (
     <ScrollView>
       <TouchableOpacity
@@ -118,37 +173,10 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
 
       <View style={styles.titleWrapper}>
         <Text style={styles.title}>რაში დავხარჯო</Text>
-        <View style={styles.paginator}>
-        <Paginator data={list?.products} scrollX={scrollX} />
-        </View>
-        
+        <Paginator pageNumber={dotPage} dotCount={pageIndex} />
       </View>
-          
-      <View style={styles.flatlist}>
-        <FlatList
-          contentContainerStyle={{
-            alignSelf: 'flex-start',
-          }}
-          bounces={false}
-          pagingEnabled
-          data={list?.products}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={keyExtractor}
-          contentInset={{right: 20}}
-          numColumns={list && Math.ceil(list?.products.length || 2) / 2}
-          key={list && new Date().toLocaleTimeString()}
-          onScroll={Animated.event(
-            [{nativeEvent: {contentOffset: {x: scrollX}}}],
-            {useNativeDriver: false},
-          )}
-          onViewableItemsChanged={viewableItemsChanged}
-          viewabilityConfig={viewConfig}
-          ref={slidesRef}
-          scrollEventThrottle={32}
-        />
-      </View>
+
+      <View style={styles.flatlist}>{listElements}</View>
 
       {/* <Text>{translateReducer.t('common.name')}</Text> */}
     </ScrollView>
@@ -223,7 +251,6 @@ const styles = StyleSheet.create({
     marginLeft: 6,
     borderRadius: 50,
   },
-  
 });
 
 export default HomeScreen;

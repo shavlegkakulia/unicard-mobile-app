@@ -13,8 +13,7 @@ import Colors from '../../theme/Colors';
 const Barcode: React.FC<ScreenNavigationProp> = () => {
   const [cardInfo, setCardInfo] = useState<IgetBarcodeResponse>();
   const [file, setFile] = useState<IBarcodeResponseData>();
-  const [loading, setLoading] = useState();
-  // console.log('esssssfile>>>>>>', file?.barcode);
+  const [loading, setLoading] = useState<boolean>();
   let barcode = file?.barcode;
   console.log('!!!!!!!!!!!!!', barcode);
   const getBarcode = () => {
@@ -25,6 +24,7 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     CardService.GenerateBarcode(req).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
+          // setLoading(false);
           setCardInfo(Response.data);
         }
       },
@@ -44,6 +44,7 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     CardService.GenerateBarcodeFile(data).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
+          setLoading(false);
           setFile(Response.data);
         }
       },
@@ -73,7 +74,7 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
           </View>
           <View style={styles.barcodeNum}>
             <Text style={styles.num}>
-              {cardInfo?.vcard?.replace(
+              {!loading && cardInfo?.vcard?.replace(
                 /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
                 '$1  $2  $3  $4',
               )}

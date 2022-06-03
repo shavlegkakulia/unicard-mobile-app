@@ -8,6 +8,7 @@ import {
   View,
   Dimensions,
   NativeScrollEvent,
+  ActivityIndicator,
 } from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 // import {en} from '../../lang';
@@ -30,6 +31,7 @@ import GetBalanceService, {
 import {ChunkArrays} from '../../utils/ChunkArray';
 import {paginationDotCount} from '../../utils/PaginationDotCount';
 
+
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   // const translateReducer = useSelector<ITranslateReducer>(
   //   state => state.TranslateReducer,
@@ -40,6 +42,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const [pageIndex, setPageIndex] = useState(1);
   const [canFetching, setCanfetching] = useState(true);
   const [dotPage, setDotPage] = useState(0);
+  const [loading, setLoading] = useState<boolean>();
 
   const itemStyle = {
     width: Dimensions.get('screen').width,
@@ -64,6 +67,9 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
             return [...prevState, ...Response.data.products];
           });
         }
+      },
+      complete: () => {
+        setLoading(false);
       },
       error: err => {
         console.log(err.response);
@@ -126,6 +132,13 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
       setPageIndex(prevState => prevState + 1);
     }
   };
+  if (loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator color={Colors.bgGreen} size={'small'} />
+      </View>
+    );
+  }
 
   return (
     <ScrollView>
@@ -153,10 +166,10 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
         />
       </View>
 
-      {offersList.length > 0 && (
+      {!loading && offersList.length > 0 && (
         <ScrollView
           scrollToOverflowEnabled={true}
-          contentContainerStyle={{paddingRight: 5}}
+          // contentContainerStyle={{paddingRight: 5}}
           onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
           showsHorizontalScrollIndicator={false}
           pagingEnabled={true}
@@ -247,6 +260,12 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.bgColor,
   },
 });
 

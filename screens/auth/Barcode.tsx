@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import CardService, {
@@ -44,11 +44,13 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     CardService.GenerateBarcodeFile(data).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-          setLoading(false);
+          
           setFile(Response.data);
         }
       },
-      complete: () => {},
+      complete: () => {
+        setLoading(false);
+      },
       error: err => {
         console.log('>>>', err);
       },
@@ -58,9 +60,17 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     getBarcodeFile();
   }, []);
 
+  if (loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator color={Colors.bgGreen} size={'small'} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.main}>
-      {!loading && cardInfo ? (
+      {cardInfo ? (
         <>
           <View style={styles.barcodeImageView}>
             <Image
@@ -129,6 +139,12 @@ const styles = StyleSheet.create({
     width: 400,
     height: 70,
     borderRadius: 10,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.bgColor,
   },
 });
 

@@ -1,23 +1,33 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Colors from '../../theme/Colors';
 
 export interface IAppBtnProps {
   onPress: () => void;
   title: string;
   backgroundColor: string;
+  loading?: boolean;
 }
 
 const AppButton: React.FC<IAppBtnProps> = props => {
-  const {onPress, title, backgroundColor} = props;
+  const {onPress, title, backgroundColor, loading} = props;
 
   return (
     <View style={styles.main}>
       <TouchableOpacity
         style={[styles.btnStyle, {backgroundColor: backgroundColor}]}
         onPress={onPress}>
-        <Text style={styles.btnTitle}>
-          {title}
-        </Text>
+        {loading ? (
+          <ActivityIndicator color={Colors.white} size={'small'} />
+        ) : (
+          <Text style={styles.btnTitle}>{title}</Text>
+        )}
       </TouchableOpacity>
     </View>
   );

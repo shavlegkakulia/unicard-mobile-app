@@ -21,8 +21,9 @@ export interface IAuthResponse {
 }
 
 export interface IAyuthData {
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
+  fb_token?: string;
 }
 
 export interface IRegisterRequestData {
@@ -84,6 +85,37 @@ export default new (class AuthService {
     return new Observable<IAuthResponse>(
       (observer: Subscriber<IAuthResponse>) => {
         const loginObj = `username=${data.username}&password=${data.password}&scope=unicardApi%20offline_access&grant_type=password&client_secret=${envs.client_secret}&client_id=${envs.client_id}`;
+
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+        xhr.responseType = 'json';
+
+        xhr.addEventListener('readystatechange', function () {
+          if (this.readyState === 4) {
+            if (xhr.status == 200) {
+              observer.next(this.response);
+              observer.complete();
+            } else {
+              observer.error(xhr);
+            }
+          }
+        });
+
+        xhr.open('POST', `${envs.API_URL}connect/token`);
+        xhr.setRequestHeader(
+          'Content-Type',
+          'application/x-www-form-urlencoded',
+        );
+
+        xhr.send(loginObj);
+      },
+    );
+  }
+
+  SignInFacebook(data: IAyuthData) {
+    return new Observable<IAuthResponse>(
+      (observer: Subscriber<IAuthResponse>) => {
+        const loginObj = `fb_token=${data.fb_token}&scope=unicardApi%20offline_access&grant_type=Facebook&client_secret=${envs.client_secret}&client_id=${envs.client_id}`;
 
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = true;

@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState, useRef, useMemo} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   ScrollView,
@@ -6,23 +6,20 @@ import {
   Text,
   TouchableOpacity,
   View,
-  FlatList,
   Dimensions,
-  Animated,
+  NativeScrollEvent,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 import {ScreenNavigationProp} from '../../interfaces/commons';
-import {en} from '../../lang';
-import AuthService from '../../services/AuthService';
-import {login, logout} from '../../Store/actions/auth';
-import {use} from '../../Store/actions/translate';
-import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
+// import {en} from '../../lang';
+// import AuthService from '../../services/AuthService';
+// import {login, logout} from '../../Store/actions/auth';
+// import {use} from '../../Store/actions/translate';
+// import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 import ShopingCard from '../../components/ShopCard';
 import {authRoutes} from '../../navigation/routes';
 import Paginator from '../../components/Paginator';
 import ProductList, {
-  Igeneralresp,
   IgetProducteListRequest,
   IgetProducteListResponse,
 } from '../../services/ProductListService';
@@ -30,37 +27,23 @@ import GetBalanceService, {
   IgetBalanceRequest,
   IgetBalanceResponse,
 } from '../../services/GetBalanceService';
+import {ChunkArrays} from '../../utils/ChunkArray';
+import {paginationDotCount} from '../../utils/PaginationDotCount';
 
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
-  const dispatch = useDispatch();
-  const renderItem = useCallback(({item}) => {
-    return <ShopingCard {...item} />;
-  }, []);
+  // const translateReducer = useSelector<ITranslateReducer>(
+  //   state => state.TranslateReducer,
+  // ) as ITranslateState;
 
-  const translateReducer = useSelector<ITranslateReducer>(
-    state => state.TranslateReducer,
-  ) as ITranslateState;
-
-  const keyExtractor = (item: IgetProducteListResponse) => {
-    return item?.id + new Date().toLocaleTimeString();
-  };
-
-  const [list, setList] = useState<IgetProducteListResponse[]>();
+  const [list, setList] = useState<IgetProducteListResponse[]>([]);
   const [balance, setBalance] = useState<IgetBalanceResponse>();
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [pageIndex, setPageIndex] = useState(1);
   const [canFetching, setCanfetching] = useState(true);
   const [dotPage, setDotPage] = useState(0);
 
-  const scrollX = useRef(new Animated.Value(0)).current;
-
-  const viewableItemsChanged = useRef(({viewableItems}) => {
-    // console.log('>>>>>>>>>ragacaaaa', viewableItems);
-    setCurrentIndex(viewableItems[0].index);
-  }).current;
-
-  const viewConfig = useRef({itemVisiblePercentThreshold: 20}).current;
-  const slidesRef = useRef(null);
+  const itemStyle = {
+    width: Dimensions.get('screen').width,
+  };
 
   const getProductList = () => {
     if (!canFetching) {
@@ -68,7 +51,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     }
     const req: IgetProducteListRequest = {
       page_index: pageIndex.toString(),
-      row_count: '20',
+      row_count: '12',
       lang: '',
     };
     ProductList.getList(req).subscribe({
@@ -77,7 +60,9 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           if (Response.data.products.length < 20) {
             setCanfetching(false);
           }
-          setList([...Response.data.products, ...(list || [])]);
+          setList(prevState => {
+            return [...prevState, ...Response.data.products];
+          });
         }
       },
       error: err => {
@@ -86,7 +71,9 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     });
   };
   useEffect(() => {
+    console.log('hi');
     getProductList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex]);
 
   const getBalance = () => {
@@ -109,49 +96,36 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getBalance();
   }, []);
+  const ItemChunk = 4;
+  const offersList = ChunkArrays(list!, ItemChunk);
 
-  const listElements = useMemo(
-    () => (
-      <FlatList
-        contentContainerStyle={{
-          alignSelf: 'flex-start',
-        }}
-        bounces={false}
-        // pagingEnabled
-        data={list}
-        renderItem={renderItem}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={keyExtractor}
-        contentInset={{right: 20}}
-        numColumns={list && Math.ceil(list.length || 2) / 2}
-        key={list && new Date().toLocaleTimeString()}
-        onScroll={event => {
-          const {contentOffset, contentSize, layoutMeasurement} =
-            event.nativeEvent;
-          const mode =
-            contentSize.width /
-            (contentSize.width - (contentOffset.x + layoutMeasurement.width));
+  console.log('offersList', offersList.length);
+  let isEndFetching = false;
+  // let startFetching = false;
 
-          console.log('mode', mode);
-          if (
-            contentOffset.x + layoutMeasurement.width >=
-            contentSize.width - 10
-          ) {
-            if (canFetching) {
-              setPageIndex(prev => ++prev);
-            }
-          }
-          setDotPage(Math.round(mode));
-        }}
-        onViewableItemsChanged={viewableItemsChanged}
-        viewabilityConfig={viewConfig}
-        ref={slidesRef}
-        scrollEventThrottle={32}
-      />
-    ),
-    [list],
-  );
+  const onChangeSectionStep = (nativeEvent: NativeScrollEvent) => {
+    if (list.length <= 0) {
+      return;
+    }
+    if (nativeEvent) {
+      const slide = Math.ceil(
+        nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
+      );
+      setDotPage(slide);
+    }
+    if (canFetching || isEndFetching) {
+      return;
+    }
+    let scrollPoint = Math.floor(
+      nativeEvent.contentOffset.x + nativeEvent.layoutMeasurement.width,
+    );
+    let scrollContentSize = Math.floor(nativeEvent.contentSize.width);
+
+    if (scrollPoint >= scrollContentSize - 1) {
+      setCanfetching(true);
+      setPageIndex(prevState => prevState + 1);
+    }
+  };
 
   return (
     <ScrollView>
@@ -173,12 +147,29 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
 
       <View style={styles.titleWrapper}>
         <Text style={styles.title}>რაში დავხარჯო</Text>
-        <Paginator pageNumber={dotPage} dotCount={pageIndex} />
+        <Paginator
+          pageNumber={dotPage}
+          dotCount={paginationDotCount(list, 4)}
+        />
       </View>
 
-      <View style={styles.flatlist}>{listElements}</View>
-
-      {/* <Text>{translateReducer.t('common.name')}</Text> */}
+      {offersList.length > 0 && (
+        <ScrollView
+          scrollToOverflowEnabled={true}
+          contentContainerStyle={{paddingRight: 5}}
+          onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled={true}
+          horizontal>
+          {offersList.map((data, i) => (
+            <View key={i} style={[styles.dataContent, itemStyle]}>
+              {data.map((item, index) => (
+                <ShopingCard {...item} key={index} />
+              ))}
+            </View>
+          ))}
+        </ScrollView>
+      )}
     </ScrollView>
   );
 };
@@ -250,6 +241,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.lightGrey,
     marginLeft: 6,
     borderRadius: 50,
+  },
+
+  dataContent: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
 

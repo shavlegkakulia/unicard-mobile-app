@@ -1,7 +1,6 @@
-import React from 'react';
-import {Animated, StyleSheet, useWindowDimensions, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import Colors from '../theme/Colors';
-import AppButton from './AppButton';
 
 export interface IMessagesWrapperProp {
   pageNumber: number;
@@ -9,18 +8,25 @@ export interface IMessagesWrapperProp {
 }
 
 const Paginator: React.FC<IMessagesWrapperProp> = props => {
+  const [length, setLength] = useState<number[]>([]);
   const {pageNumber, dotCount} = props;
 
-  const _dotCount = (dotCount * 20) / 4;
-  const dots = [];
-  for (let p = 0; p < _dotCount; p++) {
-    dots.push(
-      <View style={[styles.circle, pageNumber === p && styles.activeCircle]} />,
-    );
-  }
-  return (
-    <View style={{flexDirection: 'row', height: 64}}>{dots.map(el => el)}</View>
-  );
+  console.log(dotCount);
+  useEffect(() => {
+    if (!dotCount) {
+      return;
+    }
+    setLength([...Array(dotCount).keys()].map(() => 0));
+  }, [dotCount]);
+
+  const dots = length.map((_, i) => (
+    <View
+      key={i}
+      style={[styles.circle, pageNumber === i && styles.activeCircle]}
+    />
+  ));
+
+  return <View style={{flexDirection: 'row', height: 64}}>{dots}</View>;
 };
 export default Paginator;
 

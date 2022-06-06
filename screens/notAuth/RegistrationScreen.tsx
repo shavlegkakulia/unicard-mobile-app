@@ -38,7 +38,7 @@ const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
       <View style={styles.buttonWrapper}>
         <AppButton
           onPress={() => {
-            props.navigation.navigate(notAuthRoutes.registrationDetails, {hasCard: true, fb_token: route.params.fb_token});
+            props.navigation.navigate(notAuthRoutes.registrationDetails, {hasCard: true, fb_token: route?.params?.fb_token});
           }}
           title={'დიახ'}
           backgroundColor={Colors.bgGreen}
@@ -46,7 +46,7 @@ const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.button}>
           <AppButton
             onPress={() => {
-              props.navigation.navigate(notAuthRoutes.registrationDetails, {hasCard: false, fb_token: route.params.fb_token});
+              props.navigation.navigate(notAuthRoutes.registrationDetails, {hasCard: false, fb_token: route?.params?.fb_token});
             }}
             title={'არა'}
             backgroundColor={Colors.lightOrange}

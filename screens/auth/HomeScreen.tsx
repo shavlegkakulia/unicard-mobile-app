@@ -105,7 +105,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const ItemChunk = 4;
   const offersList = ChunkArrays(list!, ItemChunk);
 
-  console.log('offersList', offersList.length);
+  // console.log('offersList', offersList.length);
   let isEndFetching = false;
   // let startFetching = false;
 

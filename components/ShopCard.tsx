@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     overflow: 'hidden',
     marginBottom: 28,
-  
   },
 
   img: {

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, StyleSheet, View, Image} from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
-import AuthService, { IAyuthData } from '../../services/AuthService';
+import AuthService, {IAyuthData} from '../../services/AuthService';
 import AsyncStorage from '../../services/StorageService';
 import {getUserInfo, login} from '../../Store/actions/auth';
 import Colors from '../../theme/Colors';
-import { PASSCODEENABLED } from '../auth/Parameters';
+import {PASSCODEENABLED} from '../auth/Parameters';
 import {
   AccessToken,
   GraphRequest,
@@ -16,90 +16,34 @@ import {
   GraphRequestManager,
   LoginManager,
 } from 'react-native-fbsdk';
-import { getString } from '../../utils/converts';
-
-interface IFbData {
-  first_name?: string, 
-  id?: number, 
-  last_name?: string, 
-  name?: string | null
-}
+import {getString} from '../../utils/converts';
+import FbService, { IFbData } from '../../services/FbService';
+import { stringToObject } from '../../utils/common';
 
 const LoginScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const [isPasscodeEnabled, setIsPasscodeEnabed] = useState(false);
-  const [userInfo, setUserInfo] = useState<IFbData>({name: null});
+  const [userInfo, setUserInfo] = useState<IFbData | undefined>({name: null});
   const [loading, setLoading] = useState(false);
 
-  const logoutWithFacebook = () => {
-    LoginManager.logOut();
-    setUserInfo({name: null});
-  };
-console.log(loading)
-  const getInfoFromToken = (accessToken: string) => {
-    const PROFILE_REQUEST_PARAMS = {
-      fields: {
-        string: 'id,name,first_name,last_name',
-      },
-    };
-
-    const config: GraphRequestConfig  = {
-        accessToken, 
-        parameters: PROFILE_REQUEST_PARAMS
-    }
-
-    const profileRequest = new GraphRequest(
-      '/me',
-      config,
-      (error, user) => {
-        if (error) {
-          setLoading(false);
-          console.log('login info has error: ' + error);
-        } else {
-          setUserInfo(user);
-          console.log('result:', user);
-        }
-      },
-    );
-    new GraphRequestManager().addRequest(profileRequest).start();
-  };
+  console.log(loading);
 
   const loginWithFacebook = () => {
     setLoading(true);
-    // Attempt a login using the Facebook login dialog asking for default permissions.
-    LoginManager.logInWithPermissions(['public_profile']).then(
-      login => {
-        if (login.isCancelled) {
-          setLoading(false);
-          console.log('Login cancelled');
-        } else {
-          AccessToken.getCurrentAccessToken().then(data => {
-            const accessToken = data?.accessToken.toString();
-            if(accessToken) {
-                getInfoFromToken(accessToken);
-            }
-          }).catch(e => {console.log(e); setLoading(false);});
-        }
-      },
-      error => {
-        setLoading(false);
-        console.log('Login fail with error: ' + error);
-      },
-    );
+    FbService.loginWithFacebook(setUserInfo, setLoading);
   };
 
-  const LogIn = (token?:string) => {
+  const LogIn = (token?: string) => {
     if (!token) {
       return;
     }
     const data: IAyuthData = {
-      fb_token: token
+      fb_token: token,
     };
     AuthService.SignInFacebook(data).subscribe({
       next: async Response => {
         if (Response.access_token) {
-
-          if(isPasscodeEnabled) {
+          if (isPasscodeEnabled) {
             await AuthService.setToken(
               Response.access_token,
               Response.refresh_token,
@@ -113,24 +57,31 @@ console.log(loading)
         console.log('complate');
         setLoading(false);
       },
-      error: e => {console.log('err', e.response); setLoading(false);},
+      error: e => {
+        console.log('err', e.response);
+        if(e?.response?.error === 'invalid_grant') {
+          props.navigation.navigate(notAuthRoutes.registration, {fb_token: token});
+        }
+        setLoading(false);
+      },
     });
   };
 
   useEffect(() => {
-    if(userInfo.name) {
+    if (userInfo?.name) {
       LogIn(getString(userInfo.id?.toString()));
     }
-  }, [userInfo])
+  }, [userInfo]);
 
   useEffect(() => {
+    //FbService.logoutWithFacebook();
     AsyncStorage.getItem(PASSCODEENABLED).then(pass => {
-      if(pass) {
+      if (pass) {
         setIsPasscodeEnabed(true);
       }
-    })
+    });
   }, []);
-  
+
   return (
     <ScrollView>
       <View style={styles.imgContainer}>
@@ -142,7 +93,6 @@ console.log(loading)
         onPress={loginWithFacebook}
         title={'facebook-ით შესვლა'}
         backgroundColor={Colors.blue}
-        
       />
 
       <View style={styles.titleView}>
@@ -159,7 +109,6 @@ console.log(loading)
         <AppButton
           onPress={() => {
             props.navigation.navigate(notAuthRoutes.registration);
-           
           }}
           title={'რეგისტრაცია'}
           backgroundColor={Colors.lightOrange}

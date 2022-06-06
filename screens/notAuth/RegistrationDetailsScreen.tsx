@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import {Text, StyleSheet, View} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput, {
   requireTypes,
@@ -12,8 +11,17 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {inputErrors} from './../../components/CostumComponents/AppTextInput';
 
 import Colors from '../../theme/Colors';
+import { RouteProp, useRoute } from '@react-navigation/native';
+
+type RouteParamList = {
+  params: {
+    hasCard?: boolean;
+    fb_token?: string;
+  };
+};
 
 const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
+  const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [regData, setRegData] = useState<IRegisterRequestData>();
   const [chekCount, setChekCount] = useState<number>(0);
 
@@ -22,8 +30,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
     if (inputErrors.length > 0) {
       return;
     }
-
-    props.navigation.navigate(notAuthRoutes.passwordInfo, {data: regData});
+    props.navigation.navigate(notAuthRoutes.passwordInfo, {data: {...regData, fb_token: route.params.fb_token}});
   };
 
   return (
@@ -50,6 +57,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: regData?.birthDate,
                 phone: regData?.phone,
                 email: regData?.email,
+                new_card_registration: route.params.hasCard ? "1" : "0"
               })
             }
           />
@@ -68,6 +76,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: regData?.birthDate,
                 phone: regData?.phone,
                 email: regData?.email,
+                new_card_registration: route.params.hasCard ? "1" : "0"
               })
             }
           />
@@ -89,6 +98,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: regData?.birthDate,
                 phone: regData?.phone,
                 email: regData?.email,
+                new_card_registration: route.params.hasCard ? "1" : "0"
               })
             }
           />
@@ -111,6 +121,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: e,
                 phone: regData?.phone,
                 email: regData?.email,
+                new_card_registration: route.params.hasCard ? "1" : "0"
               })
             }
           />
@@ -133,6 +144,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: regData?.birthDate,
                 phone: e,
                 email: regData?.email,
+                new_card_registration: route.params.hasCard ? "1" : "0"
               })
             }
           />
@@ -153,6 +165,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: regData?.birthDate,
                 phone: regData?.phone,
                 email: e,
+                new_card_registration: route.params.hasCard ? "1" : "0"
               })
             }
           />

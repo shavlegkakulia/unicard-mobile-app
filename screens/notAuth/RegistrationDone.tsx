@@ -12,32 +12,9 @@ import {login} from '../../Store/actions/auth';
 import Colors from '../../theme/Colors';
 
 const RegistrationDone: React.FC<ScreenNavigationProp> = props => {
-  const dispatch = useDispatch();
 
-  const params = props.route.params;
-
-  const register = () => {
-    const {user_name, surname, person_code, birthDate, phone, email, password} =
-      params.data;
-    const data: IRegisterRequestData = {
-      user_name,
-      surname,
-      person_code,
-      birthDate,
-      phone,
-      email,
-      password,
-    };
-    AuthService.SignUp(data).subscribe({
-      next: Response => {
-        props.navigation.navigate(notAuthRoutes.authScreen)
-      
-      },
-      complete: () => {},
-      error: err => {
-        console.log('>>>', err);
-      },
-    });
+  const complate = () => {
+    props.navigation.navigate(notAuthRoutes.authScreen)
   };
   return (
     <>
@@ -58,7 +35,7 @@ const RegistrationDone: React.FC<ScreenNavigationProp> = props => {
       <View style={styles.buttonView}>
         <AppButton
           // onPress={() => dispatch(login())}
-          onPress={register}
+          onPress={complate}
           title={'დახურვა'}
           backgroundColor={Colors.lightOrange}
         />

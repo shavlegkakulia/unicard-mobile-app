@@ -15,9 +15,42 @@ import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 
 import Colors from '../../theme/Colors';
+import AuthService, { IRegisterRequestData } from '../../services/AuthService';
 
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
+
+  const params = props.route.params;
+console.log(props.route.params)
+  const register = () => {
+    const {user_name, surname, person_code, birthDate, phone, email, password, fb_token, new_card_registration} =
+      params.data;
+    const data: IRegisterRequestData = {
+      user_name,
+      surname,
+      person_code,
+      birthDate,
+      phone,
+      email,
+      password,
+      fb_token,
+      new_card_registration
+    };
+    AuthService.SignUp(data).subscribe({
+      next: Response => {
+        if(Response.data.succes) {
+          props.navigation.navigate(
+            notAuthRoutes.registrationDone,
+            props.route.params,
+          );
+        }
+      },
+      complete: () => {},
+      error: err => {
+        console.log('>>>', err);
+      },
+    });
+  };
 
   return (
     <View style={styles.main}>
@@ -39,12 +72,7 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.button}>
         <AppButton
-          onPress={() => {
-            props.navigation.navigate(
-              notAuthRoutes.registrationDone,
-              props.route.params,
-            );
-          }}
+          onPress={register}
           title={'შემდეგი'}
           backgroundColor={Colors.bgGreen}
         />

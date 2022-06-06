@@ -35,6 +35,9 @@ export interface IRegisterRequestData {
   email?: string;
   password?: string;
   confirm_password?: string;
+  fb_token?:string;
+  card?: string,
+  new_card_registration?: string,
 }
 
 interface IRegisterResponse {

@@ -11,7 +11,6 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput, {
-  gError,
   inputErrors,
   requireTypes,
 } from '../../components/CostumComponents/AppTextInput';

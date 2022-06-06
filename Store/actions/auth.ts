@@ -1,5 +1,6 @@
 import { PASSCODEENABLED } from '../../screens/auth/Parameters';
 import AuthService from '../../services/AuthService';
+import FbService from '../../services/FbService';
 import AsyncStorage from '../../services/StorageService';
 import UserInfoService from '../../services/UserInfoService';
 import {AuthActions} from '../types/auth';
@@ -11,6 +12,7 @@ export const login = (token?: string, refreshToken?: string) => (dispatch: any) 
 };
 
 export const logout = () => (dispatch: any) => {
+  FbService.logoutWithFacebook();
   dispatch({type: AuthActions.setIsAuthentificated, isAuthentificated: false});
   dispatch({type: AuthActions.setToken, token: ''});
   dispatch({type: AuthActions.setRefreshToken, refreshToken: ''});

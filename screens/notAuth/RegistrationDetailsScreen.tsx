@@ -30,7 +30,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
     if (inputErrors.length > 0) {
       return;
     }
-    props.navigation.navigate(notAuthRoutes.passwordInfo, {data: {...regData, fb_token: route.params.fb_token}});
+    props.navigation.navigate(notAuthRoutes.passwordInfo, {data: {...regData, fb_token: route?.params?.fb_token}});
   };
 
   return (

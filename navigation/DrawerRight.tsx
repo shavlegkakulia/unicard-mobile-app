@@ -45,6 +45,9 @@ const DrawerRight: React.FC = props => {
           sideDraver.current?.openDrawer();
         }
       }
+      if (data?.key === 'close-rightdrawer') {
+        sideDraver.current?.closeDrawer();
+      }
     });
 
     return () => {

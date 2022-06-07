@@ -20,6 +20,7 @@ export enum authRoutes {
   searchScreen = 'searchScreen',
   singleMerchants = 'singleMerchants',
   allMerchants = 'allMerchants',
+
 }
 
 export enum notAuthRoutes {

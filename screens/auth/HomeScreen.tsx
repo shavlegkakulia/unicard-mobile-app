@@ -30,8 +30,6 @@ import GetBalanceService, {
 } from '../../services/GetBalanceService';
 import {ChunkArrays} from '../../utils/ChunkArray';
 import {paginationDotCount} from '../../utils/PaginationDotCount';
-
-
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   // const translateReducer = useSelector<ITranslateReducer>(
   //   state => state.TranslateReducer,

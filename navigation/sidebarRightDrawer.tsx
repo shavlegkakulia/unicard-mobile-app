@@ -17,6 +17,8 @@ import CategoryButton from '../components/CostumComponents/CategoryButton';
 import ProductFiltersService, {
   IgetfilterCategoriesResponse,
 } from '../services/ProductFiltersService';
+import {subscriptionService} from '../services/SubscribeService';
+import {authRoutes} from './routes';
 
 const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const [catdata, setCatData] = useState<IgetfilterCategoriesResponse>();
@@ -26,6 +28,10 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const [point, setPoint] = useState<boolean>(false);
   const navigation = useNavigation();
   console.log('category', catdata?.customer_types);
+  const goTo = (roteName: string) => {
+    subscriptionService?.sendData('close-rightdrawer', true);
+    navigation.navigate(roteName);
+  };
 
   const toggleCategory = () => {
     setCategory(prev => !prev);
@@ -72,7 +78,10 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.btnView}>
-        <CategoryButton onPress={() => {}} title={'ფასდაკლებულები'} />
+        <CategoryButton
+          onPress={() => goTo(authRoutes.home)}
+          title={'ფასდაკლებულები'}
+        />
         <CategoryButton onPress={() => {}} title={'ბოლოს დამატებულები'} />
       </View>
       <TouchableOpacity style={styles.catView} onPress={toggleCategory}>

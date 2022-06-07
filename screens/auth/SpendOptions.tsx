@@ -6,7 +6,6 @@ import {
   NativeScrollEvent,
   ActivityIndicator,
   Dimensions,
-  Image,
 } from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 // import {en} from '../../lang';
@@ -17,7 +16,6 @@ import ProductList, {
   IgetProducteListResponse,
 } from '../../services/ProductListService';
 import Colors from '../../theme/Colors';
-import Loader from '../../components/loader';
 import {ChunkArrays} from '../../utils/ChunkArray';
 import Paginator from '../../components/Paginator';
 import {paginationDotCount} from '../../utils/PaginationDotCount';

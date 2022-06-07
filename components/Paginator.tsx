@@ -26,7 +26,7 @@ const Paginator: React.FC<IMessagesWrapperProp> = props => {
     />
   ));
 
-  return <View style={{flexDirection: 'row', height: 40}}>{dots}</View>;
+  return <View style={styles.dots}>{dots}</View>;
 };
 export default Paginator;
 
@@ -40,5 +40,9 @@ const styles = StyleSheet.create({
   },
   activeCircle: {
     backgroundColor: Colors.orange,
+  },
+  dots: {
+    flexDirection: 'row',
+    height: 40,
   },
 });

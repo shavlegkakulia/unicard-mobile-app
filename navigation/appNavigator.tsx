@@ -263,6 +263,98 @@ const AppNavigator = () => {
                   }}
                 />
                 <authStack.Screen
+                  name={authRoutes.spendOptions2}
+                  component={SpendOptions}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'რაში დავხარჯო',
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          subscriptionService?.sendData(
+                            'open-RightDrawer',
+                            true,
+                          );
+                        }}>
+                        <Image
+                          style={{width: 22, height: 21, marginRight: 29}}
+                          source={require('../assets/img/cartIconsec.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={authRoutes.spendOptions3}
+                  component={SpendOptions}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'რაში დავხარჯო',
+                    headerLeft: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          isDrawerOpened.current
+                            ? sideDraver.current?.closeDrawer()
+                            : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, height: 17, marginLeft: 29}}
+                          source={require('../assets/img/burgerIcon.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          subscriptionService?.sendData(
+                            'open-RightDrawer',
+                            true,
+                          );
+                        }}>
+                        <Image
+                          style={{width: 22, height: 21, marginRight: 29}}
+                          source={require('../assets/img/cartIconsec.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                <authStack.Screen
                   name={authRoutes.singleOffer}
                   component={SingleOfferScreen}
                   options={{

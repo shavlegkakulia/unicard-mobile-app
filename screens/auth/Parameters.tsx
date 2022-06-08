@@ -88,7 +88,6 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
         );console.log(result)
         if (result.assets) {
           const { base64, fileName } = result.assets[0];
-          console.log(base64, fileName)
           //uploadImage(getString(fileName), getString(base64));
           //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
         }

@@ -41,6 +41,7 @@ export interface IgetProducteListResponse {
   images?: string[];
   org_image?: string;
   type_id?: string;
+  category_id?: string;
 }
 
 class ProductList {
@@ -56,12 +57,34 @@ class ProductList {
         q = `?row_count=${data.row_count}`;
       }
     }
+    if (data?.discounted) {
+      q = '?discounted=' + data.discounted;
+    }
+    if (data?.latest_prod) {
+      q = '?latest_prod=' + data.latest_prod;
+    }
+    if (data?.category_id) {
+      q = '?category_id=' + data.category_id;
+    }
 
+    console.log(
+      'products api call',
+      `${envs.API_URL}api/Mobile/GetProductList${q}`,
+    );
     const result = axios.get<Igeneralresp>(
       `${envs.API_URL}api/Mobile/GetProductList${q}`,
     );
     return from(result);
   }
+
+  // addquery(query:strung,prop:string,value:string){
+  //   if(query.length){
+  //      query = query+'&'+prop+'='+value
+  //   }else{
+  //     query ='?'+prop+'='+value
+  //   }
+  //   return query;
+  // }
 }
 
 export default new ProductList();

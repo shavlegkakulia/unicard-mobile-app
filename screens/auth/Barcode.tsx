@@ -15,7 +15,6 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
   const [file, setFile] = useState<IBarcodeResponseData>();
   const [loading, setLoading] = useState<boolean>();
   let barcode = file?.barcode;
-  console.log('!!!!!!!!!!!!!', barcode);
   const getBarcode = () => {
     const req: IgetBarcodeDetailsRequest = {
       user_id: '',

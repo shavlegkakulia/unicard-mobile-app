@@ -84,7 +84,6 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
 
     xhr.addEventListener('readystatechange', async function () {
       if (this.readyState === 4) {
-        console.log('<<<<<<<>>>>>>>>>>', this.response, loginObj);
         if (xhr.status == 200) {
           if (!this.response.access_token) {
             throw this.response;
@@ -202,7 +201,6 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
   }, []);
 
   const LogIn = () => {
-    console.log(userData);
     if (!userData?.email || !userData?.password) {
       return;
     }

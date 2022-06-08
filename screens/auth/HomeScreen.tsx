@@ -75,7 +75,6 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     });
   };
   useEffect(() => {
-    console.log('hi');
     getProductList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex]);
@@ -89,7 +88,6 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
       next: Response => {
         if (Response.data.resultCode === '200') {
           setBalance(Response.data);
-          // console.log('balanceeeee=========>', Response.data);
         }
       },
       error: err => {
@@ -103,7 +101,6 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const ItemChunk = 4;
   const offersList = ChunkArrays(list!, ItemChunk);
 
-  // console.log('offersList', offersList.length);
   let isEndFetching = false;
   // let startFetching = false;
 

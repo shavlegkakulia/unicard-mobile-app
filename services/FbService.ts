@@ -44,10 +44,8 @@ export default new (class FbService {
     const profileRequest = new GraphRequest('/me', config, (error, user) => {
       if (error) {
         callback(false);
-        console.log('login info has error: ' + error);
       } else {
         strUser(user);
-        console.log('result:', user);
       }
     });
     new GraphRequestManager().addRequest(profileRequest).start();

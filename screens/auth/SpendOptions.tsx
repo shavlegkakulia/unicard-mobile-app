@@ -20,12 +20,14 @@ import {ChunkArrays} from '../../utils/ChunkArray';
 import Paginator from '../../components/Paginator';
 import {paginationDotCount} from '../../utils/PaginationDotCount';
 
-const SpendOptions: React.FC<ScreenNavigationProp> = () => {
+const SpendOptions: React.FC<ScreenNavigationProp> = props => {
   const [list, setList] = useState<IgetProducteListResponse[]>([]);
   const [pageIndex, setPageIndex] = useState(1);
   const [canFetching, setCanfetching] = useState(true);
   const [dotPage, setDotPage] = useState(0);
   const [loading, setLoading] = useState<boolean>();
+
+  // console.log('liist', list[0].category_id);
 
   const itemStyle = {
     width: Dimensions.get('screen').width,
@@ -36,23 +38,44 @@ const SpendOptions: React.FC<ScreenNavigationProp> = () => {
   // ) as ITranslateState;
 
   const getProductList = () => {
-    if (!canFetching) {
-      return;
-    }
-    const req: IgetProducteListRequest = {
+    // if (!canFetching) {
+    //   return;
+    // }
+    const filter = props?.route?.params?.filter;
+    console.log(filter);
+
+    let req: IgetProducteListRequest = {
       page_index: pageIndex.toString(),
       row_count: '12',
       lang: '',
     };
+    if (filter?.discount === true) {
+      req = {...req, discounted: true};
+    }
+    if (filter?.latest_prod === true) {
+      req = {...req, latest_prod: true};
+    }
+    if (filter?.category_id !== '') {
+      req = {...req, category_id: filter?.category_id};
+      // console.log('reeeeeeee', req);
+    }
     ProductList.getList(req).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-          if (Response.data.products.length < 20) {
+          if (
+            Response.data.products.length < 20 &&
+            Response.data.products.length !== 0
+          ) {
+            console.log(Response.data.products.length, 'ssssssssss');
             setCanfetching(false);
           }
-          setList(prevState => {
-            return [...prevState, ...Response.data.products];
-          });
+          if (filter) {
+            setList(Response.data.products);
+          } else {
+            setList(prevState => {
+              return [...prevState, ...Response.data.products];
+            });
+          }
         }
       },
       complete: () => {
@@ -63,14 +86,14 @@ const SpendOptions: React.FC<ScreenNavigationProp> = () => {
       },
     });
   };
+
   useEffect(() => {
     getProductList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageIndex]);
+  }, [pageIndex, props.route.params]);
   const ItemChunk = 8;
   const offersList = ChunkArrays(list!, ItemChunk);
 
-  console.log('offersList', offersList.length);
   let isEndFetching = false;
 
   const onChangeSectionStep = (nativeEvent: NativeScrollEvent) => {
@@ -108,12 +131,14 @@ const SpendOptions: React.FC<ScreenNavigationProp> = () => {
     <ScrollView>
       {!loading && (
         <>
-          <View style={styles.circleWrapper}>
-            <Paginator
-              pageNumber={dotPage}
-              dotCount={paginationDotCount(list, 8)}
-            />
-          </View>
+          {offersList.length > 0 && (
+            <View style={styles.circleWrapper}>
+              <Paginator
+                pageNumber={dotPage}
+                dotCount={paginationDotCount(list, 8)}
+              />
+            </View>
+          )}
 
           {!loading && offersList.length > 0 && (
             <ScrollView

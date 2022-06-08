@@ -95,12 +95,10 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!=+\/\\#$%^&*~`}{\]\[|()_+-])[A-Za-z\d#?!$()>`}{\]\[|=+\/\\<%^&_,*-]{8,100}$/gm;
     const result = pattern.test(text);
 
-    console.log('>>>>', result);
     return result;
   };
 
   const check = (imediately?: boolean) => {
-    console.log('>>>1', value, requireType);
     if (requireType === requireTypes.require) {
       if (!value) {
         if (inputErrors.indexOf(name) < 0) {
@@ -273,7 +271,6 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     }
   }, [value, chekCount]);
 
-  console.log(inputErrors);
   return (
     <>
       <KeyboardAvoidingView style={styles.main}>

@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 
 import {ScreenNavigationProp} from '../interfaces/commons';
-
 import {useNavigation} from '@react-navigation/native';
 import Colors from '../theme/Colors';
 import CategoryButton from '../components/CostumComponents/CategoryButton';
@@ -27,10 +26,9 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const [loading, setLoading] = useState<boolean>();
   const [point, setPoint] = useState<boolean>(false);
   const navigation = useNavigation();
-  console.log('category', catdata?.customer_types);
-  const goTo = (roteName: string) => {
+  const goTo = (roteName: string, props: any) => {
     subscriptionService?.sendData('close-rightdrawer', true);
-    navigation.navigate(roteName);
+    navigation.navigate(roteName, props);
   };
 
   const toggleCategory = () => {
@@ -42,6 +40,8 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const togglePoint = () => {
     setPoint(prev => !prev);
   };
+
+  // console.log('price', price?.products);
 
   const getProducFiltertList = () => {
     ProductFiltersService.GenerateFilter().subscribe({
@@ -59,6 +59,27 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   useEffect(() => {
     getProducFiltertList();
   }, []);
+
+  const getPriceList = (
+    dValue: boolean = false,
+    LValue: boolean = false,
+    cat_id: string = '',
+  ) => {
+    let filter = {};
+    if (dValue) {
+      filter = {discount: dValue};
+    }
+    if (LValue) {
+      filter = {latest_prod: LValue};
+    }
+    if (cat_id) {
+      filter = {category_id: cat_id};
+    }
+    console.log(filter)
+    goTo(authRoutes.spendOptions2, {
+      filter,
+    });
+  };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -79,10 +100,13 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
       </View>
       <View style={styles.btnView}>
         <CategoryButton
-          onPress={() => goTo(authRoutes.home)}
+          onPress={() => getPriceList(true, false)}
           title={'ფასდაკლებულები'}
         />
-        <CategoryButton onPress={() => {}} title={'ბოლოს დამატებულები'} />
+        <CategoryButton
+          onPress={() => getPriceList(false, true)}
+          title={'ბოლოს დამატებულები'}
+        />
       </View>
       <TouchableOpacity style={styles.catView} onPress={toggleCategory}>
         <Text style={styles.catText}>კატეგორიები</Text>
@@ -96,7 +120,10 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
         catdata?.categories &&
         catdata.categories.map(cat => (
           <View key={cat.id} style={styles.catMain}>
-            <CategoryButton onPress={() => {}} title={cat.name} />
+            <CategoryButton
+              onPress={() => getPriceList(false, false, cat.id)}
+              title={cat.name}
+            />
           </View>
         ))}
 

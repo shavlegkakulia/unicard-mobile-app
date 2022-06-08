@@ -11,7 +11,6 @@ const Paginator: React.FC<IMessagesWrapperProp> = props => {
   const [length, setLength] = useState<number[]>([]);
   const {pageNumber, dotCount} = props;
 
-  console.log(dotCount);
   useEffect(() => {
     if (!dotCount) {
       return;

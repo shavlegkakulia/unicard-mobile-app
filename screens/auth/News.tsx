@@ -37,7 +37,6 @@ const News: React.FC<ScreenNavigationProp> = props => {
 
   const [news, setNews] = useState<Igeneralresp>();
 
-  console.log('newwwwwws====>', news);
   const getNewsList = () => {
     NewsService.GenerateNews().subscribe({
       next: Response => {

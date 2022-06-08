@@ -16,7 +16,6 @@ export interface IPartnersProps {
 const PartnersCard: React.FC<IPartnersProps> = props => {
   const {name, logo, point, pointDesc, id} = props;
   const navigation = useNavigation();
-  console.log(id);
   return (
     <TouchableOpacity
       style={styles.padding}

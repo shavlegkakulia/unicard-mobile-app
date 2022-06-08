@@ -20,6 +20,8 @@ export enum authRoutes {
   searchScreen = 'searchScreen',
   singleMerchants = 'singleMerchants',
   allMerchants = 'allMerchants',
+  spendOptions2 = 'spendOptions2',
+  spendOptions3 = 'spendOptions3',
 
 }
 

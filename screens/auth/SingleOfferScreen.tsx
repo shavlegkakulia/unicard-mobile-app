@@ -7,7 +7,7 @@ import ProducteService, {
   IgetProducteResponse,
 } from '../../services/ProductService';
 import Loader from '../../components/loader';
-import {htmlToString} from '../../utils/converts';
+import {getNumber, htmlToString} from '../../utils/converts';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {authRoutes} from '../../navigation/routes';
 
@@ -19,7 +19,8 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   console.log('type>>>>>>', type);
 
   const regex = /<a\s+(?:[^>]*?\s+)\1/; //ლინკს პოულობს კოდში და იღებს//თუმცა ეიჩტიემელის ატრიბუტები ვერ მოვაშორე
-  const linkTag = offer?.description?.match(regex);
+ // const linkTag = offer?.description?.match(regex);
+  
   const getProductDetails = () => {
     const req: IgetProducteDetailsRequest = {
       product_id: id,
@@ -39,6 +40,32 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getProductDetails();
   }, []);
+
+  const searchStr = '<ol>';
+  const searchEndStr = '</ol>';
+  const olindex = offer?.description?.indexOf(searchStr);
+  const ollastindex = offer?.description?.indexOf(searchEndStr);
+
+  const withoutOl = offer?.description?.substring(0, olindex);
+  let afterOl: string | undefined = '';
+  let withoutOlContent = '';
+
+
+  let getString = undefined;
+  if((olindex && olindex >= 0) && (ollastindex && ollastindex >= 0)){
+    getString = offer?.description?.substring(olindex + searchStr.length, ollastindex);
+    afterOl = offer?.description?.substring(ollastindex + searchEndStr.length);
+  }
+
+  if(withoutOl) {
+    withoutOlContent = (withoutOl + afterOl)?.replace(/(<([^>]+)>)/gi, "").trim().replace(/&nbsp;/g, "");
+  }
+
+  let contacts: string[] | undefined = getString?.split('<li>').join().split('</li>');
+  contacts = contacts?.map(s => {
+    return s.trim().replace(/&nbsp;/g, "");
+  })
+ console.log(withoutOlContent, 'ddd')
   return (
     <View>
       {!loading && offer ? (
@@ -66,8 +93,13 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
             <View style={styles.catId}>
               <Text style={styles.catIdTxt}>{offer?.catalog_id}</Text>
             </View>
-            <View>
-              <Text>{offer?.description}</Text>
+            <View style={{marginTop: 15}}>
+              <Text>
+                {withoutOlContent.trim().replace(/\s\s+/g, ' ')}
+              </Text>
+            </View>
+            <View style={{marginTop: 15}}>
+              {contacts?.map((desc, i) => <Text style={styles.contactItem} key={i}>{desc.substring(1, desc.length - 1).trim()}</Text>)}
             </View>
             {/* <View>
               <Text>{linkTag}</Text>
@@ -155,6 +187,9 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 40,
   },
+  contactItem: {
+    marginBottom: 10
+  }
 });
 
 export default SingleOfferScreen;

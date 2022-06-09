@@ -17,8 +17,8 @@ import {
   LoginManager,
 } from 'react-native-fbsdk';
 import {getString} from '../../utils/converts';
-import FbService, { IFbData } from '../../services/FbService';
-import { stringToObject } from '../../utils/common';
+import FbService, {IFbData} from '../../services/FbService';
+import {stringToObject} from '../../utils/common';
 
 const LoginScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
@@ -59,8 +59,10 @@ const LoginScreen: React.FC<ScreenNavigationProp> = props => {
       },
       error: e => {
         console.log('err', e.response);
-        if(e?.response?.error === 'invalid_grant') {
-          props.navigation.navigate(notAuthRoutes.registration, {fb_token: token});
+        if (e?.response?.error === 'invalid_grant') {
+          props.navigation.navigate(notAuthRoutes.registration, {
+            fb_token: token,
+          });
         }
         setLoading(false);
       },

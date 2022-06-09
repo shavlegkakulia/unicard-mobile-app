@@ -519,7 +519,7 @@ const AppNavigator = () => {
                           style={{
                             width: 4,
                             height: 4,
-                            backgroundColor: Colors.lightGrey,
+                            backgroundColor: Colors.lightOrange,
                             marginLeft: 6,
                             borderRadius: 50,
                           }}
@@ -575,7 +575,7 @@ const AppNavigator = () => {
                           style={{
                             width: 4,
                             height: 4,
-                            backgroundColor: Colors.lightGrey,
+                            backgroundColor: Colors.lightOrange,
                             marginLeft: 6,
                             borderRadius: 50,
                           }}

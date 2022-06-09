@@ -6,6 +6,7 @@ import {
   NativeScrollEvent,
   ActivityIndicator,
   Dimensions,
+  Text,
 } from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 // import {en} from '../../lang';
@@ -19,6 +20,8 @@ import Colors from '../../theme/Colors';
 import {ChunkArrays} from '../../utils/ChunkArray';
 import Paginator from '../../components/Paginator';
 import {paginationDotCount} from '../../utils/PaginationDotCount';
+import MessagesWrapper from '../../components/CostumComponents/MessagesWrapper';
+import NotFound from '../../components/CostumComponents/NotFound';
 
 const SpendOptions: React.FC<ScreenNavigationProp> = props => {
   const [list, setList] = useState<IgetProducteListResponse[]>([]);
@@ -27,7 +30,7 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
   const [dotPage, setDotPage] = useState(0);
   const [loading, setLoading] = useState<boolean>();
 
-  // console.log('liist', list[0].category_id);
+  const image = require('../../assets/img/error.png');
 
   const itemStyle = {
     width: Dimensions.get('screen').width,
@@ -42,7 +45,6 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
     //   return;
     // }
     const filter = props?.route?.params?.filter;
-    console.log(filter);
 
     let req: IgetProducteListRequest = {
       page_index: pageIndex.toString(),
@@ -57,8 +59,14 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
     }
     if (filter?.category_id !== '') {
       req = {...req, category_id: filter?.category_id};
-      // console.log('reeeeeeee', req);
     }
+    if (filter?.customer_type_id !== '') {
+      req = {...req, customer_type_id: filter?.customer_type_id};
+    }
+    if (filter?.price_range_id !== '') {
+      req = {...req, price_range_id: filter?.price_range_id};
+    }
+
     ProductList.getList(req).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
@@ -66,7 +74,6 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
             Response.data.products.length < 20 &&
             Response.data.products.length !== 0
           ) {
-            console.log(Response.data.products.length, 'ssssssssss');
             setCanfetching(false);
           }
           if (filter) {
@@ -128,43 +135,58 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
   }
 
   return (
-    <ScrollView>
-      {!loading && (
-        <>
-          {offersList.length > 0 && (
-            <View style={styles.circleWrapper}>
-              <Paginator
-                pageNumber={dotPage}
-                dotCount={paginationDotCount(list, 8)}
+    <>
+      <View style={styles.flex1} />
+      <ScrollView>
+        {!loading && (
+          <>
+            {offersList.length > 0 && (
+              <View style={styles.circleWrapper}>
+                <Paginator
+                  pageNumber={dotPage}
+                  dotCount={paginationDotCount(list, 8)}
+                />
+              </View>
+            )}
+
+            {!loading && offersList.length > 0 ? (
+              <ScrollView
+                scrollToOverflowEnabled={true}
+                // contentContainerStyle={{paddingRight: 5}}
+                onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled={true}
+                horizontal>
+                {offersList.map((data, i) => (
+                  <View key={i} style={[styles.dataContent, itemStyle]}>
+                    {data.map((item, index) => (
+                      <ShopingCard {...item} key={index} />
+                    ))}
+                  </View>
+                ))}
+              </ScrollView>
+            ) : (
+              <NotFound
+                onPress={() => {}}
+                title={'ქონთენთი ვერ მოიძებნა'}
+                backgroundColor={Colors.red}
+                image={image}
               />
-            </View>
-          )}
+            )}
+          </>
+        )}
 
-          {!loading && offersList.length > 0 && (
-            <ScrollView
-              scrollToOverflowEnabled={true}
-              // contentContainerStyle={{paddingRight: 5}}
-              onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
-              showsHorizontalScrollIndicator={false}
-              pagingEnabled={true}
-              horizontal>
-              {offersList.map((data, i) => (
-                <View key={i} style={[styles.dataContent, itemStyle]}>
-                  {data.map((item, index) => (
-                    <ShopingCard {...item} key={index} />
-                  ))}
-                </View>
-              ))}
-            </ScrollView>
-          )}
-        </>
-      )}
-
-      {/* <Text>{translateReducer.t('common.name')}</Text> */}
-    </ScrollView>
+        {/* <Text>{translateReducer.t('common.name')}</Text> */}
+      </ScrollView>
+      <View />
+    </>
   );
 };
 const styles = StyleSheet.create({
+  flex1: {
+    // flex: 1,
+    // justifyContent:'flex-start',
+  },
   circleWrapper: {
     marginTop: 20,
     alignItems: 'flex-end',
@@ -196,6 +218,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  notFound: {
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });
 

@@ -28,6 +28,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
   const params = props.route.params;
   const typeId = params.type;
   const utilityId = '8';
+  const payTypeId = '5';
   let date = new Date().toString();
 
   //იუზერის ინფოს რომ წამოიღებს, ლოგიკა უნდა შეიცვალოს, თაგლი არაა საჭირო
@@ -84,7 +85,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           </View>
         </View>
       </View>
-      {typeId === utilityId ? (
+      {typeId === utilityId || typeId === payTypeId ? (
         <>
           <View style={styles.textView}>
             <Text style={styles.text}>შეიყვანეთ აბონენტის ნომერი</Text>

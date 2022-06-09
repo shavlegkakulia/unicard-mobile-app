@@ -19,6 +19,9 @@ import ProductFiltersService, {
 import {subscriptionService} from '../services/SubscribeService';
 import {authRoutes} from './routes';
 
+const DISCOUNTED = 'DISCOUNTED';
+const LAST_ADDED = 'LAST_ADDED';
+
 const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const [catdata, setCatData] = useState<IgetfilterCategoriesResponse>();
   const [category, setCategory] = useState<boolean>(false);
@@ -30,7 +33,6 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
     subscriptionService?.sendData('close-rightdrawer', true);
     navigation.navigate(roteName, props);
   };
-
   const toggleCategory = () => {
     setCategory(prev => !prev);
   };
@@ -40,8 +42,6 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const togglePoint = () => {
     setPoint(prev => !prev);
   };
-
-  // console.log('price', price?.products);
 
   const getProducFiltertList = () => {
     ProductFiltersService.GenerateFilter().subscribe({
@@ -60,22 +60,23 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
     getProducFiltertList();
   }, []);
 
-  const getPriceList = (
-    dValue: boolean = false,
-    LValue: boolean = false,
-    cat_id: string = '',
-  ) => {
+  const getPriceList = (type: any) => {
     let filter = {};
-    if (dValue) {
-      filter = {discount: dValue};
+    if (type === 'DISCOUNTED') {
+      filter = {discount: true};
     }
-    if (LValue) {
-      filter = {latest_prod: LValue};
+    if (type === 'LAST_ADDED') {
+      filter = {...filter, latest_prod: true};
     }
-    if (cat_id) {
-      filter = {category_id: cat_id};
+    if (type.cat_id !== '') {
+      filter = {...filter, category_id: type.cat_id};
     }
-    console.log(filter)
+    if (type.custValue !== '') {
+      filter = {...filter, customer_type_id: type.custValue};
+    }
+    if (type.priceValue !== '') {
+      filter = {...filter, price_range_id: type.priceValue};
+    }
     goTo(authRoutes.spendOptions2, {
       filter,
     });
@@ -100,11 +101,11 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
       </View>
       <View style={styles.btnView}>
         <CategoryButton
-          onPress={() => getPriceList(true, false)}
+          onPress={() => getPriceList(DISCOUNTED)}
           title={'ფასდაკლებულები'}
         />
         <CategoryButton
-          onPress={() => getPriceList(false, true)}
+          onPress={() => getPriceList(LAST_ADDED)}
           title={'ბოლოს დამატებულები'}
         />
       </View>
@@ -121,7 +122,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
         catdata.categories.map(cat => (
           <View key={cat.id} style={styles.catMain}>
             <CategoryButton
-              onPress={() => getPriceList(false, false, cat.id)}
+              onPress={() => getPriceList({cat_id: cat.id})}
               title={cat.name}
             />
           </View>
@@ -139,7 +140,10 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
         catdata?.customer_types &&
         catdata?.customer_types.map(user => (
           <View key={user.id} style={styles.catMain}>
-            <CategoryButton onPress={() => {}} title={user.name} />
+            <CategoryButton
+              onPress={() => getPriceList({custValue: user.id})}
+              title={user.name}
+            />
           </View>
         ))}
       <TouchableOpacity style={styles.catView} onPress={togglePoint}>
@@ -154,7 +158,10 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
         catdata?.price_ranges &&
         catdata?.price_ranges.map(p => (
           <View key={p.id} style={styles.catMain}>
-            <CategoryButton onPress={() => {}} title={p.range_description} />
+            <CategoryButton
+              onPress={() => getPriceList({priceValue: p.id})}
+              title={p.range_description}
+            />
           </View>
         ))}
     </ScrollView>

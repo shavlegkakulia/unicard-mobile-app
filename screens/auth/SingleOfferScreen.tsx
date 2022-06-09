@@ -7,7 +7,6 @@ import ProducteService, {
   IgetProducteResponse,
 } from '../../services/ProductService';
 import Loader from '../../components/loader';
-import {getNumber, htmlToString} from '../../utils/converts';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {authRoutes} from '../../navigation/routes';
 
@@ -16,11 +15,11 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   const [loading, setLoading] = useState<boolean>();
   const id = props.route.params.id;
   const type = props.route.params.type;
-  console.log('type>>>>>>', type);
+  console.log(type)
 
-  const regex = /<a\s+(?:[^>]*?\s+)\1/; //ლინკს პოულობს კოდში და იღებს//თუმცა ეიჩტიემელის ატრიბუტები ვერ მოვაშორე
- // const linkTag = offer?.description?.match(regex);
-  
+  //const regex = /<a\s+(?:[^>]*?\s+)\1/; //ლინკს პოულობს კოდში და იღებს//თუმცა ეიჩტიემელის ატრიბუტები ვერ მოვაშორე
+  // const linkTag = offer?.description?.match(regex);
+
   const getProductDetails = () => {
     const req: IgetProducteDetailsRequest = {
       product_id: id,
@@ -50,22 +49,29 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   let afterOl: string | undefined = '';
   let withoutOlContent = '';
 
-
-  let getString = undefined;
-  if((olindex && olindex >= 0) && (ollastindex && ollastindex >= 0)){
-    getString = offer?.description?.substring(olindex + searchStr.length, ollastindex);
+  let getString;
+  if (olindex && olindex >= 0 && ollastindex && ollastindex >= 0) {
+    getString = offer?.description?.substring(
+      olindex + searchStr.length,
+      ollastindex,
+    );
     afterOl = offer?.description?.substring(ollastindex + searchEndStr.length);
   }
 
-  if(withoutOl) {
-    withoutOlContent = (withoutOl + afterOl)?.replace(/(<([^>]+)>)/gi, "").trim().replace(/&nbsp;/g, "");
+  if (withoutOl) {
+    withoutOlContent = (withoutOl + afterOl)
+      ?.replace(/(<([^>]+)>)/gi, '')
+      .trim()
+      .replace(/&nbsp;/g, '');
   }
 
-  let contacts: string[] | undefined = getString?.split('<li>').join().split('</li>');
+  let contacts: string[] | undefined = getString
+    ?.split('<li>')
+    .join()
+    .split('</li>');
   contacts = contacts?.map(s => {
-    return s.trim().replace(/&nbsp;/g, "");
-  })
- console.log(withoutOlContent, 'ddd')
+    return s.trim().replace(/&nbsp;/g, '');
+  });
   return (
     <View>
       {!loading && offer ? (
@@ -94,12 +100,14 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
               <Text style={styles.catIdTxt}>{offer?.catalog_id}</Text>
             </View>
             <View style={{marginTop: 15}}>
-              <Text>
-                {withoutOlContent.trim().replace(/\s\s+/g, ' ')}
-              </Text>
+              <Text>{withoutOlContent.trim().replace(/\s\s+/g, ' ')}</Text>
             </View>
             <View style={{marginTop: 15}}>
-              {contacts?.map((desc, i) => <Text style={styles.contactItem} key={i}>{desc.substring(1, desc.length - 1).trim()}</Text>)}
+              {contacts?.map((desc, i) => (
+                <Text style={styles.contactItem} key={i}>
+                  {desc.substring(1, desc.length - 1).trim()}
+                </Text>
+              ))}
             </View>
             {/* <View>
               <Text>{linkTag}</Text>
@@ -188,8 +196,8 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   contactItem: {
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
 });
 
 export default SingleOfferScreen;

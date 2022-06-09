@@ -34,6 +34,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
   });
 
   const [isPasscodeEnabled, setIsPasscodeEnabed] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
   }, []);
 
   const LogIn = () => {
+    setLoading(true);
     if (!userData?.username || !userData?.password) {
       return;
     }
@@ -67,6 +69,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
         }
       },
       complete: () => {
+        setLoading(false);
         console.log('complate');
       },
       error: e => console.log('err', e.response),
@@ -132,6 +135,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.button}>
         <AppButton
+          loading={loading}
           onPress={LogIn}
           title={'შემდეგი'}
           backgroundColor={Colors.bgGreen}

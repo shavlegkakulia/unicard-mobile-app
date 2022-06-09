@@ -1,8 +1,6 @@
-import axios, {AxiosRequestConfig} from 'axios';
-import {from, Observable, Subscriber} from 'rxjs';
-import storage from './StorageService';
+import axios from 'axios';
+import {from} from 'rxjs';
 import envs from '../config/env';
-import {IgetProducteResponse} from './ProductService';
 
 interface IresponseData {
   resultCode?: string;
@@ -66,11 +64,13 @@ class ProductList {
     if (data?.category_id) {
       q = '?category_id=' + data.category_id;
     }
+    if (data?.price_range_id) {
+      q = '?price_range_id=' + data.price_range_id;
+    }
+    if (data?.customer_type_id) {
+      q = '?customer_type_id=' + data.customer_type_id;
+    }
 
-    console.log(
-      'products api call',
-      `${envs.API_URL}api/Mobile/GetProductList${q}`,
-    );
     const result = axios.get<Igeneralresp>(
       `${envs.API_URL}api/Mobile/GetProductList${q}`,
     );

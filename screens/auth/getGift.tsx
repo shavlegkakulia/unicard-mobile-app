@@ -20,22 +20,48 @@ import BuyProductService, {
 import Colors from '../../theme/Colors';
 import moment from 'moment';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import OnlinePaymentService, {
+  IgetPaymentDetailsRequest,
+  IgetPaymentResponse,
+} from '../../services/OnlinePaymentService';
 
 const GetGift: React.FC<ScreenNavigationProp> = props => {
   const [client, setClient] = useState<IBuyProductServiceResponse>();
-  const [check, setCheck] = useState<boolean>(false);
-  const [chekCount, setChekCount] = useState<number>(0);
+  // const [check, setCheck] = useState<boolean>(false);
+  // const [chekCount, setChekCount] = useState<number>(0);
+  const [paymentInfo, setPaymentInfo] = useState<IgetPaymentResponse[]>();
+  const [num, setNum] = useState('');
   const params = props.route.params;
   const typeId = params.type;
   const utilityId = '8';
   const payTypeId = '5';
+
   let date = new Date().toString();
 
-  //იუზერის ინფოს რომ წამოიღებს, ლოგიკა უნდა შეიცვალოს, თაგლი არაა საჭირო
-  //თვალსაჩინოებისთვის იყოს
-  const chackHandler = () => {
-    setCheck(prev => !prev);
+  const getPayment = () => {
+    const req: IgetPaymentDetailsRequest = {
+      user_id: '',
+      subscriber_number: num,
+      product_id: params.data.id,
+      lang: '',
+    };
+    OnlinePaymentService.GeneratePaymentInfo(req).subscribe({
+      next: Response => {
+        console.log(Response);
+        if (Response.data.resultCode === '200') {
+          setPaymentInfo(Response.data.payment_info_list);
+        }
+      },
+      error: err => {
+        console.log(err.response);
+      },
+    });
   };
+  const chackHandler = () => {
+    getPayment();
+    console.log('>>>>hhhhhhhhhhhh>>>>>', paymentInfo);
+  };
+
   const buyProduct = () => {
     const data: IBuyProductServiceResponse = {
       recipient_full_name: `${client?.name}${' '}${client?.surname}`,
@@ -92,41 +118,26 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           </View>
           <KeyboardAvoidingView style={styles.row}>
             <View style={styles.inputView}>
-              <TextInput style={styles.input} />
+              <TextInput
+                style={styles.input}
+                value={num}
+                onChangeText={e => setNum(e)}
+              />
             </View>
             <TouchableOpacity style={styles.chekView} onPress={chackHandler}>
               <Text style={styles.chekTxt}>შემოწმება</Text>
             </TouchableOpacity>
           </KeyboardAvoidingView>
-          {check && (
-            <View style={styles.clientMainView}>
-              <View style={styles.clientInfoView}>
-                <Text style={styles.clientInfo}>აბონენტის სახელი</Text>
-                <Text style={styles.clientInfo}>თ.კ</Text>
-              </View>
-              <View style={styles.clientInfoView}>
-                <Text style={styles.clientInfo}>აბონენტის მისამართი</Text>
-                <View>
-                  <Text style={styles.clientAddress}>
-                    ასპინძის 1 ქ.013 2059, ბოლო რეგულარული დარიცხვის თარიღი:
-                    20220427
-                  </Text>
+
+          <View style={styles.clientMainView}>
+            {paymentInfo &&
+              paymentInfo.map((e, i) => (
+                <View style={styles.clientInfoView} key={i}>
+                  <Text style={styles.clientInfo}>{e.description}</Text>
+                  <Text style={styles.clientInfo}>{e.value}</Text>
                 </View>
-              </View>
-              <View style={styles.clientInfoView}>
-                <Text style={styles.clientInfo}>დავალიანება</Text>
-                <Text style={styles.clientInfo}>0</Text>
-              </View>
-              <View style={styles.clientInfoView}>
-                <Text style={styles.clientInfo}>პროვაიდერის საკომისიო</Text>
-                <Text style={styles.clientInfo}>0</Text>
-              </View>
-              <View style={styles.clientInfoView}>
-                <Text style={styles.clientInfo}>ქულა</Text>
-                <Text style={styles.clientInfo}>0</Text>
-              </View>
-            </View>
-          )}
+              ))}
+          </View>
 
           <View style={styles.border} />
         </>

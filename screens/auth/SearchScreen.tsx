@@ -23,11 +23,9 @@ type RouteParamList = {
 };
 
 const SearchScreen: React.FC<ScreenNavigationProp> = props => {
- 
   const [partners, setPartners] = useState<IgetPartnersResponse>();
   console.log('esssssssss', partners?.organizations);
   const Organization = partners?.organizations;
-
 
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   console.log(route.params.key);
@@ -56,10 +54,7 @@ const SearchScreen: React.FC<ScreenNavigationProp> = props => {
   return (
     <>
       <KeyboardAvoidingView style={styles.center}>
-        <AppTextInput
-          placeholder="ძებნა"
-          icon={icon}
-        />
+        <AppTextInput placeholder="ძებნა" icon={icon} />
       </KeyboardAvoidingView>
     </>
   );

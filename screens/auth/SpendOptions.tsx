@@ -136,8 +136,7 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
 
   return (
     <>
-      <View style={styles.flex1} />
-      <ScrollView>
+      <ScrollView contentContainerStyle={{flex: 1}}>
         {!loading && (
           <>
             {offersList.length > 0 && (
@@ -178,7 +177,6 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
 
         {/* <Text>{translateReducer.t('common.name')}</Text> */}
       </ScrollView>
-      <View />
     </>
   );
 };
@@ -217,7 +215,7 @@ const styles = StyleSheet.create({
   dataContent: {
     flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   notFound: {
     alignSelf: 'center',

@@ -18,11 +18,16 @@ import ProductFiltersService, {
 } from '../services/ProductFiltersService';
 import {subscriptionService} from '../services/SubscribeService';
 import {authRoutes} from './routes';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
 
 const DISCOUNTED = 'DISCOUNTED';
 const LAST_ADDED = 'LAST_ADDED';
 
 const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
   const [catdata, setCatData] = useState<IgetfilterCategoriesResponse>();
   const [category, setCategory] = useState<boolean>(false);
   const [userType, setUserType] = useState<boolean>(false);
@@ -85,7 +90,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.main}>
-        <Text style={styles.mainText}>კატალოგი</Text>
+        <Text style={styles.mainText}>{translate.t('filters.catalogue')}</Text>
       </View>
       <View style={styles.searchView}>
         <View style={styles.inputWrapper}>
@@ -96,21 +101,21 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
           <TextInput style={styles.input} />
         </View>
         <TouchableOpacity>
-          <Text style={styles.cancel}>გაუქმება</Text>
+          <Text style={styles.cancel}>{translate.t('common.cancel')}</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.btnView}>
         <CategoryButton
           onPress={() => getPriceList(DISCOUNTED)}
-          title={'ფასდაკლებულები'}
+          title={translate.t('filters.discounts')}
         />
         <CategoryButton
           onPress={() => getPriceList(LAST_ADDED)}
-          title={'ბოლოს დამატებულები'}
+          title={translate.t('filters.lastAdded')}
         />
       </View>
       <TouchableOpacity style={styles.catView} onPress={toggleCategory}>
-        <Text style={styles.catText}>კატეგორიები</Text>
+        <Text style={styles.catText}>{translate.t('filters.categories')}</Text>
         <Image
           style={category ? styles.rotate : styles.arrow}
           source={require('../assets/img/downWhiteArrow.png')}
@@ -129,7 +134,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
         ))}
 
       <TouchableOpacity style={styles.catView} onPress={toggleUserType}>
-        <Text style={styles.catText}>მომხმარებლის ტიპი</Text>
+        <Text style={styles.catText}>{translate.t('filters.userType')}</Text>
         <Image
           style={!userType ? styles.arrow : styles.rotate}
           source={require('../assets/img/downWhiteArrow.png')}
@@ -147,7 +152,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
           </View>
         ))}
       <TouchableOpacity style={styles.catView} onPress={togglePoint}>
-        <Text style={styles.catText}>ქულების მიხედვით</Text>
+        <Text style={styles.catText}>{translate.t('filters.byScore')}</Text>
         <Image
           style={!point ? styles.arrow : styles.rotate}
           source={require('../assets/img/downWhiteArrow.png')}

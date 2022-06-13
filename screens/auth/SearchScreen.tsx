@@ -7,6 +7,7 @@ import {
   Image,
   KeyboardAvoidingView,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
 
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -14,6 +15,7 @@ import {authRoutes} from '../../navigation/routes';
 import PartnersService, {
   IgetPartnersResponse,
 } from '../../services/PartnersService';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 import Colors from '../../theme/Colors';
 type RouteParamList = {
@@ -23,6 +25,8 @@ type RouteParamList = {
 };
 
 const SearchScreen: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
   const [partners, setPartners] = useState<IgetPartnersResponse>();
   console.log('esssssssss', partners?.organizations);
   const Organization = partners?.organizations;
@@ -54,7 +58,9 @@ const SearchScreen: React.FC<ScreenNavigationProp> = props => {
   return (
     <>
       <KeyboardAvoidingView style={styles.center}>
-        <AppTextInput placeholder="ძებნა" icon={icon} />
+        <AppTextInput placeholder={translate.t('common.search')} icon={icon} onChange={function (value: string): void {
+          
+        } } />
       </KeyboardAvoidingView>
     </>
   );

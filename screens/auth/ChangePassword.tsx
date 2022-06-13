@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import { useSelector } from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -7,9 +8,12 @@ import {authRoutes} from '../../navigation/routes';
 import AuthService, {
   IChangePasswordRequestData,
 } from '../../services/AuthService';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 const ChangePassword: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
   const [password, setPassword] = useState<IChangePasswordRequestData>();
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +40,7 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
     <>
       <View style={styles.inputView}>
         <AppTextInput
-          placeholder={'ძველი პაროლი'}
+          placeholder={translate.t('common.oldPassword')}
           secureTextEntry={true}
           value={password?.password}
           onChange={e => {
@@ -48,7 +52,7 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
           }}
         />
         <AppTextInput
-          placeholder={'ახალი პაროლი'}
+          placeholder={translate.t('common.newPassword')}
           secureTextEntry={true}
           value={password?.new_password}
           onChange={e => {
@@ -60,7 +64,7 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
           }}
         />
         <AppTextInput
-          placeholder={'გაიმეორეთ პაროლი'}
+          placeholder={translate.t('common.repeatPassword')}
           secureTextEntry={true}
           value={password?.confirm_password}
           onChange={e => {
@@ -78,7 +82,7 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
             props.navigation.navigate(authRoutes.PasswordChangingMessage)
           }
           loading={loading}
-          title={'შეცვლა'}
+          title={translate.t('common.change')}
           backgroundColor={Colors.bgGreen}
         />
       </View>

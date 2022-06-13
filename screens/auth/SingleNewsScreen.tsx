@@ -8,8 +8,12 @@ import SingleNewsService, {
   IgetSingleNewsResponse,
 } from '../../services/SingleNewsService';
 import {htmlToString} from '../../utils/converts';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
   const [news, setNews] = useState<IgetSingleNewsResponse>();
   const id = props.route.params.id;
   // console.log(id);
@@ -75,7 +79,7 @@ const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
                 onPress={() =>
                   props.navigation.navigate(authRoutes.getGift, {data: offer})
                 }
-                title={'საჩუქრის მიღება'}
+                title={translate.t('news.getGift')}
                 backgroundColor={Colors.bgGreen}
               />
             </View>

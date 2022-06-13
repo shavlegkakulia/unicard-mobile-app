@@ -135,7 +135,7 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
                 </View>
               </View>
               <View style={styles.scoreView}>
-                <Text style={styles.scoreTxt}>-{m.unit_score} ქულა</Text>
+                <Text style={styles.scoreTxt}>-{m.unit_score} {translate.t('common.score')}</Text>
                 {
                   Platform.OS === 'ios' ? <CalloutSubview
                   style={{width: 40, height: 40}}

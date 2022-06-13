@@ -6,9 +6,11 @@ import {
   View,
   Image,
 } from 'react-native';
+import { useSelector } from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 import Colors from '../../theme/Colors';
 
@@ -20,10 +22,12 @@ type RouteParamList = {
 
 const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
   return (
     <>
       <View style={styles.titleWrapper}>
-        <Text style={styles.title}>გაქვთ თუ არა უნიქარდის ბარათი?</Text>
+        <Text style={styles.title}>{translate.t('auth.doYouWantCard')}</Text>
         <View style={styles.imageWrapper}>
           <Image
             style={styles.image}
@@ -40,7 +44,7 @@ const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
           onPress={() => {
             props.navigation.navigate(notAuthRoutes.registrationDetails, {hasCard: true, fb_token: route?.params?.fb_token});
           }}
-          title={'დიახ'}
+          title={translate.t('common.ok')}
           backgroundColor={Colors.bgGreen}
         />
         <View style={styles.button}>
@@ -48,7 +52,7 @@ const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
             onPress={() => {
               props.navigation.navigate(notAuthRoutes.registrationDetails, {hasCard: false, fb_token: route?.params?.fb_token});
             }}
-            title={'არა'}
+            title={translate.t('common.no')}
             backgroundColor={Colors.lightOrange}
           />
         </View>

@@ -12,6 +12,8 @@ import {inputErrors} from './../../components/CostumComponents/AppTextInput';
 
 import Colors from '../../theme/Colors';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 type RouteParamList = {
   params: {
@@ -24,6 +26,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [regData, setRegData] = useState<IRegisterRequestData>();
   const [chekCount, setChekCount] = useState<number>(0);
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
 
   const nextStep = () => {
     setChekCount(t => ++t);
@@ -38,10 +42,10 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
       <KeyboardAwareScrollView>
         <View style={styles.textInput}>
           <View style={styles.titleWrapper}>
-            <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
+            <Text style={styles.title}>{translate.t('auth.fillInfo')}</Text>
           </View>
           <AppTextInput
-            placeholder={'სახელი'}
+            placeholder={translate.t('common.name')}
             icon={0}
             secureTextEntry={false}
             textContentType={'name'}
@@ -62,7 +66,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             }
           />
           <AppTextInput
-            placeholder={'გვარი'}
+            placeholder={translate.t('common.lname')}
             icon={0}
             secureTextEntry={false}
             textContentType={'name'}
@@ -81,7 +85,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             }
           />
           <AppTextInput
-            placeholder={'პირადი ნომერი'}
+            placeholder={translate.t('common.personalNumber')}
             icon={0}
             secureTextEntry={false}
             textContentType={''}
@@ -104,7 +108,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
           />
 
           <AppTextInput
-            placeholder={'დაბადების თარიღი'}
+            placeholder={translate.t('common.birtDate')}
             icon={0}
             secureTextEntry={false}
             textContentType={''}
@@ -150,7 +154,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
           />
 
           <AppTextInput
-            placeholder={'ელ-ფოსტა'}
+            placeholder={translate.t('common.email')}
             icon={0}
             secureTextEntry={false}
             textContentType={'emailAddress'}
@@ -173,7 +177,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.button}>
           <AppButton
             onPress={nextStep}
-            title={'შემდეგი'}
+            title={translate.t('common.next')}
             backgroundColor={Colors.bgGreen}
           />
         </View>

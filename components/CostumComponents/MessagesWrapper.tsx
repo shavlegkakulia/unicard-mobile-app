@@ -1,5 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 import AppButton from './AppButton';
 
@@ -11,6 +13,9 @@ export interface IMessagesWrapperProp {
 }
 
 const MessagesWrapper: React.FC<IMessagesWrapperProp> = props => {
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
   const {image, onPress, title, backgroundColor} = props;
 
   return (
@@ -26,7 +31,7 @@ const MessagesWrapper: React.FC<IMessagesWrapperProp> = props => {
       <View style={styles.btn}>
         <AppButton
           onPress={onPress}
-          title={'დახურვა'}
+          title={translate.t('common.close')}
           backgroundColor={Colors.lightOrange}
         />
       </View>

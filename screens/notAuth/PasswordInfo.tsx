@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput, {
   inputErrors,
@@ -19,6 +19,7 @@ import {notAuthRoutes} from '../../navigation/routes';
 
 import Colors from '../../theme/Colors';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 
 const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
@@ -26,6 +27,8 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const [passData, setPassData] = useState<IRegisterRequestData>();
   const [loading, setLoading] = useState(false);
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
 
   const params = props.route.params;
 
@@ -58,10 +61,10 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
       <View style={styles.flex1}>
         <View style={styles.textInput}>
           <View style={styles.titleWrapper}>
-            <Text style={styles.title}>შეავსეთ თქვენი მონაცემები</Text>
+            <Text style={styles.title}>{translate.t('auth.fillInfo')}</Text>
           </View>
           <AppTextInput
-            placeholder={'პაროლი'}
+            placeholder={translate.t('common.password')}
             secureTextEntry={true}
             value={passData?.password}
             requireType={requireTypes.password}
@@ -74,7 +77,7 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
             }}
           />
           <AppTextInput
-            placeholder={'გაიმეორეთ პაროლი'}
+            placeholder={translate.t('common.repeatPassword')}
             secureTextEntry={true}
             value={passData?.confirm_password}
             requireType={requireTypes.repeatPassword}
@@ -101,7 +104,8 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
           />
           <TouchableOpacity>
             <Text style={styles.text}>
-              ვეთანხმები <Text style={styles.subText}>წესებს და პირობებს</Text>
+            {translate.t('common.accept')}
+               <Text style={styles.subText}>{translate.t('common.termsAndConditions')}</Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -113,7 +117,7 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
           // }}
           onPress={OtpAuth}
           loading={loading}
-          title={'შემდეგი'}
+          title={translate.t('common.next')}
           backgroundColor={Colors.bgGreen}
         />
       </View>

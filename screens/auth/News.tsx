@@ -21,15 +21,14 @@ import NewsService, {
 } from '../../services/NewsService';
 
 const News: React.FC<ScreenNavigationProp> = props => {
-  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState();
   const renderItem = useCallback(({item}) => {
     return <NewsCard {...item} />;
   }, []);
 
-  const translateReducer = useSelector<ITranslateReducer>(
-    state => state.TranslateReducer,
-  ) as ITranslateState;
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
 
   const keyExtractor = (item: IgetNewsResponse) => {
     return item?.id + new Date().toLocaleTimeString();

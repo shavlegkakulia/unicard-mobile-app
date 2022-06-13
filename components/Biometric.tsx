@@ -51,7 +51,7 @@ const BiometricAuthScreen: React.FC<IProps> = props => {
   }, [props.start]);
   const getMessage = () => {
     if (biometryType == 'Face ID') {
-      return 'Scan your Face on the device to continue';
+      return translate.t('settings.scanFace');
     } else {
       return translate.t('settings.easyLogin');
     }

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ScreenNavigationProp} from '../interfaces/commons';
 import {logout} from '../Store/actions/auth';
 import {AuthActions} from '../Store/types/auth';
@@ -19,8 +19,12 @@ import UserInfoService, {
   IgetUserServiceResponse,
 } from '../services/UserInfoService';
 import {subscriptionService} from '../services/SubscribeService';
+import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
 
 const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
   const navigation = useNavigation();
   const [userInfo, setUserInfo] = useState<IgetUserServiceResponse>();
   const [loading, setLoading] = useState<boolean>();
@@ -89,7 +93,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
             source={require('../assets/img/cardIcon.png')}
           />
         </View>
-        <Text style={styles.name}>ბარათი</Text>
+        <Text style={styles.name}>{translate.t('common.card')}</Text>
       </TouchableOpacity>
       <View style={styles.lineView} />
       <TouchableOpacity
@@ -102,7 +106,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
             source={require('../assets/img/homeIcon.png')}
           />
         </View>
-        <Text style={styles.name}>მთავარი</Text>
+        <Text style={styles.name}>{translate.t('screens.home')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
@@ -114,7 +118,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
             source={require('../assets/img/userIcon.png')}
           />
         </View>
-        <Text style={styles.name}>ჩემი გვერდი</Text>
+        <Text style={styles.name}>{translate.t('screens.myPage')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
@@ -126,7 +130,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
             source={require('../assets/img/cartIcon.png')}
           />
         </View>
-        <Text style={styles.name}>რაში დავხარჯო</Text>
+        <Text style={styles.name}>{translate.t('home.whatShouldSpend')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
@@ -138,7 +142,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
             source={require('../assets/img/pinIcon.png')}
           />
         </View>
-        <Text style={styles.name}>ჩემ გარშემო</Text>
+        <Text style={styles.name}>{translate.t('screens.aroundMe')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
@@ -150,7 +154,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
             source={require('../assets/img/hendsIcon.png')}
           />
         </View>
-        <Text style={styles.name}>პარტნიორები</Text>
+        <Text style={styles.name}>{translate.t('screens.partners')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
@@ -162,7 +166,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
             source={require('../assets/img/newsIcon.png')}
           />
         </View>
-        <Text style={styles.name}>სიახლეები</Text>
+        <Text style={styles.name}>{translate.t('screens.news')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
@@ -174,7 +178,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
             source={require('../assets/img/aboutUsIcon.png')}
           />
         </View>
-        <Text style={styles.name}>ჩვენ შესახებ</Text>
+        <Text style={styles.name}>{translate.t('screens.aboutUs')}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.row}
@@ -186,12 +190,12 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
             source={require('../assets/img/parametersIcon.png')}
           />
         </View>
-        <Text style={styles.name}>პარამეტრები</Text>
+        <Text style={styles.name}>{translate.t('screens.parameters')}</Text>
       </TouchableOpacity>
       </View>
 
       <TouchableOpacity onPress={() => dispath(logout())} style={styles.button}>
-        <Text style={styles.btnText}>გამოსვლა</Text>
+        <Text style={styles.btnText}>{translate.t('common.logout')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

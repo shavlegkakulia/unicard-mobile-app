@@ -4,6 +4,9 @@ export default {
         all: 'All',
         cancel: 'cancel'
     },
+    auth: {
+        loginWithFb: 'facebook-ით შესვლა'
+    },
     settings: {
         easyLogin: 'Easy login'
     },

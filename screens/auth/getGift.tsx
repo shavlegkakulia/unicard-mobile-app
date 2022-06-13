@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
   TextInput,
   KeyboardAvoidingView,
+  ActivityIndicator,
 } from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
 // import Loader from '../../components/loader';
@@ -27,18 +27,19 @@ import OnlinePaymentService, {
 
 const GetGift: React.FC<ScreenNavigationProp> = props => {
   const [client, setClient] = useState<IBuyProductServiceResponse>();
-  // const [check, setCheck] = useState<boolean>(false);
-  // const [chekCount, setChekCount] = useState<number>(0);
   const [paymentInfo, setPaymentInfo] = useState<IgetPaymentResponse[]>();
+  const [error, setError] = useState<boolean>();
+  const [loading, setLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [num, setNum] = useState('');
   const params = props.route.params;
-  const typeId = params.type;
-  const utilityId = '8';
-  const payTypeId = '5';
+  let typeId = params.type;
+  let utilityId = '8';
+  let payTypeId = '5';
 
   let date = new Date().toString();
 
-  const getPayment = () => {
+  const getPayment = (goNext?: boolean) => {
     const req: IgetPaymentDetailsRequest = {
       user_id: '',
       subscriber_number: num,
@@ -47,10 +48,21 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
     };
     OnlinePaymentService.GeneratePaymentInfo(req).subscribe({
       next: Response => {
-        console.log(Response);
+        console.log('ttttttttttttt', Response);
+        setLoading(true);
         if (Response.data.resultCode === '200') {
           setPaymentInfo(Response.data.payment_info_list);
+          setError(false);
+          if (goNext === true) {
+            buyProduct();
+          }
+        } else {
+          setPaymentInfo(undefined);
+          setError(true);
         }
+      },
+      complete: () => {
+        setLoading(false);
       },
       error: err => {
         console.log(err.response);
@@ -63,8 +75,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
   };
 
   const buyProduct = () => {
-    const data: IBuyProductServiceResponse = {
-      recipient_full_name: `${client?.name}${' '}${client?.surname}`,
+    let data: IBuyProductServiceResponse = {
       recipient_personal_id: client?.recipient_personal_id,
       product_id: params.data.id,
       amount: parseInt(params.data.price, 10),
@@ -74,20 +85,36 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       tran_date: moment(date).format('DD/MM/YYYY'),
       discount_id: '0',
       guid: '',
-      bonus_amount: '',
+      bonus_amount: '0',
       quantity: '1', //gasarkvevia, unda daixatos tu ara appshi,
       service_center_id: '0',
-      online_payment_identifier: '0',
+      // online_payment_identifier: num,
       recipient_address: '',
       comment: '0',
       product_type: '0',
     };
+    if (typeId === utilityId || typeId === payTypeId) {
+      data = {
+        ...data,
+        online_payment_identifier: num,
+      };
+    } else {
+      data = {
+        ...data,
+        recipient_full_name: `${client?.name}${' '}${client?.surname}`,
+      };
+      //
+    }
 
     BuyProductService.GenerateProduct(data).subscribe({
       next: Response => {
-        props.navigation.navigate(authRoutes.orderDone);
+        console.log('resp', Response);
+        if (Response.data.resultCode === '200') {
+          setIsMobile(false);
+          setLoading(false);
+          props.navigation.navigate(authRoutes.orderDone);
+        }
       },
-      complete: () => {},
       error: err => {
         console.log('>>>', err);
       },
@@ -117,28 +144,51 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
             <Text style={styles.text}>შეიყვანეთ აბონენტის ნომერი</Text>
           </View>
           <KeyboardAvoidingView style={styles.row}>
-            <View style={styles.inputView}>
+            <View
+              style={
+                typeId === payTypeId ? styles.inputViewPay : styles.inputView
+              }>
               <TextInput
                 style={styles.input}
                 value={num}
                 onChangeText={e => setNum(e)}
               />
             </View>
-            <TouchableOpacity style={styles.chekView} onPress={chackHandler}>
-              <Text style={styles.chekTxt}>შემოწმება</Text>
-            </TouchableOpacity>
+            {typeId === utilityId && (
+              <TouchableOpacity style={styles.chekView} onPress={chackHandler}>
+                {loading ? (
+                  <ActivityIndicator color={Colors.white} size={'small'} />
+                ) : (
+                  <Text style={styles.chekTxt}>შემოწმება</Text>
+                )}
+              </TouchableOpacity>
+            )}
           </KeyboardAvoidingView>
 
-          <View style={styles.clientMainView}>
-            {paymentInfo &&
-              paymentInfo.map((e, i) => (
-                <View style={styles.clientInfoView} key={i}>
-                  <Text style={styles.clientInfo}>{e.description}</Text>
-                  <Text style={styles.clientInfo}>{e.value}</Text>
-                </View>
-              ))}
+          <View>
+            {typeId === utilityId
+              ? paymentInfo &&
+                paymentInfo.map((e, i) => (
+                  <View style={styles.clientInfoView} key={i}>
+                    <Text style={styles.clientInfo}>{e.description}</Text>
+                    <Text style={[styles.clientInfo, {textAlign: 'right'}]}>
+                      {e.value?.length === 0 ? '---' : e.value}
+                    </Text>
+                  </View>
+                ))
+              : null}
           </View>
-
+          {typeId === utilityId
+            ? error && (
+                <View style={styles.errWrapper}>
+                  <Text style={styles.err}>აბონენტი ვერ მოიძებნა</Text>
+                </View>
+              )
+            : error && (
+                <View style={styles.errWrapper}>
+                  <Text style={styles.err}>ნომერი არასწორია</Text>
+                </View>
+              )}
           <View style={styles.border} />
         </>
       ) : (
@@ -193,13 +243,32 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.point}>{params?.data?.price} ქულა</Text>
         </Text>
       </View>
-      <View style={styles.btnView}>
-        <AppButton
-          onPress={buyProduct}
-          title={'საჩუქრის მიღება'}
-          backgroundColor={Colors.bgGreen}
-        />
-      </View>
+      {typeId === utilityId && error ? (
+        <View style={styles.btnView}>
+          <AppButton
+            disabled={true}
+            loading={loading}
+            onPress={() => {}}
+            title={'საჩუქრის მიღება'}
+            backgroundColor={Colors.lightGreyTxt}
+          />
+        </View>
+      ) : (
+        <View style={styles.btnView}>
+          <AppButton
+            loading={loading}
+            onPress={() => {
+              if (isMobile) {
+                buyProduct();
+              } else {
+                getPayment(true);
+              }
+            }}
+            title={'საჩუქრის მიღება'}
+            backgroundColor={Colors.bgGreen}
+          />
+        </View>
+      )}
     </KeyboardAwareScrollView>
   );
 };
@@ -318,6 +387,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'center',
   },
+  inputViewPay: {
+    width: 200,
+    height: 47,
+    borderColor: Colors.switchGrey,
+    borderRadius: 30,
+    borderWidth: 1,
+    paddingHorizontal: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -349,10 +428,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginTop: 36,
   },
-  clientMainView: {
-    marginTop: 20,
-    marginBottom: 91,
-  },
+  // clientMainView: {
+  //   marginTop: 20,
+  //   marginBottom: 91,
+  // },
   clientInfoView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -364,11 +443,11 @@ const styles = StyleSheet.create({
     marginTop: 11,
   },
   clientInfo: {
-    alignSelf: 'flex-start',
     fontSize: 12,
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.4,
     color: Colors.darkGrey,
+    width: 136,
   },
   clientAddress: {
     fontSize: 12,
@@ -376,6 +455,13 @@ const styles = StyleSheet.create({
     lineHeight: 16.4,
     color: Colors.darkGrey,
     width: 136,
+  },
+  err: {
+    color: Colors.red,
+  },
+  errWrapper: {
+    marginTop: 15,
+    alignItems: 'center',
   },
 });
 

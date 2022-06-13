@@ -167,7 +167,7 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
             ) : (
               <NotFound
                 onPress={() => {}}
-                title={'ქონთენთი ვერ მოიძებნა'}
+                title={'გვერდი ვერ მოიძებნა'}
                 backgroundColor={Colors.red}
                 image={image}
               />

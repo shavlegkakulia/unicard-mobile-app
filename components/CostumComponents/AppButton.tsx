@@ -13,14 +13,16 @@ export interface IAppBtnProps {
   title: string;
   backgroundColor: string;
   loading?: boolean;
+  disabled?: boolean;
 }
 
 const AppButton: React.FC<IAppBtnProps> = props => {
-  const {onPress, title, backgroundColor, loading} = props;
+  const {onPress, title, backgroundColor, loading, disabled} = props;
 
   return (
     <View style={styles.main}>
       <TouchableOpacity
+        disabled={disabled}
         style={[styles.btnStyle, {backgroundColor: backgroundColor}]}
         onPress={onPress}>
         {loading ? (

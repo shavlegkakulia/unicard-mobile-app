@@ -48,12 +48,16 @@ import MerchantsMap from '../screens/auth/merchants/MerchantsMap';
 import SearchScreen from '../screens/auth/SearchScreen';
 import SingleMerchantsScreen from '../screens/auth/merchants/SingleMerchantsScreen';
 import AllMerchants from '../screens/auth/merchants/AllMerchants';
+import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
 
 const authStack = createStackNavigator();
 
 const DrawerContainer = gestureHandlerRootHOC(() => <AppNavigator />);
 
 const AppNavigator = () => {
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
   const navigation = useNavigation();
   const authReducer = useSelector<IAuthReducer>(
     state => state.AuthReducer,

@@ -11,6 +11,8 @@ import {
   Platform,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 export const requireTypes = {
@@ -42,6 +44,9 @@ export interface IAppTextInputProps {
 export const inputErrors: any[] = [];
 
 const AppTextInput: React.FC<IAppTextInputProps> = props => {
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
   const {
     placeholder,
     icon,
@@ -59,14 +64,13 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
   } = props;
 
   const errorMessages = {
-    email: 'wrong email',
-    password:
-      'პაროლი უნდა შეიცავდეს მინიმუმ: \n- 8 სიმბოლოს \n- ერთ დიდ ასოს \n- ერთ პატარა ასოს \n- ერთ ციფრს \n- ერთ სპეციალურ სიმბოლოს (გარდა წერტილისა და @ სიმბოლოსი)',
-    required: 'fill field',
-    min: 'min value must ' + minValue,
-    minLength: 'min length must ' + minLength,
-    maxLength: 'max length must ' + maxLength,
-    repeatPassword: 'პაროლი არასწორია',
+    email: translate.t('generalErrors.wrongEmail'),
+    password: translate.t('generalErrors.pwdMatchText'),
+    required: translate.t('generalErrors.requiredField'),
+    min: translate.t('generalErrors.minValue') + minValue,
+    minLength: translate.t('generalErrors.minLength') + minLength,
+    maxLength: translate.t('generalErrors.maxLength') + maxLength,
+    repeatPassword: translate.t('generalErrors.wrongRepeatPwd')
   };
 
   const [visible, setVisible] = useState(secureTextEntry);

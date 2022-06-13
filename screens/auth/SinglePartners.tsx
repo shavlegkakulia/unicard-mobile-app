@@ -10,8 +10,12 @@ import {
 } from '../../services/SinglePartnersService';
 import SinglePartnersService from '../../services/SinglePartnersService';
 import AppButton from '../../components/CostumComponents/AppButton';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 const SinglePartners: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
   const [organization, setOrganization] = useState<IgetPartnersResponse>();
   const id = props.route.params.id;
 
@@ -50,7 +54,7 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
           <View style={styles.scoreView}>
             <Text style={styles.greenText}>
               {organization?.organization?.unit_score}{' '}
-              {organization?.organization?.unit_score ? 'ქულა' : ''}
+              {organization?.organization?.unit_score ? translate.t('common.score') : ''}
             </Text>
             <Text style={styles.pointText}>
               {organization?.organization?.unit_score
@@ -61,7 +65,7 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
         </View>
       </View>
       <View style={styles.padding}>
-        <Text style={styles.aboutTxt}>კომპანიის შესახებ</Text>
+        <Text style={styles.aboutTxt}>{translate.t('partners.aboutCompany')}</Text>
         <View>
           <Text style={styles.descTxt}>
             {htmlToString(organization?.organization?.org_desc)}
@@ -142,7 +146,7 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
       <View style={styles.btn}>
         <AppButton
           onPress={() => {}}
-          title={'ობიექტების სია'}
+          title={translate.t('partners.objects')}
           backgroundColor={Colors.bgGreen}
         />
       </View>

@@ -22,8 +22,12 @@ import Paginator from '../../components/Paginator';
 import {paginationDotCount} from '../../utils/PaginationDotCount';
 import MessagesWrapper from '../../components/CostumComponents/MessagesWrapper';
 import NotFound from '../../components/CostumComponents/NotFound';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 const SpendOptions: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
   const [list, setList] = useState<IgetProducteListResponse[]>([]);
   const [pageIndex, setPageIndex] = useState(1);
   const [canFetching, setCanfetching] = useState(true);
@@ -167,7 +171,7 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
             ) : (
               <NotFound
                 onPress={() => {}}
-                title={'ქონთენთი ვერ მოიძებნა'}
+                title={translate.t('generalErrors.contentNotFound')}
                 backgroundColor={Colors.red}
                 image={image}
               />

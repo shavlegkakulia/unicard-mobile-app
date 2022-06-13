@@ -1,8 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { useSelector } from 'react-redux';
 import navigation from '../../navigation/navigation';
 import {authRoutes} from '../../navigation/routes';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 export interface IPartnersProps {
@@ -14,6 +16,9 @@ export interface IPartnersProps {
 }
 
 const PartnersCard: React.FC<IPartnersProps> = props => {
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
   const {name, logo, point, pointDesc, id} = props;
   const navigation = useNavigation();
   return (
@@ -37,7 +42,7 @@ const PartnersCard: React.FC<IPartnersProps> = props => {
       </View>
       <View style={styles.pointView}>
         <Text style={styles.pointTxt}>
-          {point} {point ? 'ქულა' : ''}
+          {point} {point ? translate.t('common.score') : ''}
         </Text>
         <Text style={styles.amountTxt}>{point ? pointDesc : ''}</Text>
       </View>

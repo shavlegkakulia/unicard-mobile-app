@@ -18,9 +18,14 @@ import ProductList, {
   IgetProducteListResponse,
 } from '../services/ProductListService';
 import navigation from '../navigation/navigation';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
 
 
 const ShopingCard: React.FC<IgetProducteListResponse> = props => {
+  const translate = useSelector<ITranslateReducer>(
+    tran => tran.TranslateReducer,
+  ) as ITranslateState;
   const navigation = useNavigation();
   let imgUrl = '';
   if (props.images?.length) {
@@ -46,7 +51,7 @@ const ShopingCard: React.FC<IgetProducteListResponse> = props => {
             />
           </View>
           <View style={styles.seeMoreView}>
-            <Text style={styles.seemoreTxt}>ვრცლად</Text>
+            <Text style={styles.seemoreTxt}>{translate.t('common.more')}</Text>
             <Image
               style={styles.leftArrow}
               source={require('../assets/img/leftArrow.png')}

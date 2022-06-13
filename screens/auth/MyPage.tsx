@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Text, StyleSheet, View, ScrollView, Image} from 'react-native';
+import { useSelector } from 'react-redux';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import CardBalance, {
@@ -10,9 +11,12 @@ import TransactionService, {
   IgetProducteDetailsRequest,
   IgetTransactionsResponse,
 } from '../../services/TransactionsListService';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 const MyPage: React.FC<ScreenNavigationProp> = () => {
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
   const [balance, setBalance] = useState<IgetBalanceResponse>();
   const [transactions, setTransactions] =
     useState<IgetTransactionsResponse[]>();
@@ -59,7 +63,7 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
         <>
           <View style={styles.border}>
             <View style={styles.titleView}>
-              <Text style={styles.title}>მიმდინარე ნაშთი</Text>
+              <Text style={styles.title}>{translate.t('myPage.currentBalance')}</Text>
               <View style={styles.amountView}>
                 <Text style={styles.amount}>{balance?.scores_left}</Text>
                 <Image
@@ -69,7 +73,7 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
               </View>
               <View style={styles.detailView}>
                 <View style={styles.borderView}>
-                  <Text style={styles.detailTitle}>დაბლოკილი</Text>
+                  <Text style={styles.detailTitle}>{translate.t('common.blocked')}</Text>
                   <View style={styles.row}>
                     <Text style={styles.detailAmount}>
                       {balance?.scores_blocked}
@@ -81,7 +85,7 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
                   </View>
                 </View>
                 <View style={styles.borderView}>
-                  <Text style={styles.detailTitle}>დახარჯული</Text>
+                  <Text style={styles.detailTitle}>{translate.t('common.spent')}</Text>
                   <View style={styles.row}>
                     <Text style={styles.detailAmount}>
                       {balance?.scores_spent}
@@ -93,7 +97,7 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
                   </View>
                 </View>
                 <View style={styles.last}>
-                  <Text style={styles.detailTitle}>დაგროვებული</Text>
+                  <Text style={styles.detailTitle}>{translate.t('common.accumulated')}</Text>
                   <View style={styles.row}>
                     <Text style={styles.detailAmount}>
                       {balance?.scores_saved}
@@ -126,7 +130,7 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
                         source={require('../../assets/img/pinGrey.png')}
                       />
                       <Text style={styles.addrsText}>
-                        ვაჟა-ფშაველას გამზირი #71
+                        {translate.t('myPage.address1')}
                       </Text>
                     </View>
                   </View>

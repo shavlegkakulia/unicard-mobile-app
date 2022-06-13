@@ -31,10 +31,11 @@ import GetBalanceService, {
 } from '../../services/GetBalanceService';
 import {ChunkArrays} from '../../utils/ChunkArray';
 import {paginationDotCount} from '../../utils/PaginationDotCount';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
-  // const translateReducer = useSelector<ITranslateReducer>(
-  //   state => state.TranslateReducer,
-  // ) as ITranslateState;
+const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
 
   const [list, setList] = useState<IgetProducteListResponse[]>([]);
   const [balance, setBalance] = useState<IgetBalanceResponse>();
@@ -160,7 +161,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
       </TouchableOpacity>
 
       <View style={styles.titleWrapper}>
-        <Text style={styles.title}>რაში დავხარჯო</Text>
+        <Text style={styles.title}>{translate.t('home.whatShouldSpend')}</Text>
         <Paginator
           pageNumber={dotPage}
           dotCount={paginationDotCount(list, 4)}

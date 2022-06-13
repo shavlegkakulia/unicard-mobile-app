@@ -182,7 +182,7 @@ const PassCode: React.FC<IPageProps> = props => {
         })();
       } else {
         if(code2.length === 4 && code.length === 4) {
-          dispatch(PUSH('wrong'));
+          dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
           setCode({code: '', code2: ''});
         }
       }
@@ -193,7 +193,7 @@ const PassCode: React.FC<IPageProps> = props => {
   return (
     <ScrollView>
       <View style={styles.titleView}>
-        <Text style={styles.title}>პინ-კოდის ცვლილება</Text>
+        <Text style={styles.title}>{translate.t('common.changePin')}</Text>
       </View>
       <View style={styles.avatarView}>
         <Image
@@ -277,7 +277,7 @@ const PassCode: React.FC<IPageProps> = props => {
             <Text style={styles.numberTxt}>0</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.number} onPress={removePassCode}>
-            <Text style={styles.numberTxtDelete}>წაშლა</Text>
+            <Text style={styles.numberTxtDelete}>{translate.t('common.delete')}</Text>
           </TouchableOpacity>
         </View>
       </View>

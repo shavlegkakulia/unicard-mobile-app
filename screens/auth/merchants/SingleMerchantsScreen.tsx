@@ -9,8 +9,13 @@ import {
 import SinglePartnersService from '../../../services/SinglePartnersService';
 import AppButton from '../../../components/CostumComponents/AppButton';
 import { authRoutes } from '../../../navigation/routes';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../../../Store/types/translate';
 
 const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(
+    tran => tran.TranslateReducer,
+  ) as ITranslateState;
   const [organization, setOrganization] = useState<IgetPartnersResponse>();
   const id = props.route.params.merchId;
 
@@ -34,7 +39,7 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getOrgDetails();
   }, []);
-  console.log('>>>>>>>>>>>', organization?.organization?.name);
+
   return (
     <ScrollView>
       <View style={styles.shadow}>
@@ -50,7 +55,7 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
           <View style={styles.scoreView}>
             <Text style={styles.greenText}>
               {organization?.organization?.unit_score}{' '}
-              {organization?.organization?.unit_score ? 'ქულა' : ''}
+              {organization?.organization?.unit_score ? translate.t('common.score') : ''}
             </Text>
             <Text style={styles.pointText}>
               {organization?.organization?.unit_score
@@ -134,7 +139,7 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
       <View style={styles.btn}>
         <AppButton
           onPress={() => props.navigation.goBack(authRoutes.aroundUs)}
-          title={'ობიექტების სია'}
+          title={translate.t('partners.objects')}
           backgroundColor={Colors.bgGreen}
         />
       </View>

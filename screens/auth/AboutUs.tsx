@@ -1,17 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import {Image, Platform, StyleSheet, Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import { useSelector } from 'react-redux';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import ContactService, {
   IgetContactDetailsRequest,
   IgetContactResponse,
 } from '../../services/ContactService';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 const AboutUs: React.FC<ScreenNavigationProp> = () => {
   const [contact, setContact] = useState<IgetContactResponse>();
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
 
+  
   const getBarcode = () => {
     const req: IgetContactDetailsRequest = {
       lang: '',
@@ -113,7 +117,7 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
                 source={require('../../assets/img/shareIcon.png')}
               />
             </View>
-            <Text style={styles.txt}>გააზიარეთ აპლიკაცია</Text>
+            <Text style={styles.txt}>{translate.t('aboutUs.shareApp')}</Text>
           </View>
           <View style={styles.row}>
             <View style={styles.IconView}>
@@ -122,7 +126,7 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
                 source={require('../../assets/img/starIcon.png')}
               />
             </View>
-            <Text style={styles.txt}>შეაფასეთ აპლიკაცია</Text>
+            <Text style={styles.txt}>{translate.t('aboutUs.evaluate')}</Text>
           </View>
         </View>
       ) : (

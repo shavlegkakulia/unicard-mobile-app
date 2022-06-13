@@ -1,13 +1,17 @@
 import React from 'react';
 import {Text, StyleSheet, View, Image} from 'react-native';
+import { useSelector } from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import { authRoutes } from '../../navigation/routes';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 import Colors from '../../theme/Colors';
 
 const OrderIsDone: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
   return (
     <>
       <View style={styles.main}>
@@ -21,13 +25,13 @@ const OrderIsDone: React.FC<ScreenNavigationProp> = props => {
           />
         </View>
         <View style={styles.textView}>
-          <Text style={styles.text}>თქვენი შეკვეთა მიღებულია</Text>
+          <Text style={styles.text}>{translate.t('orders.orderAccepted')}</Text>
         </View>
       </View>
       <View style={styles.buttonView}>
         <AppButton
           onPress={() => {}}
-          title={'გაგრძელება'}
+          title={translate.t('common.continue')}
           backgroundColor={Colors.bgGreen}
         />
       </View>

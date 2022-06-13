@@ -3,6 +3,7 @@ import React, {LegacyRef, useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Image,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -135,18 +136,31 @@ const MerchantsMap: React.FC<ScreenNavigationProp> = props => {
               </View>
               <View style={styles.scoreView}>
                 <Text style={styles.scoreTxt}>-{m.unit_score} ქულა</Text>
-                <CalloutSubview
-                style={{width: 40, height: 40}}
-                  onPress={() =>
-                    props.navigation.navigate(authRoutes.singleMerchants, {
-                      merchId: m.new_id,
-                    })
-                  }>
-                  <Image
-                    style={styles.seeMore}
-                    source={require('../../../assets/img/seeMoreIcon.png')}
-                  />
-                </CalloutSubview>
+                {
+                  Platform.OS === 'ios' ? <CalloutSubview
+                  style={{width: 40, height: 40}}
+                    onPress={() =>
+                      props.navigation.navigate(authRoutes.singleMerchants, {
+                        merchId: m.new_id,
+                      })
+                    }>
+                    <Image
+                      style={styles.seeMore}
+                      source={require('../../../assets/img/seeMoreIcon.png')}
+                    />
+                  </CalloutSubview> : <TouchableOpacity style={{width: 40, height: 40}}
+                    onPress={() =>
+                      props.navigation.navigate(authRoutes.singleMerchants, {
+                        merchId: m.new_id,
+                      })
+                    }>
+                    <Image
+                      style={styles.seeMore}
+                      source={require('../../../assets/img/seeMoreIcon.png')}
+                    />
+
+                  </TouchableOpacity>
+                }
               </View>
             </Callout>
           </Marker>

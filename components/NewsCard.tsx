@@ -19,13 +19,13 @@ const NewsCard: React.FC<IgetNewsResponse> = props => {
       onPress={navigation.navigate.bind(this, authRoutes.singleNewsScreen, {
         id: props.id,
       })}>
-      <Image style={styles.img} source={{uri: imgUrl}} />
+      <Image style={styles.img} resizeMode={'cover'} source={{uri: imgUrl}} />
       
-      <View style={styles.wrap}>
-        <Text style={styles.time}>{props.createDate}</Text>
+      <Text style={styles.wrap} numberOfLines={5}>
+        <Text style={styles.time}>{props.createDate}{'\n'}</Text>
         <Text style={styles.title}>{props.title}</Text>
         <Text style={styles.desc}>{props.description} </Text>
-      </View>
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -41,14 +41,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     // alignItems: 'center',
-    paddingVertical: 10,
-
+    //paddingVertical: 10,
+    paddingRight: 10
 },
   img: {
     width: 187,
+    marginRight: 10
   },
   wrap: {
     width: 155,
+    paddingVertical: 10,
+    lineHeight: 12,
   },
   time: {
     color: Colors.bgGreen,

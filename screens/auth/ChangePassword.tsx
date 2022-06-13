@@ -11,18 +11,23 @@ import Colors from '../../theme/Colors';
 
 const ChangePassword: React.FC<ScreenNavigationProp> = props => {
   const [password, setPassword] = useState<IChangePasswordRequestData>();
+  const [loading, setLoading] = useState(false);
 
   const changePassword = () => {
+    if(loading) return;
     const data: IChangePasswordRequestData = {
       password: '',
     };
-
+    setLoading(true);
     AuthService.ChangePassword(data).subscribe({
       next: Response => {
-        props.navigation.navigate(authRoutes.barcode);
+        if(Response.data.succes) {
+          props.navigation.navigate(authRoutes.barcode);
+        }
       },
-      complete: () => {},
+      complete: () => {setLoading(false)},
       error: err => {
+        setLoading(false);
         console.log('>>>', err);
       },
     });
@@ -69,10 +74,10 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.btn}>
         <AppButton
-          //   onPress={changePassword}
           onPress={() =>
             props.navigation.navigate(authRoutes.PasswordChangingMessage)
           }
+          loading={loading}
           title={'შეცვლა'}
           backgroundColor={Colors.bgGreen}
         />
@@ -88,6 +93,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     flex: 1,
+    marginTop: 70
   },
 });
 

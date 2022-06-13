@@ -9,6 +9,7 @@ import {
   Dimensions,
   NativeScrollEvent,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 // import {en} from '../../lang';
@@ -135,10 +136,15 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     );
   }
 
+  const imageView = Platform.select({
+    ios: styles.imageView,
+    android: styles.androidImageView
+  })
+
   return (
     <ScrollView>
       <TouchableOpacity
-        style={styles.imageView}
+        style={imageView}
         onPress={() => props.navigation.navigate(authRoutes.barcode)}>
         <Image
           style={styles.img}
@@ -192,6 +198,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 5,
     shadowRadius: 8,
   },
+  androidImageView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.white,
+    height: 300,
+    shadowColor: Colors.bgGreen,
+    elevation: 20,
+  },
   img: {
     width: 289.14,
     height: 187,
@@ -223,7 +237,7 @@ const styles = StyleSheet.create({
   },
   titleWrapper: {
     marginHorizontal: 46,
-    marginTop: 62,
+    marginTop: Platform.OS === 'ios' ? 62 : 35,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

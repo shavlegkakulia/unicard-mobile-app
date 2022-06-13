@@ -1,0 +1,1 @@
+export const invalid_grant = 'invalid_grant';

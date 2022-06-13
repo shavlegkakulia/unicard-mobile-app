@@ -48,7 +48,7 @@ export default PartnersCard;
 
 const styles = StyleSheet.create({
   padding: {
-    paddingHorizontal: 42,
+    paddingHorizontal: 30,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

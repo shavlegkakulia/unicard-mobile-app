@@ -1,14 +1,14 @@
 import CheckBox from '@react-native-community/checkbox';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
-  ScrollView,
   Text,
   TouchableOpacity,
-  TextInput,
   StyleSheet,
   View,
-  Image,
-  KeyboardAvoidingView,
+  Keyboard,
+  EmitterSubscription,
+  Animated,
+  Easing,
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
@@ -21,6 +21,8 @@ import {getUserInfo, login} from '../../Store/actions/auth';
 import Colors from '../../theme/Colors';
 import { PASSCODEENABLED } from '../auth/Parameters';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { invalid_grant } from '../../constants/response_strings';
+import { PUSH } from '../../Store/actions/errors';
 
 interface IUserData {
   username?: string;
@@ -32,6 +34,9 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     username: 'levani1308@gmail.com',
     password: 'Abcd123!',
   });
+
+  const anim = { height: new Animated.Value(0), width: new Animated.Value(0) };
+  const ks = useRef<EmitterSubscription>(); 
 
   const [isPasscodeEnabled, setIsPasscodeEnabed] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -45,11 +50,32 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     })
   }, []);
 
+  useEffect(() => {
+    ks.current = Keyboard.addListener('keyboardDidShow', () => {
+      Animated.timing(anim.height, {
+        toValue: 1,
+        duration: 1000,           
+        easing: Easing.linear,   
+        useNativeDriver: false   
+      }).start();
+      Animated.timing(anim.width, {
+        toValue: 1,
+        duration: 1000,           
+        easing: Easing.linear,   
+        useNativeDriver: false   
+      }).start();
+    });
+
+    return () => {
+      ks.current?.remove();
+    }
+  }, []);
+
   const LogIn = () => {
-    setLoading(true);
-    if (!userData?.username || !userData?.password) {
+    if (!userData?.username || !userData?.password || loading) {
       return;
     }
+    setLoading(true);
     const data: IAyuthData = {
       username: userData?.username,
       password: userData?.password,
@@ -72,7 +98,12 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
         setLoading(false);
         console.log('complate');
       },
-      error: e => console.log('err', e.response),
+      error: e => {
+        setLoading(false);
+        if(e.response.error === invalid_grant) {
+          dispatch(PUSH('მომხმარებლის არასწორი სახელი ან პაროლი'))
+        }
+      },
     });
   };
 
@@ -86,6 +117,17 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     });
   }, []);
 
+  const goHeight = anim.height.interpolate({ 
+    inputRange: [0, 1], 
+    outputRange: [306, 0]  
+  });
+
+  const goWidth = anim.width.interpolate({ 
+    inputRange: [0, 1], 
+    outputRange: [220, 0]  
+  });
+
+
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   return (
     <KeyboardAwareScrollView>
@@ -93,8 +135,8 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
         <Text style={styles.title}>ავტორიზაცია</Text>
       </View>
       <View style={styles.imgView}>
-        <Image
-          style={styles.img}
+        <Animated.Image style={{ height: goHeight, width: goWidth }}
+     
           source={require('../../assets/img/authScreenLogo.png')}
         />
       </View>
@@ -161,10 +203,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 33,
   },
-  img: {
-    width: 220,
-    height: 306.78,
-  },
   inputView: {
     alignItems: 'center',
   },
@@ -182,7 +220,7 @@ const styles = StyleSheet.create({
   checkBox: {
     width: 16,
     height: 16,
-    marginRight: 6,
+    marginRight: 16,
   },
   text: {
     fontSize: 12,
@@ -193,6 +231,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 95,
+    marginBottom: 50
   },
 });
 

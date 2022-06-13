@@ -8,6 +8,7 @@ import {
   KeyboardTypeOptions,
   Text,
   KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Colors from '../../theme/Colors';
@@ -271,9 +272,14 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     }
   }, [value, chekCount]);
 
+  const mainstyle = Platform.select({
+    ios: styles.main,
+    android: styles.mainAndroid
+  });
+
   return (
     <>
-      <KeyboardAvoidingView style={styles.main}>
+      <KeyboardAvoidingView style={mainstyle}>
         <View style={styles.inputWrapper}>
           <TextInput
             placeholder={placeholder || ''}
@@ -291,7 +297,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
           style={styles.iconWrapper}
           onPress={() => setVisible(!visible)}>
           {iconUrl !== undefined && (
-            <Image source={iconUrl} style={styles.icon} />
+            <Image source={iconUrl} style={styles.icon} resizeMode={'contain'} />
           )}
         </TouchableOpacity>
       </KeyboardAvoidingView>
@@ -309,9 +315,21 @@ const styles = StyleSheet.create({
   main: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 35,
     width: 325,
     paddingVertical: 12,
+    paddingHorizontal: 7,
+    borderBottomColor: Colors.darkGrey,
+    borderBottomWidth: 1,
+  },
+  mainAndroid: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 35,
+    width: 325,
+    paddingVertical: 5,
     paddingHorizontal: 7,
     borderBottomColor: Colors.darkGrey,
     borderBottomWidth: 1,
@@ -323,8 +341,7 @@ const styles = StyleSheet.create({
     width: 30,
   },
   icon: {
-    width: 23,
-    height: 21,
+    width: 22,
   },
   inputPlaceholder: {
     fontFamily: 'BPG DejaVu Sans Mt',

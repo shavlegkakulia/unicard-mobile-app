@@ -9,16 +9,20 @@ import ProducteService, {
 import Loader from '../../components/loader';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {authRoutes} from '../../navigation/routes';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
   const [offer, setOffer] = useState<IgetProducteResponse>();
   const [loading, setLoading] = useState<boolean>();
   const id = props.route.params.id;
   const type = props.route.params.type;
   console.log(type)
 
-  //const regex = /<a\s+(?:[^>]*?\s+)\1/; //ლინკს პოულობს კოდში და იღებს//თუმცა ეიჩტიემელის ატრიბუტები ვერ მოვაშორე
-  // const linkTag = offer?.description?.match(regex);
+ 
 
   const getProductDetails = () => {
     const req: IgetProducteDetailsRequest = {
@@ -120,7 +124,7 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
                     type: type,
                   })
                 }
-                title={'საჩუქრის მიღება'}
+                title={translate.t('news.getGift')}
                 backgroundColor={Colors.bgGreen}
               />
             </View>

@@ -36,7 +36,8 @@ export default {
         more: 'ვრცლად',
         delete: 'წაშლა',
         card: 'ბარათი',
-        logout: 'გამოსვლა'
+        logout: 'გამოსვლა',
+        check: 'შემოწმება'
     },
     screens: {
         home: 'მთავარი',
@@ -97,6 +98,14 @@ export default {
         categories: 'კატეგორიები',
         userType: 'მომხმარებლის ტიპი',
         byScore: 'ქულების მიხედვით'
+    },
+    gift: {
+        setAbonentCode: 'შეიყვანეთ აბონენტის ნომერი',
+        abonentNotFound: 'აბონენტი ვერ მოიძებნა',
+        incorrectNumber: 'ნომერი არასწორია',
+        allowedPerson: 'უფლებამოსილი პირი:',
+        desc: 'იმისთვის, რომ თქვენ მიერ შერჩეული საჩუქარი სხვამ მიიღოს, გთხოვთ, მიუთითეთ უფლებამოსილი პირის მონაცემები',
+        currentPrice: 'საბოლოო ფასი:'
     },
     generalErrors: {
         errorOccurred: 'error',

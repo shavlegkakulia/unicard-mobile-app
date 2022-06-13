@@ -24,8 +24,13 @@ import OnlinePaymentService, {
   IgetPaymentDetailsRequest,
   IgetPaymentResponse,
 } from '../../services/OnlinePaymentService';
+import { useSelector } from 'react-redux';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 const GetGift: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
   const [client, setClient] = useState<IBuyProductServiceResponse>();
   const [paymentInfo, setPaymentInfo] = useState<IgetPaymentResponse[]>();
   const [error, setError] = useState<boolean>();
@@ -81,7 +86,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       amount: parseInt(params.data.price, 10),
       delivery_method_id: '4',
       delivery_date: moment(date).format('DD/MM/YYYY'),
-      recipient_phone: '', // დალოგინებული იუზერის ტელ ნომერი.
+      recipient_phone: '', // logined user tel number
       tran_date: moment(date).format('DD/MM/YYYY'),
       discount_id: '0',
       guid: '',
@@ -141,7 +146,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       {typeId === utilityId || typeId === payTypeId ? (
         <>
           <View style={styles.textView}>
-            <Text style={styles.text}>შეიყვანეთ აბონენტის ნომერი</Text>
+            <Text style={styles.text}>{translate.t('gift.setAbonentCode')}</Text>
           </View>
           <KeyboardAvoidingView style={styles.row}>
             <View
@@ -159,7 +164,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
                 {loading ? (
                   <ActivityIndicator color={Colors.white} size={'small'} />
                 ) : (
-                  <Text style={styles.chekTxt}>შემოწმება</Text>
+                  <Text style={styles.chekTxt}>{translate.t('common.check')}</Text>
                 )}
               </TouchableOpacity>
             )}
@@ -181,12 +186,12 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           {typeId === utilityId
             ? error && (
                 <View style={styles.errWrapper}>
-                  <Text style={styles.err}>აბონენტი ვერ მოიძებნა</Text>
+                  <Text style={styles.err}>{translate.t('gift.abonentNotFound')}</Text>
                 </View>
               )
             : error && (
                 <View style={styles.errWrapper}>
-                  <Text style={styles.err}>ნომერი არასწორია</Text>
+                  <Text style={styles.err}>{translate.t('gift.incorrectNumber')}</Text>
                 </View>
               )}
           <View style={styles.border} />
@@ -194,15 +199,14 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       ) : (
         <>
           <View style={styles.userInfoView}>
-            <Text style={styles.userTxt}>უფლებამოსილი პირი:</Text>
+            <Text style={styles.userTxt}>{translate.t('gift.allowedPerson')}</Text>
             <Text style={styles.infoTxt}>
-              იმისთვის, რომ თქვენ მიერ შერჩეული საჩუქარი სხვამ მიიღოს, გთხოვთ,
-              მიუთითეთ უფლებამოსილი პირის მონაცემები
+            {translate.t('gift.desc')}
             </Text>
           </View>
 
           <AppTextInput
-            placeholder="სახელი"
+            placeholder={translate.t('common.name')}
             value={client?.name}
             onChange={e => {
               setClient({
@@ -214,7 +218,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           />
 
           <AppTextInput
-            placeholder="გვარი"
+            placeholder={translate.t('common.lname')}
             value={client?.surname}
             onChange={e => {
               setClient({
@@ -226,7 +230,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           />
 
           <AppTextInput
-            placeholder="პირადი ნომერი"
+            placeholder={translate.t('common.personalNumber')}
             onChange={e => {
               setClient({
                 name: client?.name,
@@ -239,8 +243,8 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       )}
       <View style={styles.totalView}>
         <Text style={styles.totalTxt}>
-          საბოლოო ფასი:{' '}
-          <Text style={styles.point}>{params?.data?.price} ქულა</Text>
+        {translate.t('gift.currentPrice')}{' '}
+          <Text style={styles.point}>{params?.data?.price} {translate.t('common.score')}</Text>
         </Text>
       </View>
       {typeId === utilityId && error ? (
@@ -249,7 +253,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
             disabled={true}
             loading={loading}
             onPress={() => {}}
-            title={'საჩუქრის მიღება'}
+            title={translate.t('news.getGift')}
             backgroundColor={Colors.lightGreyTxt}
           />
         </View>
@@ -264,7 +268,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
                 getPayment(true);
               }
             }}
-            title={'საჩუქრის მიღება'}
+            title={translate.t('news.getGift.currentPrice')}
             backgroundColor={Colors.bgGreen}
           />
         </View>

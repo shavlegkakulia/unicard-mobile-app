@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, StyleSheet, View, Image} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -8,14 +8,18 @@ import { notAuthRoutes } from '../../navigation/routes';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
 
 import {login} from '../../Store/actions/auth';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 import Colors from '../../theme/Colors';
 
 const RegistrationDone: React.FC<ScreenNavigationProp> = props => {
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
 
+  
   const complate = () => {
     props.navigation.navigate(notAuthRoutes.authScreen)
   };
+
   return (
     <>
       <View style={styles.main}>
@@ -29,14 +33,14 @@ const RegistrationDone: React.FC<ScreenNavigationProp> = props => {
           />
         </View>
         <View style={styles.textView}>
-          <Text style={styles.text}>რეგისტრაცია დასრულებულია</Text>
+          <Text style={styles.text}>{translate.t('auth.registrationDone')}</Text>
         </View>
       </View>
       <View style={styles.buttonView}>
         <AppButton
           // onPress={() => dispatch(login())}
           onPress={complate}
-          title={'დახურვა'}
+          title={translate.t('common.colse')}
           backgroundColor={Colors.lightOrange}
         />
       </View>

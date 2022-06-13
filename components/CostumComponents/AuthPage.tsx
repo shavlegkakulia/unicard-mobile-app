@@ -225,12 +225,11 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
       },
       complete: () => {
         setIsLoading(false);
-        console.log('complate');
       },
       error: e => {
         setIsLoading(false);
         if(e.response.error === invalid_grant) {
-          dispatch(PUSH('მომხმარებლის არასწორი სახელი ან პაროლი'))
+          dispatch(PUSH(translate.t('generalErrors.wrongUser')))
         }
       },
     });
@@ -252,12 +251,12 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
           <TouchableOpacity
             style={styles.btn}
             onPress={() => props.navigation.navigate(notAuthRoutes.authScreen)}>
-            <Text style={styles.btnText}>სხვა მომხმარებლით შესვლა</Text>
+            <Text style={styles.btnText}>{translate.t('auth.loginAsAnotherUser')}</Text>
           </TouchableOpacity>
         </View>
         <KeyboardAvoidingView style={styles.inputView}>
           <AppTextInput
-            placeholder="პაროლი"
+            placeholder={translate.t('common.password')}
             secureTextEntry={true}
             value={userData?.password}
             onChange={e => setUserData({...userData, password: e})}
@@ -265,7 +264,7 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
           <View style={styles.button}>
             <AppButton
               onPress={LogIn}
-              title={'შემდეგი'}
+              title={translate.t('common.next')}
               loading={isLoading}
               backgroundColor={Colors.bgGreen}
             />

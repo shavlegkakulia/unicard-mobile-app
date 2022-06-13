@@ -48,7 +48,6 @@ import MerchantsMap from '../screens/auth/merchants/MerchantsMap';
 import SearchScreen from '../screens/auth/SearchScreen';
 import SingleMerchantsScreen from '../screens/auth/merchants/SingleMerchantsScreen';
 import AllMerchants from '../screens/auth/merchants/AllMerchants';
-import FBAuth from '../screens/notAuth/FBAuth';
 
 const authStack = createStackNavigator();
 
@@ -1013,25 +1012,6 @@ const AppNavigator = () => {
                 <authStack.Screen
                   name={notAuthRoutes.authScreen}
                   component={AuthScreen}
-                  options={{
-                    cardStyle: {
-                      backgroundColor: Colors.bgColor,
-                    },
-                    title: 'მოგესალმებით',
-                    headerStyle: {
-                      backgroundColor: Colors.bgColor,
-                    },
-                    headerTintColor: Colors.bgGreen,
-                    headerTitleStyle: {
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
-                      fontSize: 20,
-                    },
-                  }}
-                />
-                <authStack.Screen
-                  name={notAuthRoutes.FBAuth}
-                  component={FBAuth}
                   options={{
                     cardStyle: {
                       backgroundColor: Colors.bgColor,

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, StyleSheet, View, Image, Platform, Dimensions} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
@@ -19,14 +19,14 @@ import {
 import {getString} from '../../utils/converts';
 import FbService, {IFbData} from '../../services/FbService';
 import {stringToObject} from '../../utils/common';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 const LoginScreen: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const [isPasscodeEnabled, setIsPasscodeEnabed] = useState(false);
   const [userInfo, setUserInfo] = useState<IFbData | undefined>({name: null});
   const [loading, setLoading] = useState(false);
-
-  console.log(loading);
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
 
   const loginWithFacebook = () => {
     setLoading(true);
@@ -54,7 +54,6 @@ const LoginScreen: React.FC<ScreenNavigationProp> = props => {
         }
       },
       complete: () => {
-        console.log('complate');
         setLoading(false);
       },
       error: e => {
@@ -93,18 +92,18 @@ const LoginScreen: React.FC<ScreenNavigationProp> = props => {
       <AppButton
         loading={loading}
         onPress={loginWithFacebook}
-        title={'facebook-ით შესვლა'}
+        title={translate.t('auth.loginWithFb')}
         backgroundColor={Colors.blue}
       />
 
       <View style={styles.titleView}>
-        <Text style={styles.or}>ან</Text>
+        <Text style={styles.or}>{translate.t('common.or')}</Text>
       </View>
       <AppButton
         onPress={() => {
           props.navigation.navigate(notAuthRoutes.authScreen);
         }}
-        title={'ავტორიზაცია'}
+        title={translate.t('auth.authorize')}
         backgroundColor={Colors.bgGreen}
       />
       <View style={styles.btnWrapper}>
@@ -112,7 +111,7 @@ const LoginScreen: React.FC<ScreenNavigationProp> = props => {
           onPress={() => {
             props.navigation.navigate(notAuthRoutes.registration);
           }}
-          title={'რეგისტრაცია'}
+          title={translate.t('auth.register')}
           backgroundColor={Colors.lightOrange}
         />
       </View>

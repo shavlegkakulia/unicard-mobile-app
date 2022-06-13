@@ -10,7 +10,7 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -23,6 +23,7 @@ import { PASSCODEENABLED } from '../auth/Parameters';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { invalid_grant } from '../../constants/response_strings';
 import { PUSH } from '../../Store/actions/errors';
+import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 
 interface IUserData {
   username?: string;
@@ -40,6 +41,8 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
 
   const [isPasscodeEnabled, setIsPasscodeEnabed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -96,12 +99,11 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
       },
       complete: () => {
         setLoading(false);
-        console.log('complate');
       },
       error: e => {
         setLoading(false);
         if(e.response.error === invalid_grant) {
-          dispatch(PUSH('მომხმარებლის არასწორი სახელი ან პაროლი'))
+          dispatch(PUSH(translate.t('generalErrors.wrongUser')))
         }
       },
     });
@@ -132,7 +134,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
   return (
     <KeyboardAwareScrollView>
       <View style={styles.titleView}>
-        <Text style={styles.title}>ავტორიზაცია</Text>
+        <Text style={styles.title}>{translate.t('auth.authorize')}</Text>
       </View>
       <View style={styles.imgView}>
         <Animated.Image style={{ height: goHeight, width: goWidth }}
@@ -142,14 +144,14 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.inputView}>
         <AppTextInput
-          placeholder="ელ-ფოსტა"
+          placeholder={translate.t('common.email')}
           value={userData?.username}
           onChange={e =>
             setUserData({password: userData?.password, username: e})
           }
         />
         <AppTextInput
-          placeholder="პაროლი"
+          placeholder={translate.t('common.password')}
           secureTextEntry={true}
           value={userData?.password}
           onChange={e =>
@@ -168,10 +170,10 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
               onCheckColor={Colors.bgGreen}
               onTintColor={Colors.bgGreen}
             />
-            <Text style={styles.text}>დამახსოვრება</Text>
+            <Text style={styles.text}>{translate.t('common.remember')}</Text>
           </View>
           <TouchableOpacity>
-            <Text style={styles.text}>დაგავიწყდა პაროლი?</Text>
+            <Text style={styles.text}>{translate.t('common.forgotPwd')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -179,7 +181,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
         <AppButton
           loading={loading}
           onPress={LogIn}
-          title={'შემდეგი'}
+          title={translate.t('common.next')}
           backgroundColor={Colors.bgGreen}
         />
       </View>

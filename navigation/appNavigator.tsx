@@ -127,7 +127,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'მთავარი გვერდი',
+                    title: translate.t('screens.homePage'),
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -182,7 +182,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'ჩემი გვერდი',
+                    title: translate.t('screens.myPages'),
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -228,7 +228,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'რაში დავხარჯო',
+                    title: translate.t('home.whatShouldSpend'),
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -274,7 +274,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'რაში დავხარჯო',
+                    title: translate.t('home.whatShouldSpend'),
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -320,7 +320,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'რაში დავხარჯო',
+                    title: translate.t('home.whatShouldSpend'),
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -366,7 +366,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'რაში დავხარჯო',
+                    title: translate.t('home.whatShouldSpend'),
 
                     headerTintColor: Colors.black,
                     headerStyle: {
@@ -387,7 +387,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'ჩემ გარშემო',
+                    title: translate.t('screens.aroundMe'),
 
                     headerTintColor: Colors.black,
                     headerStyle: {
@@ -433,7 +433,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'ჩემ გარშემო',
+                    title: translate.t('screens.aroundMe'),
                     headerBackTitle: '',
                     headerTintColor: Colors.black,
                     headerStyle: {
@@ -466,7 +466,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'ჩემ გარშემო',
+                    title: translate.t('screens.aroundMe'),
 
                     headerTintColor: Colors.black,
                     headerStyle: {
@@ -512,7 +512,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'საჩუქრის მიღება',
+                    title: translate.t('news.getGift'),
                     headerRight: () => (
                       <View
                         style={{
@@ -559,7 +559,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'საჩუქრის მიღება',
+                    title: translate.t('news.getGift'),
                     headerRight: () => (
                       <View
                         style={{
@@ -606,7 +606,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'სიახლეები',
+                    title: translate.t('screens.news'),
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -639,7 +639,7 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitle: '',
-                    title: 'სიახლეები',
+                    title: translate.t('screens.news'),
                     headerTintColor: Colors.black,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -653,7 +653,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'ჩვენს შესახებ',
+                    title: translate.t('screens.aboutUs'),
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -685,7 +685,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'პარამეტრები',
+                    title: translate.t('screens.parameters'),
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -718,7 +718,7 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitle: '',
-                    title: 'პარტნიორები',
+                    title: translate.t('screens.partners'),
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -785,7 +785,7 @@ const AppNavigator = () => {
                       </TouchableOpacity>
                     ),
                     headerBackTitle: '',
-                    title: 'პარტნიორები',
+                    title: translate.t('screens.partners'),
                     headerTintColor: Colors.black,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -805,7 +805,7 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitle: '',
-                    title: 'პაროლის შეცვლა',
+                    title: translate.t('settings.changePwd'),
                     headerTintColor: Colors.black,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -906,7 +906,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'მოგესალმებით',
+                    title: translate.t('screens.welcome'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -925,7 +925,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'რეგისტრაცია',
+                    title: translate.t('auth.register'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -944,7 +944,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'რეგისტრაცია',
+                    title: translate.t('auth.register'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -963,7 +963,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'რეგისტრაცია',
+                    title: translate.t('auth.register'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -982,7 +982,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'რეგისტრაცია',
+                    title: translate.t('auth.register'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -1020,7 +1020,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'მოგესალმებით',
+                    title: translate.t('screens.welcome'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -1039,7 +1039,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: 'ავტორიზაცია',
+                    title: translate.t('auth.authorize'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },

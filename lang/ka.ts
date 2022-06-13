@@ -44,8 +44,10 @@ export default {
         aroundMe: 'ჩემ გარშემო',
         partners: 'პარტნიორები',
         news: 'სიახლეები',
-        aboutUs: 'ჩვენ შესახებ',
-        parameters: 'პარამეტრები'
+        aboutUs: 'ჩვენს შესახებ',
+        parameters: 'პარამეტრები',
+        homePage: 'მთავარი გვერდი',
+        welcome: 'მოგესალმებით'
     },
     auth: {
         loginWithFb: 'facebook-ით შესვლა',

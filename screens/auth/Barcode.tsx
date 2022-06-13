@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Image, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import CardService, {
@@ -91,6 +91,7 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
           </View>
           <Image
             style={styles.img}
+            resizeMode={'contain'}
             source={require('../../assets/img/barcodeImg.png')}
           />
         </>
@@ -103,11 +104,12 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
 const styles = StyleSheet.create({
   img: {
     width: 315,
-    height: 640,
+    height: Dimensions.get('window').height - 150,
+    maxHeight: 640,
   },
   main: {
+    flex: 1,
     alignItems: 'center',
-    marginTop: 30,
     justifyContent: 'center',
   },
   barcodeNum: {

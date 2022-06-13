@@ -181,7 +181,10 @@ const PassCode: React.FC<IPageProps> = props => {
           });
         })();
       } else {
-        //error. not equals
+        if(code2.length === 4 && code.length === 4) {
+          dispatch(PUSH('wrong'));
+          setCode({code: '', code2: ''});
+        }
       }
     }
     
@@ -278,9 +281,9 @@ const PassCode: React.FC<IPageProps> = props => {
           </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity style={styles.goback} onPress={() => nav.goBack()}>
+      {/* <TouchableOpacity style={styles.goback} onPress={() => nav.goBack()}>
         <Text style={styles.gobackTxt}>X</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </ScrollView>
   );
 };
@@ -288,7 +291,7 @@ const PassCode: React.FC<IPageProps> = props => {
 const styles = StyleSheet.create({
   titleView: {
     alignItems: 'center',
-    // marginTop: 10,
+     marginTop: 20,
   },
   title: {
     fontSize: 20,
@@ -330,11 +333,11 @@ const styles = StyleSheet.create({
   },
   dotCenter: {
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: 40,
   },
   numbersMainView: {
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: 40,
     height: 360,
     justifyContent: 'space-between',
     marginBottom: 35,

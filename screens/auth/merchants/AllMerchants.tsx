@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.bgColor,
   },
   main: {
-    marginTop: 20,
+    paddingTop: 20,
     paddingHorizontal: 20,
   },
 });

@@ -59,10 +59,12 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <View>
       <View style={styles.imgView}>
         <Image
           style={styles.img}
-          source={require('../assets/img/uniLogo.png')}
+          resizeMode={'contain'}
+            source={require('../assets/img/uniLogo.png')}
         />
       </View>
       <View style={styles.row}>
@@ -83,6 +85,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.iconView}>
           <Image
             style={styles.card}
+            resizeMode={'contain'}
             source={require('../assets/img/cardIcon.png')}
           />
         </View>
@@ -95,6 +98,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.iconView}>
           <Image
             style={styles.homeIcon}
+            resizeMode={'contain'}
             source={require('../assets/img/homeIcon.png')}
           />
         </View>
@@ -106,6 +110,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.iconView}>
           <Image
             style={styles.userIcon}
+            resizeMode={'contain'}
             source={require('../assets/img/userIcon.png')}
           />
         </View>
@@ -117,6 +122,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.iconView}>
           <Image
             style={styles.cartIcon}
+            resizeMode={'contain'}
             source={require('../assets/img/cartIcon.png')}
           />
         </View>
@@ -128,6 +134,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.iconView}>
           <Image
             style={styles.pinIcon}
+            resizeMode={'contain'}
             source={require('../assets/img/pinIcon.png')}
           />
         </View>
@@ -139,6 +146,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.iconView}>
           <Image
             style={styles.hendsIcon}
+            resizeMode={'contain'}
             source={require('../assets/img/hendsIcon.png')}
           />
         </View>
@@ -150,6 +158,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.iconView}>
           <Image
             style={styles.newsIcon}
+            resizeMode={'contain'}
             source={require('../assets/img/newsIcon.png')}
           />
         </View>
@@ -161,6 +170,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.iconView}>
           <Image
             style={styles.aboutIcon}
+            resizeMode={'contain'}
             source={require('../assets/img/aboutUsIcon.png')}
           />
         </View>
@@ -172,11 +182,13 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.iconView}>
           <Image
             style={styles.paramIcon}
+            resizeMode={'contain'}
             source={require('../assets/img/parametersIcon.png')}
           />
         </View>
         <Text style={styles.name}>პარამეტრები</Text>
       </TouchableOpacity>
+      </View>
 
       <TouchableOpacity onPress={() => dispath(logout())} style={styles.button}>
         <Text style={styles.btnText}>გამოსვლა</Text>
@@ -190,13 +202,15 @@ export default SidebarDrawer;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
+    justifyContent: 'space-between',
     backgroundColor: Colors.lightOrange,
     borderBottomRightRadius: 40,
     borderTopRightRadius: 40,
     paddingHorizontal: 34,
+    paddingBottom: 30
   },
   imgView: {
-    marginTop: 67,
+    marginTop: 40,
   },
   img: {
     width: 89.35,
@@ -284,7 +298,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.bgGreen,
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 160,
+    marginTop: 30,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

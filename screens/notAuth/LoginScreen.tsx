@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, Text, StyleSheet, View, Image} from 'react-native';
+import {ScrollView, Text, StyleSheet, View, Image, Platform, Dimensions} from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -87,7 +87,7 @@ const LoginScreen: React.FC<ScreenNavigationProp> = props => {
   return (
     <ScrollView>
       <View style={styles.imgContainer}>
-        <Image source={require('../../assets/img/authLogo.png')} />
+        <Image source={require('../../assets/img/authLogo.png')} resizeMode={'contain'} style={styles.image} />
       </View>
 
       <AppButton
@@ -121,6 +121,10 @@ const LoginScreen: React.FC<ScreenNavigationProp> = props => {
 };
 
 const styles = StyleSheet.create({
+  image: {
+    height: Dimensions.get('window').height / 3,
+    maxHeight: 307,
+  },
   input: {
     height: 40,
     margin: 12,

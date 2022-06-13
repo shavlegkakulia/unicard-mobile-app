@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Platform, StyleSheet, Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -30,6 +30,12 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
   useEffect(() => {
     getBarcode();
   }, []);
+
+  const main = Platform.select({
+    ios: styles.main,
+    android: styles.androidmain
+  })
+  
   return (
     // <View style={styles.main}>
     //   {!loading && cardInfo ? (
@@ -47,7 +53,7 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
     //   )}
     // </View>
     <ScrollView>
-      <View style={styles.main}>
+      <View style={main}>
         <Image
           style={styles.img}
           source={require('../../assets/img/UniCardImg.png')}
@@ -136,13 +142,21 @@ const styles = StyleSheet.create({
     shadowOpacity: 5,
     shadowRadius: 8,
   },
+  androidmain: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: Colors.white,
+    height: 244,
+    shadowColor: Colors.bgGreen,
+    elevation: 20,
+  },
   img: {
     width: 175.96,
     height: 98,
   },
   listView: {
-    marginHorizontal: 20,
-    marginTop: 103,
+    marginHorizontal: Platform.OS === 'ios' ? 20 : 0,
+    marginTop: Platform.OS === 'ios' ? 103 : 50,
   },
   row: {
     flexDirection: 'row',

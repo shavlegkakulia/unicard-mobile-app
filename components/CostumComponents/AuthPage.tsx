@@ -39,6 +39,7 @@ import Store from '../../Store';
 import envs from './../../config/env';
 import {AuthActions, IAuthAction} from '../../Store/types/auth';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { invalid_grant } from '../../constants/response_strings';
 
 interface IUserData {
   password?: string;
@@ -201,9 +202,10 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
   }, []);
 
   const LogIn = () => {
-    if (!userData?.email || !userData?.password) {
+    if (!userData?.email || !userData?.password || isLoading) {
       return;
     }
+    setIsLoading(true);
     const data: IAyuthData = {
       password: userData?.password,
       username: userData?.email,
@@ -222,9 +224,15 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
         }
       },
       complete: () => {
+        setIsLoading(false);
         console.log('complate');
       },
-      error: e => console.log('err', e.response),
+      error: e => {
+        setIsLoading(false);
+        if(e.response.error === invalid_grant) {
+          dispatch(PUSH('მომხმარებლის არასწორი სახელი ან პაროლი'))
+        }
+      },
     });
   };
 
@@ -258,6 +266,7 @@ const AuthPage: React.FC<ScreenNavigationProp> = props => {
             <AppButton
               onPress={LogIn}
               title={'შემდეგი'}
+              loading={isLoading}
               backgroundColor={Colors.bgGreen}
             />
           </View>
@@ -344,6 +353,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 95,
+    marginBottom: 30
   },
   modal: {
     flex: 1,

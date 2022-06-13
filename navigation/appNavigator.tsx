@@ -148,12 +148,14 @@ const AppNavigator = () => {
                         <TouchableOpacity>
                           <Image
                             style={{width: 18, height: 25, marginRight: 15}}
+                            resizeMode={'contain'}
                             source={require('../assets/img/locationLogo.png')}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity>
                           <Image
                             style={{width: 19, height: 25}}
+                            resizeMode={'contain'}
                             source={require('../assets/img/notificationLogo.png')}
                           />
                         </TouchableOpacity>

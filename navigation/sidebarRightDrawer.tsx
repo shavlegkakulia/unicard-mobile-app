@@ -176,6 +176,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 40,
     borderTopLeftRadius: 40,
     paddingHorizontal: 34,
+    paddingBottom: 30,
     backgroundColor: Colors.bgGreen,
     alignItems: 'center',
   },
@@ -194,11 +195,13 @@ const styles = StyleSheet.create({
   searchView: {
     marginTop: 46,
     flexDirection: 'row',
+    alignItems: 'center'
   },
   inputWrapper: {
     borderBottomWidth: 0.7,
     borderBottomColor: Colors.white,
     flexDirection: 'row',
+    alignItems: 'center'
   },
   input: {
     width: 170,

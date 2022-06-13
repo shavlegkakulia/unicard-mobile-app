@@ -25,10 +25,13 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const [passData, setPassData] = useState<IRegisterRequestData>();
+  const [loading, setLoading] = useState(false);
 
   const params = props.route.params;
 
   const OtpAuth = () => {
+    if(loading) return;
+    setLoading(true);
     AuthService.SendOtp({phone: params.data.phone}).subscribe({
       next: Response => {
         if (inputErrors.length > 0) {
@@ -42,8 +45,9 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
           data: {...params.data, ...passData},
         });
       },
-      complete: () => {},
+      complete: () => {setLoading(false)},
       error: err => {
+        setLoading(false)
         console.log(err);
       },
     });
@@ -108,6 +112,7 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
           //   // props.navigation.navigate(notAuthRoutes.smsCode, passData);
           // }}
           onPress={OtpAuth}
+          loading={loading}
           title={'შემდეგი'}
           backgroundColor={Colors.bgGreen}
         />

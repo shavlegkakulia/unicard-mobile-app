@@ -18,11 +18,13 @@ import Colors from '../../theme/Colors';
 import AuthService, { IRegisterRequestData } from '../../services/AuthService';
 
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const params = props.route.params;
-console.log(props.route.params)
+
   const register = () => {
+    if(loading) return;
+    setLoading(true);
     const {user_name, surname, person_code, birthDate, phone, email, password, fb_token, new_card_registration} =
       params.data;
     const data: IRegisterRequestData = {
@@ -45,8 +47,9 @@ console.log(props.route.params)
           );
         }
       },
-      complete: () => {},
+      complete: () => {setLoading(false)},
       error: err => {
+        setLoading(false);
         console.log('>>>', err);
       },
     });
@@ -74,6 +77,7 @@ console.log(props.route.params)
         <AppButton
           onPress={register}
           title={'შემდეგი'}
+          loading={loading}
           backgroundColor={Colors.bgGreen}
         />
       </View>

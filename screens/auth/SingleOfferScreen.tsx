@@ -42,39 +42,6 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getProductDetails();
   }, []);
-
-  // const searchStr = '<ol>';
-  // const searchEndStr = '</ol>';
-  // const olindex = offer?.description?.indexOf(searchStr);
-  // const ollastindex = offer?.description?.indexOf(searchEndStr);
-
-  // const withoutOl = offer?.description?.substring(0, olindex);
-  // let afterOl: string | undefined = '';
-  // let withoutOlContent = '';
-
-  // let getString;
-  // if (olindex && olindex >= 0 && ollastindex && ollastindex >= 0) {
-  //   getString = offer?.description?.substring(
-  //     olindex + searchStr.length,
-  //     ollastindex,
-  //   );
-  //   afterOl = offer?.description?.substring(ollastindex + searchEndStr.length);
-  // }
-
-  // if (withoutOl) {
-  //   withoutOlContent = (withoutOl + afterOl)
-  //     ?.replace(/(<([^>]+)>)/gi, '')
-  //     .trim()
-  //     .replace(/&nbsp;/g, '');
-  // }
-
-  // let contacts: string[] | undefined = getString
-  //   ?.split('<li>')
-  //   .join()
-  //   .split('</li>');
-  // contacts = contacts?.map(s => {
-  //   return s.trim().replace(/&nbsp;/g, '');
-  // });
   return (
     <View>
       {!loading && offer ? (
@@ -131,16 +98,6 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
                 </Text>
               ))}
             </View>
-            {/* <View style={{marginTop: 15}}>
-              {contacts?.map((desc, i) => (
-                <Text style={styles.contactItem} key={i}>
-                  {desc.substring(1, desc.length - 1).trim()}
-                </Text>
-              ))}
-            </View> */}
-            {/* <View>
-              <Text>{linkTag}</Text>
-            </View> */}
             <View style={styles.btn}>
               <AppButton
                 onPress={() =>
@@ -252,7 +209,7 @@ const styles = StyleSheet.create({
     fontFamily: 'BPG DejaVu Sans',
     lineHeight: 13.97,
     fontWeight: '700',
-  }
+  },
 });
 
 export default SingleOfferScreen;

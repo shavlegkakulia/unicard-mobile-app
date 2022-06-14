@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Image,
   StyleSheet,
@@ -24,8 +24,8 @@ import OnlinePaymentService, {
   IgetPaymentDetailsRequest,
   IgetPaymentResponse,
 } from '../../services/OnlinePaymentService';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {useSelector} from 'react-redux';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 
 const GetGift: React.FC<ScreenNavigationProp> = props => {
   const translate = useSelector<ITranslateReducer>(
@@ -125,6 +125,17 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       },
     });
   };
+
+  const errorHandler = () => {
+    if (num.length === 0) {
+      setError(false);
+      setPaymentInfo(undefined);
+    }
+  };
+
+  useEffect(() => {
+    errorHandler();
+  }, [num]);
   return (
     <KeyboardAwareScrollView style={styles.main}>
       <View style={styles.imageView}>
@@ -146,7 +157,9 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       {typeId === utilityId || typeId === payTypeId ? (
         <>
           <View style={styles.textView}>
-            <Text style={styles.text}>{translate.t('gift.setAbonentCode')}</Text>
+            <Text style={styles.text}>
+              {translate.t('gift.setAbonentCode')}
+            </Text>
           </View>
           <KeyboardAvoidingView style={styles.row}>
             <View
@@ -164,7 +177,9 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
                 {loading ? (
                   <ActivityIndicator color={Colors.white} size={'small'} />
                 ) : (
-                  <Text style={styles.chekTxt}>{translate.t('common.check')}</Text>
+                  <Text style={styles.chekTxt}>
+                    {translate.t('common.check')}
+                  </Text>
                 )}
               </TouchableOpacity>
             )}
@@ -186,12 +201,16 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           {typeId === utilityId
             ? error && (
                 <View style={styles.errWrapper}>
-                  <Text style={styles.err}>{translate.t('gift.abonentNotFound')}</Text>
+                  <Text style={styles.err}>
+                    {translate.t('gift.abonentNotFound')}
+                  </Text>
                 </View>
               )
             : error && (
                 <View style={styles.errWrapper}>
-                  <Text style={styles.err}>{translate.t('gift.incorrectNumber')}</Text>
+                  <Text style={styles.err}>
+                    {translate.t('gift.incorrectNumber')}
+                  </Text>
                 </View>
               )}
           <View style={styles.border} />
@@ -199,10 +218,10 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       ) : (
         <>
           <View style={styles.userInfoView}>
-            <Text style={styles.userTxt}>{translate.t('gift.allowedPerson')}</Text>
-            <Text style={styles.infoTxt}>
-            {translate.t('gift.desc')}
+            <Text style={styles.userTxt}>
+              {translate.t('gift.allowedPerson')}
             </Text>
+            <Text style={styles.infoTxt}>{translate.t('gift.desc')}</Text>
           </View>
 
           <AppTextInput
@@ -243,8 +262,10 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       )}
       <View style={styles.totalView}>
         <Text style={styles.totalTxt}>
-        {translate.t('gift.currentPrice')}{' '}
-          <Text style={styles.point}>{params?.data?.price} {translate.t('common.score')}</Text>
+          {translate.t('gift.currentPrice')}{' '}
+          <Text style={styles.point}>
+            {params?.data?.price} {translate.t('common.score')}
+          </Text>
         </Text>
       </View>
       {typeId === utilityId && error ? (

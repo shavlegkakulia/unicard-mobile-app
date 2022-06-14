@@ -20,8 +20,10 @@ export interface IgetProducteResponse extends IresponseData {
   id?: number;
   name: string;
   description?: string;
-  // descriptionList?: string[];
-  //addresList?: string[];
+  descriptionList?: string[];
+  aditionalInfoList?: string[];
+  urlList?: string[];
+  addresList?: string[];
   price: string;
   title?: string;
   short_desc?: string;

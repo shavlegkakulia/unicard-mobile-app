@@ -9,8 +9,8 @@ import ProducteService, {
 import Loader from '../../components/loader';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {authRoutes} from '../../navigation/routes';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {useSelector} from 'react-redux';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 
 const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   const translate = useSelector<ITranslateReducer>(
@@ -20,9 +20,8 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   const [loading, setLoading] = useState<boolean>();
   const id = props.route.params.id;
   const type = props.route.params.type;
-  console.log(type)
-
- 
+  console.log('dataaaa', offer?.descriptionList);
+  console.log('aid', id);
 
   const getProductDetails = () => {
     const req: IgetProducteDetailsRequest = {
@@ -44,38 +43,38 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
     getProductDetails();
   }, []);
 
-  const searchStr = '<ol>';
-  const searchEndStr = '</ol>';
-  const olindex = offer?.description?.indexOf(searchStr);
-  const ollastindex = offer?.description?.indexOf(searchEndStr);
+  // const searchStr = '<ol>';
+  // const searchEndStr = '</ol>';
+  // const olindex = offer?.description?.indexOf(searchStr);
+  // const ollastindex = offer?.description?.indexOf(searchEndStr);
 
-  const withoutOl = offer?.description?.substring(0, olindex);
-  let afterOl: string | undefined = '';
-  let withoutOlContent = '';
+  // const withoutOl = offer?.description?.substring(0, olindex);
+  // let afterOl: string | undefined = '';
+  // let withoutOlContent = '';
 
-  let getString;
-  if (olindex && olindex >= 0 && ollastindex && ollastindex >= 0) {
-    getString = offer?.description?.substring(
-      olindex + searchStr.length,
-      ollastindex,
-    );
-    afterOl = offer?.description?.substring(ollastindex + searchEndStr.length);
-  }
+  // let getString;
+  // if (olindex && olindex >= 0 && ollastindex && ollastindex >= 0) {
+  //   getString = offer?.description?.substring(
+  //     olindex + searchStr.length,
+  //     ollastindex,
+  //   );
+  //   afterOl = offer?.description?.substring(ollastindex + searchEndStr.length);
+  // }
 
-  if (withoutOl) {
-    withoutOlContent = (withoutOl + afterOl)
-      ?.replace(/(<([^>]+)>)/gi, '')
-      .trim()
-      .replace(/&nbsp;/g, '');
-  }
+  // if (withoutOl) {
+  //   withoutOlContent = (withoutOl + afterOl)
+  //     ?.replace(/(<([^>]+)>)/gi, '')
+  //     .trim()
+  //     .replace(/&nbsp;/g, '');
+  // }
 
-  let contacts: string[] | undefined = getString
-    ?.split('<li>')
-    .join()
-    .split('</li>');
-  contacts = contacts?.map(s => {
-    return s.trim().replace(/&nbsp;/g, '');
-  });
+  // let contacts: string[] | undefined = getString
+  //   ?.split('<li>')
+  //   .join()
+  //   .split('</li>');
+  // contacts = contacts?.map(s => {
+  //   return s.trim().replace(/&nbsp;/g, '');
+  // });
   return (
     <View>
       {!loading && offer ? (
@@ -104,15 +103,41 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
               <Text style={styles.catIdTxt}>{offer?.catalog_id}</Text>
             </View>
             <View style={{marginTop: 15}}>
-              <Text>{withoutOlContent.trim().replace(/\s\s+/g, ' ')}</Text>
+              {offer.descriptionList?.map((e, i) => (
+                <Text style={styles.description} key={i}>
+                  {e}
+                </Text>
+              ))}
+            </View>
+
+            <View style={{marginTop: 15}}>
+              {offer.addresList?.map((ad, i) => (
+                <View style={styles.locationView}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../../assets/img/locationLogo.png')}
+                  />
+                  <Text style={styles.address} key={i}>
+                    {' '}
+                    {ad}
+                  </Text>
+                </View>
+              ))}
             </View>
             <View style={{marginTop: 15}}>
+              {offer.urlList?.map((url, i) => (
+                <Text style={styles.url} key={i}>
+                  {url}
+                </Text>
+              ))}
+            </View>
+            {/* <View style={{marginTop: 15}}>
               {contacts?.map((desc, i) => (
                 <Text style={styles.contactItem} key={i}>
                   {desc.substring(1, desc.length - 1).trim()}
                 </Text>
               ))}
-            </View>
+            </View> */}
             {/* <View>
               <Text>{linkTag}</Text>
             </View> */}
@@ -199,9 +224,35 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 40,
   },
-  contactItem: {
+  description: {
     marginBottom: 10,
+    color: Colors.darkGrey,
+    fontFamily: 'BPG DejaVu Sans',
+    lineHeight: 13.97,
+    fontSize: 12,
   },
+  locationView: {
+    flexDirection: 'row',
+  },
+  icon: {
+    width: 8.83,
+    height: 11.56,
+    marginRight: 8,
+  },
+  address: {
+    marginBottom: 10,
+    color: Colors.darkGrey,
+    fontFamily: 'BPG DejaVu Sans',
+    fontSize: 10,
+    lineHeight: 18,
+  },
+  url: {
+    color: Colors.urlColor,
+    fontSize: 12,
+    fontFamily: 'BPG DejaVu Sans',
+    lineHeight: 13.97,
+    fontWeight: '700',
+  }
 });
 
 export default SingleOfferScreen;

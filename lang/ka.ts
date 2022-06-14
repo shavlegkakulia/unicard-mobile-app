@@ -74,13 +74,13 @@ export default {
     },
     settings: {
         easyLogin: 'მარტივი შესვლა',
-        scanFace: 'Scan your Face on the device to continue',
+        scanFace: 'გასაგრძელებლად დაასკანირეთ თქვენი სახე მოწყობილობაზე',
         changePwd: 'პაროლის შევცვლა',
         changePhoto: 'ფოტო სურათის შეცვლა',
         takePhoto: 'სურათის გადაღება',
         phoneGallery: 'ტელეფონის გალერეა',
-        cameraPermission: 'App Camera Permission',
-        needAccesToCamera: 'App needs access to your camera',
+        cameraPermission: 'აპის კამერის ნებართვა',
+        needAccesToCamera: 'აპს სჭირდება წვდომა თქვენს კამერაზე',
         pwdChangeSucces: 'პაროლი წარმატებით შეიცვალა'
     },
     aboutUs: {
@@ -108,15 +108,15 @@ export default {
         currentPrice: 'საბოლოო ფასი:'
     },
     generalErrors: {
-        errorOccurred: 'error',
+        errorOccurred: 'დაფიქსირდა შეცდომა',
         wrongUser: 'მომხმარებლის არასწორი სახელი ან პაროლი',
         contentNotFound: 'ქონთენთი ვერ მოიძებნა',
-        wrongEmail: 'wrong email',
+        wrongEmail: 'არასწორი E-mail',
         pwdMatchText: 'პაროლი უნდა შეიცავდეს მინიმუმ: \n- 8 სიმბოლოს \n- ერთ დიდ ასოს \n- ერთ პატარა ასოს \n- ერთ ციფრს \n- ერთ სპეციალურ სიმბოლოს (გარდა წერტილისა და @ სიმბოლოსი)',
-        requiredField: 'fill field',
-        minValue: 'min value must ',
-        minLength: 'min length must ',
-        maxLength: 'max length must ',
+        requiredField: 'შეავსეთ ველი',
+        minValue: 'მინიმალური რიცხვი უნდა იყოს ',
+        minLength: 'მინიმალური სიგრძე უნდა იყოს ',
+        maxLength: 'მაქსიმალური სიგრძე ',
         wrongRepeatPwd: 'პაროლი არასწორია'
     }
 }

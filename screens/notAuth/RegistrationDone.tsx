@@ -4,20 +4,21 @@ import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 
 import {ScreenNavigationProp} from '../../interfaces/commons';
-import { notAuthRoutes } from '../../navigation/routes';
+import {notAuthRoutes} from '../../navigation/routes';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
 
 import {login} from '../../Store/actions/auth';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 
 import Colors from '../../theme/Colors';
 
 const RegistrationDone: React.FC<ScreenNavigationProp> = props => {
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
-  
   const complate = () => {
-    props.navigation.navigate(notAuthRoutes.authScreen)
+    props.navigation.navigate(notAuthRoutes.authScreen);
   };
 
   return (
@@ -33,7 +34,9 @@ const RegistrationDone: React.FC<ScreenNavigationProp> = props => {
           />
         </View>
         <View style={styles.textView}>
-          <Text style={styles.text}>{translate.t('auth.registrationDone')}</Text>
+          <Text style={styles.text}>
+            {translate.t('auth.registrationDone')}
+          </Text>
         </View>
       </View>
       <View style={styles.buttonView}>

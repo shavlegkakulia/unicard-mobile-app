@@ -22,7 +22,7 @@ export enum authRoutes {
   allMerchants = 'allMerchants',
   spendOptions2 = 'spendOptions2',
   spendOptions3 = 'spendOptions3',
-
+  searchResults = 'searchResults',
 }
 
 export enum notAuthRoutes {

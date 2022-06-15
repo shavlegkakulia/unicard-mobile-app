@@ -18,8 +18,12 @@ import ProductFiltersService, {
 } from '../services/ProductFiltersService';
 import {subscriptionService} from '../services/SubscribeService';
 import {authRoutes} from './routes';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
+import {useSelector} from 'react-redux';
+import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
+import SearchService, {
+  ISearchDetailsRequest,
+  ISearchServiceResponse,
+} from '../services/SearchService';
 
 const DISCOUNTED = 'DISCOUNTED';
 const LAST_ADDED = 'LAST_ADDED';
@@ -31,6 +35,10 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const [catdata, setCatData] = useState<IgetfilterCategoriesResponse>();
   const [category, setCategory] = useState<boolean>(false);
   const [userType, setUserType] = useState<boolean>(false);
+  const [searchProduct, setSearchProduct] = useState<ISearchServiceResponse[]>(
+    [],
+  );
+  const [searchValue, setSearchValue] = useState<string>();
   const [loading, setLoading] = useState<boolean>();
   const [point, setPoint] = useState<boolean>(false);
   const navigation = useNavigation();
@@ -65,6 +73,38 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
     getProducFiltertList();
   }, []);
 
+  const SearchProduct = () => {
+    let data: ISearchDetailsRequest = {
+      input_text: searchValue,
+      page_index: '1',
+      row_count: '1',
+      prizes: true,
+      organisations: true,
+    };
+
+    SearchService.GenerateSearch(data).subscribe({
+      next: Response => {
+        if (Response.data.resultCode === '200') {
+          setLoading(false);
+
+          setSearchProduct(Response.data.search_result);
+          console.log('>>>>>>>', Response.data.search_result);
+        }
+      },
+      error: err => {
+        console.log('>>>', err);
+      },
+    });
+  };
+  // useEffect(() => {
+  //   SearchProduct();
+  // }, []);
+
+  const cancelSearch = () => {
+    setSearchValue('');
+  };
+  
+
   const getPriceList = (type: any) => {
     let filter = {};
     if (type === 'DISCOUNTED') {
@@ -94,13 +134,20 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
       </View>
       <View style={styles.searchView}>
         <View style={styles.inputWrapper}>
-          <Image
-            style={styles.searchImg}
-            source={require('../assets/img/search.png')}
+          <TouchableOpacity onPress={SearchProduct}>
+            <Image
+              style={styles.searchImg}
+              source={require('../assets/img/search.png')}
+            />
+          </TouchableOpacity>
+
+          <TextInput
+            style={styles.input}
+            value={searchValue}
+            onChangeText={v => setSearchValue(v)}
           />
-          <TextInput style={styles.input} />
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={cancelSearch}>
           <Text style={styles.cancel}>{translate.t('common.cancel')}</Text>
         </TouchableOpacity>
       </View>
@@ -200,13 +247,13 @@ const styles = StyleSheet.create({
   searchView: {
     marginTop: 46,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   inputWrapper: {
     borderBottomWidth: 0.7,
     borderBottomColor: Colors.white,
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   input: {
     width: 170,

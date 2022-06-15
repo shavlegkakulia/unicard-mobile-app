@@ -103,7 +103,7 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
   //     return false;
   //   };
 
-  console.log('cardNumber', cardNumber.join(''));
+  console.log('cardNumber', cardNumber.join(''), route?.params?.fb_token);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useRef, createRef, useState} from 'react';
-import {Text, StyleSheet, View, Image, TextInput} from 'react-native';
+import {Text, StyleSheet, View, Image, TextInput, Platform} from 'react-native';
 import {useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -154,7 +154,7 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
               {cardNumber.map((element, index) => (
                 <View style={styles.border} key={index}>
                   <TextInput
-                    style={styles.input}
+                    style={[styles.input, Platform.OS === 'android' && {height: 24}]}
                     ref={refs[index]}
                     maxLength={4}
                     keyboardType="numeric"
@@ -261,6 +261,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 16,
     width: 68,
+    padding: 0
   },
 });
 

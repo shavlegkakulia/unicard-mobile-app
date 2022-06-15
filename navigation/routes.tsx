@@ -33,5 +33,6 @@ export enum notAuthRoutes {
   registrationDone = 'registrationDone',
   authScreen = 'authScreen',
   smsCode = 'smsCode',
-  authPage = 'authPage'
+  authPage = 'authPage',
+  myCardInfo = 'myCardInfo',
 }

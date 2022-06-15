@@ -14,6 +14,7 @@ import {
   BackHandler,
   Image,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -48,7 +49,8 @@ import MerchantsMap from '../screens/auth/merchants/MerchantsMap';
 import SearchScreen from '../screens/auth/SearchScreen';
 import SingleMerchantsScreen from '../screens/auth/merchants/SingleMerchantsScreen';
 import AllMerchants from '../screens/auth/merchants/AllMerchants';
-import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
+import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
+import MyCardInfo from '../screens/notAuth/MyCardInfo';
 
 const authStack = createStackNavigator();
 
@@ -129,17 +131,23 @@ const AppNavigator = () => {
                     },
                     title: translate.t('screens.homePage'),
                     headerLeft: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          isDrawerOpened.current
-                            ? sideDraver.current?.closeDrawer()
-                            : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
-                          source={require('../assets/img/burgerIcon.png')}
-                        />
-                      </TouchableOpacity>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            isDrawerOpened.current
+                              ? sideDraver.current?.closeDrawer()
+                              : sideDraver.current?.openDrawer();
+                          }}>
+                          <Image
+                            style={{width: 25, height: 17, marginLeft: 29}}
+                            source={require('../assets/img/burgerIcon.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
+                          <Text>ENG</Text>
+                        </TouchableOpacity>
+                      </View>
                     ),
                     headerRight: () => (
                       <View
@@ -184,17 +192,23 @@ const AppNavigator = () => {
                     },
                     title: translate.t('screens.myPages'),
                     headerLeft: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          isDrawerOpened.current
-                            ? sideDraver.current?.closeDrawer()
-                            : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
-                          source={require('../assets/img/burgerIcon.png')}
-                        />
-                      </TouchableOpacity>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            isDrawerOpened.current
+                              ? sideDraver.current?.closeDrawer()
+                              : sideDraver.current?.openDrawer();
+                          }}>
+                          <Image
+                            style={{width: 25, height: 17, marginLeft: 29}}
+                            source={require('../assets/img/burgerIcon.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
+                          <Text>ENG</Text>
+                        </TouchableOpacity>
+                      </View>
                     ),
                     headerTintColor: Colors.black,
                     headerStyle: {
@@ -230,17 +244,23 @@ const AppNavigator = () => {
                     },
                     title: translate.t('home.whatShouldSpend'),
                     headerLeft: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          isDrawerOpened.current
-                            ? sideDraver.current?.closeDrawer()
-                            : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
-                          source={require('../assets/img/burgerIcon.png')}
-                        />
-                      </TouchableOpacity>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            isDrawerOpened.current
+                              ? sideDraver.current?.closeDrawer()
+                              : sideDraver.current?.openDrawer();
+                          }}>
+                          <Image
+                            style={{width: 25, height: 17, marginLeft: 29}}
+                            source={require('../assets/img/burgerIcon.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
+                          <Text>ENG</Text>
+                        </TouchableOpacity>
+                      </View>
                     ),
                     headerRight: () => (
                       <TouchableOpacity
@@ -394,17 +414,23 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerLeft: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          isDrawerOpened.current
-                            ? sideDraver.current?.closeDrawer()
-                            : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
-                          source={require('../assets/img/burgerIcon.png')}
-                        />
-                      </TouchableOpacity>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            isDrawerOpened.current
+                              ? sideDraver.current?.closeDrawer()
+                              : sideDraver.current?.openDrawer();
+                          }}>
+                          <Image
+                            style={{width: 25, height: 17, marginLeft: 29}}
+                            source={require('../assets/img/burgerIcon.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
+                          <Text>ENG</Text>
+                        </TouchableOpacity>
+                      </View>
                     ),
                     headerRight: () => (
                       <TouchableOpacity
@@ -426,7 +452,7 @@ const AppNavigator = () => {
                     },
                   }}
                 />
-                 <authStack.Screen
+                <authStack.Screen
                   name={authRoutes.singleMerchants}
                   component={SingleMerchantsScreen}
                   options={{
@@ -608,17 +634,23 @@ const AppNavigator = () => {
                     },
                     title: translate.t('screens.news'),
                     headerLeft: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          isDrawerOpened.current
-                            ? sideDraver.current?.closeDrawer()
-                            : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
-                          source={require('../assets/img/burgerIcon.png')}
-                        />
-                      </TouchableOpacity>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            isDrawerOpened.current
+                              ? sideDraver.current?.closeDrawer()
+                              : sideDraver.current?.openDrawer();
+                          }}>
+                          <Image
+                            style={{width: 25, height: 17, marginLeft: 29}}
+                            source={require('../assets/img/burgerIcon.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
+                          <Text>ENG</Text>
+                        </TouchableOpacity>
+                      </View>
                     ),
                     headerTintColor: Colors.black,
                     headerStyle: {
@@ -655,17 +687,23 @@ const AppNavigator = () => {
                     },
                     title: translate.t('screens.aboutUs'),
                     headerLeft: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          isDrawerOpened.current
-                            ? sideDraver.current?.closeDrawer()
-                            : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
-                          source={require('../assets/img/burgerIcon.png')}
-                        />
-                      </TouchableOpacity>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            isDrawerOpened.current
+                              ? sideDraver.current?.closeDrawer()
+                              : sideDraver.current?.openDrawer();
+                          }}>
+                          <Image
+                            style={{width: 25, height: 17, marginLeft: 29}}
+                            source={require('../assets/img/burgerIcon.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
+                          <Text>ENG</Text>
+                        </TouchableOpacity>
+                      </View>
                     ),
                     headerTintColor: Colors.black,
                     headerStyle: {
@@ -687,17 +725,23 @@ const AppNavigator = () => {
                     },
                     title: translate.t('screens.parameters'),
                     headerLeft: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          isDrawerOpened.current
-                            ? sideDraver.current?.closeDrawer()
-                            : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
-                          source={require('../assets/img/burgerIcon.png')}
-                        />
-                      </TouchableOpacity>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            isDrawerOpened.current
+                              ? sideDraver.current?.closeDrawer()
+                              : sideDraver.current?.openDrawer();
+                          }}>
+                          <Image
+                            style={{width: 25, height: 17, marginLeft: 29}}
+                            source={require('../assets/img/burgerIcon.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
+                          <Text>ENG</Text>
+                        </TouchableOpacity>
+                      </View>
                     ),
                     headerTintColor: Colors.black,
                     headerStyle: {
@@ -720,17 +764,23 @@ const AppNavigator = () => {
                     headerBackTitle: '',
                     title: translate.t('screens.partners'),
                     headerLeft: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          isDrawerOpened.current
-                            ? sideDraver.current?.closeDrawer()
-                            : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
-                          source={require('../assets/img/burgerIcon.png')}
-                        />
-                      </TouchableOpacity>
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            isDrawerOpened.current
+                              ? sideDraver.current?.closeDrawer()
+                              : sideDraver.current?.openDrawer();
+                          }}>
+                          <Image
+                            style={{width: 25, height: 17, marginLeft: 29}}
+                            source={require('../assets/img/burgerIcon.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
+                          <Text>ENG</Text>
+                        </TouchableOpacity>
+                      </View>
                     ),
                     headerRight: () => (
                       <TouchableOpacity
@@ -855,7 +905,7 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitleVisible: false,
-                  
+
                     title: '',
                     headerTintColor: Colors.black,
                     headerStyle: {
@@ -907,9 +957,18 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     title: translate.t('screens.welcome'),
+                    headerTitleAlign: 'left',
+                    headerTitleContainerStyle: {
+                      marginLeft: 41,
+                    },
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerRight: () => (
+                      <TouchableOpacity style={{marginRight: 20, width: 50}}>
+                        <Text>ENG</Text>
+                      </TouchableOpacity>
+                    ),
                     headerTintColor: Colors.bgGreen,
                     headerTitleStyle: {
                       fontWeight: 'bold',
@@ -921,6 +980,26 @@ const AppNavigator = () => {
                 <authStack.Screen
                   name={notAuthRoutes.registration}
                   component={RegistrationScreen}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: translate.t('auth.register'),
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={notAuthRoutes.myCardInfo}
+                  component={MyCardInfo}
                   options={{
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
@@ -1024,6 +1103,11 @@ const AppNavigator = () => {
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerRight: () => (
+                      <TouchableOpacity style={{marginRight: 20, width: 50}}>
+                        <Text>ENG</Text>
+                      </TouchableOpacity>
+                    ),
                     headerTintColor: Colors.bgGreen,
                     headerTitleStyle: {
                       fontWeight: 'bold',

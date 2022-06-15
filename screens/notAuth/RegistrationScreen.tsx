@@ -42,7 +42,7 @@ const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
       <View style={styles.buttonWrapper}>
         <AppButton
           onPress={() => {
-            props.navigation.navigate(notAuthRoutes.registrationDetails, {hasCard: true, fb_token: route?.params?.fb_token});
+            props.navigation.navigate(notAuthRoutes.myCardInfo, {hasCard: true, fb_token: route?.params?.fb_token});
           }}
           title={translate.t('common.ok')}
           backgroundColor={Colors.bgGreen}

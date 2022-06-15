@@ -58,6 +58,8 @@ export default {
     fillInfo: 'შეავსეთ თქვენი მონაცემები',
     registrationDone: 'რეგისტრაცია დასრულებულია',
     doYouWantCard: 'გაქვთ თუ არა უნიქარდის ბარათი?',
+    userRegistration: 'მომხმარებლის რეგისტრაცია',
+    addCardNumber: 'მიუთითეთ ბარათის ნომერი',
   },
   home: {
     whatShouldSpend: 'რაში დავხარჯო',

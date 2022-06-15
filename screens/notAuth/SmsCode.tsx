@@ -28,7 +28,7 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
   const register = () => {
     if(loading) return;
     setLoading(true);
-    const {user_name, surname, person_code, birthDate, phone, email, password, fb_token, new_card_registration} =
+    const {user_name, surname, person_code, birthDate, phone, email, password, fb_token, new_card_registration, card} =
       params.data;
     const data: IRegisterRequestData = {
       user_name,
@@ -39,7 +39,8 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
       email,
       password,
       fb_token,
-      new_card_registration
+      new_card_registration,
+      card
     };
     AuthService.SignUp(data).subscribe({
       next: Response => {

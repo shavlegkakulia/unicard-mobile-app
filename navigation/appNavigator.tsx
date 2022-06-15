@@ -51,6 +51,7 @@ import SingleMerchantsScreen from '../screens/auth/merchants/SingleMerchantsScre
 import AllMerchants from '../screens/auth/merchants/AllMerchants';
 import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
 import MyCardInfo from '../screens/notAuth/MyCardInfo';
+import Organizations from '../screens/auth/organizations';
 
 const authStack = createStackNavigator();
 
@@ -460,6 +461,39 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     title: translate.t('screens.aroundMe'),
+                    headerBackTitle: '',
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          // isDrawerOpened.current
+                          //   ? sideDraver.current?.closeDrawer()
+                          //   : sideDraver.current?.openDrawer();
+                        }}>
+                        <Image
+                          style={{width: 25, marginRight: 29}}
+                          source={require('../assets/img/icon-search.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                    headerTitleStyle: {
+                      fontWeight: '400',
+                      textTransform: 'uppercase',
+                      fontSize: 14,
+                    },
+                  }}
+                />
+                  <authStack.Screen
+                  name={authRoutes.searchResults}
+                  component={Organizations}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: 'search results',
                     headerBackTitle: '',
                     headerTintColor: Colors.black,
                     headerStyle: {

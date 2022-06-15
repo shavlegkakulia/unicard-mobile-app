@@ -18,12 +18,13 @@ import ProductFiltersService, {
 } from '../services/ProductFiltersService';
 import {subscriptionService} from '../services/SubscribeService';
 import {authRoutes} from './routes';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
 import SearchService, {
   ISearchDetailsRequest,
   ISearchServiceResponse,
 } from '../services/SearchService';
+import { get_organizations } from '../Store/actions/organizations_actions';
 
 const DISCOUNTED = 'DISCOUNTED';
 const LAST_ADDED = 'LAST_ADDED';
@@ -42,6 +43,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const [loading, setLoading] = useState<boolean>();
   const [point, setPoint] = useState<boolean>(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const goTo = (roteName: string, props: any) => {
     subscriptionService?.sendData('close-rightdrawer', true);
     navigation.navigate(roteName, props);
@@ -82,23 +84,9 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
       organisations: true,
     };
 
-    SearchService.GenerateSearch(data).subscribe({
-      next: Response => {
-        if (Response.data.resultCode === '200') {
-          setLoading(false);
-
-          setSearchProduct(Response.data.search_result);
-          console.log('>>>>>>>', Response.data.search_result);
-        }
-      },
-      error: err => {
-        console.log('>>>', err);
-      },
-    });
+    dispatch(get_organizations(data));
+    goTo(authRoutes.searchResults, {});
   };
-  // useEffect(() => {
-  //   SearchProduct();
-  // }, []);
 
   const cancelSearch = () => {
     setSearchValue('');

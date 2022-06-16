@@ -19,7 +19,7 @@ import UserInfoService, {
   IgetUserServiceResponse,
 } from '../services/UserInfoService';
 import {subscriptionService} from '../services/SubscribeService';
-import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
+import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
 
 const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
   const translate = useSelector<ITranslateReducer>(
@@ -64,134 +64,134 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View>
-      <View style={styles.imgView}>
-        <Image
-          style={styles.img}
-          resizeMode={'contain'}
+        <View style={styles.imgView}>
+          <Image
+            style={styles.img}
+            resizeMode={'contain'}
             source={require('../assets/img/uniLogo.png')}
-        />
-      </View>
-      <View style={styles.row}>
-        <View style={styles.avatarView}>
-          <Image
-            style={styles.avatar}
-            source={require('../assets/img/avatar.png')}
           />
         </View>
+        <View style={styles.row}>
+          <View style={styles.avatarView}>
+            <Image
+              style={styles.avatar}
+              source={require('../assets/img/avatar.png')}
+            />
+          </View>
 
-        <Text style={styles.name}>
-          {!loading && userInfo?.name} {userInfo?.surname}
-        </Text>
-      </View>
-      <TouchableOpacity
-        style={styles.row}
-        onPress={() => goTo(authRoutes.barcode)}>
-        <View style={styles.iconView}>
-          <Image
-            style={styles.card}
-            resizeMode={'contain'}
-            source={require('../assets/img/cardIcon.png')}
-          />
+          <Text style={styles.name}>
+            {!loading && userInfo?.name} {userInfo?.surname}
+          </Text>
         </View>
-        <Text style={styles.name}>{translate.t('common.card')}</Text>
-      </TouchableOpacity>
-      <View style={styles.lineView} />
-      <TouchableOpacity
-        style={styles.row}
-        onPress={() => goTo(authRoutes.home)}>
-        <View style={styles.iconView}>
-          <Image
-            style={styles.homeIcon}
-            resizeMode={'contain'}
-            source={require('../assets/img/homeIcon.png')}
-          />
-        </View>
-        <Text style={styles.name}>{translate.t('screens.home')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.row}
-        onPress={() => goTo(authRoutes.myPage)}>
-        <View style={styles.iconView}>
-          <Image
-            style={styles.userIcon}
-            resizeMode={'contain'}
-            source={require('../assets/img/userIcon.png')}
-          />
-        </View>
-        <Text style={styles.name}>{translate.t('screens.myPage')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.row}
-        onPress={() => goTo(authRoutes.spendOptions)}>
-        <View style={styles.iconView}>
-          <Image
-            style={styles.cartIcon}
-            resizeMode={'contain'}
-            source={require('../assets/img/cartIcon.png')}
-          />
-        </View>
-        <Text style={styles.name}>{translate.t('home.whatShouldSpend')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.row}
-        onPress={() => goTo(authRoutes.aroundUs)}>
-        <View style={styles.iconView}>
-          <Image
-            style={styles.pinIcon}
-            resizeMode={'contain'}
-            source={require('../assets/img/pinIcon.png')}
-          />
-        </View>
-        <Text style={styles.name}>{translate.t('screens.aroundMe')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.row}
-        onPress={() => goTo(authRoutes.partners)}>
-        <View style={styles.iconView}>
-          <Image
-            style={styles.hendsIcon}
-            resizeMode={'contain'}
-            source={require('../assets/img/hendsIcon.png')}
-          />
-        </View>
-        <Text style={styles.name}>{translate.t('screens.partners')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.row}
-        onPress={() => goTo(authRoutes.news)}>
-        <View style={styles.iconView}>
-          <Image
-            style={styles.newsIcon}
-            resizeMode={'contain'}
-            source={require('../assets/img/newsIcon.png')}
-          />
-        </View>
-        <Text style={styles.name}>{translate.t('screens.news')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.row}
-        onPress={() => goTo(authRoutes.aboutUs)}>
-        <View style={styles.iconView}>
-          <Image
-            style={styles.aboutIcon}
-            resizeMode={'contain'}
-            source={require('../assets/img/aboutUsIcon.png')}
-          />
-        </View>
-        <Text style={styles.name}>{translate.t('screens.aboutUs')}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.row}
-        onPress={() => goTo(authRoutes.parameters)}>
-        <View style={styles.iconView}>
-          <Image
-            style={styles.paramIcon}
-            resizeMode={'contain'}
-            source={require('../assets/img/parametersIcon.png')}
-          />
-        </View>
-        <Text style={styles.name}>{translate.t('screens.parameters')}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => goTo(authRoutes.barcode)}>
+          <View style={styles.iconView}>
+            <Image
+              style={styles.card}
+              resizeMode={'contain'}
+              source={require('../assets/img/cardIcon.png')}
+            />
+          </View>
+          <Text style={styles.name}>{translate.t('common.card')}</Text>
+        </TouchableOpacity>
+        <View style={styles.lineView} />
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => goTo(authRoutes.home)}>
+          <View style={styles.iconView}>
+            <Image
+              style={styles.homeIcon}
+              resizeMode={'contain'}
+              source={require('../assets/img/homeIcon.png')}
+            />
+          </View>
+          <Text style={styles.name}>{translate.t('screens.home')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => goTo(authRoutes.myPage)}>
+          <View style={styles.iconView}>
+            <Image
+              style={styles.userIcon}
+              resizeMode={'contain'}
+              source={require('../assets/img/userIcon.png')}
+            />
+          </View>
+          <Text style={styles.name}>{translate.t('screens.myPage')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => goTo(authRoutes.spendOptions)}>
+          <View style={styles.iconView}>
+            <Image
+              style={styles.cartIcon}
+              resizeMode={'contain'}
+              source={require('../assets/img/cartIcon.png')}
+            />
+          </View>
+          <Text style={styles.name}>{translate.t('home.whatShouldSpend')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => goTo(authRoutes.aroundUs)}>
+          <View style={styles.iconView}>
+            <Image
+              style={styles.pinIcon}
+              resizeMode={'contain'}
+              source={require('../assets/img/pinIcon.png')}
+            />
+          </View>
+          <Text style={styles.name}>{translate.t('screens.aroundMe')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => goTo(authRoutes.partners)}>
+          <View style={styles.iconView}>
+            <Image
+              style={styles.hendsIcon}
+              resizeMode={'contain'}
+              source={require('../assets/img/hendsIcon.png')}
+            />
+          </View>
+          <Text style={styles.name}>{translate.t('screens.partners')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => goTo(authRoutes.news)}>
+          <View style={styles.iconView}>
+            <Image
+              style={styles.newsIcon}
+              resizeMode={'contain'}
+              source={require('../assets/img/newsIcon.png')}
+            />
+          </View>
+          <Text style={styles.name}>{translate.t('screens.news')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => goTo(authRoutes.aboutUs)}>
+          <View style={styles.iconView}>
+            <Image
+              style={styles.aboutIcon}
+              resizeMode={'contain'}
+              source={require('../assets/img/aboutUsIcon.png')}
+            />
+          </View>
+          <Text style={styles.name}>{translate.t('screens.aboutUs')}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => goTo(authRoutes.parameters)}>
+          <View style={styles.iconView}>
+            <Image
+              style={styles.paramIcon}
+              resizeMode={'contain'}
+              source={require('../assets/img/parametersIcon.png')}
+            />
+          </View>
+          <Text style={styles.name}>{translate.t('screens.parameters')}</Text>
+        </TouchableOpacity>
       </View>
 
       <TouchableOpacity onPress={() => dispath(logout())} style={styles.button}>
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 40,
     borderTopRightRadius: 40,
     paddingHorizontal: 34,
-    paddingBottom: 30
+    paddingBottom: 30,
   },
   imgView: {
     marginTop: 40,

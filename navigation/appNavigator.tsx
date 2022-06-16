@@ -7,7 +7,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import SideBarDrawer from './sidebarDrawer';
 import {authRoutes, notAuthRoutes} from './routes';
 import HomeScreen from '../screens/auth/HomeScreen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {IAuthReducer, IAuthState} from '../Store/types/auth';
 import LoginScreen from '../screens/notAuth/LoginScreen';
 import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
@@ -45,12 +45,14 @@ import AllMerchants from '../screens/auth/merchants/AllMerchants';
 import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
 import MyCardInfo from '../screens/notAuth/MyCardInfo';
 import Organizations from '../screens/auth/organizations';
+import {use} from '../Store/actions/translate';
 
 const authStack = createStackNavigator();
 
 const DrawerContainer = gestureHandlerRootHOC(() => <AppNavigator />);
 
 const AppNavigator = () => {
+  const dispatch = useDispatch();
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
@@ -58,7 +60,6 @@ const AppNavigator = () => {
   const authReducer = useSelector<IAuthReducer>(
     state => state.AuthReducer,
   ) as IAuthState;
-
 
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
@@ -94,6 +95,13 @@ const AppNavigator = () => {
       subscription?.unsubscribe();
     };
   }, []);
+  const langStyle = {
+    marginLeft: 20,
+    width: 50,
+  };
+  const changeLang = async () => {
+    dispatch(use(translate.key === 'en' ? 'ka' : 'en'));
+  };
 
   return (
     <>
@@ -139,8 +147,12 @@ const AppNavigator = () => {
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
-                          <Text>ENG</Text>
+                        <TouchableOpacity
+                          onPress={changeLang}
+                          style={langStyle}>
+                          <Text>{`${
+                            translate.key === 'en' ? 'GEO' : 'ENG'
+                          }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
@@ -200,8 +212,12 @@ const AppNavigator = () => {
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
-                          <Text>ENG</Text>
+                        <TouchableOpacity
+                          onPress={changeLang}
+                          style={langStyle}>
+                          <Text>{`${
+                            translate.key === 'en' ? 'GEO' : 'ENG'
+                          }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
@@ -252,8 +268,12 @@ const AppNavigator = () => {
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
-                          <Text>ENG</Text>
+                        <TouchableOpacity
+                          onPress={changeLang}
+                          style={langStyle}>
+                          <Text>{`${
+                            translate.key === 'en' ? 'GEO' : 'ENG'
+                          }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
@@ -422,8 +442,12 @@ const AppNavigator = () => {
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
-                          <Text>ENG</Text>
+                        <TouchableOpacity
+                          onPress={changeLang}
+                          style={langStyle}>
+                          <Text>{`${
+                            translate.key === 'en' ? 'GEO' : 'ENG'
+                          }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
@@ -642,8 +666,12 @@ const AppNavigator = () => {
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
-                          <Text>ENG</Text>
+                        <TouchableOpacity
+                          onPress={changeLang}
+                          style={langStyle}>
+                          <Text>{`${
+                            translate.key === 'en' ? 'GEO' : 'ENG'
+                          }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
@@ -695,8 +723,12 @@ const AppNavigator = () => {
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
-                          <Text>ENG</Text>
+                        <TouchableOpacity
+                          onPress={changeLang}
+                          style={langStyle}>
+                          <Text>{`${
+                            translate.key === 'en' ? 'GEO' : 'ENG'
+                          }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
@@ -733,8 +765,12 @@ const AppNavigator = () => {
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
-                          <Text>ENG</Text>
+                        <TouchableOpacity
+                          onPress={changeLang}
+                          style={langStyle}>
+                          <Text>{`${
+                            translate.key === 'en' ? 'GEO' : 'ENG'
+                          }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
@@ -772,8 +808,12 @@ const AppNavigator = () => {
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
-                          <Text>ENG</Text>
+                        <TouchableOpacity
+                          onPress={changeLang}
+                          style={langStyle}>
+                          <Text>{`${
+                            translate.key === 'en' ? 'GEO' : 'ENG'
+                          }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
@@ -935,8 +975,12 @@ const AppNavigator = () => {
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
-                          <Text>ENG</Text>
+                        <TouchableOpacity
+                          onPress={changeLang}
+                          style={langStyle}>
+                          <Text>{`${
+                            translate.key === 'en' ? 'GEO' : 'ENG'
+                          }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
@@ -1008,8 +1052,12 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerRight: () => (
-                      <TouchableOpacity style={{marginRight: 20, width: 50}}>
-                        <Text>ENG</Text>
+                      <TouchableOpacity
+                        onPress={changeLang}
+                        style={{marginRight: 20, width: 50}}>
+                        <Text>{`${
+                          translate.key === 'en' ? 'GEO' : 'ENG'
+                        }`}</Text>
                       </TouchableOpacity>
                     ),
                     headerTintColor: Colors.bgGreen,
@@ -1147,8 +1195,12 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerRight: () => (
-                      <TouchableOpacity style={{marginRight: 20, width: 50}}>
-                        <Text>ENG</Text>
+                      <TouchableOpacity
+                        onPress={changeLang}
+                        style={{marginRight: 20, width: 50}}>
+                        <Text>{`${
+                          translate.key === 'en' ? 'GEO' : 'ENG'
+                        }`}</Text>
                       </TouchableOpacity>
                     ),
                     headerTintColor: Colors.bgGreen,

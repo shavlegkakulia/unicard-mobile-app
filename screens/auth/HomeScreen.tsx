@@ -31,11 +31,12 @@ import GetBalanceService, {
 } from '../../services/GetBalanceService';
 import {ChunkArrays} from '../../utils/ChunkArray';
 import {paginationDotCount} from '../../utils/PaginationDotCount';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {useSelector} from 'react-redux';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 const HomeScreen: React.FC<ScreenNavigationProp> = props => {
-const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
-
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const [list, setList] = useState<IgetProducteListResponse[]>([]);
   const [balance, setBalance] = useState<IgetBalanceResponse>();
@@ -139,8 +140,8 @@ const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer
 
   const imageView = Platform.select({
     ios: styles.imageView,
-    android: styles.androidImageView
-  })
+    android: styles.androidImageView,
+  });
 
   return (
     <ScrollView>
@@ -179,7 +180,7 @@ const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer
           {offersList.map((data, i) => (
             <View key={i} style={[styles.dataContent, itemStyle]}>
               {data.map((item, index) => (
-                <ShopingCard {...item} key={index} />
+                <ShopingCard product={item} key={index} />
               ))}
             </View>
           ))}

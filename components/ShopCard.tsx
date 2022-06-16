@@ -1,42 +1,43 @@
-import React, {useEffect, useState} from 'react';
-import {
-  Image,
-  ImageSourcePropType,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Colors from '../theme/Colors';
 import {authRoutes} from '../navigation/routes';
-import {IgetProducteResponse} from '../services/ProductService';
-import ProductList, {
-  Igeneralresp,
-  IgetProducteListRequest,
-  IgetProducteListResponse,
-} from '../services/ProductListService';
-import navigation from '../navigation/navigation';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
+import {IgetProducteListResponse} from '../services/ProductListService';
+import {useSelector} from 'react-redux';
+import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
+import {ISearchServiceResponse} from '../services/SearchService';
 
+interface IComponentProps {
+  product?: IgetProducteListResponse;
+  orgs?: ISearchServiceResponse;
+}
 
-const ShopingCard: React.FC<IgetProducteListResponse> = props => {
+const ShopingCard: React.FC<IComponentProps> = props => {
   const translate = useSelector<ITranslateReducer>(
     tran => tran.TranslateReducer,
   ) as ITranslateState;
   const navigation = useNavigation();
+  console.log('org>>>>>>>>', props.orgs?.price);
+  const prod = true;
+  const org = true;
   let imgUrl = '';
-  if (props.images?.length) {
-    imgUrl = props.images[0];
+  if (prod && props?.product?.images) {
+    imgUrl = props.product.images[0];
+    console.log('products image', imgUrl);
   }
+  if (org && props?.orgs?.image_url) {
+    imgUrl = `${props.orgs.image_url}/186x186.jpg`;
+    console.log('prize image', imgUrl);
+  }
+
   return (
     <TouchableOpacity
       style={styles.cardWrapper}
       onPress={navigation.navigate.bind(this, authRoutes.singleOffer, {
-        id: props.id,
-        type: props.type_id,
+        id: (prod && props.product?.id) || (org && props.orgs?.result_id),
+        type: props.product?.type_id,
       })}>
       <View>
         <Image source={{uri: imgUrl}} style={styles.img} />
@@ -44,7 +45,9 @@ const ShopingCard: React.FC<IgetProducteListResponse> = props => {
       <View style={styles.describeView}>
         <View style={styles.seeMoreView}>
           <View style={styles.markView}>
-            <Text style={styles.amountTxt}>{props.price}</Text>
+            <Text style={styles.amountTxt}>
+              {(prod && props.product?.price) || (org && props.orgs?.price)}
+            </Text>
             <Image
               style={styles.mark}
               source={require('../assets/img/UniMark.png')}
@@ -59,7 +62,9 @@ const ShopingCard: React.FC<IgetProducteListResponse> = props => {
           </View>
         </View>
 
-        <Text style={styles.descriptionText}>{props.name}</Text>
+        <Text style={styles.descriptionText}>
+          {(prod && props.product?.name) || (org && props.orgs?.result_name)}
+        </Text>
       </View>
     </TouchableOpacity>
   );

@@ -22,11 +22,13 @@ import Paginator from '../../components/Paginator';
 import {paginationDotCount} from '../../utils/PaginationDotCount';
 import MessagesWrapper from '../../components/CostumComponents/MessagesWrapper';
 import NotFound from '../../components/CostumComponents/NotFound';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {useSelector} from 'react-redux';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 
 const SpendOptions: React.FC<ScreenNavigationProp> = props => {
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const [list, setList] = useState<IgetProducteListResponse[]>([]);
   const [pageIndex, setPageIndex] = useState(1);
@@ -163,18 +165,20 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
                 {offersList.map((data, i) => (
                   <View key={i} style={[styles.dataContent, itemStyle]}>
                     {data.map((item, index) => (
-                      <ShopingCard {...item} key={index} />
+                      <ShopingCard product={item} key={index} />
                     ))}
                   </View>
                 ))}
               </ScrollView>
             ) : (
-              <NotFound
-                onPress={() => {}}
-                title={translate.t('generalErrors.contentNotFound')}
-                backgroundColor={Colors.red}
-                image={image}
-              />
+              !loading && (
+                <NotFound
+                  onPress={() => {}}
+                  title={translate.t('generalErrors.contentNotFound')}
+                  backgroundColor={Colors.red}
+                  image={image}
+                />
+              )
             )}
           </>
         )}

@@ -1,16 +1,25 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
+import NotFound from '../../../components/CostumComponents/NotFound';
+import ShopingCard from '../../../components/ShopCard';
 import {
   IOrganizationReducer,
   IOrganizatiosState,
 } from '../../../Store/types/organizations_types';
+import {
+  ITranslateReducer,
+  ITranslateState,
+} from '../../../Store/types/translate';
 import Colors from '../../../theme/Colors';
 
 const Organizations: React.FC = () => {
   const organizations = useSelector<IOrganizationReducer>(
     state => state.OrganizationReducer,
   ) as IOrganizatiosState;
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   if (organizations.fetching) {
     return (
@@ -19,17 +28,25 @@ const Organizations: React.FC = () => {
       </View>
     );
   }
+  const image = require('../../../assets/img/error.png');
+
+  console.log('aqaaaaaaaaaa', organizations);
 
   return (
-    <View>
+    <ScrollView contentContainerStyle={styles.main}>
       {organizations.organizations?.length ? (
-        organizations.organizations?.map(org => (
-          <Text key={org.result_id}>{org.result_name}</Text>
+        organizations.organizations?.map((org, index) => (
+          <ShopingCard orgs={org} key={index} />
         ))
       ) : (
-        <Text>no data</Text>
+        <NotFound
+          onPress={() => {}}
+          title={translate.t('generalErrors.contentNotFound')}
+          backgroundColor={Colors.red}
+          image={image}
+        />
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -38,6 +55,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  main: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });
 

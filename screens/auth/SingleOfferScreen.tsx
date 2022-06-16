@@ -79,15 +79,12 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
 
             <View style={{marginTop: 15}}>
               {offer.addresList?.map((ad, i) => (
-                <View style={styles.locationView}>
+                <View style={styles.locationView} key={i}>
                   <Image
                     style={styles.icon}
                     source={require('../../assets/img/locationLogo.png')}
                   />
-                  <Text style={styles.address} key={i}>
-                    {' '}
-                    {ad}
-                  </Text>
+                  <Text style={styles.address}> {ad}</Text>
                 </View>
               ))}
             </View>

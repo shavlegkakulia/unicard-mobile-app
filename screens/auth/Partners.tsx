@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import PartnersCard from '../../components/CostumComponents/PartnersCard';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -15,7 +22,9 @@ const Partners: React.FC<ScreenNavigationProp> = () => {
   console.log('>>>>>>>>', partners);
   let logo = {uri: partners?.url};
   const getPartners = () => {
-    if(loading) return;
+    if (loading) {
+      return;
+    }
     setLoading(true);
     PartnersService.GeneratePartners().subscribe({
       next: Response => {
@@ -34,10 +43,12 @@ const Partners: React.FC<ScreenNavigationProp> = () => {
     getPartners();
   }, []);
 
-  if(loading) {
-    return <View style={styles.loader}>
-      <ActivityIndicator size={'small'} color={Colors.bgGreen} />
-    </View>
+  if (loading) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size={'small'} color={Colors.bgGreen} />
+      </View>
+    );
   }
 
   return (
@@ -59,8 +70,8 @@ const styles = StyleSheet.create({
   loader: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 export default Partners;

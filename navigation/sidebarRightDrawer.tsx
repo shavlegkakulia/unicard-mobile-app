@@ -79,9 +79,9 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
     let data: ISearchDetailsRequest = {
       input_text: searchValue,
       page_index: '1',
-      row_count: '1',
+      row_count: '10',
       prizes: true,
-      organisations: true,
+      organisations: false,
     };
 
     dispatch(get_organizations(data));

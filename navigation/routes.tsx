@@ -17,7 +17,7 @@ export enum authRoutes {
   partners = 'partners',
   singlePartners = 'singlePartners',
   aroundUs = 'aroundUs',
-  searchScreen = 'searchScreen',
+  // searchScreen = 'searchScreen',
   singleMerchants = 'singleMerchants',
   allMerchants = 'allMerchants',
   spendOptions2 = 'spendOptions2',

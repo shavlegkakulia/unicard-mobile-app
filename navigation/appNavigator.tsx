@@ -10,14 +10,7 @@ import HomeScreen from '../screens/auth/HomeScreen';
 import {useSelector} from 'react-redux';
 import {IAuthReducer, IAuthState} from '../Store/types/auth';
 import LoginScreen from '../screens/notAuth/LoginScreen';
-import {
-  BackHandler,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
 import RegistrationScreen from '../screens/notAuth/RegistrationScreen';
 import RegistrationDetailsScreen from '../screens/notAuth/RegistrationDetailsScreen';
 import PasswordInfo from '../screens/notAuth/PasswordInfo';
@@ -42,11 +35,11 @@ import PasswordChangingError from '../screens/auth/PasswordChangingError';
 import PassCode from '../components/CostumComponents/PassCode';
 import AuthPage from '../components/CostumComponents/AuthPage';
 import SingleNewsScreen from '../screens/auth/SingleNewsScreen';
-import {subscriptionService} from '../services/SubscribeService';
 import Partners from '../screens/auth/Partners';
 import SinglePartners from '../screens/auth/SinglePartners';
 import MerchantsMap from '../screens/auth/merchants/MerchantsMap';
-import SearchScreen from '../screens/auth/SearchScreen';
+// import SearchScreen from '../screens/auth/SearchScreen';
+import {subscriptionService} from '../services/SubscribeService';
 import SingleMerchantsScreen from '../screens/auth/merchants/SingleMerchantsScreen';
 import AllMerchants from '../screens/auth/merchants/AllMerchants';
 import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
@@ -65,6 +58,7 @@ const AppNavigator = () => {
   const authReducer = useSelector<IAuthReducer>(
     state => state.AuthReducer,
   ) as IAuthState;
+
 
   useEffect(() => {
     const sub = BackHandler.addEventListener('hardwareBackPress', () => {
@@ -486,39 +480,6 @@ const AppNavigator = () => {
                     },
                   }}
                 />
-                  <authStack.Screen
-                  name={authRoutes.searchResults}
-                  component={Organizations}
-                  options={{
-                    cardStyle: {
-                      backgroundColor: Colors.bgColor,
-                    },
-                    title: 'search results',
-                    headerBackTitle: '',
-                    headerTintColor: Colors.black,
-                    headerStyle: {
-                      backgroundColor: Colors.bgColor,
-                    },
-                    headerRight: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          // isDrawerOpened.current
-                          //   ? sideDraver.current?.closeDrawer()
-                          //   : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, marginRight: 29}}
-                          source={require('../assets/img/icon-search.png')}
-                        />
-                      </TouchableOpacity>
-                    ),
-                    headerTitleStyle: {
-                      fontWeight: '400',
-                      textTransform: 'uppercase',
-                      fontSize: 14,
-                    },
-                  }}
-                />
                 <authStack.Screen
                   name={authRoutes.allMerchants}
                   component={AllMerchants}
@@ -819,9 +780,9 @@ const AppNavigator = () => {
                     headerRight: () => (
                       <TouchableOpacity
                         onPress={() => {
-                          navigation.navigate(authRoutes.searchScreen, {
-                            key: 'partners',
-                          });
+                          // navigation.navigate(authRoutes.searchScreen, {
+                          //   key: 'partners',
+                          // });
                         }}>
                         <Image
                           style={{width: 21.01, height: 21, marginRight: 29}}
@@ -948,6 +909,54 @@ const AppNavigator = () => {
                   }}
                 />
                 <authStack.Screen
+                  name={authRoutes.searchResults}
+                  component={Organizations}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerBackTitleVisible: false,
+                    headerTintColor: Colors.black,
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    title: translate.t('home.whatShouldSpend'),
+                    headerLeft: () => (
+                      <View
+                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            isDrawerOpened.current
+                              ? sideDraver.current?.closeDrawer()
+                              : sideDraver.current?.openDrawer();
+                          }}>
+                          <Image
+                            style={{width: 25, height: 17, marginLeft: 29}}
+                            source={require('../assets/img/burgerIcon.png')}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{width: 50, marginLeft: 15}}>
+                          <Text>ENG</Text>
+                        </TouchableOpacity>
+                      </View>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          subscriptionService?.sendData(
+                            'open-RightDrawer',
+                            true,
+                          );
+                        }}>
+                        <Image
+                          style={{width: 22, height: 21, marginRight: 29}}
+                          source={require('../assets/img/cartIconsec.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
+                  }}
+                />
+                {/* <authStack.Screen
                   name={authRoutes.searchScreen}
                   component={SearchScreen}
                   options={{
@@ -979,7 +988,7 @@ const AppNavigator = () => {
                       fontSize: 14,
                     },
                   }}
-                />
+                /> */}
               </>
             ) : (
               <>

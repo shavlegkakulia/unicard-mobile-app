@@ -19,17 +19,14 @@ const ShopingCard: React.FC<IComponentProps> = props => {
     tran => tran.TranslateReducer,
   ) as ITranslateState;
   const navigation = useNavigation();
-  console.log('org>>>>>>>>', props.orgs?.price);
   const prod = true;
   const org = true;
   let imgUrl = '';
   if (prod && props?.product?.images) {
     imgUrl = props.product.images[0];
-    console.log('products image', imgUrl);
   }
   if (org && props?.orgs?.image_url) {
     imgUrl = `${props.orgs.image_url}/186x186.jpg`;
-    console.log('prize image', imgUrl);
   }
 
   return (

@@ -53,7 +53,6 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
     };
     OnlinePaymentService.GeneratePaymentInfo(req).subscribe({
       next: Response => {
-        console.log('ttttttttttttt', Response);
         setLoading(true);
         if (Response.data.resultCode === '200') {
           setPaymentInfo(Response.data.payment_info_list);
@@ -76,7 +75,6 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
   };
   const chackHandler = () => {
     getPayment();
-    console.log('>>>>hhhhhhhhhhhh>>>>>', paymentInfo);
   };
 
   const buyProduct = () => {
@@ -113,7 +111,6 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
 
     BuyProductService.GenerateProduct(data).subscribe({
       next: Response => {
-        console.log('resp', Response);
         if (Response.data.resultCode === '200') {
           setIsMobile(false);
           setLoading(false);

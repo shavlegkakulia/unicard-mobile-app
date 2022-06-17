@@ -75,6 +75,8 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
     getProducFiltertList();
   }, []);
 
+  let activePrize = true;
+
   const SearchProduct = () => {
     let data: ISearchDetailsRequest = {
       input_text: searchValue,
@@ -85,7 +87,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
     };
 
     dispatch(get_organizations(data));
-    goTo(authRoutes.searchResults, {});
+    goTo(authRoutes.searchResults, {activePrize: activePrize});
   };
 
   const cancelSearch = () => {

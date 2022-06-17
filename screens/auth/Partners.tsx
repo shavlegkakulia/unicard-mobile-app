@@ -19,7 +19,6 @@ import Colors from '../../theme/Colors';
 const Partners: React.FC<ScreenNavigationProp> = () => {
   const [partners, setPartners] = useState<IgetPartnersResponse>();
   const [loading, setLoading] = useState(false);
-  console.log('>>>>>>>>', partners);
   let logo = {uri: partners?.url};
   const getPartners = () => {
     if (loading) {
@@ -53,14 +52,15 @@ const Partners: React.FC<ScreenNavigationProp> = () => {
 
   return (
     <ScrollView>
-      {partners?.organizations?.map(e => (
+      {partners?.organizations?.map(partn => (
         <PartnersCard
-          key={e?.org_id}
-          name={e?.name}
-          logo={e?.url}
-          point={e?.unit_score}
-          pointDesc={e?.unit_desc}
-          id={e?.org_id}
+          partners={partn}
+          // key={e?.org_id}
+          // name={e?.name}
+          // logo={e?.url}
+          // point={e?.unit_score}
+          // pointDesc={e?.unit_desc}
+          // id={e?.org_id}
         />
       ))}
     </ScrollView>

@@ -16,7 +16,6 @@ const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
 
   const [news, setNews] = useState<IgetSingleNewsResponse>();
   const id = props.route.params.id;
-  // console.log(id);
 
   const getNewsPageDetails = () => {
     const req: IgetSingleNewsDetailsRequest = {
@@ -27,7 +26,6 @@ const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
       next: Response => {
         if (Response.data.resultCode === '200') {
           setNews(Response.data);
-          console.log(Response.data);
         }
       },
       error: err => {
@@ -38,7 +36,6 @@ const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getNewsPageDetails();
   }, []);
-  console.log(id);
   return (
     <ScrollView style={styles.main}>
       <View>

@@ -101,6 +101,9 @@ export default {
     userType: 'მომხმარებლის ტიპი',
     byScore: 'ქულების მიხედვით',
   },
+  search: {
+    searchResult: 'ძიების შედეგი',
+  },
   gift: {
     setAbonentCode: 'შეიყვანეთ აბონენტის ნომერი',
     abonentNotFound: 'აბონენტი ვერ მოიძებნა',
@@ -122,4 +125,4 @@ export default {
     maxLength: 'მაქსიმალური სიგრძე ',
     wrongRepeatPwd: 'პაროლი არასწორია',
   },
-}
+};

@@ -11,7 +11,6 @@ interface IPageProps {
 
 const MerchantItem: React.FC<IPageProps> = props => {
   const navigation = useNavigation();
-  console.log('>>>>>>>>', props);
   return (
     <TouchableOpacity
       style={styles.item}

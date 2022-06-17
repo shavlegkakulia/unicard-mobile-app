@@ -1,36 +1,55 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import navigation from '../../navigation/navigation';
 import {authRoutes} from '../../navigation/routes';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {IgetPartnersResponse} from '../../services/PartnersService';
+import {ISearchServiceResponse} from '../../services/SearchService';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
-export interface IPartnersProps {
-  name?: string;
-  logo?: string;
-  point?: string;
-  pointDesc?: string;
-  id?: string;
+// export interface IPartnersProps {
+//   name?: string;
+//   logo?: string;
+//   point?: string;
+//   pointDesc?: string;
+//   id?: string;
+// }
+interface IPartnersProps {
+  partners?: IgetPartnersResponse;
+  orgs?: ISearchServiceResponse;
 }
 
 const PartnersCard: React.FC<IPartnersProps> = props => {
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
-  const {name, logo, point, pointDesc, id} = props;
+  console.log('partners>>>', props.partners);
+  console.log('aidi', props.partners?.org_id)
+  const partn = true;
+  const org = true;
+  // const {name, logo, point, pointDesc, id} = props;
   const navigation = useNavigation();
+  let logo = '';
+  if (partn && props?.partners?.url) {
+    logo = props.partners.url;
+  }
+  if (org && props?.orgs?.image_url) {
+    logo = `${props.orgs.image_url}/186x186.jpg`;
+  }
+
   return (
     <TouchableOpacity
       style={styles.padding}
       onPress={navigation.navigate.bind(this, authRoutes.singlePartners, {
-        id: id,
+        id:
+          (partn && props?.partners?.org_id) || (org && props.orgs?.result_id),
       })}>
       <View style={styles.main}>
         <View style={styles.imgView}>
           <Image
-           resizeMode="contain"
+            resizeMode="contain"
             style={styles.logo}
             source={{
               uri: logo,
@@ -38,13 +57,23 @@ const PartnersCard: React.FC<IPartnersProps> = props => {
           />
         </View>
 
-        <Text style={styles.text}>{name}</Text>
+        <Text style={styles.text}>
+          {(partn && props?.partners?.name) ||
+            (org && props?.orgs?.result_name)}
+        </Text>
       </View>
       <View style={styles.pointView}>
         <Text style={styles.pointTxt}>
-          {point} {point ? translate.t('common.score') : ''}
+          {(partn && props?.partners?.unit_score) ||
+            (org && props?.orgs?.unit_score)}{' '}
+          {props?.partners?.unit_score || props?.orgs?.unit_score
+            ? translate.t('common.score')
+            : ''}
         </Text>
-        <Text style={styles.amountTxt}>{point ? pointDesc : ''}</Text>
+        <Text style={styles.amountTxt}>
+          {(partn && props?.partners?.unit_desc) ||
+            (org && props?.orgs?.point_desc)}
+        </Text>
       </View>
     </TouchableOpacity>
   );

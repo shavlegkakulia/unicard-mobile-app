@@ -11,8 +11,8 @@ import {
   Platform,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {useSelector} from 'react-redux';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 export const requireTypes = {
@@ -39,6 +39,7 @@ export interface IAppTextInputProps {
   name?: string;
   requireType?: string;
   chekCount?: number;
+  onPressProp?: () => void;
 }
 
 export const inputErrors: any[] = [];
@@ -61,6 +62,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     requireType,
     chekCount,
     onChange,
+    onPressProp,
   } = props;
 
   const errorMessages = {
@@ -70,12 +72,14 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     min: translate.t('generalErrors.minValue') + minValue,
     minLength: translate.t('generalErrors.minLength') + minLength,
     maxLength: translate.t('generalErrors.maxLength') + maxLength,
-    repeatPassword: translate.t('generalErrors.wrongRepeatPwd')
+    repeatPassword: translate.t('generalErrors.wrongRepeatPwd'),
   };
 
   const [visible, setVisible] = useState(secureTextEntry);
   const [hasError, setHasEror] = useState<string | undefined>(undefined);
   const [isFocused, setIsFocused] = useState(false);
+
+  let search = true;
 
   let iconUrl = !secureTextEntry
     ? icon
@@ -278,7 +282,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
 
   const mainstyle = Platform.select({
     ios: styles.main,
-    android: styles.mainAndroid
+    android: styles.mainAndroid,
   });
 
   return (
@@ -299,9 +303,15 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
 
         <TouchableOpacity
           style={styles.iconWrapper}
-          onPress={() => setVisible(!visible)}>
+          onPress={
+            !search ? () => setVisible(!visible) : () => onPressProp?.()
+          }>
           {iconUrl !== undefined && (
-            <Image source={iconUrl} style={styles.icon} resizeMode={'contain'} />
+            <Image
+              source={iconUrl}
+              style={styles.icon}
+              resizeMode={'contain'}
+            />
           )}
         </TouchableOpacity>
       </KeyboardAvoidingView>

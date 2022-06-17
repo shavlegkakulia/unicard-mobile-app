@@ -2,7 +2,9 @@ import React from 'react';
 import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import NotFound from '../../../components/CostumComponents/NotFound';
+import PartnersCard from '../../../components/CostumComponents/PartnersCard';
 import ShopingCard from '../../../components/ShopCard';
+import {ScreenNavigationProp} from '../../../interfaces/commons';
 import {
   IOrganizationReducer,
   IOrganizatiosState,
@@ -13,7 +15,7 @@ import {
 } from '../../../Store/types/translate';
 import Colors from '../../../theme/Colors';
 
-const Organizations: React.FC = () => {
+const Organizations: React.FC<ScreenNavigationProp> = props => {
   const organizations = useSelector<IOrganizationReducer>(
     state => state.OrganizationReducer,
   ) as IOrganizatiosState;
@@ -30,14 +32,19 @@ const Organizations: React.FC = () => {
   }
   const image = require('../../../assets/img/error.png');
 
-  console.log('aqaaaaaaaaaa', organizations);
+  let activePrize = props.route.params.activePrize;
+  let activeOrg = props.route.params.activeOrg;
 
   return (
     <ScrollView contentContainerStyle={styles.main}>
       {organizations.organizations?.length ? (
-        organizations.organizations?.map((org, index) => (
-          <ShopingCard orgs={org} key={index} />
-        ))
+        organizations.organizations?.map((org, index) =>
+          activePrize ? (
+            <ShopingCard orgs={org} key={index} />
+          ) : (
+            <PartnersCard orgs={org} key={index} />
+          ),
+        )
       ) : (
         <NotFound
           onPress={() => {}}

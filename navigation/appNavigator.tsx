@@ -46,6 +46,7 @@ import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
 import MyCardInfo from '../screens/notAuth/MyCardInfo';
 import Organizations from '../screens/auth/organizations';
 import {use} from '../Store/actions/translate';
+import SearchScreen from '../screens/auth/SearchScreen';
 
 const authStack = createStackNavigator();
 
@@ -451,19 +452,6 @@ const AppNavigator = () => {
                         </TouchableOpacity>
                       </View>
                     ),
-                    headerRight: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          // isDrawerOpened.current
-                          //   ? sideDraver.current?.closeDrawer()
-                          //   : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, marginRight: 29}}
-                          source={require('../assets/img/icon-search.png')}
-                        />
-                      </TouchableOpacity>
-                    ),
                     headerTitleStyle: {
                       fontWeight: '400',
                       textTransform: 'uppercase',
@@ -530,19 +518,7 @@ const AppNavigator = () => {
                         />
                       </TouchableOpacity>
                     ),
-                    headerRight: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          // isDrawerOpened.current
-                          //   ? sideDraver.current?.closeDrawer()
-                          //   : sideDraver.current?.openDrawer();
-                        }}>
-                        <Image
-                          style={{width: 25, marginRight: 29}}
-                          source={require('../assets/img/icon-search.png')}
-                        />
-                      </TouchableOpacity>
-                    ),
+
                     headerTitleStyle: {
                       fontWeight: '400',
                       textTransform: 'uppercase',
@@ -820,9 +796,7 @@ const AppNavigator = () => {
                     headerRight: () => (
                       <TouchableOpacity
                         onPress={() => {
-                          // navigation.navigate(authRoutes.searchScreen, {
-                          //   key: 'partners',
-                          // });
+                          navigation.navigate(authRoutes.searchScreen);
                         }}>
                         <Image
                           style={{width: 21.01, height: 21, marginRight: 29}}
@@ -861,14 +835,7 @@ const AppNavigator = () => {
                         />
                       </TouchableOpacity>
                     ),
-                    headerRight: () => (
-                      <TouchableOpacity onPress={() => {}}>
-                        <Image
-                          style={{width: 21.01, height: 21, marginRight: 29}}
-                          source={require('../assets/img/greenSearch.png')}
-                        />
-                      </TouchableOpacity>
-                    ),
+
                     headerBackTitle: '',
                     title: translate.t('screens.partners'),
                     headerTintColor: Colors.black,
@@ -960,7 +927,7 @@ const AppNavigator = () => {
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('home.whatShouldSpend'),
+                    title: '',
                     headerLeft: () => (
                       <View
                         style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -1000,7 +967,7 @@ const AppNavigator = () => {
                     ),
                   }}
                 />
-                {/* <authStack.Screen
+                <authStack.Screen
                   name={authRoutes.searchScreen}
                   component={SearchScreen}
                   options={{
@@ -1032,7 +999,7 @@ const AppNavigator = () => {
                       fontSize: 14,
                     },
                   }}
-                /> */}
+                />
               </>
             ) : (
               <>

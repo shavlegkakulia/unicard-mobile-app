@@ -20,8 +20,6 @@ const SingleOfferScreen: React.FC<ScreenNavigationProp> = props => {
   const [loading, setLoading] = useState<boolean>();
   const id = props.route.params.id;
   const type = props.route.params.type;
-  console.log('dataaaa', offer?.descriptionList);
-  console.log('aid', id);
 
   const getProductDetails = () => {
     const req: IgetProducteDetailsRequest = {

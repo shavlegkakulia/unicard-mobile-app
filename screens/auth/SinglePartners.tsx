@@ -28,7 +28,6 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
       next: Response => {
         if (Response.data.resultCode === '200') {
           setOrganization(Response.data);
-          console.log(Response.data);
         }
       },
       error: err => {
@@ -144,11 +143,11 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
         </View>
       ) : null}
       <View style={styles.btn}>
-        <AppButton
+        {/* <AppButton
           onPress={() => {}}
           title={translate.t('partners.objects')}
           backgroundColor={Colors.bgGreen}
-        />
+        /> */}
       </View>
     </ScrollView>
   );

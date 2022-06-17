@@ -28,7 +28,6 @@ export interface IgetPaymentResponse extends IGetPaymentResponseData  {
 
 class PaymentService {
   GeneratePaymentInfo(data: IgetPaymentDetailsRequest) {
-    console.log(data);
     const result = axios.get<IgetPaymentResponse>(
       `${envs.API_URL}api/Mobile/GetOnlinePaymentInfo?user_id=${data.user_id}&product_id=${data.product_id}&subscriber_number=${data.subscriber_number}`,
     );

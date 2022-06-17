@@ -5,10 +5,6 @@ import {TranslateActions} from '../types/translate';
 import storage from './../../services/StorageService';
 
 export const use = (key: string) => async (dispatch: any) => {
-  console.log(
-    '*************************************************',
-    translateList[key],
-  );
   dispatch({type: TranslateActions.SET_LOADING, isLoading: true});
   await storage.setItem(storage_keys.locales, key);
   dispatch({

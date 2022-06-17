@@ -28,7 +28,6 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
       next: Response => {
         if (Response.data.resultCode === '200') {
           setOrganization(Response.data);
-          console.log(Response.data);
         }
       },
       error: err => {

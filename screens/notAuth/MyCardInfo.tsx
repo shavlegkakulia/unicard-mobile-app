@@ -79,7 +79,6 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
         ...isEditableInputArray,
         isEditableInputArray.splice(1, 1, true),
       ];
-      console.log('>>>>>>>>>>>>>', isEditableInputArray);
       refs[index + 1].current!.focus();
     }
   };
@@ -103,7 +102,6 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
   //     return false;
   //   };
 
-  console.log('cardNumber', cardNumber.join(''), route?.params?.fb_token);
 
   return (
     <>

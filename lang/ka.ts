@@ -31,7 +31,7 @@ export default {
     continue: 'გაგრძელება',
     changePin: 'პინ-კოდის შეცვლა',
     wentWrong: 'დაფიქსირდა შეცდომა',
-    search: 'ძებნა',
+    search: 'პარტნიორების ძებნა',
     common: 'ქულა',
     more: 'ვრცლად',
     delete: 'წაშლა',

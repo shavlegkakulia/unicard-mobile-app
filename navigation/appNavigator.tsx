@@ -164,14 +164,18 @@ const AppNavigator = () => {
                           marginTop: 4,
                           marginRight: 23,
                         }}>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate(authRoutes.aroundUs)
+                          }>
                           <Image
                             style={{width: 18, height: 25, marginRight: 15}}
                             resizeMode={'contain'}
                             source={require('../assets/img/locationLogo.png')}
                           />
                         </TouchableOpacity>
-                        <TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => navigation.navigate(authRoutes.news)}>
                           <Image
                             style={{width: 19, height: 25}}
                             resizeMode={'contain'}
@@ -244,6 +248,8 @@ const AppNavigator = () => {
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitle: '',
+                    headerBackTitleVisible: false,
                     headerTintColor: Colors.bgGreen,
                   }}
                 />
@@ -403,7 +409,7 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     title: translate.t('home.whatShouldSpend'),
-
+                    headerBackTitleVisible: false,
                     headerTintColor: Colors.black,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -533,6 +539,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     title: translate.t('news.getGift'),
                     headerRight: () => (
                       <View
@@ -627,6 +634,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    
                     title: translate.t('screens.news'),
                     headerLeft: () => (
                       <View
@@ -670,6 +678,7 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitle: '',
+                    headerBackTitleVisible: false,
                     title: translate.t('screens.news'),
                     headerTintColor: Colors.black,
                     headerStyle: {
@@ -856,6 +865,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     headerBackTitle: '',
                     title: translate.t('settings.changePwd'),
                     headerTintColor: Colors.black,
@@ -1042,6 +1052,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     title: translate.t('auth.register'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -1062,6 +1073,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     title: translate.t('auth.register'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -1081,6 +1093,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     title: translate.t('auth.register'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -1100,6 +1113,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     title: translate.t('auth.register'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -1119,6 +1133,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     title: translate.t('auth.register'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -1138,6 +1153,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     title: '',
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -1157,6 +1173,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     title: translate.t('screens.welcome'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
@@ -1185,6 +1202,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     title: translate.t('auth.authorize'),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,

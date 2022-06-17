@@ -1,21 +1,47 @@
 import React, {useEffect, useState} from 'react';
-import {Image, Platform, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  Linking,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Share,
+} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import ContactService, {
   IgetContactDetailsRequest,
   IgetContactResponse,
 } from '../../services/ContactService';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 const AboutUs: React.FC<ScreenNavigationProp> = () => {
   const [contact, setContact] = useState<IgetContactResponse>();
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
-  
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: 'Unicard Mobile App',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {}
+  };
   const getBarcode = () => {
     const req: IgetContactDetailsRequest = {
       lang: '',
@@ -37,9 +63,9 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
 
   const main = Platform.select({
     ios: styles.main,
-    android: styles.androidmain
-  })
-  
+    android: styles.androidmain,
+  });
+
   return (
     // <View style={styles.main}>
     //   {!loading && cardInfo ? (
@@ -92,7 +118,9 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
             </View>
             <Text style={styles.txt}>{contact?.contact_email}</Text>
           </View>
-          <View style={styles.row}>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => Linking.openURL('https://www.unicard.ge/')}>
             <View style={styles.IconView}>
               <Image
                 style={styles.icon}
@@ -100,8 +128,12 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
               />
             </View>
             <Text style={styles.txt}>{contact?.web_page_link}</Text>
-          </View>
-          <View style={styles.row}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() =>
+              Linking.openURL('https://www.facebook.com/unicard.ge/')
+            }>
             <View style={styles.IconView}>
               <Image
                 style={styles.icon}
@@ -109,8 +141,8 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
               />
             </View>
             <Text style={styles.txt}>{contact?.fb_link}</Text>
-          </View>
-          <View style={styles.row}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.row} onPress={onShare}>
             <View style={styles.IconView}>
               <Image
                 style={styles.shareIcon}
@@ -118,7 +150,7 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
               />
             </View>
             <Text style={styles.txt}>{translate.t('aboutUs.shareApp')}</Text>
-          </View>
+          </TouchableOpacity>
           <View style={styles.row}>
             <View style={styles.IconView}>
               <Image

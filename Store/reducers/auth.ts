@@ -3,8 +3,8 @@ import {AuthActions, IAuthAction, IAuthState} from '../types/auth';
 const defSate: IAuthState = {
   isAuthentificated: false,
   userInfo: undefined,
-  token: '', 
-  refreshToken: ''
+  token: '',
+  refreshToken: '',
 };
 
 export default (state: IAuthState = defSate, action: IAuthAction) => {

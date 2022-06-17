@@ -31,7 +31,7 @@ export default {
     continue: 'Next',
     changePin: 'Change Pin-Code',
     wentWrong: 'Error',
-    search: 'Search',
+    search: 'Search Partners ',
     common: 'Point',
     more: 'See More',
     delete: 'Delete',

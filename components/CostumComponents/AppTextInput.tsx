@@ -40,6 +40,7 @@ export interface IAppTextInputProps {
   requireType?: string;
   chekCount?: number;
   onPressProp?: () => void;
+  borderColor?: string;
 }
 
 export const inputErrors: any[] = [];
@@ -63,6 +64,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     chekCount,
     onChange,
     onPressProp,
+    borderColor,
   } = props;
 
   const errorMessages = {

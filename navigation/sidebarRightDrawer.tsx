@@ -24,7 +24,7 @@ import SearchService, {
   ISearchDetailsRequest,
   ISearchServiceResponse,
 } from '../services/SearchService';
-import { get_organizations } from '../Store/actions/organizations_actions';
+import {get_organizations} from '../Store/actions/organizations_actions';
 
 const DISCOUNTED = 'DISCOUNTED';
 const LAST_ADDED = 'LAST_ADDED';
@@ -93,7 +93,6 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const cancelSearch = () => {
     setSearchValue('');
   };
-  
 
   const getPriceList = (type: any) => {
     let filter = {};
@@ -135,6 +134,8 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
             style={styles.input}
             value={searchValue}
             onChangeText={v => setSearchValue(v)}
+            placeholder="რაში დავხარჯო"
+            placeholderTextColor={Colors.switchGrey}
           />
         </View>
         <TouchableOpacity onPress={cancelSearch}>
@@ -251,6 +252,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: Colors.white,
     fontSize: 14,
+    fontFamily: 'BPG DejaVu Sans',
+    lineHeight: 16.3,
   },
   cancel: {
     marginLeft: 7,

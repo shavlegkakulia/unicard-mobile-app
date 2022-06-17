@@ -8,6 +8,7 @@ import { authRoutes } from '../../navigation/routes';
 import {ISearchDetailsRequest} from '../../services/SearchService';
 import {get_organizations} from '../../Store/actions/organizations_actions';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
+import Colors from '../../theme/Colors';
 
 const SearchScreen: React.FC<ScreenNavigationProp> = () => {
   const translate = useSelector<ITranslateReducer>(
@@ -45,6 +46,7 @@ const SearchScreen: React.FC<ScreenNavigationProp> = () => {
           value={searchValue}
           onChange={o => setSearchValue(o)}
           onPressProp={SearchProduct}
+          borderColor={Colors.bgGreen}
         />
       </KeyboardAvoidingView>
     </>

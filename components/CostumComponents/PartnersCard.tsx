@@ -25,8 +25,6 @@ const PartnersCard: React.FC<IPartnersProps> = props => {
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
-  console.log('partners>>>', props.partners);
-  console.log('aidi', props.partners?.org_id)
   const partn = true;
   const org = true;
   // const {name, logo, point, pointDesc, id} = props;

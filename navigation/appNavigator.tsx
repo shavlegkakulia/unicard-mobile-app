@@ -134,7 +134,11 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('screens.homePage'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.homePage')}
+                      </Text>
+                    ),
                     headerLeft: () => (
                       <View style={styles.headerView}>
                         <TouchableOpacity
@@ -151,7 +155,7 @@ const AppNavigator = () => {
                         <TouchableOpacity
                           onPress={changeLang}
                           style={styles.langStyle}>
-                          <Text style={styles.engText}>{`${
+                          <Text style={styles.headerTitle}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -179,7 +183,7 @@ const AppNavigator = () => {
                         </TouchableOpacity>
                       </View>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -197,7 +201,12 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('screens.myPages'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.myPages')}
+                      </Text>
+                    ),
+
                     headerLeft: () => (
                       <View style={styles.headerView}>
                         <TouchableOpacity
@@ -214,13 +223,13 @@ const AppNavigator = () => {
                         <TouchableOpacity
                           onPress={changeLang}
                           style={styles.langStyle}>
-                          <Text style={styles.engText}>{`${
+                          <Text style={styles.headerTitle}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -254,7 +263,12 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('home.whatShouldSpend'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('home.whatShouldSpend')}
+                      </Text>
+                    ),
+
                     headerLeft: () => (
                       <View style={styles.headerView}>
                         <TouchableOpacity
@@ -271,7 +285,7 @@ const AppNavigator = () => {
                         <TouchableOpacity
                           onPress={changeLang}
                           style={styles.langStyle}>
-                          <Text style={styles.engText}>{`${
+                          <Text style={styles.headerTitle}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -291,7 +305,7 @@ const AppNavigator = () => {
                         />
                       </TouchableOpacity>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -309,7 +323,12 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('home.whatShouldSpend'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('home.whatShouldSpend')}
+                      </Text>
+                    ),
+
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -337,7 +356,7 @@ const AppNavigator = () => {
                         />
                       </TouchableOpacity>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -355,7 +374,12 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('home.whatShouldSpend'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('home.whatShouldSpend')}
+                      </Text>
+                    ),
+
                     headerLeft: () => (
                       <TouchableOpacity
                         onPress={() => {
@@ -383,7 +407,7 @@ const AppNavigator = () => {
                         />
                       </TouchableOpacity>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -401,9 +425,27 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('home.whatShouldSpend'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('home.whatShouldSpend')}
+                      </Text>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={() => {
+                          subscriptionService?.sendData(
+                            'open-RightDrawer',
+                            true,
+                          );
+                        }}>
+                        <Image
+                          style={styles.cartIcon}
+                          source={require('../assets/img/cartIconsec.png')}
+                        />
+                      </TouchableOpacity>
+                    ),
                     headerBackTitleVisible: false,
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -422,9 +464,13 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('screens.aroundMe'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.aroundMe')}
+                      </Text>
+                    ),
 
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -444,7 +490,7 @@ const AppNavigator = () => {
                         <TouchableOpacity
                           onPress={changeLang}
                           style={styles.langStyle}>
-                          <Text style={styles.engText}>{`${
+                          <Text style={styles.headerTitle}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -464,9 +510,14 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('screens.aroundMe'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.aroundMe')}
+                      </Text>
+                    ),
+
                     headerBackTitle: '',
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -492,9 +543,13 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('screens.aroundMe'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.aroundMe')}
+                      </Text>
+                    ),
 
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -527,14 +582,19 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitleVisible: false,
-                    title: translate.t('news.getGift'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('news.getGift')}
+                      </Text>
+                    ),
+
                     headerRight: () => (
                       <View style={styles.dotView}>
                         <View style={styles.firstDot} />
                         <View style={styles.secDot} />
                       </View>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -553,14 +613,18 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('news.getGift'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('news.getGift')}
+                      </Text>
+                    ),
                     headerRight: () => (
                       <View style={styles.dotView}>
                         <View style={styles.secDot} />
                         <View style={styles.firstDot} />
                       </View>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -579,8 +643,12 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.news')}
+                      </Text>
+                    ),
 
-                    title: translate.t('screens.news'),
                     headerLeft: () => (
                       <View style={styles.headerView}>
                         <TouchableOpacity
@@ -597,13 +665,13 @@ const AppNavigator = () => {
                         <TouchableOpacity
                           onPress={changeLang}
                           style={styles.langStyle}>
-                          <Text style={styles.engText}>{`${
+                          <Text style={styles.headerTitle}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -623,8 +691,12 @@ const AppNavigator = () => {
                     },
                     headerBackTitle: '',
                     headerBackTitleVisible: false,
-                    title: translate.t('screens.news'),
-                    headerTintColor: Colors.black,
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.news')}
+                      </Text>
+                    ),
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -637,7 +709,12 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('screens.aboutUs'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.aboutUs')}
+                      </Text>
+                    ),
+
                     headerLeft: () => (
                       <View style={styles.headerView}>
                         <TouchableOpacity
@@ -654,13 +731,13 @@ const AppNavigator = () => {
                         <TouchableOpacity
                           onPress={changeLang}
                           style={styles.langStyle}>
-                          <Text style={styles.engText}>{`${
+                          <Text style={styles.headerTitle}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -678,7 +755,12 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('screens.parameters'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.parameters')}
+                      </Text>
+                    ),
+
                     headerLeft: () => (
                       <View style={styles.headerView}>
                         <TouchableOpacity
@@ -695,13 +777,13 @@ const AppNavigator = () => {
                         <TouchableOpacity
                           onPress={changeLang}
                           style={styles.langStyle}>
-                          <Text style={styles.engText}>{`${
+                          <Text style={styles.headerTitle}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -720,7 +802,12 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitle: '',
-                    title: translate.t('screens.partners'),
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.partners')}
+                      </Text>
+                    ),
+
                     headerLeft: () => (
                       <View style={styles.headerView}>
                         <TouchableOpacity
@@ -737,7 +824,7 @@ const AppNavigator = () => {
                         <TouchableOpacity
                           onPress={changeLang}
                           style={styles.langStyle}>
-                          <Text style={styles.engText}>{`${
+                          <Text style={styles.headerTitle}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -754,7 +841,7 @@ const AppNavigator = () => {
                         />
                       </TouchableOpacity>
                     ),
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -787,8 +874,12 @@ const AppNavigator = () => {
                     ),
 
                     headerBackTitle: '',
-                    title: translate.t('screens.partners'),
-                    headerTintColor: Colors.black,
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('screens.partners')}
+                      </Text>
+                    ),
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -808,8 +899,13 @@ const AppNavigator = () => {
                     },
                     headerBackTitleVisible: false,
                     headerBackTitle: '',
-                    title: translate.t('settings.changePwd'),
-                    headerTintColor: Colors.black,
+                    headerTitle: () => (
+                      <Text style={styles.headerTitle}>
+                        {translate.t('settings.changePwd')}
+                      </Text>
+                    ),
+
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -844,7 +940,7 @@ const AppNavigator = () => {
                     },
                     headerBackTitle: '',
                     title: '',
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -860,7 +956,7 @@ const AppNavigator = () => {
                     headerBackTitleVisible: false,
 
                     title: '',
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -874,7 +970,7 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitleVisible: false,
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -895,7 +991,7 @@ const AppNavigator = () => {
                         <TouchableOpacity
                           onPress={changeLang}
                           style={styles.langStyle}>
-                          <Text style={styles.engText}>{`${
+                          <Text style={styles.headerTitle}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -939,7 +1035,7 @@ const AppNavigator = () => {
                     ),
                     headerBackTitle: '',
                     title: '',
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
@@ -960,29 +1056,27 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    title: translate.t('screens.welcome'),
+                    headerTitle: () => (
+                      <Text style={styles.notAuthHeaderTitle}>
+                        {translate.t('screens.welcome')}
+                      </Text>
+                    ),
                     headerTitleAlign: 'left',
                     headerTitleContainerStyle: {
                       marginLeft: 41,
                     },
-                    headerStyle: {
-                      backgroundColor: Colors.bgColor,
-                    },
+
                     headerRight: () => (
                       <TouchableOpacity
                         onPress={changeLang}
                         style={styles.langViewRight}>
-                        <Text style={styles.engText}>{`${
+                        <Text style={styles.headerTitle}>{`${
                           translate.key === 'en' ? 'GEO' : 'ENG'
                         }`}</Text>
                       </TouchableOpacity>
                     ),
                     headerTintColor: Colors.bgGreen,
-                    headerTitleStyle: {
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
-                      fontSize: 20,
-                    },
+                    
                   }}
                 />
                 <authStack.Screen
@@ -993,11 +1087,20 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitleVisible: false,
-                    title: translate.t('auth.register'),
-                    headerStyle: {
-                      backgroundColor: Colors.bgColor,
-                    },
-
+                    headerTitle: () => (
+                      <Text style={styles.notAuthHeaderTitle}>
+                        {translate.t('auth.register')}
+                      </Text>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={changeLang}
+                        style={styles.langViewRight}>
+                        <Text style={styles.headerTitle}>{`${
+                          translate.key === 'en' ? 'GEO' : 'ENG'
+                        }`}</Text>
+                      </TouchableOpacity>
+                    ),
                     headerTintColor: Colors.bgGreen,
                     headerTitleStyle: {
                       fontWeight: 'bold',
@@ -1014,16 +1117,24 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitleVisible: false,
-                    title: translate.t('auth.register'),
+                    headerTitle: () => (
+                      <Text style={styles.notAuthHeaderTitle}>
+                        {translate.t('auth.register')}
+                      </Text>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={changeLang}
+                        style={styles.langViewRight}>
+                        <Text style={styles.headerTitle}>{`${
+                          translate.key === 'en' ? 'GEO' : 'ENG'
+                        }`}</Text>
+                      </TouchableOpacity>
+                    ),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
                     headerTintColor: Colors.bgGreen,
-                    headerTitleStyle: {
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
-                      fontSize: 20,
-                    },
                   }}
                 />
                 <authStack.Screen
@@ -1034,16 +1145,24 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitleVisible: false,
-                    title: translate.t('auth.register'),
+                    headerTitle: () => (
+                      <Text style={styles.notAuthHeaderTitle}>
+                        {translate.t('auth.register')}
+                      </Text>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={changeLang}
+                        style={styles.langViewRight}>
+                        <Text style={styles.headerTitle}>{`${
+                          translate.key === 'en' ? 'GEO' : 'ENG'
+                        }`}</Text>
+                      </TouchableOpacity>
+                    ),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
                     headerTintColor: Colors.bgGreen,
-                    headerTitleStyle: {
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
-                      fontSize: 20,
-                    },
                   }}
                 />
                 <authStack.Screen
@@ -1054,16 +1173,24 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitleVisible: false,
-                    title: translate.t('auth.register'),
+                    headerTitle: () => (
+                      <Text style={styles.notAuthHeaderTitle}>
+                        {translate.t('auth.register')}
+                      </Text>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={changeLang}
+                        style={styles.langViewRight}>
+                        <Text style={styles.headerTitle}>{`${
+                          translate.key === 'en' ? 'GEO' : 'ENG'
+                        }`}</Text>
+                      </TouchableOpacity>
+                    ),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
                     headerTintColor: Colors.bgGreen,
-                    headerTitleStyle: {
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
-                      fontSize: 20,
-                    },
                   }}
                 />
                 <authStack.Screen
@@ -1074,16 +1201,24 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitleVisible: false,
-                    title: translate.t('auth.register'),
+                    headerTitle: () => (
+                      <Text style={styles.notAuthHeaderTitle}>
+                        {translate.t('auth.register')}
+                      </Text>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={changeLang}
+                        style={styles.langViewRight}>
+                        <Text style={styles.headerTitle}>{`${
+                          translate.key === 'en' ? 'GEO' : 'ENG'
+                        }`}</Text>
+                      </TouchableOpacity>
+                    ),
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
                     headerTintColor: Colors.bgGreen,
-                    headerTitleStyle: {
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
-                      fontSize: 20,
-                    },
                   }}
                 />
                 <authStack.Screen
@@ -1114,25 +1249,27 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitleVisible: false,
-                    title: translate.t('screens.welcome'),
+                    headerTitle: () => (
+                      <Text style={styles.notAuthHeaderTitle}>
+                        {translate.t('screens.welcome')}
+                      </Text>
+                    ),
+
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    
+                    
                     headerRight: () => (
                       <TouchableOpacity
                         onPress={changeLang}
                         style={styles.langViewRight}>
-                        <Text style={styles.engText}>{`${
+                        <Text style={styles.headerTitle}>{`${
                           translate.key === 'en' ? 'GEO' : 'ENG'
                         }`}</Text>
                       </TouchableOpacity>
                     ),
                     headerTintColor: Colors.bgGreen,
-                    headerTitleStyle: {
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
-                      fontSize: 20,
-                    },
                   }}
                 />
                 <authStack.Screen
@@ -1143,16 +1280,25 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitleVisible: false,
-                    title: translate.t('auth.authorize'),
+                    headerTitle: () => (
+                      <Text style={styles.notAuthHeaderTitle}>
+                        {translate.t('auth.authorize')}
+                      </Text>
+                    ),
+                    headerRight: () => (
+                      <TouchableOpacity
+                        onPress={changeLang}
+                        style={styles.langViewRight}>
+                        <Text style={styles.headerTitle}>{`${
+                          translate.key === 'en' ? 'GEO' : 'ENG'
+                        }`}</Text>
+                      </TouchableOpacity>
+                    ),
+
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },
                     headerTintColor: Colors.bgGreen,
-                    headerTitleStyle: {
-                      fontWeight: 'bold',
-                      textTransform: 'uppercase',
-                      fontSize: 20,
-                    },
                   }}
                 />
               </>
@@ -1165,7 +1311,7 @@ const AppNavigator = () => {
 };
 
 const styles = StyleSheet.create({
-  engText: {
+  headerTitle: {
     color: Colors.darkGrey,
     fontSize: 14,
     fontFamily: 'BPG DejaVu Sans Mt',
@@ -1230,10 +1376,18 @@ const styles = StyleSheet.create({
     width: 18,
     height: 25,
     marginRight: 15,
+    marginBottom: 10,
   },
   newsIcon: {
     width: 19,
     height: 25,
+  },
+  notAuthHeaderTitle: {
+    color: Colors.bgGreen,
+    fontSize: 20,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 24,
+    fontWeight: '700',
   },
 });
 

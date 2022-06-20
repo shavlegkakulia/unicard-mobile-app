@@ -10,7 +10,14 @@ import HomeScreen from '../screens/auth/HomeScreen';
 import {useDispatch, useSelector} from 'react-redux';
 import {IAuthReducer, IAuthState} from '../Store/types/auth';
 import LoginScreen from '../screens/notAuth/LoginScreen';
-import {BackHandler, Image, Text, TouchableOpacity, View} from 'react-native';
+import {
+  BackHandler,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import RegistrationScreen from '../screens/notAuth/RegistrationScreen';
 import RegistrationDetailsScreen from '../screens/notAuth/RegistrationDetailsScreen';
 import PasswordInfo from '../screens/notAuth/PasswordInfo';
@@ -96,10 +103,7 @@ const AppNavigator = () => {
       subscription?.unsubscribe();
     };
   }, []);
-  const langStyle = {
-    marginLeft: 20,
-    width: 50,
-  };
+
   const changeLang = async () => {
     dispatch(use(translate.key === 'en' ? 'ka' : 'en'));
   };
@@ -132,8 +136,7 @@ const AppNavigator = () => {
                     },
                     title: translate.t('screens.homePage'),
                     headerLeft: () => (
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <View style={styles.headerView}>
                         <TouchableOpacity
                           onPress={() => {
                             isDrawerOpened.current
@@ -141,32 +144,27 @@ const AppNavigator = () => {
                               : sideDraver.current?.openDrawer();
                           }}>
                           <Image
-                            style={{width: 25, height: 17, marginLeft: 29}}
+                            style={styles.burgerIcon}
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={changeLang}
-                          style={langStyle}>
-                          <Text>{`${
+                          style={styles.langStyle}>
+                          <Text style={styles.engText}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
                       </View>
                     ),
                     headerRight: () => (
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          marginTop: 4,
-                          marginRight: 23,
-                        }}>
+                      <View style={styles.headerRight}>
                         <TouchableOpacity
                           onPress={() =>
                             navigation.navigate(authRoutes.aroundUs)
                           }>
                           <Image
-                            style={{width: 18, height: 25, marginRight: 15}}
+                            style={styles.locationIcon}
                             resizeMode={'contain'}
                             source={require('../assets/img/locationLogo.png')}
                           />
@@ -174,7 +172,7 @@ const AppNavigator = () => {
                         <TouchableOpacity
                           onPress={() => navigation.navigate(authRoutes.news)}>
                           <Image
-                            style={{width: 19, height: 25}}
+                            style={styles.newsIcon}
                             resizeMode={'contain'}
                             source={require('../assets/img/notificationLogo.png')}
                           />
@@ -201,8 +199,7 @@ const AppNavigator = () => {
                     },
                     title: translate.t('screens.myPages'),
                     headerLeft: () => (
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <View style={styles.headerView}>
                         <TouchableOpacity
                           onPress={() => {
                             isDrawerOpened.current
@@ -210,14 +207,14 @@ const AppNavigator = () => {
                               : sideDraver.current?.openDrawer();
                           }}>
                           <Image
-                            style={{width: 25, height: 17, marginLeft: 29}}
+                            style={styles.burgerIcon}
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={changeLang}
-                          style={langStyle}>
-                          <Text>{`${
+                          style={styles.langStyle}>
+                          <Text style={styles.engText}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -259,8 +256,7 @@ const AppNavigator = () => {
                     },
                     title: translate.t('home.whatShouldSpend'),
                     headerLeft: () => (
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <View style={styles.headerView}>
                         <TouchableOpacity
                           onPress={() => {
                             isDrawerOpened.current
@@ -268,14 +264,14 @@ const AppNavigator = () => {
                               : sideDraver.current?.openDrawer();
                           }}>
                           <Image
-                            style={{width: 25, height: 17, marginLeft: 29}}
+                            style={styles.burgerIcon}
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={changeLang}
-                          style={langStyle}>
-                          <Text>{`${
+                          style={styles.langStyle}>
+                          <Text style={styles.engText}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -290,7 +286,7 @@ const AppNavigator = () => {
                           );
                         }}>
                         <Image
-                          style={{width: 22, height: 21, marginRight: 29}}
+                          style={styles.cartIcon}
                           source={require('../assets/img/cartIconsec.png')}
                         />
                       </TouchableOpacity>
@@ -322,7 +318,7 @@ const AppNavigator = () => {
                             : sideDraver.current?.openDrawer();
                         }}>
                         <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
+                          style={styles.burgerIcon}
                           source={require('../assets/img/burgerIcon.png')}
                         />
                       </TouchableOpacity>
@@ -336,7 +332,7 @@ const AppNavigator = () => {
                           );
                         }}>
                         <Image
-                          style={{width: 22, height: 21, marginRight: 29}}
+                          style={styles.cartIcon}
                           source={require('../assets/img/cartIconsec.png')}
                         />
                       </TouchableOpacity>
@@ -368,7 +364,7 @@ const AppNavigator = () => {
                             : sideDraver.current?.openDrawer();
                         }}>
                         <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
+                          style={styles.burgerIcon}
                           source={require('../assets/img/burgerIcon.png')}
                         />
                       </TouchableOpacity>
@@ -382,7 +378,7 @@ const AppNavigator = () => {
                           );
                         }}>
                         <Image
-                          style={{width: 22, height: 21, marginRight: 29}}
+                          style={styles.cartIcon}
                           source={require('../assets/img/cartIconsec.png')}
                         />
                       </TouchableOpacity>
@@ -433,8 +429,7 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerLeft: () => (
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <View style={styles.headerView}>
                         <TouchableOpacity
                           onPress={() => {
                             isDrawerOpened.current
@@ -442,14 +437,14 @@ const AppNavigator = () => {
                               : sideDraver.current?.openDrawer();
                           }}>
                           <Image
-                            style={{width: 25, height: 17, marginLeft: 29}}
+                            style={styles.burgerIcon}
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={changeLang}
-                          style={langStyle}>
-                          <Text>{`${
+                          style={styles.langStyle}>
+                          <Text style={styles.engText}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -476,14 +471,9 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerRight: () => (
-                      <TouchableOpacity
-                        onPress={() => {
-                          // isDrawerOpened.current
-                          //   ? sideDraver.current?.closeDrawer()
-                          //   : sideDraver.current?.openDrawer();
-                        }}>
+                      <TouchableOpacity onPress={() => {}}>
                         <Image
-                          style={{width: 25, marginRight: 29}}
+                          style={styles.searchIcon}
                           source={require('../assets/img/icon-search.png')}
                         />
                       </TouchableOpacity>
@@ -516,7 +506,7 @@ const AppNavigator = () => {
                             : sideDraver.current?.openDrawer();
                         }}>
                         <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
+                          style={styles.burgerIcon}
                           source={require('../assets/img/burgerIcon.png')}
                         />
                       </TouchableOpacity>
@@ -539,30 +529,9 @@ const AppNavigator = () => {
                     headerBackTitleVisible: false,
                     title: translate.t('news.getGift'),
                     headerRight: () => (
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          marginRight: 41,
-                        }}>
-                        <View
-                          style={{
-                            width: 4,
-                            height: 4,
-                            backgroundColor: Colors.lightOrange,
-                            marginLeft: 6,
-                            borderRadius: 50,
-                          }}
-                        />
-                        <View
-                          style={{
-                            width: 4,
-                            height: 4,
-                            backgroundColor: Colors.lightGrey,
-                            marginLeft: 6,
-                            borderRadius: 50,
-                          }}
-                        />
+                      <View style={styles.dotView}>
+                        <View style={styles.firstDot} />
+                        <View style={styles.secDot} />
                       </View>
                     ),
                     headerTintColor: Colors.black,
@@ -586,30 +555,9 @@ const AppNavigator = () => {
                     },
                     title: translate.t('news.getGift'),
                     headerRight: () => (
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          marginRight: 41,
-                        }}>
-                        <View
-                          style={{
-                            width: 4,
-                            height: 4,
-                            backgroundColor: Colors.lightGrey,
-                            marginLeft: 6,
-                            borderRadius: 50,
-                          }}
-                        />
-                        <View
-                          style={{
-                            width: 4,
-                            height: 4,
-                            backgroundColor: Colors.lightOrange,
-                            marginLeft: 6,
-                            borderRadius: 50,
-                          }}
-                        />
+                      <View style={styles.dotView}>
+                        <View style={styles.secDot} />
+                        <View style={styles.firstDot} />
                       </View>
                     ),
                     headerTintColor: Colors.black,
@@ -631,11 +579,10 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
-                    
+
                     title: translate.t('screens.news'),
                     headerLeft: () => (
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <View style={styles.headerView}>
                         <TouchableOpacity
                           onPress={() => {
                             isDrawerOpened.current
@@ -643,14 +590,14 @@ const AppNavigator = () => {
                               : sideDraver.current?.openDrawer();
                           }}>
                           <Image
-                            style={{width: 25, height: 17, marginLeft: 29}}
+                            style={styles.burgerIcon}
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={changeLang}
-                          style={langStyle}>
-                          <Text>{`${
+                          style={styles.langStyle}>
+                          <Text style={styles.engText}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -692,8 +639,7 @@ const AppNavigator = () => {
                     },
                     title: translate.t('screens.aboutUs'),
                     headerLeft: () => (
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <View style={styles.headerView}>
                         <TouchableOpacity
                           onPress={() => {
                             isDrawerOpened.current
@@ -701,14 +647,14 @@ const AppNavigator = () => {
                               : sideDraver.current?.openDrawer();
                           }}>
                           <Image
-                            style={{width: 25, height: 17, marginLeft: 29}}
+                            style={styles.burgerIcon}
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={changeLang}
-                          style={langStyle}>
-                          <Text>{`${
+                          style={styles.langStyle}>
+                          <Text style={styles.engText}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -734,8 +680,7 @@ const AppNavigator = () => {
                     },
                     title: translate.t('screens.parameters'),
                     headerLeft: () => (
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <View style={styles.headerView}>
                         <TouchableOpacity
                           onPress={() => {
                             isDrawerOpened.current
@@ -743,14 +688,14 @@ const AppNavigator = () => {
                               : sideDraver.current?.openDrawer();
                           }}>
                           <Image
-                            style={{width: 25, height: 17, marginLeft: 29}}
+                            style={styles.burgerIcon}
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={changeLang}
-                          style={langStyle}>
-                          <Text>{`${
+                          style={styles.langStyle}>
+                          <Text style={styles.engText}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -777,8 +722,7 @@ const AppNavigator = () => {
                     headerBackTitle: '',
                     title: translate.t('screens.partners'),
                     headerLeft: () => (
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <View style={styles.headerView}>
                         <TouchableOpacity
                           onPress={() => {
                             isDrawerOpened.current
@@ -786,14 +730,14 @@ const AppNavigator = () => {
                               : sideDraver.current?.openDrawer();
                           }}>
                           <Image
-                            style={{width: 25, height: 17, marginLeft: 29}}
+                            style={styles.burgerIcon}
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={changeLang}
-                          style={langStyle}>
-                          <Text>{`${
+                          style={styles.langStyle}>
+                          <Text style={styles.engText}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -805,7 +749,7 @@ const AppNavigator = () => {
                           navigation.navigate(authRoutes.searchScreen);
                         }}>
                         <Image
-                          style={{width: 21.01, height: 21, marginRight: 29}}
+                          style={styles.greenSearchIcon}
                           source={require('../assets/img/greenSearch.png')}
                         />
                       </TouchableOpacity>
@@ -836,7 +780,7 @@ const AppNavigator = () => {
                             : sideDraver.current?.openDrawer();
                         }}>
                         <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
+                          style={styles.burgerIcon}
                           source={require('../assets/img/burgerIcon.png')}
                         />
                       </TouchableOpacity>
@@ -936,8 +880,7 @@ const AppNavigator = () => {
                     },
                     title: '',
                     headerLeft: () => (
-                      <View
-                        style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <View style={styles.headerView}>
                         <TouchableOpacity
                           onPress={() => {
                             isDrawerOpened.current
@@ -945,14 +888,14 @@ const AppNavigator = () => {
                               : sideDraver.current?.openDrawer();
                           }}>
                           <Image
-                            style={{width: 25, height: 17, marginLeft: 29}}
+                            style={styles.burgerIcon}
                             source={require('../assets/img/burgerIcon.png')}
                           />
                         </TouchableOpacity>
                         <TouchableOpacity
                           onPress={changeLang}
-                          style={langStyle}>
-                          <Text>{`${
+                          style={styles.langStyle}>
+                          <Text style={styles.engText}>{`${
                             translate.key === 'en' ? 'GEO' : 'ENG'
                           }`}</Text>
                         </TouchableOpacity>
@@ -967,7 +910,7 @@ const AppNavigator = () => {
                           );
                         }}>
                         <Image
-                          style={{width: 22, height: 21, marginRight: 29}}
+                          style={styles.cartIcon}
                           source={require('../assets/img/cartIconsec.png')}
                         />
                       </TouchableOpacity>
@@ -989,7 +932,7 @@ const AppNavigator = () => {
                             : sideDraver.current?.openDrawer();
                         }}>
                         <Image
-                          style={{width: 25, height: 17, marginLeft: 29}}
+                          style={styles.burgerIcon}
                           source={require('../assets/img/burgerIcon.png')}
                         />
                       </TouchableOpacity>
@@ -1028,8 +971,8 @@ const AppNavigator = () => {
                     headerRight: () => (
                       <TouchableOpacity
                         onPress={changeLang}
-                        style={{marginRight: 20, width: 50}}>
-                        <Text>{`${
+                        style={styles.langViewRight}>
+                        <Text style={styles.engText}>{`${
                           translate.key === 'en' ? 'GEO' : 'ENG'
                         }`}</Text>
                       </TouchableOpacity>
@@ -1178,8 +1121,8 @@ const AppNavigator = () => {
                     headerRight: () => (
                       <TouchableOpacity
                         onPress={changeLang}
-                        style={{marginRight: 20, width: 50}}>
-                        <Text>{`${
+                        style={styles.langViewRight}>
+                        <Text style={styles.engText}>{`${
                           translate.key === 'en' ? 'GEO' : 'ENG'
                         }`}</Text>
                       </TouchableOpacity>
@@ -1220,5 +1163,78 @@ const AppNavigator = () => {
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  engText: {
+    color: Colors.darkGrey,
+    fontSize: 14,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
+  },
+  headerView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  burgerIcon: {
+    width: 25,
+    height: 17,
+    marginLeft: 29,
+  },
+  langStyle: {
+    marginLeft: 20,
+    width: 50,
+  },
+  headerRight: {
+    flexDirection: 'row',
+    marginTop: 4,
+    marginRight: 23,
+  },
+  dotView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 41,
+  },
+  firstDot: {
+    width: 4,
+    height: 4,
+    backgroundColor: Colors.lightOrange,
+    marginLeft: 6,
+    borderRadius: 50,
+  },
+  secDot: {
+    width: 4,
+    height: 4,
+    backgroundColor: Colors.lightGrey,
+    marginLeft: 6,
+    borderRadius: 50,
+  },
+  greenSearchIcon: {
+    width: 21.01,
+    height: 21,
+    marginRight: 29,
+  },
+  cartIcon: {
+    width: 22,
+    height: 21,
+    marginRight: 29,
+  },
+  langViewRight: {
+    marginRight: 20,
+    width: 50,
+  },
+  searchIcon: {
+    width: 25,
+    marginRight: 29,
+  },
+  locationIcon: {
+    width: 18,
+    height: 25,
+    marginRight: 15,
+  },
+  newsIcon: {
+    width: 19,
+    height: 25,
+  },
+});
 
 export default DrawerContainer;

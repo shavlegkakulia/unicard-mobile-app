@@ -20,11 +20,9 @@ import {subscriptionService} from '../services/SubscribeService';
 import {authRoutes} from './routes';
 import {useDispatch, useSelector} from 'react-redux';
 import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
-import SearchService, {
-  ISearchDetailsRequest,
-  ISearchServiceResponse,
-} from '../services/SearchService';
+import {ISearchDetailsRequest} from '../services/SearchService';
 import {get_organizations} from '../Store/actions/organizations_actions';
+import {IAuthReducer, IAuthState} from '../Store/types/auth';
 
 const DISCOUNTED = 'DISCOUNTED';
 const LAST_ADDED = 'LAST_ADDED';
@@ -36,14 +34,15 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
   const [catdata, setCatData] = useState<IgetfilterCategoriesResponse>();
   const [category, setCategory] = useState<boolean>(false);
   const [userType, setUserType] = useState<boolean>(false);
-  const [searchProduct, setSearchProduct] = useState<ISearchServiceResponse[]>(
-    [],
-  );
   const [searchValue, setSearchValue] = useState<string>();
   const [loading, setLoading] = useState<boolean>();
   const [point, setPoint] = useState<boolean>(false);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const authdata = useSelector<IAuthReducer>(
+    state => state.AuthReducer,
+  ) as IAuthState;
+
   const goTo = (roteName: string, props: any) => {
     subscriptionService?.sendData('close-rightdrawer', true);
     navigation.navigate(roteName, props);
@@ -72,8 +71,10 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
     });
   };
   useEffect(() => {
-    getProducFiltertList();
-  }, []);
+    if (authdata.token?.length) {
+      getProducFiltertList();
+    }
+  }, [authdata.token]);
 
   let activePrize = true;
 

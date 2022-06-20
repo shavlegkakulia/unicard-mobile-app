@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import CardService, {
@@ -23,9 +30,11 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     CardService.GenerateBarcode(req).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-          // setLoading(false);
           setCardInfo(Response.data);
         }
+      },
+      complete: () => {
+        setLoading(false);
       },
       error: err => {
         console.log(err.response);
@@ -43,7 +52,7 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     CardService.GenerateBarcodeFile(data).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-          
+          console.log('card', Response.data);
           setFile(Response.data);
         }
       },
@@ -51,13 +60,17 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
         setLoading(false);
       },
       error: err => {
-        console.log('>>>', err);
+        console.log('>>>', err.response.data);
       },
     });
   };
   useEffect(() => {
-    getBarcodeFile();
-  }, []);
+    console.log('cardInfo', cardInfo);
+    if (cardInfo?.vcard) {
+      getBarcodeFile();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardInfo]);
 
   if (loading) {
     return (
@@ -69,7 +82,7 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
 
   return (
     <View style={styles.main}>
-      {cardInfo ? (
+      {!loading && cardInfo && (
         <>
           <View style={styles.barcodeImageView}>
             <Image
@@ -83,10 +96,11 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
           </View>
           <View style={styles.barcodeNum}>
             <Text style={styles.num}>
-              {!loading && cardInfo?.vcard?.replace(
-                /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
-                '$1  $2  $3  $4',
-              )}
+              {!loading &&
+                cardInfo?.vcard?.replace(
+                  /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
+                  '$1  $2  $3  $4',
+                )}
             </Text>
           </View>
           <Image
@@ -95,8 +109,6 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
             source={require('../../assets/img/barcodeImg.png')}
           />
         </>
-      ) : (
-        <Loader visible={true} />
       )}
     </View>
   );
@@ -128,7 +140,7 @@ const styles = StyleSheet.create({
   },
   barcodeImageView: {
     position: 'absolute',
-    top: 280,
+    top: 335,
     left: -90,
     right: 0,
     bottom: 0,

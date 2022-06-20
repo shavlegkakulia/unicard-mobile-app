@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
+  ActivityIndicator,
   Image,
   ScrollView,
   StyleSheet,
@@ -10,14 +11,10 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {ScreenNavigationProp} from '../interfaces/commons';
 import {logout} from '../Store/actions/auth';
-import {AuthActions} from '../Store/types/auth';
+import {IAuthReducer, IAuthState} from '../Store/types/auth';
 import Colors from '../theme/Colors';
 import {authRoutes} from './routes';
 import {useNavigation} from '@react-navigation/native';
-import UserInfoService, {
-  IgetUserInfoDetailsRequest,
-  IgetUserServiceResponse,
-} from '../services/UserInfoService';
 import {subscriptionService} from '../services/SubscribeService';
 import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
 
@@ -26,40 +23,27 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
     state => state.TranslateReducer,
   ) as ITranslateState;
   const navigation = useNavigation();
-  const [userInfo, setUserInfo] = useState<IgetUserServiceResponse>();
   const [loading, setLoading] = useState<boolean>();
   const dispath = useDispatch();
+  const authdata = useSelector<IAuthReducer>(
+    state => state.AuthReducer,
+  ) as IAuthState;
+
+
 
   const goTo = (roteName: string) => {
     subscriptionService?.sendData('close-leftdrawer', true);
     navigation.navigate(roteName);
   };
-  const login = () => {
-    dispath({
-      type: AuthActions.setIsAuthentificated,
-      isAuthentificated: true,
-    });
-  };
-  const getUserInfo = () => {
-    const req: IgetUserInfoDetailsRequest = {
-      user_id: '',
-      lang: '',
-    };
-    UserInfoService.GenerateUserInfo(req).subscribe({
-      next: Response => {
-        if (Response.data.resultCode === '200') {
-          setLoading(false);
-          setUserInfo(Response.data);
-        }
-      },
-      error: err => {
-        console.log(err.response);
-      },
-    });
-  };
-  useEffect(() => {
-    getUserInfo();
-  }, []);
+  
+
+  if (loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator color={Colors.bgGreen} size={'small'} />
+      </View>
+    );
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -80,7 +64,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
           </View>
 
           <Text style={styles.name}>
-            {!loading && userInfo?.name} {userInfo?.surname}
+            {!loading && authdata?.userInfo?.name} {authdata?.userInfo?.surname}
           </Text>
         </View>
         <TouchableOpacity
@@ -325,5 +309,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginTop: 26,
     width: 195,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.bgColor,
   },
 });

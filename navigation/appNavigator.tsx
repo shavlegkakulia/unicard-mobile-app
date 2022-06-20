@@ -116,9 +116,6 @@ const AppNavigator = () => {
         onDrawerClose={() => (isDrawerOpened.current = false)}
         ref={drawer => {
           sideDraver.current = drawer;
-          // isDrawerOpened.current
-          //   ? sideDraver.current?.closeDrawer()
-          //   : sideDraver.current?.openDrawer();
         }}
         renderNavigationView={props => <SideBarDrawer props={props} />}>
         <DrawerRight>

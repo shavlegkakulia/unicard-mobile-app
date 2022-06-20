@@ -50,8 +50,21 @@ export interface IgetUserServiceResponse extends IresponseData {
 
 class UserInfoService {
   GenerateUserInfo(data?: IgetUserInfoDetailsRequest) {
+    let query = '';
+    if (data?.lang) {
+      query += `&lang=${data.lang}`;
+    }
+    if (data?.app_source) {
+      query += `&app_source${data.app_source}`;
+    }
+    if (data?.culture) {
+      query += `&culture${data.culture}`;
+    }
+    if (data?.user_id) {
+      query += `&user_id${data.user_id}`;
+    }
     const result = axios.get<IgetUserServiceResponse>(
-      `${envs.API_URL}api/Mobile/GetClientInfo`,
+      `${envs.API_URL}api/Mobile/GetClientInfo${query}`,
     );
     return from(result);
   }

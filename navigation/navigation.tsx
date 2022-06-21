@@ -10,7 +10,7 @@ import {AuthActions, IAuthReducer, IAuthState} from '../Store/types/auth';
 import {ErrorActions} from '../Store/types/errors';
 import AppNavigator from './appNavigator';
 import storage from './../services/StorageService';
-import {EN, KA, ka, ka_ge} from '../lang';
+import {EN, KA, ka_ge} from '../lang';
 import storage_keys from '../constants/storageKeys';
 import {use} from '../Store/actions/translate';
 import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
@@ -31,14 +31,10 @@ export default () => {
   const dispatch = useDispatch();
 
   const RegisterCommonInterceptor = () => {
-    let requestInterceptor = axios.interceptors.request.use((config: any) => {
-      config.headers.langcode =
-        translateReducer.key.toLocaleLowerCase() === ka_ge ? KA : EN;
-      console.log(
-        '***',
-        config.headers,
-        translateReducer.key.toLocaleLowerCase(),
-      );
+    let requestInterceptor = axios.interceptors.request.use(async(config: any) => {
+      const lkey = await storage.getItem(storage_keys.locales);
+      config.headers['langcode'] = lkey === ka_ge ? KA : EN;
+
       return config;
     });
 
@@ -116,13 +112,6 @@ export default () => {
       dispatch(use(locale || ka_ge));
     });
   }, []);
-
-  useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, [translateReducer.key]);
 
   return (
     <NavigationContainer>

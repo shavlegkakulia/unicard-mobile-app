@@ -2,33 +2,30 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
-  Text,
   View,
   FlatList,
-  Image,
+  ActivityIndicator,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {en} from '../../lang';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
-import Loader from '../../components/loader';
 import NewsCard from '../../components/NewsCard';
 import NewsService, {
   Igeneralresp,
-  IgetNewsDetailsRequest,
   IgetNewsResponse,
 } from '../../services/NewsService';
 
 const News: React.FC<ScreenNavigationProp> = props => {
-
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState<boolean>(true);
   const renderItem = useCallback(({item}) => {
     return <NewsCard {...item} />;
   }, []);
 
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
-
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const keyExtractor = (item: IgetNewsResponse) => {
     return item?.id + new Date().toLocaleTimeString();
@@ -43,14 +40,26 @@ const News: React.FC<ScreenNavigationProp> = props => {
           setNews(Response.data);
         }
       },
+      complete: () => {
+        setLoading(false);
+      },
       error: err => {
         console.log(err.response);
+        setLoading(true);
       },
     });
   };
   useEffect(() => {
     getNewsList();
   }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator color={Colors.bgGreen} size={'small'} />
+      </View>
+    );
+  }
 
   return (
     <ScrollView>
@@ -99,6 +108,12 @@ const styles = StyleSheet.create({
     width: 5,
     height: 8,
     left: 6,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.bgColor,
   },
 });
 

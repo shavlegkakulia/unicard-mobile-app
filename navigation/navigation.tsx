@@ -7,16 +7,16 @@ import Loader from '../components/loader';
 import AuthService, {IInterceptop} from '../services/AuthService';
 import {logout} from '../Store/actions/auth';
 import {AuthActions, IAuthReducer, IAuthState} from '../Store/types/auth';
-import { ErrorActions } from '../Store/types/errors';
+import {ErrorActions} from '../Store/types/errors';
 import AppNavigator from './appNavigator';
 import storage from './../services/StorageService';
-import { EN, KA, ka, ka_ge } from '../lang';
+import {EN, KA, ka, ka_ge} from '../lang';
 import storage_keys from '../constants/storageKeys';
-import { use } from '../Store/actions/translate';
-import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
-import { StatusBar } from 'react-native';
+import {use} from '../Store/actions/translate';
+import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
+import {StatusBar} from 'react-native';
 import AsyncStorage from './../services/StorageService';
-import { PASSCODEENABLED } from '../screens/auth/Parameters';
+import {PASSCODEENABLED} from '../screens/auth/Parameters';
 
 export default () => {
   const authReducer = useSelector<IAuthReducer>(
@@ -32,8 +32,13 @@ export default () => {
 
   const RegisterCommonInterceptor = () => {
     let requestInterceptor = axios.interceptors.request.use((config: any) => {
-      config.headers['langcode'] = translateReducer.key.toLocaleLowerCase() === ka_ge ? KA : EN;
-     console.log('***', config.headers, translateReducer.key.toLocaleLowerCase())
+      config.headers.langcode =
+        translateReducer.key.toLocaleLowerCase() === ka_ge ? KA : EN;
+      console.log(
+        '***',
+        config.headers,
+        translateReducer.key.toLocaleLowerCase(),
+      );
       return config;
     });
 
@@ -107,28 +112,23 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    storage
-      .getItem(storage_keys.locales)
-      .then(locale => {
-        dispatch(use(locale || ka_ge));
-      });
+    storage.getItem(storage_keys.locales).then(locale => {
+      dispatch(use(locale || ka_ge));
+    });
   }, []);
 
   useEffect(() => {
-setIsLoading(true);
-setTimeout(() => {
-  setIsLoading(false);
-}, 1000);
-  }, [translateReducer.key])
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, [translateReducer.key]);
 
   return (
-
     <NavigationContainer>
       <ErrorWrapper>
-      
         <Loader visible={isLoading || translateReducer.isLoading} />
         <AppNavigator />
-        
       </ErrorWrapper>
     </NavigationContainer>
   );

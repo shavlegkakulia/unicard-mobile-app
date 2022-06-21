@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Text, StyleSheet, View, ScrollView, Image} from 'react-native';
-import { useSelector } from 'react-redux';
+import {
+  Text,
+  StyleSheet,
+  View,
+  ScrollView,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
+import {useSelector} from 'react-redux';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import CardBalance, {
@@ -11,13 +18,16 @@ import TransactionService, {
   IgetProducteDetailsRequest,
   IgetTransactionsResponse,
 } from '../../services/TransactionsListService';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 const MyPage: React.FC<ScreenNavigationProp> = () => {
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const [balance, setBalance] = useState<IgetBalanceResponse>();
+  const [loading, setLoading] = useState<boolean>(true);
   const [transactions, setTransactions] =
     useState<IgetTransactionsResponse[]>();
   const getTransaction = () => {
@@ -31,7 +41,11 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
           setTransactions(Response.data.transactions);
         }
       },
+      complete: () => {
+        setLoading(false);
+      },
       error: err => {
+        setLoading(true);
         console.log(err.response);
       },
     });
@@ -57,13 +71,23 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
     });
   }, []);
 
+  if (loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator color={Colors.bgGreen} size={'small'} />
+      </View>
+    );
+  }
+
   return (
     <ScrollView>
       {balance && transactions ? (
         <>
           <View style={styles.border}>
             <View style={styles.titleView}>
-              <Text style={styles.title}>{translate.t('myPage.currentBalance')}</Text>
+              <Text style={styles.title}>
+                {translate.t('myPage.currentBalance')}
+              </Text>
               <View style={styles.amountView}>
                 <Text style={styles.amount}>{balance?.scores_left}</Text>
                 <Image
@@ -73,7 +97,9 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
               </View>
               <View style={styles.detailView}>
                 <View style={styles.borderView}>
-                  <Text style={styles.detailTitle}>{translate.t('common.blocked')}</Text>
+                  <Text style={styles.detailTitle}>
+                    {translate.t('common.blocked')}
+                  </Text>
                   <View style={styles.row}>
                     <Text style={styles.detailAmount}>
                       {balance?.scores_blocked}
@@ -85,7 +111,9 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
                   </View>
                 </View>
                 <View style={styles.borderView}>
-                  <Text style={styles.detailTitle}>{translate.t('common.spent')}</Text>
+                  <Text style={styles.detailTitle}>
+                    {translate.t('common.spent')}
+                  </Text>
                   <View style={styles.row}>
                     <Text style={styles.detailAmount}>
                       {balance?.scores_spent}
@@ -97,7 +125,9 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
                   </View>
                 </View>
                 <View style={styles.last}>
-                  <Text style={styles.detailTitle}>{translate.t('common.accumulated')}</Text>
+                  <Text style={styles.detailTitle}>
+                    {translate.t('common.accumulated')}
+                  </Text>
                   <View style={styles.row}>
                     <Text style={styles.detailAmount}>
                       {balance?.scores_saved}
@@ -284,6 +314,12 @@ const styles = StyleSheet.create({
   payAmount: {
     fontSize: 18,
     color: Colors.bgGreen,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.bgColor,
   },
 });
 

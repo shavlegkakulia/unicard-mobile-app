@@ -8,6 +8,7 @@ import {
   View,
   TouchableOpacity,
   Share,
+  ActivityIndicator,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
@@ -22,6 +23,7 @@ import Colors from '../../theme/Colors';
 
 const AboutUs: React.FC<ScreenNavigationProp> = () => {
   const [contact, setContact] = useState<IgetContactResponse>();
+  const [loading, setLoading] = useState<boolean>(true);
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
@@ -42,7 +44,7 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
       }
     } catch (error) {}
   };
-  const getBarcode = () => {
+  const getInfo = () => {
     const req: IgetContactDetailsRequest = {
       lang: '',
     };
@@ -52,13 +54,17 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
           setContact(Response.data);
         }
       },
+      complete: () => {
+        setLoading(false);
+      },
       error: err => {
         console.log(err.response);
+        setLoading(true);
       },
     });
   };
   useEffect(() => {
-    getBarcode();
+    getInfo();
   }, []);
 
   const main = Platform.select({
@@ -66,22 +72,15 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
     android: styles.androidmain,
   });
 
+  if (loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator color={Colors.bgGreen} size={'small'} />
+      </View>
+    );
+  }
+
   return (
-    // <View style={styles.main}>
-    //   {!loading && cardInfo ? (
-    //     <>
-    //       <View style={styles.barcodeNum}>
-    //         <Text style={styles.num}>{cardInfo?.vcard}</Text>
-    //       </View>
-    //       <Image
-    //         style={styles.img}
-    //         source={require('../../assets/img/barcodeImg.png')}
-    //       />
-    //     </>
-    //   ) : (
-    //     <Loader visible={true} />
-    //   )}
-    // </View>
     <ScrollView>
       <View style={main}>
         <Image
@@ -229,6 +228,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.8,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.bgColor,
   },
 });
 

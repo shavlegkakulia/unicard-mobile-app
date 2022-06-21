@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, ScrollView, Image} from 'react-native';
+import {StyleSheet, View, Text, ScrollView, Image, ActivityIndicator} from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import Colors from '../../theme/Colors';
 
@@ -17,6 +17,7 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
   const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
 
   const [organization, setOrganization] = useState<IgetPartnersResponse>();
+  const [loading, setLoading] = useState<boolean>(true);
   const id = props.route.params.id;
 
   const getOrgDetails = () => {
@@ -30,14 +31,26 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
           setOrganization(Response.data);
         }
       },
+      complete: () => {
+        setLoading(false);
+      },
       error: err => {
         console.log(err.response);
+        setLoading(true);
       },
     });
   };
   useEffect(() => {
     getOrgDetails();
   }, []);
+  
+  if (loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator color={Colors.bgGreen} size={'small'} />
+      </View>
+    );
+  }
   return (
     <ScrollView>
       <View style={styles.shadow}>
@@ -254,6 +267,12 @@ const styles = StyleSheet.create({
   orgLogo: {
     width: 150,
     height: 160,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.bgColor,
   },
 });
 

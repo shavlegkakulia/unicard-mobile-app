@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+} from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import Colors from '../../theme/Colors';
 
@@ -8,13 +14,16 @@ import SingleNewsService, {
   IgetSingleNewsResponse,
 } from '../../services/SingleNewsService';
 import {htmlToString} from '../../utils/converts';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {useSelector} from 'react-redux';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 
 const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const [news, setNews] = useState<IgetSingleNewsResponse>();
+  const [loading, setLoading] = useState<boolean>(true);
   const id = props.route.params.id;
 
   const getNewsPageDetails = () => {
@@ -28,14 +37,26 @@ const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
           setNews(Response.data);
         }
       },
+      complete: () => {
+        setLoading(false);
+      },
       error: err => {
         console.log(err.response);
+        setLoading(true);
       },
     });
   };
   useEffect(() => {
     getNewsPageDetails();
   }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator color={Colors.bgGreen} size={'small'} />
+      </View>
+    );
+  }
   return (
     <ScrollView style={styles.main}>
       <View>
@@ -113,6 +134,12 @@ const styles = StyleSheet.create({
     fontFamily: 'BPG DejaVu Sans',
     lineHeight: 13.97,
     marginTop: 7,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.bgColor,
   },
 });
 

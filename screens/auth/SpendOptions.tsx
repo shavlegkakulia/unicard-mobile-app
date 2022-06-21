@@ -188,8 +188,6 @@ console.log('aqana vaart ', offersList.length)
             )
           )}
         </>
-
-        {/* <Text>{translateReducer.t('common.name')}</Text> */}
       </ScrollView>
     </>
   );

@@ -20,7 +20,7 @@ import Colors from '../../theme/Colors';
 const Barcode: React.FC<ScreenNavigationProp> = () => {
   const [cardInfo, setCardInfo] = useState<IgetBarcodeResponse>();
   const [file, setFile] = useState<IBarcodeResponseData>();
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(true);
   let barcode = file?.barcode;
   const getBarcode = () => {
     const req: IgetBarcodeDetailsRequest = {
@@ -37,6 +37,7 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
         setLoading(false);
       },
       error: err => {
+        setLoading(true);
         console.log(err.response);
       },
     });
@@ -52,7 +53,6 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     CardService.GenerateBarcodeFile(data).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-          console.log('card', Response.data);
           setFile(Response.data);
         }
       },
@@ -60,13 +60,14 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
         setLoading(false);
       },
       error: err => {
+        setLoading(true);
         console.log('>>>', err.response.data);
       },
     });
   };
   useEffect(() => {
     console.log('cardInfo', cardInfo);
-    if (!loading && cardInfo?.vcard) {
+    if (cardInfo?.vcard) {
       getBarcodeFile();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -82,7 +83,7 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
 
   return (
     <View style={styles.main}>
-      {!loading && cardInfo && (
+      {cardInfo && (
         <>
           <View style={styles.barcodeImageView}>
             <Image
@@ -96,8 +97,7 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
           </View>
           <View style={styles.barcodeNum}>
             <Text style={styles.num}>
-              {!loading &&
-                cardInfo?.vcard?.replace(
+              {cardInfo?.vcard?.replace(
                   /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
                   '$1  $2  $3  $4',
                 )}

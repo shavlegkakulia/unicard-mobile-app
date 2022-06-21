@@ -44,7 +44,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   const [pageIndex, setPageIndex] = useState(1);
   const [canFetching, setCanfetching] = useState(true);
   const [dotPage, setDotPage] = useState(0);
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const itemStyle = {
     width: Dimensions.get('screen').width,
@@ -78,6 +78,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
         setLoading(false);
       },
       error: err => {
+        setLoading(true);
         console.log(err.response);
       },
     });
@@ -104,7 +105,11 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
           setBalance(Response.data);
         }
       },
+      complete: () => {
+        setLoading(false);
+      },
       error: err => {
+        setLoading(true);
         console.log(err.response);
       },
     });
@@ -265,11 +270,6 @@ const styles = StyleSheet.create({
   flatlist: {
     marginTop: 28,
   },
-  // circleWrapper: {
-  //   marginTop: 20,
-  //   alignItems: 'flex-end',
-  //   paddingHorizontal: 29,
-  // },
   circle: {
     width: 4,
     height: 4,

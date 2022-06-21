@@ -6,6 +6,7 @@ import Store from '../Store';
 import { PASSCODEENABLED } from '../screens/auth/Parameters';
 import { AuthActions, IAuthAction } from '../Store/types/auth';
 import { EN, KA, ka_ge } from '../lang';
+import storage_keys from '../constants/storageKeys';
 
 export interface IInterceptop {
   unsubscribe: () => void;
@@ -238,7 +239,8 @@ export default new (class AuthService {
 
           await setAuthToken(config);
         }
-        config.headers['langcode'] = Store.getState().TranslateReducer.key.toLocaleLowerCase() === ka_ge ? KA : EN;
+        const lkey = await storage.getItem(storage_keys.locales);
+        config.headers['langcode'] = lkey === ka_ge ? KA : EN;
         return config;
       },
     );

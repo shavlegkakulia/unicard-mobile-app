@@ -62,7 +62,6 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     };
     ProductList.getList(req).subscribe({
       next: Response => {
-        console.log('>>>>>>>',Response.config)
         if (Response.data.resultCode === '200') {
           if (Response.data.products.length < 20) {
             setCanfetching(false);

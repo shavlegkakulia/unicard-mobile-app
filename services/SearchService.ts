@@ -23,6 +23,7 @@ export interface ISearchDetailsRequest {
 export interface ISearchServiceResponse {
   result_from?: string;
   result_id?: string;
+  type_id?: string;
   result_name?: string;
   image_url?: string;
   discounted_price?: string;

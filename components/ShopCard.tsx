@@ -34,7 +34,7 @@ const ShopingCard: React.FC<IComponentProps> = props => {
       style={styles.cardWrapper}
       onPress={navigation.navigate.bind(this, authRoutes.singleOffer, {
         id: (prod && props.product?.id) || (org && props.orgs?.result_id),
-        type: props.product?.type_id,
+        type: props.product?.type_id || (org && props.orgs?.type_id),
       })}>
       <View>
         <Image source={{uri: imgUrl}} style={styles.img} />

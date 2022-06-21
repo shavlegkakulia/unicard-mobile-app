@@ -26,7 +26,7 @@ const PartnersCard: React.FC<IPartnersProps> = props => {
     logo = props.partners.url;
   }
   if (org && props?.orgs?.image_url) {
-    logo = `${props.orgs.image_url}/186x186.jpg`;
+    logo = `${props.orgs.image_url}/108x65.jpg`;
   }
 
   return (
@@ -61,8 +61,8 @@ const PartnersCard: React.FC<IPartnersProps> = props => {
             : ''}
         </Text>
         <Text style={styles.amountTxt}>
-          {(partn && props?.partners?.unit_desc) ||
-            (org && props?.orgs?.point_desc)}
+          {(partn && props?.partners?.unit) || (org && props?.orgs?.unit)}{' '}
+          {translate.t('common.gel')}
         </Text>
       </View>
     </TouchableOpacity>

@@ -50,8 +50,9 @@ const News: React.FC<ScreenNavigationProp> = props => {
     });
   };
   useEffect(() => {
+    setLoading(true);
     getNewsList();
-  }, []);
+  }, [translate.key]);
 
   if (loading) {
     return (
@@ -79,7 +80,6 @@ const News: React.FC<ScreenNavigationProp> = props => {
           key={news && new Date().toLocaleTimeString()}
         />
       </View>
-      {/* <Text>{translateReducer.t('common.name')}</Text> */}
     </ScrollView>
   );
 };

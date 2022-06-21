@@ -115,8 +115,9 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     });
   };
   useEffect(() => {
+    setLoading(true);
     getBalance();
-  }, []);
+  }, [translate.key]);
   const ItemChunk = 4;
   const offersList = ChunkArrays(list!, ItemChunk);
 

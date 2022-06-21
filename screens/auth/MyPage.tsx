@@ -51,8 +51,9 @@ const MyPage: React.FC<ScreenNavigationProp> = () => {
     });
   };
   useEffect(() => {
+    // setLoading(true);
     getTransaction();
-  }, []);
+  }, [translate.key]);
 
   useEffect(() => {
     const balanceReq: IgetBalanceDetailsRequest = {

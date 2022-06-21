@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -34,7 +34,8 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
   const [pageIndex, setPageIndex] = useState(1);
   const [canFetching, setCanfetching] = useState(true);
   const [dotPage, setDotPage] = useState(0);
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const loadingRef = useRef<NodeJS.Timeout>();
 
   const image = require('../../assets/img/error.png');
 
@@ -92,9 +93,13 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
         }
       },
       complete: () => {
-        setLoading(false);
+        if (loadingRef.current) clearTimeout(loadingRef.current);
+        loadingRef.current = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       },
       error: err => {
+        setLoading(false);
         console.log(err.response);
       },
     });
@@ -105,7 +110,8 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex, props.route.params]);
   const ItemChunk = 8;
-  const offersList = ChunkArrays(list!, ItemChunk);
+  let offersList: IgetProducteListResponse[][] | undefined = undefined;
+  offersList = ChunkArrays(list!, ItemChunk);
 
   let isEndFetching = false;
 
@@ -132,6 +138,7 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
       setPageIndex(prevState => prevState + 1);
     }
   };
+  
   if (loading) {
     return (
       <View style={styles.loading}>
@@ -139,49 +146,48 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
       </View>
     );
   }
-
+console.log('aqana vaart ', offersList.length)
   return (
     <>
       <ScrollView contentContainerStyle={{flex: 1}}>
-        {!loading && (
-          <>
-            {offersList.length > 0 && (
-              <View style={styles.circleWrapper}>
-                <Paginator
-                  pageNumber={dotPage}
-                  dotCount={paginationDotCount(list, 8)}
-                />
-              </View>
-            )}
+        <>
+          {offersList.length > 0 && (
+            <View style={styles.circleWrapper}>
+              <Paginator
+                pageNumber={dotPage}
+                dotCount={paginationDotCount(list, 8)}
+              />
+            </View>
+          )}
 
-            {!loading && offersList.length > 0 ? (
-              <ScrollView
-                scrollToOverflowEnabled={true}
-                // contentContainerStyle={{paddingRight: 5}}
-                onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
-                showsHorizontalScrollIndicator={false}
-                pagingEnabled={true}
-                horizontal>
-                {offersList.map((data, i) => (
-                  <View key={i} style={[styles.dataContent, itemStyle]}>
-                    {data.map((item, index) => (
-                      <ShopingCard product={item} key={index} />
-                    ))}
-                  </View>
-                ))}
-              </ScrollView>
-            ) : (
-              !loading && (
-                <NotFound
-                  onPress={() => {}}
-                  title={translate.t('generalErrors.contentNotFound')}
-                  backgroundColor={Colors.red}
-                  image={image}
-                />
-              )
-            )}
-          </>
-        )}
+          {offersList !== undefined && offersList.length > 0 ? (
+            <ScrollView
+              scrollToOverflowEnabled={true}
+              // contentContainerStyle={{paddingRight: 5}}
+              onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
+              showsHorizontalScrollIndicator={false}
+              pagingEnabled={true}
+              horizontal>
+              {offersList.map((data, i) => (
+                <View key={i} style={[styles.dataContent, itemStyle]}>
+                  {data.map((item, index) => (
+                    <ShopingCard product={item} key={index} />
+                  ))}
+                </View>
+              ))}
+            </ScrollView>
+          ) : (
+            offersList !== undefined &&
+            offersList.length === 0 && (
+              <NotFound
+                onPress={() => {}}
+                title={translate.t('generalErrors.contentNotFound')}
+                backgroundColor={Colors.red}
+                image={image}
+              />
+            )
+          )}
+        </>
 
         {/* <Text>{translateReducer.t('common.name')}</Text> */}
       </ScrollView>

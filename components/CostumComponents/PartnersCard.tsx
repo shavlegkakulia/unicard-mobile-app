@@ -2,20 +2,12 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
-import navigation from '../../navigation/navigation';
 import {authRoutes} from '../../navigation/routes';
 import {IgetPartnersResponse} from '../../services/PartnersService';
 import {ISearchServiceResponse} from '../../services/SearchService';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
-// export interface IPartnersProps {
-//   name?: string;
-//   logo?: string;
-//   point?: string;
-//   pointDesc?: string;
-//   id?: string;
-// }
 interface IPartnersProps {
   partners?: IgetPartnersResponse;
   orgs?: ISearchServiceResponse;

@@ -10,6 +10,7 @@ import {
   NativeScrollEvent,
   ActivityIndicator,
   Platform,
+  Alert,
 } from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 // import {en} from '../../lang';
@@ -49,10 +50,11 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     width: Dimensions.get('screen').width,
   };
 
-  const getProductList = () => {
-    if (!canFetching) {
+  const getProductList = (refresh?: boolean) => {
+    if (!canFetching && !refresh) {
       return;
     }
+  
     const req: IgetProducteListRequest = {
       page_index: pageIndex.toString(),
       row_count: '12',
@@ -60,11 +62,15 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     };
     ProductList.getList(req).subscribe({
       next: Response => {
+        console.log('>>>>>>>',Response.config)
         if (Response.data.resultCode === '200') {
           if (Response.data.products.length < 20) {
             setCanfetching(false);
           }
           setList(prevState => {
+            if (refresh) {
+              return [...Response.data.products];
+            }
             return [...prevState, ...Response.data.products];
           });
         }
@@ -81,6 +87,12 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     getProductList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex]);
+
+  useEffect(() => {
+    setCanfetching(true);
+    getProductList(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [translate.key]);
 
   const getBalance = () => {
     const req: IgetBalanceRequest = {

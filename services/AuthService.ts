@@ -5,6 +5,7 @@ import envs from './../config/env';
 import Store from '../Store';
 import { PASSCODEENABLED } from '../screens/auth/Parameters';
 import { AuthActions, IAuthAction } from '../Store/types/auth';
+import { EN, KA, ka_ge } from '../lang';
 
 export interface IInterceptop {
   unsubscribe: () => void;
@@ -237,6 +238,7 @@ export default new (class AuthService {
 
           await setAuthToken(config);
         }
+        config.headers['langcode'] = Store.getState().TranslateReducer.key.toLocaleLowerCase() === ka_ge ? KA : EN;
         return config;
       },
     );

@@ -10,7 +10,7 @@ import {AuthActions, IAuthReducer, IAuthState} from '../Store/types/auth';
 import { ErrorActions } from '../Store/types/errors';
 import AppNavigator from './appNavigator';
 import storage from './../services/StorageService';
-import { ka } from '../lang';
+import { EN, KA, ka, ka_ge } from '../lang';
 import storage_keys from '../constants/storageKeys';
 import { use } from '../Store/actions/translate';
 import { ITranslateReducer, ITranslateState } from '../Store/types/translate';
@@ -32,7 +32,8 @@ export default () => {
 
   const RegisterCommonInterceptor = () => {
     let requestInterceptor = axios.interceptors.request.use((config: any) => {
-      config.headers['langcode'] = 'en-US';
+      config.headers['langcode'] = translateReducer.key.toLocaleLowerCase() === ka_ge ? KA : EN;
+     console.log('***', config.headers, translateReducer.key.toLocaleLowerCase())
       return config;
     });
 
@@ -65,7 +66,7 @@ export default () => {
     return () => {
       AxiosInterceptor.current.forEach(sub => sub.unsubscribe());
     };
-  }, [authReducer.isAuthentificated]);
+  }, []);
 
   useEffect(() => {
     // AsyncStorage.getItem(PASSCODEENABLED).then(async pass => {
@@ -109,9 +110,16 @@ export default () => {
     storage
       .getItem(storage_keys.locales)
       .then(locale => {
-        dispatch(use(locale || ka));
+        dispatch(use(locale || ka_ge));
       });
   }, []);
+
+  useEffect(() => {
+setIsLoading(true);
+setTimeout(() => {
+  setIsLoading(false);
+}, 1000);
+  }, [translateReducer.key])
 
   return (
 

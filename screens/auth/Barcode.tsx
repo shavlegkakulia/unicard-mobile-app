@@ -66,11 +66,11 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
   };
   useEffect(() => {
     console.log('cardInfo', cardInfo);
-    if (cardInfo?.vcard) {
+    if (!loading && cardInfo?.vcard) {
       getBarcodeFile();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardInfo]);
+  }, [cardInfo, loading]);
 
   if (loading) {
     return (

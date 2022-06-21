@@ -20,5 +20,5 @@ export function ChunkArrays<T>(iterable: T[], perChunk: number): Array<T[]> {
     return resultArray;
   }, []);
 
-  return result;
+  return result || [];
 }

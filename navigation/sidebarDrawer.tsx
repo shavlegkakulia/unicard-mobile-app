@@ -102,7 +102,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
               source={require('../assets/img/userIcon.png')}
             />
           </View>
-          <Text style={styles.name}>{translate.t('screens.myPage')}</Text>
+          <Text style={styles.name}>{translate.t('screens.myPages')}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.row}

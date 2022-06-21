@@ -1,14 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {ActivityIndicator, ScrollView, StyleSheet, View} from 'react-native';
 import PartnersCard from '../../components/CostumComponents/PartnersCard';
-import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 
 import PartnersService, {
@@ -19,7 +11,6 @@ import Colors from '../../theme/Colors';
 const Partners: React.FC<ScreenNavigationProp> = () => {
   const [partners, setPartners] = useState<IgetPartnersResponse>();
   const [loading, setLoading] = useState(false);
-  let logo = {uri: partners?.url};
   const getPartners = () => {
     if (loading) {
       return;
@@ -40,6 +31,7 @@ const Partners: React.FC<ScreenNavigationProp> = () => {
   };
   useEffect(() => {
     getPartners();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) {
@@ -53,15 +45,7 @@ const Partners: React.FC<ScreenNavigationProp> = () => {
   return (
     <ScrollView>
       {partners?.organizations?.map(partn => (
-        <PartnersCard
-          partners={partn}
-          // key={e?.org_id}
-          // name={e?.name}
-          // logo={e?.url}
-          // point={e?.unit_score}
-          // pointDesc={e?.unit_desc}
-          // id={e?.org_id}
-        />
+        <PartnersCard partners={partn} key={partn.org_id} />
       ))}
     </ScrollView>
   );

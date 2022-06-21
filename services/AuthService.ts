@@ -5,7 +5,7 @@ import envs from './../config/env';
 import Store from '../Store';
 import { PASSCODEENABLED } from '../screens/auth/Parameters';
 import { AuthActions, IAuthAction } from '../Store/types/auth';
-import { EN, KA, ka_ge } from '../lang';
+import { EN_US, KA_GE, ka_ge } from '../lang';
 import storage_keys from '../constants/storageKeys';
 
 export interface IInterceptop {
@@ -240,7 +240,7 @@ export default new (class AuthService {
           await setAuthToken(config);
         }
         const lkey = await storage.getItem(storage_keys.locales);
-        config.headers['langcode'] = lkey === ka_ge ? KA : EN;
+        config.headers['lang'] = lkey === ka_ge ? KA_GE : EN_US;
         return config;
       },
     );

@@ -10,7 +10,7 @@ export const EN = 'en-US';
 
 export const KA_GE = 'KA';
 export const ka_ge = 'ka';
-export const EN_US = 'en';
+export const EN_US = 'EN';
 export const en_us = 'en';
 
 export const LANG_KEYS: IKey = {

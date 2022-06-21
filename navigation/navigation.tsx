@@ -10,7 +10,7 @@ import {AuthActions, IAuthReducer, IAuthState} from '../Store/types/auth';
 import {ErrorActions} from '../Store/types/errors';
 import AppNavigator from './appNavigator';
 import storage from './../services/StorageService';
-import {EN, KA, ka_ge} from '../lang';
+import {EN_US, KA_GE, ka_ge} from '../lang';
 import storage_keys from '../constants/storageKeys';
 import {use} from '../Store/actions/translate';
 import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
@@ -33,7 +33,7 @@ export default () => {
   const RegisterCommonInterceptor = () => {
     let requestInterceptor = axios.interceptors.request.use(async(config: any) => {
       const lkey = await storage.getItem(storage_keys.locales);
-      config.headers['langcode'] = lkey === ka_ge ? KA : EN;
+      config.headers['lang'] = lkey === ka_ge ? KA_GE : EN_US;
 
       return config;
     });

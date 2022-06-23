@@ -62,7 +62,12 @@ export default {
     userRegistration: 'მომხმარებლის რეგისტრაცია',
     addCardNumber: 'მიუთითეთ ბარათის ნომერი',
     changePwd: 'პაროლის შევცვლა',
-
+    birtDate: 'დაბადების თარიღი',
+    fillFild: 'შეავსეთ ველი',
+    idValidate: 'ციფრების მინიმალური სიგრძე უნდა იყოს 6',
+    bDayValidate: 'მინიმალური სიგრძე უნდა იყოს 4',
+    phoneValidate: 'მინიმალური სიგრძე უნდა იყოს 18',
+    wrongMail: 'არასწორი E-mail',
   },
   home: {
     whatShouldSpend: 'რაში დავხარჯო',
@@ -128,5 +133,6 @@ export default {
     minLength: 'მინიმალური სიგრძე უნდა იყოს ',
     maxLength: 'მაქსიმალური სიგრძე ',
     wrongRepeatPwd: 'პაროლი არასწორია',
+    passwordDontMutch: 'პაროლები არ ემთხვევა ერთმანეთს',
   },
 };

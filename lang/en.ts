@@ -59,7 +59,13 @@ export default {
     loginAsAnotherUser: 'Log in with another Account',
     fillInfo: 'Enter your Information',
     registrationDone: 'Registration completed',
-    doYouWantCard: 'Do you own a Unicard card??',
+    doYouWantCard: 'Do you own a Unicard card?',
+    birtDate: 'Birth Date',
+    fillFild: 'Fill field',
+    idValidate: 'The minimum number of digits must be 6',
+    bDayValidate: 'The minimum length must be 4',
+    phoneValidate: 'The minimum length must be 18',
+    wrongEmail: 'Wrong E-mail',
   },
   home: {
     whatShouldSpend: 'How to spend',
@@ -122,5 +128,6 @@ export default {
     minLength: 'Min Length Must ',
     maxLength: 'Max Length Must ',
     wrongRepeatPwd: 'Wrong Password',
+    passwordDontMutch: 'Passwords do not match',
   },
 };

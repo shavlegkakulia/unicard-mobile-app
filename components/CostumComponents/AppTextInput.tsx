@@ -23,6 +23,7 @@ export const requireTypes = {
   minLength: 'minLength',
   maxLength: 'maxLength',
   repeatPassword: 'repeatPassword',
+  mutch: 'mutch',
 };
 
 export interface IAppTextInputProps {
@@ -279,7 +280,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     if (requireType) {
       check();
     }
-  }, [value, chekCount]);
+  }, [value, chekCount, translate.key]);
 
   const mainstyle = Platform.select({
     ios: styles.main,

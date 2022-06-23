@@ -1,6 +1,7 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useRef, createRef, useState} from 'react';
 import {Text, StyleSheet, View, Image, TextInput, Platform} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -55,7 +56,6 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
 
   //   const cardNum = num0 + num1 + num2 + num3;
 
-
   const [cardNumber, setCardNumber] = useState<string[]>(new Array(4).fill(''));
   //   const [error, setError] = useState<boolean>(false);
   const inputRef0 = useRef<TextInput>(null);
@@ -101,9 +101,8 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
   //     return false;
   //   };
 
-
   return (
-    <>
+    <KeyboardAwareScrollView contentContainerStyle={styles.main}>
       <View style={styles.titleWrapper}>
         <Text style={styles.title}>{translate.t('auth.userRegistration')}</Text>
         <View style={styles.imageWrapper}>
@@ -112,46 +111,13 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
               {translate.t('auth.addCardNumber')}
             </Text>
             <View style={styles.inputView}>
-              {/* <View style={styles.border}>
-                <TextInput
-                  maxLength={4}
-                  ref={input0}
-                  value={num0}
-                  onChangeText={e => setNum0(e.trim())}
-                />
-              </View>
-              <View style={styles.border}>
-                <TextInput
-                  maxLength={4}
-                  ref={input1}
-                  value={num1}
-                  onChangeText={e => setNum1(e.trim())}
-                  editable={!num0.trim() ? false : true}
-                />
-              </View>
-              <View style={styles.border}>
-                <TextInput
-                  maxLength={4}
-                  ref={input2}
-                  value={num2}
-                  onChangeText={e => setNum2(e.trim())}
-                  editable={!num1.trim() ? false : true}
-                />
-              </View>
-              <View style={styles.border}>
-                <TextInput
-                  style={styles.input}
-                  maxLength={4}
-                  ref={input3}
-                  value={num3}
-                  onChangeText={e => setNum3(e.trim())}
-                  editable={!num2.trim() ? false : true}
-                />
-              </View> */}
               {cardNumber.map((element, index) => (
                 <View style={styles.border} key={index}>
                   <TextInput
-                    style={[styles.input, Platform.OS === 'android' && {height: 24}]}
+                    style={[
+                      styles.input,
+                      Platform.OS === 'android' && {height: 24},
+                    ]}
                     ref={refs[index]}
                     maxLength={4}
                     keyboardType="numeric"
@@ -160,23 +126,15 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
                     onKeyPress={event => {
                       handleFocusPrev(event, index);
                     }}
-                    editable={(index === 0) ? true : cardNumber?.[index - 1].length > 0 ? true : false}
+                    editable={
+                      index === 0
+                        ? true
+                        : cardNumber?.[index - 1].length > 0
+                        ? true
+                        : false
+                    }
                   />
                 </View>
-
-                // <TextInput
-                //     ref={refs[index]}
-                //     style={[styles.otpBox, { borderColor: error ? 'red' : '#8d949e' }]}
-                //     key={index}
-                //     maxLength={1}
-                //     selectTextOnFocus
-                //     keyboardType='numeric'
-                //     value={element}
-                //     onFocus={() => setError(false)}
-                //     onBlur={() => setError(false)}
-                //     onChangeText={(newValue) => handleChangeText(newValue, index)}
-                //     onKeyPress={event => { handleFocusPrev(event, index) }}
-                // />
               ))}
             </View>
           </View>
@@ -194,15 +152,18 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
           backgroundColor={Colors.bgGreen}
         />
       </View>
-    </>
+    </KeyboardAwareScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+  },
   titleWrapper: {
     alignItems: 'center',
-    flex: 2,
     justifyContent: 'center',
+    marginTop: 163,
   },
   title: {
     color: Colors.darkGrey,
@@ -222,10 +183,7 @@ const styles = StyleSheet.create({
     height: 196,
   },
   buttonWrapper: {
-    flex: 1,
-  },
-  button: {
-    marginTop: 34,
+    marginTop: 218,
   },
   cardnumView: {
     position: 'absolute',
@@ -258,7 +216,7 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 16,
     width: 68,
-    padding: 0
+    padding: 0,
   },
 });
 

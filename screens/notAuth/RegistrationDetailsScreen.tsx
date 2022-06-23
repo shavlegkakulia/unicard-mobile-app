@@ -72,6 +72,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             icon={0}
             secureTextEntry={false}
             textContentType={'name'}
+            requireType={requireTypes.require}
             value={regData?.surname}
             chekCount={chekCount}
             onChange={e =>
@@ -112,7 +113,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
           />
 
           <AppTextInput
-            placeholder={translate.t('common.birtDate')}
+            placeholder={translate.t('auth.birtDate')}
             icon={0}
             secureTextEntry={false}
             textContentType={''}

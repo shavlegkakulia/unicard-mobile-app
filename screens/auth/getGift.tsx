@@ -56,7 +56,6 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       next: Response => {
         setLoading(true);
         if (Response.data.resultCode === '200') {
-          
           setPaymentInfo(Response.data.payment_info_list);
           setError(false);
           if (goNext === true) {
@@ -114,7 +113,6 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
     BuyProductService.GenerateProduct(data).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-          
           setIsMobile(false);
           props.navigation.navigate(authRoutes.orderDone);
         }
@@ -281,7 +279,8 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.btnView}>
           <AppButton
             loading={loading}
-            onPress={() => {Alert.alert(isMobile ? '1': )
+            onPress={() => {
+              Alert.alert(isMobile ? '1' : '0');
               if (isMobile) {
                 buyProduct();
               } else {

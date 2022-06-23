@@ -12,8 +12,8 @@ import {
   Platform,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { useSelector } from 'react-redux';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {useSelector} from 'react-redux';
 
 // import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -25,7 +25,7 @@ import UserInfoService, {
   IgetUserInfoDetailsRequest,
   IgetUserServiceResponse,
 } from '../../services/UserInfoService';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 export const PASSCODEENABLED = 'PASSCODEENABLED';
@@ -38,7 +38,9 @@ type RouteParamList = {
 };
 
 const Parameters: React.FC<ScreenNavigationProp> = props => {
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
 
@@ -47,7 +49,7 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
   const [isBiometricEnabled, setIsBiometricEnabled] = useState(false);
   const [cameraHandler, setCameraHandler] = useState(false);
 
-  const choosePhoto = async () => { console.log('*******************')
+  const choosePhoto = async () => {
     const result = await launchImageLibrary({
       mediaType: 'photo',
       selectionLimit: 1,
@@ -57,70 +59,70 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
       maxHeight: 300,
     });
     if (result.assets) {
-      const { base64, fileName } = result.assets[0];
-      console.log(base64, fileName)
+      const {base64, fileName} = result.assets[0];
+      console.log(base64, fileName);
       //uploadImage(getString(fileName), getString(base64));
     }
-    setCameraHandler(!cameraHandler)
+    setCameraHandler(!cameraHandler);
   };
 
   const takePhoto = async () => {
-    if(Platform.OS === 'android'){
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
+    if  (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: translate.t('settings.cameraPermission'),
+            message: translate.t('settings.needAccesToCamera'),
+            buttonNegative: translate.t('common.cancel'),
+            buttonPositive: translate.t('common.ok'),
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          const result = await launchCamera(
+            {
+              mediaType: 'photo',
+              includeBase64: true,
+              quality: 0.2,
+              maxWidth: 300,
+              maxHeight: 300,
+            },
+            r => {
+              console.log(r);;
+            },
+          );
+          if (result.assets) {
+            const {base64, fileName} = result.assets[0];
+            //uploadImage(getString(fileName), getString(base64));
+            //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
+          }
+        } else {
+          console.log('Camera permission denied');
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    } else {
+      const result = await launchCamera(
         {
-          title: translate.t('settings.cameraPermission'),
-          message: translate.t('settings.needAccesToCamera'),
-          buttonNegative: translate.t('common.cancel'),
-          buttonPositive: translate.t('common.ok')
-        }
+          mediaType: 'photo',
+          includeBase64: true,
+          quality: 0.2,
+          maxWidth: 300,
+          maxHeight: 300,
+        },
+        r => {
+          console.log(r);
+        },
       );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        const result = await launchCamera(
-          {
-            mediaType: 'photo',
-            includeBase64: true,
-            quality: 0.2,
-            maxWidth: 300,
-            maxHeight: 300,
-          },
-          r => {
-            console.log(r)
-          },
-        );console.log(result)
-        if (result.assets) {
-          const { base64, fileName } = result.assets[0];
-          //uploadImage(getString(fileName), getString(base64));
-          //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
-        }
-      } else {
-        console.log("Camera permission denied");
+      if (result.assets) {
+        const {base64, fileName} = result.assets[0];
+        console.log(base64, fileName);
+        //uploadImage(getString(fileName), getString(base64));
+        //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
       }
-    } catch (err) {
-      console.warn(err);
-    } } else{
-    
-        const result = await launchCamera(
-          {
-            mediaType: 'photo',
-            includeBase64: true,
-            quality: 0.2,
-            maxWidth: 300,
-            maxHeight: 300,
-          },
-          r => {
-            console.log(r)
-          },
-        );console.log(result)
-        if (result.assets) {
-          const { base64, fileName } = result.assets[0];
-          console.log(base64, fileName)
-          //uploadImage(getString(fileName), getString(base64));
-          //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
-        }
-      }
-    setCameraHandler(!cameraHandler)
+    }
+    setCameraHandler(!cameraHandler);
   };
 
   const togglePinSwitch = async () => {
@@ -213,7 +215,7 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
             />
           </View>
           <View style={styles.info}>
-            <Text style={styles.infoText}>{translate.t('auth.changePwd')}</Text>
+            <Text style={styles.infoText}>{translate.t('settings.changePwd')}</Text>
           </View>
         </TouchableOpacity>
         <View style={styles.param}>
@@ -230,7 +232,9 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
                 props.navigation.navigate(authRoutes.changePin);
               }
             }}>
-            <Text style={styles.infoText}>{translate.t('settings.changePin')}</Text>
+            <Text style={styles.infoText}>
+              {translate.t('settings.changePin')}
+            </Text>
             <Switch
               trackColor={{true: Colors.bgGreen}}
               thumbColor={Colors.white}
@@ -276,28 +280,35 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
             />
           </View>
           <View style={styles.info}>
-            <Text style={styles.infoText}>{translate.t('settings.changePhoto')}</Text>
+            <Text style={styles.infoText}>
+              {translate.t('settings.changePhoto')}
+            </Text>
           </View>
         </TouchableOpacity>
         <Modal animationType="slide" transparent={true} visible={cameraHandler}>
           <TouchableOpacity
             style={styles.centeredView}
-            onPress={() => setCameraHandler(false)}
-            >
+            onPress={() => setCameraHandler(false)}>
             <View style={styles.modalView}>
               <TouchableOpacity onPress={takePhoto}>
-                <Text style={styles.modalText}>{translate.t('settings.takePhoto')}</Text>
+                <Text style={styles.modalText}>
+                  {translate.t('settings.takePhoto')}
+                </Text>
               </TouchableOpacity>
               <View style={styles.border} />
               <TouchableOpacity style={styles.galery} onPress={choosePhoto}>
-                <Text style={styles.modalText}>{translate.t('settings.phoneGallery')}</Text>
+                <Text style={styles.modalText}>
+                  {translate.t('settings.phoneGallery')}
+                </Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
               style={styles.btnWrapp}
               onPress={() => setCameraHandler(false)}>
               <View style={styles.btnStyle}>
-                <Text style={styles.btnTitle}>{translate.t('common.cancell')}</Text>
+                <Text style={styles.btnTitle}>
+                  {translate.t('common.cancell')}
+                </Text>
               </View>
             </TouchableOpacity>
           </TouchableOpacity>

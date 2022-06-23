@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
     marginTop: 19,
   },
   btn: {
-    width: 219,
+    width: 240,
     height: 36,
     borderRadius: 20,
     backgroundColor: Colors.authBtn,

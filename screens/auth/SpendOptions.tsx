@@ -146,7 +146,6 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
       </View>
     );
   }
-console.log('aqana vaart ', offersList.length)
   return (
     <>
       <ScrollView contentContainerStyle={{flex: 1}}>

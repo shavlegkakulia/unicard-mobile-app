@@ -54,7 +54,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
     if (!canFetching && !refresh) {
       return;
     }
-  
+
     const req: IgetProducteListRequest = {
       page_index: pageIndex.toString(),
       row_count: '12',

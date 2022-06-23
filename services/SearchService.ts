@@ -36,7 +36,6 @@ export interface ISearchServiceResponse {
 
 class SearchService {
   GenerateSearch(data: ISearchDetailsRequest | undefined) {
-    console.log('dataaaaa', data);
     const response = axios.post<ISearchresponseData>(
       `${envs.API_URL}api/Mobile/Search`,
       data,

@@ -19,11 +19,11 @@ import AuthService, {IAyuthData} from '../../services/AuthService';
 import AsyncStorage from '../../services/StorageService';
 import {getUserInfo, login} from '../../Store/actions/auth';
 import Colors from '../../theme/Colors';
-import { PASSCODEENABLED } from '../auth/Parameters';
+import {PASSCODEENABLED} from '../auth/Parameters';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import { invalid_grant } from '../../constants/response_strings';
-import { PUSH } from '../../Store/actions/errors';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {invalid_grant} from '../../constants/response_strings';
+import {PUSH} from '../../Store/actions/errors';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 
 interface IUserData {
   username?: string;
@@ -36,42 +36,44 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     password: 'Abcd123!',
   });
 
-  const anim = { height: new Animated.Value(0), width: new Animated.Value(0) };
-  const ks = useRef<EmitterSubscription>(); 
+  const anim = {height: new Animated.Value(0), width: new Animated.Value(0)};
+  const ks = useRef<EmitterSubscription>();
 
   const [isPasscodeEnabled, setIsPasscodeEnabed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     AsyncStorage.getItem(PASSCODEENABLED).then(pass => {
-      if(pass) {
+      if (pass) {
         setIsPasscodeEnabed(true);
       }
-    })
+    });
   }, []);
 
   useEffect(() => {
     ks.current = Keyboard.addListener('keyboardDidShow', () => {
       Animated.timing(anim.height, {
         toValue: 1,
-        duration: 1000,           
-        easing: Easing.linear,   
-        useNativeDriver: false   
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: false,
       }).start();
       Animated.timing(anim.width, {
         toValue: 1,
-        duration: 1000,           
-        easing: Easing.linear,   
-        useNativeDriver: false   
+        duration: 1000,
+        easing: Easing.linear,
+        useNativeDriver: false,
       }).start();
     });
 
     return () => {
       ks.current?.remove();
-    }
+    };
   }, []);
 
   const LogIn = () => {
@@ -86,8 +88,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     AuthService.SignIn(data).subscribe({
       next: async Response => {
         if (Response.access_token) {
-
-          if(isPasscodeEnabled) {
+          if (isPasscodeEnabled) {
             await AuthService.setToken(
               Response.access_token,
               Response.refresh_token,
@@ -102,16 +103,14 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
       },
       error: e => {
         setLoading(false);
-        if(e.response.error === invalid_grant) {
-          dispatch(PUSH(translate.t('generalErrors.wrongUser')))
+        if (e.response.error === invalid_grant) {
+          dispatch(PUSH(translate.t('generalErrors.wrongUser')));
         }
       },
     });
   };
 
   useEffect(() => {
-
-   
     AsyncStorage.getItem('userInfo').then(res => {
       if (res !== null) {
         props.navigation.navigate(notAuthRoutes.authPage);
@@ -119,16 +118,15 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     });
   }, []);
 
-  const goHeight = anim.height.interpolate({ 
-    inputRange: [0, 1], 
-    outputRange: [306, 0]  
+  const goHeight = anim.height.interpolate({
+    inputRange: [0, 1],
+    outputRange: [306, 0],
   });
 
-  const goWidth = anim.width.interpolate({ 
-    inputRange: [0, 1], 
-    outputRange: [220, 0]  
+  const goWidth = anim.width.interpolate({
+    inputRange: [0, 1],
+    outputRange: [220, 0],
   });
-
 
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   return (
@@ -137,8 +135,8 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
         <Text style={styles.title}>{translate.t('auth.authorize')}</Text>
       </View>
       <View style={styles.imgView}>
-        <Animated.Image style={{ height: goHeight, width: goWidth }}
-     
+        <Animated.Image
+          style={{height: goHeight, width: goWidth}}
           source={require('../../assets/img/authScreenLogo.png')}
         />
       </View>
@@ -172,10 +170,10 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
             />
             <Text style={styles.text}>{translate.t('common.remember')}</Text>
           </View>
-          <TouchableOpacity>
-            <Text style={styles.text}>{translate.t('common.forgotPwd')}</Text>
-          </TouchableOpacity>
         </View>
+        <TouchableOpacity style={styles.passwordForgView}>
+          <Text style={styles.text}>{translate.t('common.forgotPwd')}</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.button}>
         <AppButton
@@ -233,7 +231,12 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 95,
-    marginBottom: 50
+    marginBottom: 50,
+  },
+  passwordForgView: {
+    alignSelf: 'flex-end',
+    marginRight: 40,
+    marginTop: 10,
   },
 });
 

@@ -8,6 +8,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
@@ -55,6 +56,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
       next: Response => {
         setLoading(true);
         if (Response.data.resultCode === '200') {
+          
           setPaymentInfo(Response.data.payment_info_list);
           setError(false);
           if (goNext === true) {
@@ -112,8 +114,8 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
     BuyProductService.GenerateProduct(data).subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
+          
           setIsMobile(false);
-          setLoading(false);
           props.navigation.navigate(authRoutes.orderDone);
         }
       },
@@ -279,14 +281,14 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.btnView}>
           <AppButton
             loading={loading}
-            onPress={() => {
+            onPress={() => {Alert.alert(isMobile ? '1': )
               if (isMobile) {
                 buyProduct();
               } else {
                 getPayment(true);
               }
             }}
-            title={translate.t('news.getGift.currentPrice')}
+            title={translate.t('news.getGift')}
             backgroundColor={Colors.bgGreen}
           />
         </View>

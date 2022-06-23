@@ -55,7 +55,6 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
 
   //   const cardNum = num0 + num1 + num2 + num3;
 
-  //   console.log('num', cardNum);
 
   const [cardNumber, setCardNumber] = useState<string[]>(new Array(4).fill(''));
   //   const [error, setError] = useState<boolean>(false);

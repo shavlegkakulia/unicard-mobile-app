@@ -1,10 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {StyleSheet, KeyboardAvoidingView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
-import { authRoutes } from '../../navigation/routes';
+import {authRoutes} from '../../navigation/routes';
 import {ISearchDetailsRequest} from '../../services/SearchService';
 import {get_organizations} from '../../Store/actions/organizations_actions';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
@@ -33,7 +33,6 @@ const SearchScreen: React.FC<ScreenNavigationProp> = () => {
     };
 
     dispatch(get_organizations(data));
-    console.log('organization dataaaaa', data);
     navigation.navigate(authRoutes.searchResults, {activeOrg: activeOrg});
   };
 
@@ -43,6 +42,8 @@ const SearchScreen: React.FC<ScreenNavigationProp> = () => {
         <AppTextInput
           placeholder={translate.t('common.search')}
           icon={icon}
+          search={true}
+          secureTextEntry={false}
           value={searchValue}
           onChange={o => setSearchValue(o)}
           onPressProp={SearchProduct}

@@ -41,6 +41,7 @@ export interface IAppTextInputProps {
   chekCount?: number;
   onPressProp?: () => void;
   borderColor?: string;
+  search?: boolean;
 }
 
 export const inputErrors: any[] = [];
@@ -64,7 +65,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     chekCount,
     onChange,
     onPressProp,
-    borderColor,
+    search
   } = props;
 
   const errorMessages = {
@@ -80,8 +81,6 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
   const [visible, setVisible] = useState(secureTextEntry);
   const [hasError, setHasEror] = useState<string | undefined>(undefined);
   const [isFocused, setIsFocused] = useState(false);
-
-  let search = true;
 
   let iconUrl = !secureTextEntry
     ? icon
@@ -305,9 +304,13 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
 
         <TouchableOpacity
           style={styles.iconWrapper}
-          onPress={
-            !search ? () => setVisible(!visible) : () => onPressProp?.()
-          }>
+          onPress={() => {
+            if (!search) {
+              setVisible(!visible);
+            } else {
+              onPressProp?.();
+            }
+          }}>
           {iconUrl !== undefined && (
             <Image
               source={iconUrl}

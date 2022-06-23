@@ -8,40 +8,40 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* unicardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* unicardTests.m */; };
-		03510FFBD25149F48009C938 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		123BB74A893D4DD2AB6C196D /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		03510FFBD25149F48009C938 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		123BB74A893D4DD2AB6C196D /* (null) in Resources */ = {isa = PBXBuildFile; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		26B0147D1BD14A97873AD435 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		26B0147D1BD14A97873AD435 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		2D785E135E3641EB975893F1 /* BPG GEL DejaVuSans Caps_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AADB91B0FE8F4BE1B6FC603E /* BPG GEL DejaVuSans Caps_2.ttf */; };
-		4971D68F78FB4778A3667BDD /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		4971D68F78FB4778A3667BDD /* (null) in Resources */ = {isa = PBXBuildFile; };
 		51AE0B647686499B979EB366 /* BPG GEL DejaVuSans_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4A2C134C84BB4B25AF5998BF /* BPG GEL DejaVuSans_2.ttf */; };
 		5B82ACE2D9704685B8D3F834 /* BPG GEL DejaVu Sans Condensed Caps_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC83188EA04449C8843EFF7A /* BPG GEL DejaVu Sans Condensed Caps_2.ttf */; };
 		5C40F4FDA32A4D4C99CC9DB1 /* BPG GEL DejaVuSerif Caps_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9055F7CD5D874C37B6771801 /* BPG GEL DejaVuSerif Caps_2.ttf */; };
 		5CBB37EA58B04933AB7F2603 /* BPG DejaVuSans Caps_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F43B98CB5454B47B5B6F38E /* BPG DejaVuSans Caps_2.ttf */; };
-		5CEF8346FCC34CA0AD74AB6D /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		5F7328365AC34CEC80D57519 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		5CEF8346FCC34CA0AD74AB6D /* (null) in Resources */ = {isa = PBXBuildFile; };
+		5F7328365AC34CEC80D57519 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		6160D1C771894E38A340C4D0 /* BPG_DEJAVUSANSMT_BOLD_2.TTF in Resources */ = {isa = PBXBuildFile; fileRef = AAEA5047554C4AA2948A588B /* BPG_DEJAVUSANSMT_BOLD_2.TTF */; };
 		6172F2D35A4C3AA820D92908 /* libPods-unicard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-unicard.a */; };
 		628FBA73BFA841C284771D65 /* BPG GEL DejaVu Sans ExtraLight Caps_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C5364CEA761443D86470C6F /* BPG GEL DejaVu Sans ExtraLight Caps_2.ttf */; };
-		63FF563D999C45F788358E5A /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		63FF563D999C45F788358E5A /* (null) in Resources */ = {isa = PBXBuildFile; };
 		7EF68E3733C33B6898317E18 /* libPods-unicard-unicardTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-unicard-unicardTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8FF848A6B73942DD958FF0FF /* BPG GEL DejaVu Sans ExtraLight_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3EC9039E724B4BCC91A2FD54 /* BPG GEL DejaVu Sans ExtraLight_2.ttf */; };
 		9F81FD276EBF4EDDB37B5DCA /* BPG GEL DejaVu Sans Condensed_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF641BB5A90A43E99CDE712D /* BPG GEL DejaVu Sans Condensed_2.ttf */; };
-		A65CD135B48944719AB98954 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		A778774AAECA4217B390ACB8 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		B36811C7C6AF449B89CE7BA3 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		A65CD135B48944719AB98954 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		A778774AAECA4217B390ACB8 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		B36811C7C6AF449B89CE7BA3 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		BA2346FD9EC849C9B484E75E /* BPG DejaVuSans-BoldOblique_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B5BDAE1C80C4EB290975D45 /* BPG DejaVuSans-BoldOblique_2.ttf */; };
 		BFF3E8EF86CD4D278F0E52E9 /* BPG DejaVuSans-Oblique_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A167A2BC43424FF7997A7E33 /* BPG DejaVuSans-Oblique_2.ttf */; };
-		C2D661AA53F24E0DB9BB3455 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		C786EEEFA79A4A23B2F440A1 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		CE6C8F9DF33941CB8BEFA537 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		C2D661AA53F24E0DB9BB3455 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		C786EEEFA79A4A23B2F440A1 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		CE6C8F9DF33941CB8BEFA537 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		D040530F00744099A3BC5D92 /* BPG_DEJAVUSANSMT_2.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 83EAD52D25F34AB782459F6B /* BPG_DEJAVUSANSMT_2.TTF */; };
-		E4B6B3EE4CB9431497B2C069 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		E766301C104B4CF084D4A2B2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
-		EEAF7BBCEFF5442A8BAFACC2 /* BuildFile in Resources */ = {isa = PBXBuildFile; };
+		E4B6B3EE4CB9431497B2C069 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		E766301C104B4CF084D4A2B2 /* (null) in Resources */ = {isa = PBXBuildFile; };
+		EEAF7BBCEFF5442A8BAFACC2 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		F5FD05FC660641D5AAC423EF /* BPG DejaVuSans_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46FEF29ED26D4E0A945DC4B3 /* BPG DejaVuSans_2.ttf */; };
 		F9041213D7A84C009B668E37 /* BPG DejaVuSans-Bold_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B63F4841B491458097ABD047 /* BPG DejaVuSans-Bold_2.ttf */; };
 		FE5502FB0F2C4F839B6FA765 /* BPG GEL DejaVuSerif_2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE483D79485E40C8BC6B2BCE /* BPG GEL DejaVuSerif_2.ttf */; };
@@ -269,7 +269,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -313,22 +313,22 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				E766301C104B4CF084D4A2B2 /* BuildFile in Resources */,
-				63FF563D999C45F788358E5A /* BuildFile in Resources */,
-				A65CD135B48944719AB98954 /* BuildFile in Resources */,
-				26B0147D1BD14A97873AD435 /* BuildFile in Resources */,
-				B36811C7C6AF449B89CE7BA3 /* BuildFile in Resources */,
-				C2D661AA53F24E0DB9BB3455 /* BuildFile in Resources */,
-				EEAF7BBCEFF5442A8BAFACC2 /* BuildFile in Resources */,
-				5CEF8346FCC34CA0AD74AB6D /* BuildFile in Resources */,
-				03510FFBD25149F48009C938 /* BuildFile in Resources */,
-				A778774AAECA4217B390ACB8 /* BuildFile in Resources */,
-				5F7328365AC34CEC80D57519 /* BuildFile in Resources */,
-				4971D68F78FB4778A3667BDD /* BuildFile in Resources */,
-				C786EEEFA79A4A23B2F440A1 /* BuildFile in Resources */,
-				E4B6B3EE4CB9431497B2C069 /* BuildFile in Resources */,
-				123BB74A893D4DD2AB6C196D /* BuildFile in Resources */,
-				CE6C8F9DF33941CB8BEFA537 /* BuildFile in Resources */,
+				E766301C104B4CF084D4A2B2 /* (null) in Resources */,
+				63FF563D999C45F788358E5A /* (null) in Resources */,
+				A65CD135B48944719AB98954 /* (null) in Resources */,
+				26B0147D1BD14A97873AD435 /* (null) in Resources */,
+				B36811C7C6AF449B89CE7BA3 /* (null) in Resources */,
+				C2D661AA53F24E0DB9BB3455 /* (null) in Resources */,
+				EEAF7BBCEFF5442A8BAFACC2 /* (null) in Resources */,
+				5CEF8346FCC34CA0AD74AB6D /* (null) in Resources */,
+				03510FFBD25149F48009C938 /* (null) in Resources */,
+				A778774AAECA4217B390ACB8 /* (null) in Resources */,
+				5F7328365AC34CEC80D57519 /* (null) in Resources */,
+				4971D68F78FB4778A3667BDD /* (null) in Resources */,
+				C786EEEFA79A4A23B2F440A1 /* (null) in Resources */,
+				E4B6B3EE4CB9431497B2C069 /* (null) in Resources */,
+				123BB74A893D4DD2AB6C196D /* (null) in Resources */,
+				CE6C8F9DF33941CB8BEFA537 /* (null) in Resources */,
 				5CBB37EA58B04933AB7F2603 /* BPG DejaVuSans Caps_2.ttf in Resources */,
 				F5FD05FC660641D5AAC423EF /* BPG DejaVuSans_2.ttf in Resources */,
 				F9041213D7A84C009B668E37 /* BPG DejaVuSans-Bold_2.ttf in Resources */,
@@ -530,13 +530,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C97AB639B58BBB4B15BBE30 /* Pods-unicard-unicardTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = unicardTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -557,10 +558,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1D0AE47A65C8663E3B452821 /* Pods-unicard-unicardTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = unicardTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -678,7 +680,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -736,7 +738,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

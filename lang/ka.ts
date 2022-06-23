@@ -23,7 +23,7 @@ export default {
     smsCode: 'SMS კოდი',
     fromTheBegining: 'თავიდან',
     oldPassword: 'ძველი პაროლი',
-    newPassword: 'ახალი პაროლის',
+    newPassword: 'ახალი პაროლი',
     change: 'შეცვლა',
     blocked: 'დაბლოკილი',
     spent: 'დახარჯული',
@@ -61,6 +61,8 @@ export default {
     doYouWantCard: 'გაქვთ თუ არა უნიქარდის ბარათი?',
     userRegistration: 'მომხმარებლის რეგისტრაცია',
     addCardNumber: 'მიუთითეთ ბარათის ნომერი',
+    changePwd: 'პაროლის შევცვლა',
+
   },
   home: {
     whatShouldSpend: 'რაში დავხარჯო',
@@ -79,6 +81,7 @@ export default {
     easyLogin: 'მარტივი შესვლა',
     scanFace: 'გასაგრძელებლად დაასკანირეთ თქვენი სახე მოწყობილობაზე',
     changePwd: 'პაროლის შევცვლა',
+    changePin: 'პინ-კოდის შეცვლა',
     changePhoto: 'ფოტო სურათის შეცვლა',
     takePhoto: 'სურათის გადაღება',
     phoneGallery: 'ტელეფონის გალერეა',

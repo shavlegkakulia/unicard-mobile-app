@@ -70,7 +70,7 @@ const ShopingCard: React.FC<IComponentProps> = props => {
 const styles = StyleSheet.create({
   cardWrapper: {
     backgroundColor: Colors.white,
-    width: 163,
+    width: '40%',
     height: 180,
     borderRadius: 15,
     overflow: 'hidden',

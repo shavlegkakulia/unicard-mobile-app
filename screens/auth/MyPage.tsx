@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     shadowOffset: {width: 0, height: 11},
     shadowColor: Colors.bgGreen,
+    paddingHorizontal: 40,
     shadowOpacity: 5,
     shadowRadius: 8,
   },
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   detailTitle: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: '400',
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 14.4,
@@ -255,7 +256,7 @@ const styles = StyleSheet.create({
     marginLeft: 3,
   },
   detailAmount: {
-    fontSize: 20,
+    fontSize: 16,
     color: Colors.amountTxt,
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 24,

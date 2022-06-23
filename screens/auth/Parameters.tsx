@@ -27,6 +27,7 @@ import UserInfoService, {
 } from '../../services/UserInfoService';
 import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
+import { getString } from '../../utils/converts';
 
 export const PASSCODEENABLED = 'PASSCODEENABLED';
 export const BIOMETRICENABLED = 'BIOMETRICENABLED';
@@ -47,19 +48,39 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
   const [isBiometricEnabled, setIsBiometricEnabled] = useState(false);
   const [cameraHandler, setCameraHandler] = useState(false);
 
+  const UploadImage = (data: any) => {
+    UserInfoService.UploadPhoto(data).subscribe({
+      next: Response => { console.log('+++++++++++', Response.data)
+        if(Response.data.resultCode === '200') {
+          getUserInfo();
+        }
+      },
+      error: err => {
+        console.log('err', err);
+      }
+    })
+  }
+
   const choosePhoto = async () => { console.log('*******************')
     const result = await launchImageLibrary({
       mediaType: 'photo',
       selectionLimit: 1,
-      includeBase64: true,
       quality: 0.2,
       maxWidth: 300,
       maxHeight: 300,
+      includeExtra: true
     });
+    console.log(result)
     if (result.assets) {
       const { base64, fileName } = result.assets[0];
-      console.log(base64, fileName)
-      //uploadImage(getString(fileName), getString(base64));
+      const file = {
+        uri: result.assets[0].uri,
+        name: result.assets[0].uri,
+        type: result.assets[0].type,
+      };
+      const body = new FormData();
+      body.append('file', file);
+      UploadImage(body);
     }
     setCameraHandler(!cameraHandler)
   };
@@ -189,10 +210,14 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
             <TouchableOpacity
               style={styles.circle}
               onPress={() => setCameraHandler(true)}>
-              <Image
+                {user?.url ? <Image
                 style={styles.avatar}
-                source={require('../../assets/img/avatar.png')}
-              />
+                source={{uri: user.url}}
+              /> : <Image
+              style={styles.avatar}
+              source={require('../../assets/img/avatar.png')}
+            />}
+              
             </TouchableOpacity>
           </View>
 

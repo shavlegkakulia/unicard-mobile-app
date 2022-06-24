@@ -68,6 +68,7 @@ export default {
     bDayValidate: 'მინიმალური სიგრძე უნდა იყოს 4',
     phoneValidate: 'მინიმალური სიგრძე უნდა იყოს 18',
     wrongMail: 'არასწორი E-mail',
+    foreign: 'უცხო ქვეყნის მოქალაქე',
   },
   home: {
     whatShouldSpend: 'რაში დავხარჯო',

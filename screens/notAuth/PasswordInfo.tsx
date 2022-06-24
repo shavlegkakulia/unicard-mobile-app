@@ -32,6 +32,7 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   ) as ITranslateState;
 
   const params = props.route.params;
+  console.log('params', params)
 
   const OtpAuth = () => {
     if (loading) {

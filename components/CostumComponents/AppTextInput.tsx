@@ -38,14 +38,21 @@ export interface IAppTextInputProps {
   maxLength?: number;
   onChange: (value: string) => void;
   name?: string;
-  requireType?: string;
+  requireType?: string | null;
   chekCount?: number;
   onPressProp?: () => void;
   borderColor?: string;
   search?: boolean;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  skipError?:boolean;
 }
 
-export const inputErrors: any[] = [];
+export let inputErrors: any[] = [];
+
+export const deleteError = (name: string) => {
+  inputErrors = [...inputErrors.filter(err => err !== name)];
+};
 
 const AppTextInput: React.FC<IAppTextInputProps> = props => {
   const translate = useSelector<ITranslateReducer>(
@@ -66,7 +73,10 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     chekCount,
     onChange,
     onPressProp,
-    search
+    search,
+    onFocus,
+    onBlur,
+    skipError
   } = props;
 
   const errorMessages = {
@@ -108,8 +118,14 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
 
     return result;
   };
-
+useEffect(() => {
+if(skipError) setHasEror(undefined)
+}, [skipError])
   const check = (imediately?: boolean) => {
+    if(skipError) {
+      setHasEror(undefined);
+      return;
+    }
     if (requireType === requireTypes.require) {
       if (!value) {
         if (inputErrors.indexOf(name) < 0) {
@@ -194,7 +210,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         inputErrors.push(...filtered);
         setHasEror(undefined);
       }
-    } else if (requireType === requireTypes.min) {
+    } else if (requireType !== null && requireType === requireTypes.min) {
       if (minValue) {
         if (!value) {
           if (inputErrors.indexOf(name) < 0) {
@@ -300,6 +316,8 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
             secureTextEntry={visible}
             textContentType={textContentType || 'none'}
             style={styles.inputPlaceholder}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
         </View>
 

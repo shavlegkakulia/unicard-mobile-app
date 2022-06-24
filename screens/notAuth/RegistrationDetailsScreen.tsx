@@ -1,7 +1,8 @@
-import React, { useState} from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput, {
+  deleteError,
   requireTypes,
 } from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -11,9 +12,10 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {inputErrors} from './../../components/CostumComponents/AppTextInput';
 
 import Colors from '../../theme/Colors';
-import { RouteProp, useRoute } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
+import CheckBox from '@react-native-community/checkbox';
 
 type RouteParamList = {
   params: {
@@ -26,16 +28,39 @@ type RouteParamList = {
 const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const [regData, setRegData] = useState<IRegisterRequestData>();
+  const [toggleCheckBox, setToggleCheckBox] = useState<boolean>(false);
+  const [foreign, setForeign] = useState<boolean>(false);
   const [chekCount, setChekCount] = useState<number>(0);
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
-
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const nextStep = () => {
     setChekCount(t => ++t);
     if (inputErrors.length > 0) {
+      console.log(inputErrors)
       return;
     }
-    props.navigation.navigate(notAuthRoutes.passwordInfo, {data: {...regData, fb_token: route?.params?.fb_token, card: route?.params?.cardNumber}});
+    props.navigation.navigate(notAuthRoutes.passwordInfo, {
+      data: {
+        ...regData,
+        fb_token: route?.params?.fb_token,
+        card: route?.params?.cardNumber,
+      },
+    });
+  };
+
+  const onFocus = () => {
+    setForeign(true);
+  };
+  const onBlur = () => {
+    setForeign(false);
+  };
+
+  const activeToggle = () => {
+    setToggleCheckBox(prev => !prev);
+    deleteError('personalnumber')
+    console.log(toggleCheckBox);
   };
 
   return (
@@ -62,8 +87,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: regData?.birthDate,
                 phone: regData?.phone,
                 email: regData?.email,
-                new_card_registration: route?.params?.hasCard ? "1" : "0",
-                card: route?.params?.cardNumber
+                new_card_registration: route?.params?.hasCard ? '1' : '0',
+                card: route?.params?.cardNumber,
               })
             }
           />
@@ -83,8 +108,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: regData?.birthDate,
                 phone: regData?.phone,
                 email: regData?.email,
-                new_card_registration: route?.params?.hasCard ? "1" : "0",
-                card: route?.params?.cardNumber
+                new_card_registration: route?.params?.hasCard ? '1' : '0',
+                card: route?.params?.cardNumber,
               })
             }
           />
@@ -94,9 +119,12 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             secureTextEntry={false}
             textContentType={''}
             value={regData?.person_code}
-            requireType={requireTypes.min}
-            minValue={6}
-            name="personalnumber"
+            skipError={toggleCheckBox}
+            requireType={!toggleCheckBox ? requireTypes.min : undefined}
+            minValue={!toggleCheckBox ? 6 : undefined}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            name={!toggleCheckBox ? 'personalnumber' : ''}
             chekCount={chekCount}
             onChange={e =>
               setRegData({
@@ -106,11 +134,29 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: regData?.birthDate,
                 phone: regData?.phone,
                 email: regData?.email,
-                new_card_registration: route?.params?.hasCard ? "1" : "0",
-                card: route?.params?.cardNumber
+                new_card_registration: route?.params?.hasCard ? '1' : '0',
+                card: route?.params?.cardNumber,
               })
             }
           />
+          {foreign ? (
+            <View style={styles.checkboxWrapper}>
+              <CheckBox
+                disabled={false}
+                value={toggleCheckBox}
+                onValueChange={activeToggle}
+                tintColor={Colors.bgGreen}
+                onCheckColor={Colors.white}
+                onFillColor={Colors.bgGreen}
+                onTintColor={Colors.bgGreen}
+                offAnimationType="stroke"
+                style={styles.checkbox}
+              />
+              <TouchableOpacity>
+                <Text style={styles.text}>{translate.t('auth.foreign')}</Text>
+              </TouchableOpacity>
+            </View>
+          ) : null}
 
           <AppTextInput
             placeholder={translate.t('auth.birtDate')}
@@ -130,8 +176,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: e,
                 phone: regData?.phone,
                 email: regData?.email,
-                new_card_registration: route?.params?.hasCard ? "1" : "0",
-                card: route?.params?.cardNumber
+                new_card_registration: route?.params?.hasCard ? '1' : '0',
+                card: route?.params?.cardNumber,
               })
             }
           />
@@ -154,8 +200,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: regData?.birthDate,
                 phone: e,
                 email: regData?.email,
-                new_card_registration: route?.params?.hasCard ? "1" : "0",
-                card: route?.params?.cardNumber
+                new_card_registration: route?.params?.hasCard ? '1' : '0',
+                card: route?.params?.cardNumber,
               })
             }
           />
@@ -176,8 +222,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 birthDate: regData?.birthDate,
                 phone: regData?.phone,
                 email: e,
-                new_card_registration: route?.params?.hasCard ? "1" : "0",
-                card: route?.params?.cardNumber
+                new_card_registration: route?.params?.hasCard ? '1' : '0',
+                card: route?.params?.cardNumber,
               })
             }
           />
@@ -213,6 +259,23 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 116,
     marginBottom: 102,
+  },
+  checkboxWrapper: {
+    width: 320,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginTop: 20,
+  },
+  checkbox: {
+    width: 16,
+    height: 16,
+  },
+  text: {
+    color: Colors.darkGrey,
+    fontSize: 14,
+    marginLeft: 10,
+    fontFamily: 'BPG DejaVu Sans',
+    lineHeight: 16.8,
   },
 });
 

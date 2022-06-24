@@ -15,21 +15,36 @@ import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 
 import Colors from '../../theme/Colors';
-import AuthService, { IRegisterRequestData } from '../../services/AuthService';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import AuthService, {IRegisterRequestData} from '../../services/AuthService';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
   const [loading, setLoading] = useState(false);
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
-
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const params = props.route.params;
+  console.log('params>>>>', params);
 
   const register = () => {
-    if(loading) return;
+    if (loading) {
+      return;
+    }
     setLoading(true);
-    const {user_name, surname, person_code, birthDate, phone, email, password, fb_token, new_card_registration, card} =
-      params.data;
+    const {
+      user_name,
+      surname,
+      person_code,
+      birthDate,
+      phone,
+      email,
+      password,
+      fb_token,
+      new_card_registration,
+      card,
+    } = params.data;
+
     const data: IRegisterRequestData = {
       user_name,
       surname,
@@ -40,18 +55,22 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
       password,
       fb_token,
       new_card_registration,
-      card
+      card,
     };
     AuthService.SignUp(data).subscribe({
       next: Response => {
-        if(Response.data.succes) {
+        console.log('rees',Response.data)
+        if (Response.data.succes) {
+          
           props.navigation.navigate(
             notAuthRoutes.registrationDone,
             props.route.params,
           );
         }
       },
-      complete: () => {setLoading(false)},
+      complete: () => {
+        setLoading(false);
+      },
       error: err => {
         setLoading(false);
         console.log('>>>', err);
@@ -65,16 +84,16 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
         <Text style={styles.title}>{translate.t('common.setSmsCode')}</Text>
       </View>
       <View style={styles.sendTextView}>
-        <Text style={styles.sendText}>
-        {translate.t('common.smsCodeSent')}
-        </Text>
+        <Text style={styles.sendText}>{translate.t('common.smsCodeSent')}</Text>
       </View>
       <View style={styles.inputView}>
         <Text style={styles.text}>{translate.t('common.smsCode')}</Text>
 
         <TextInput style={styles.input} keyboardType="numeric" />
         <TouchableOpacity>
-          <Text style={styles.text}>{translate.t('common.fromTheBegining')}</Text>
+          <Text style={styles.text}>
+            {translate.t('common.fromTheBegining')}
+          </Text>
         </TouchableOpacity>
       </View>
       <View style={styles.button}>

@@ -307,7 +307,7 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
               onPress={() => setCameraHandler(false)}>
               <View style={styles.btnStyle}>
                 <Text style={styles.btnTitle}>
-                  {translate.t('common.cancell')}
+                  {translate.t('common.cancel')}
                 </Text>
               </View>
             </TouchableOpacity>

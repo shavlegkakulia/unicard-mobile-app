@@ -318,6 +318,7 @@ if(skipError) setHasEror(undefined)
             style={styles.inputPlaceholder}
             onFocus={onFocus}
             onBlur={onBlur}
+            maxLength={maxLength}
           />
         </View>
 

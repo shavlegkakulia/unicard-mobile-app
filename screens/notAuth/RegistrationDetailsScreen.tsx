@@ -122,6 +122,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             skipError={toggleCheckBox}
             requireType={!toggleCheckBox ? requireTypes.min : undefined}
             minValue={!toggleCheckBox ? 6 : undefined}
+            maxLength={!toggleCheckBox ? 11 : undefined}
             onFocus={onFocus}
             onBlur={onBlur}
             name={!toggleCheckBox ? 'personalnumber' : ''}

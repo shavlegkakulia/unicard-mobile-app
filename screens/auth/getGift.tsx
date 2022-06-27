@@ -112,6 +112,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
 
     BuyProductService.GenerateProduct(data).subscribe({
       next: Response => {
+        console.log(Response)
         if (Response.data.resultCode === '200') {
           setIsMobile(false);
           props.navigation.navigate(authRoutes.orderDone);

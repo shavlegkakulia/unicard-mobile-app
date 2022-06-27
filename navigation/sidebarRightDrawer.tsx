@@ -74,7 +74,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
     if (authdata.token?.length) {
       getProducFiltertList();
     }
-  }, [authdata.token]);
+  }, [authdata.token, translate.key]);
 
   let activePrize = true;
 

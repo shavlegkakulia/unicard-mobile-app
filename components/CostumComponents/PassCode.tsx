@@ -5,7 +5,9 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Modal,
+  ActivityIndicator
 } from 'react-native';
 
 import Colors from '../../theme/Colors';
@@ -33,6 +35,7 @@ interface IPageProps {
 const PassCode: React.FC<IPageProps> = props => {
   const [user, setUser] = useState<IgetUserServiceResponse>();
   const [{code, code2}, setCode] = useState({code: '', code2: ''});
+  const [loading, setLoading] = useState(false);
   const auth = useSelector<IAuthReducer>(state => state.AuthReducer) as IAuthState;
 
   const nav = useNavigation();
@@ -95,6 +98,7 @@ const PassCode: React.FC<IPageProps> = props => {
     });
   };
   useEffect(() => {
+    if(!props.isLogin)
     getUserInfo();
   }, []);
 
@@ -110,29 +114,35 @@ const PassCode: React.FC<IPageProps> = props => {
 
   useEffect(() => {
     if (props.isLogin && code2.length === 4 && code === code2) {
+      setLoading(true);
       (async () => {
         const token = await AuthService.getToken();
         const refresh = await AuthService.getRefreshToken();
-        if (token && refresh) { 
+       
+        if (token && refresh) {  
           props.onRefresh(res => {
             const {accesToken, refreshToken, skip} = res;
-            if (accesToken !== undefined) {
+            if (accesToken !== undefined) { 
               dispatch(login(accesToken, refreshToken));
             } else {
               if (!skip) {
                 dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
               }
             }
+
+            setLoading(false);
           })
         }
       })();
       if (code.length === 4 && code !== code2) {
         setCode({code: '', code2: code2});
       }
+    } if(props.isLogin && code2.length === 4 && code !== code2) {
+      dispatch(PUSH(translate.t('auth.wrongPin')))
     }
  
    
-  }, [code]);
+  }, [code, code2]);
 
   let p1 = false;
   let p2 = false;
@@ -191,11 +201,12 @@ const PassCode: React.FC<IPageProps> = props => {
   }, [code2]);
 
   return (
-    <ScrollView>
+<>
+<ScrollView>
       <View style={styles.titleView}>
-        <Text style={styles.title}>{translate.t('common.changePin')}</Text>
+        <Text style={styles.title}>{translate.t(`common.${props.isLogin ? 'enterByPin' : 'changePin'}`)}</Text>
       </View>
-      <View style={styles.avatarView}>
+      {user !== undefined && <View style={styles.avatarView}>
         <Image
           style={styles.avatar}
           source={require('../../assets/img/avatar.png')}
@@ -203,8 +214,8 @@ const PassCode: React.FC<IPageProps> = props => {
         <Text style={styles.name}>
           {user?.name} {user?.surname}
         </Text>
-      </View>
-      <View style={styles.dotCenter}>
+      </View>}
+      <View style={[styles.dotCenter, props.isLogin ? {marginTop: 120} : {}]}>
         <View style={styles.dotsView}>
           <View style={[styles.dot, p1 && styles.activeDot]} />
           <View style={[styles.dot, p2 && styles.activeDot]} />
@@ -286,6 +297,10 @@ const PassCode: React.FC<IPageProps> = props => {
         <Image style={styles.cancel} source={require('../../assets/img/cancelIcon.png')} />
       </TouchableOpacity>
     </ScrollView>
+    <Modal visible={loading} transparent={true} >
+      <ActivityIndicator size={'small'} color={Colors.bgGreen} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} />
+    </Modal>
+    </>
   );
 };
 

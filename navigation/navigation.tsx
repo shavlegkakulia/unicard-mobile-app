@@ -17,6 +17,10 @@ import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
 import {StatusBar} from 'react-native';
 import AsyncStorage from './../services/StorageService';
 import {PASSCODEENABLED} from '../screens/auth/Parameters';
+import { PUSH } from '../Store/actions/errors';
+import { stringToObject } from '../utils/common';
+import NetInfo from '@react-native-community/netinfo';
+
 
 export default () => {
   const authReducer = useSelector<IAuthReducer>(
@@ -43,8 +47,41 @@ export default () => {
         if (!response.config.objectResponse || response.data.expires_in) {
           return Promise.resolve(response);
         }
+        if (!response.data.ok && !response.data.Ok) {
+          try{
+            response.errorMessage =
+            response?.data?.errors[0]?.ErrorMessage || response?.data?.errors[0]?.displayText || 'generalErrors.errorOccurred';
+            }
+            catch(err) {
+              response.errorMessage =
+              response?.data?.Errors[0]?.DisplayText || 'generalErrors.errorOccurred';
+            }
+          response.customError = true;
+          if (!response.config.skipCustomErrorHandling)
+          dispatch(PUSH(response.errorMessage === 'generalErrors.errorOccurred' ? translateReducer.t(response.errorMessage) : response.errorMessage))
+ 
+
+          return Promise.reject(response);
+        }
         return Promise.resolve(response);
-      },
+      }, async error => {
+        if(error?.response?.status === 401) {
+          return Promise.reject(error);
+        }
+        console.log('>>>>>>>>>>>>>>>', stringToObject(error.response).data);
+        let netInfo = await NetInfo.fetch();
+        if (!netInfo.isConnected) {
+          if (!error.config.skipCustomErrorHandling)
+          dispatch(PUSH(translateReducer.t("generalErrors.netError")));
+           
+          error.errorMessage = translateReducer.t("generalErrors.netError");
+        } else {
+          if (stringToObject(error.response).data.error !== 'invalid_grant' && stringToObject(error.response).data.error !== 'require_otp' && stringToObject(error.response).data.error !== 'invalid_username_or_password') {
+             dispatch(PUSH(translateReducer.t("generalErrors.errorOccurred")));
+          }
+        }
+        return Promise.reject(error);
+      }
     );
     return {
       unsubscribe: () => {
@@ -88,16 +125,12 @@ export default () => {
     //         type: AuthActions.setIsAuthentificated,
     //         isAuthentificated: true,
     //       });
-    //       dispatch({
-    //         type: AuthActions.setIsAuthentificated,
-    //         isAuthentificated: true,
-    //       });
     //     })
     //     .finally(() => setIsLoading(false));
     //   } else {
     //     setIsLoading(false);
     //   }
-    //});
+    // });
     setIsLoading(false);
     //   setTimeout(() => {
     //     dispatch({

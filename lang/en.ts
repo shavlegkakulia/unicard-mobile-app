@@ -30,6 +30,7 @@ export default {
     accumulated: 'Available',
     continue: 'Next',
     changePin: 'Change Pin-Code',
+    enterByPin: 'LogIn by Pin-Code',
     wentWrong: 'Error',
     search: 'Search Partners ',
     gel: 'Gel',
@@ -67,6 +68,7 @@ export default {
     phoneValidate: 'The minimum length must be 18',
     wrongEmail: 'Wrong E-mail',
     foreign: 'Foreign Citizen',
+    wrongPin: 'Incorrect Pin-Code'
   },
   home: {
     whatShouldSpend: 'How to spend',

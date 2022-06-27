@@ -70,13 +70,13 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
       quality: 0.2,
       maxWidth: 300,
       maxHeight: 300,
-      includeExtra: true
+      includeBase64: true
     });
-    console.log(result)
+    
     if (result.assets) {
       const { base64, fileName } = result.assets[0];
 
-      UploadImage(base64);
+      UploadImage('data:image/png;base64,'+base64);
     }
     setCameraHandler(!cameraHandler);
   };

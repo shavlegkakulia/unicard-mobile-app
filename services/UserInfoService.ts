@@ -80,10 +80,16 @@ class UserInfoService {
     return from(result);
   }
 
-  UploadPhoto(base64?: string) { console.log(base64)
+  UploadPhoto(base64?: string) {
     const result = axios.post<IUploadPhotoResponse>(
       `${envs.API_URL}api/File/UploadImage`,
-      base64, {objectResponse: true}
+      base64,
+      {
+        headers: {
+          'Content-type': 'application/json',
+        },
+        objectResponse: true,
+      },
     );
     return from(result);
   }

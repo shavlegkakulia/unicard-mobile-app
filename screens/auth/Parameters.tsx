@@ -52,12 +52,18 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
 
   const UploadImage = (base64?: string) => {
     UserInfoService.UploadPhoto(base64).subscribe({
-      next: Response => { console.log('+++++++++++', Response.data)
+      next: Response => {
+        //temporary while response is not normalized
+        getUserInfo();
         if(Response.data.resultCode === '200') {
+          
           getUserInfo();
         }
+      },complete:() => {
+        setCameraHandler(!cameraHandler);
       },
       error: err => {
+        setCameraHandler(!cameraHandler);
         console.log('err', err);
       }
     })
@@ -76,8 +82,8 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
     if (result.assets) {
       const { base64, fileName } = result.assets[0];
 
-      UploadImage('data:image/png;base64,'+base64);
-    }
+      UploadImage(`"${base64}"`);
+    } else
     setCameraHandler(!cameraHandler);
   };
 
@@ -107,14 +113,18 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
             },
           );
           if (result.assets) {
-            const {base64, fileName} = result.assets[0];
-            //uploadImage(getString(fileName), getString(base64));
-            //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
+            const { base64, fileName } = result.assets[0];
+      
+            UploadImage(`"${base64}"`);
+          } else {
+            setCameraHandler(!cameraHandler);
           }
         } else {
+          setCameraHandler(!cameraHandler);
           console.log('Camera permission denied');
         }
       } catch (err) {
+        setCameraHandler(!cameraHandler);
         console.warn(err);
       }
     } else {

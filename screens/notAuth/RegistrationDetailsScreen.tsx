@@ -190,9 +190,9 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             textContentType={'telephoneNumber'}
             value={regData?.phone}
             requireType={requireTypes.maxLength}
-            maxLength={18}
+            // maxLength={18}
             chekCount={chekCount}
-            name="telephoneNumber"
+            // name="telephoneNumber"
             onChange={e =>
               setRegData({
                 user_name: regData?.user_name,

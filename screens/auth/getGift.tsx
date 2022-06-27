@@ -27,18 +27,29 @@ import OnlinePaymentService, {
 } from '../../services/OnlinePaymentService';
 import {useSelector} from 'react-redux';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
+import {IAuthReducer, IAuthState} from '../../Store/types/auth';
 
 const GetGift: React.FC<ScreenNavigationProp> = props => {
+  const authdata = useSelector<IAuthReducer>(
+    state => state.AuthReducer,
+  ) as IAuthState;
+
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
-  const [client, setClient] = useState<IBuyProductServiceResponse>();
+  const [client, setClient] = useState<IBuyProductServiceResponse>({
+    name: authdata.userInfo?.name,
+    surname: authdata.userInfo?.surname,
+    recipient_personal_id: authdata.userInfo?.person_code,
+    
+  });
   const [paymentInfo, setPaymentInfo] = useState<IgetPaymentResponse[]>();
   const [error, setError] = useState<boolean>();
   const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [num, setNum] = useState('');
   const params = props.route.params;
+
   let typeId = params.type;
   let utilityId = '8';
   let payTypeId = '5';
@@ -112,12 +123,12 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
 
     BuyProductService.GenerateProduct(data).subscribe({
       next: Response => {
-        console.log(Response)
         if (Response.data.resultCode === '200') {
           setIsMobile(false);
           props.navigation.navigate(authRoutes.orderDone);
         }
       },
+
       error: err => {
         console.log('>>>', err);
       },
@@ -134,6 +145,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     errorHandler();
   }, [num]);
+
   return (
     <KeyboardAwareScrollView style={styles.main}>
       <View style={styles.imageView}>
@@ -248,6 +260,7 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
 
           <AppTextInput
             placeholder={translate.t('common.personalNumber')}
+            value={client?.recipient_personal_id}
             onChange={e => {
               setClient({
                 name: client?.name,
@@ -281,8 +294,10 @@ const GetGift: React.FC<ScreenNavigationProp> = props => {
           <AppButton
             loading={loading}
             onPress={() => {
-              Alert.alert(isMobile ? '1' : '0');
-              if (isMobile) {
+              
+
+              if (isMobile === false) {
+                console.log(isMobile);
                 buyProduct();
               } else {
                 getPayment(true);

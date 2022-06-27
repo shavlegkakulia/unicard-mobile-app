@@ -136,7 +136,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
             value={searchValue}
             onChangeText={v => setSearchValue(v)}
             placeholder={translate.t('home.whatShouldSpend')}
-            placeholderTextColor={Colors.switchGrey}
+            placeholderTextColor={Colors.white}
           />
         </View>
         <TouchableOpacity onPress={cancelSearch}>

@@ -27,7 +27,7 @@ import UserInfoService, {
 } from '../../services/UserInfoService';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
-import { getString } from '../../utils/converts';
+// import {getString} from '../../utils/converts';
 
 export const PASSCODEENABLED = 'PASSCODEENABLED';
 export const BIOMETRICENABLED = 'BIOMETRICENABLED';
@@ -55,40 +55,42 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
       next: Response => {
         //temporary while response is not normalized
         getUserInfo();
-        if(Response.data.resultCode === '200') {
-          
+        if (Response.data.resultCode === '200') {
           getUserInfo();
         }
-      },complete:() => {
+      },
+      complete: () => {
         setCameraHandler(!cameraHandler);
       },
       error: err => {
         setCameraHandler(!cameraHandler);
         console.log('err', err);
-      }
-    })
-  }
+      },
+    });
+  };
 
-  const choosePhoto = async () => { console.log('*******************')
+  const choosePhoto = async () => {
+    console.log('*******************');
     const result = await launchImageLibrary({
       mediaType: 'photo',
       selectionLimit: 1,
       quality: 0.2,
       maxWidth: 300,
       maxHeight: 300,
-      includeBase64: true
+      includeBase64: true,
     });
-    
+
     if (result.assets) {
-      const { base64, fileName } = result.assets[0];
+      const {base64, fileName} = result.assets[0];
 
       UploadImage(`"${base64}"`);
-    } else
-    setCameraHandler(!cameraHandler);
+    } else {
+      setCameraHandler(!cameraHandler);
+    }
   };
 
   const takePhoto = async () => {
-    if  (Platform.OS === 'android') {
+    if (Platform.OS === 'android') {
       try {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.CAMERA,
@@ -109,12 +111,12 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
               maxHeight: 300,
             },
             r => {
-              console.log(r);;
+              console.log(r);
             },
           );
           if (result.assets) {
-            const { base64, fileName } = result.assets[0];
-      
+            const {base64, fileName} = result.assets[0];
+
             UploadImage(`"${base64}"`);
           } else {
             setCameraHandler(!cameraHandler);
@@ -216,14 +218,14 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
             <TouchableOpacity
               style={styles.circle}
               onPress={() => setCameraHandler(true)}>
-                {user?.url ? <Image
-                style={styles.avatar}
-                source={{uri: user.url}}
-              /> : <Image
-              style={styles.avatar}
-              source={require('../../assets/img/avatar.png')}
-            />}
-              
+              {user?.url ? (
+                <Image style={styles.avatar} source={{uri: user.url}} />
+              ) : (
+                <Image
+                  style={styles.avatar}
+                  source={require('../../assets/img/avatar.png')}
+                />
+              )}
             </TouchableOpacity>
           </View>
 
@@ -244,7 +246,9 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
             />
           </View>
           <View style={styles.info}>
-            <Text style={styles.infoText}>{translate.t('settings.changePwd')}</Text>
+            <Text style={styles.infoText}>
+              {translate.t('settings.changePwd')}
+            </Text>
           </View>
         </TouchableOpacity>
         <View style={styles.param}>

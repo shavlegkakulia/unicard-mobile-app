@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, ScrollView, Image, ActivityIndicator} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  Image,
+  ActivityIndicator,
+  Linking,
+} from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import Colors from '../../theme/Colors';
 
@@ -10,11 +18,14 @@ import {
 } from '../../services/SinglePartnersService';
 import SinglePartnersService from '../../services/SinglePartnersService';
 import AppButton from '../../components/CostumComponents/AppButton';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {useSelector} from 'react-redux';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const SinglePartners: React.FC<ScreenNavigationProp> = props => {
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const [organization, setOrganization] = useState<IgetPartnersResponse>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -43,7 +54,7 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
   useEffect(() => {
     getOrgDetails();
   }, []);
-  
+
   if (loading) {
     return (
       <View style={styles.loading}>
@@ -66,7 +77,9 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
           <View style={styles.scoreView}>
             <Text style={styles.greenText}>
               {organization?.organization?.unit_score}{' '}
-              {organization?.organization?.unit_score ? translate.t('common.score') : ''}
+              {organization?.organization?.unit_score
+                ? translate.t('common.score')
+                : ''}
             </Text>
             <Text style={styles.pointText}>
               {organization?.organization?.unit_score
@@ -77,7 +90,9 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
         </View>
       </View>
       <View style={styles.padding}>
-        <Text style={styles.aboutTxt}>{translate.t('partners.aboutCompany')}</Text>
+        <Text style={styles.aboutTxt}>
+          {translate.t('partners.aboutCompany')}
+        </Text>
         <View>
           <Text style={styles.descTxt}>
             {htmlToString(organization?.organization?.org_desc)}
@@ -99,7 +114,11 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
         </View>
       ) : null}
       {organization?.organization?.org_phone_s ? (
-        <View style={styles.contactView}>
+        <TouchableOpacity
+          style={styles.contactView}
+          onPress={() =>
+            Linking.openURL(`tel:${organization?.organization?.org_phone_s}`)
+          }>
           <View style={styles.iconView}>
             <Image
               style={styles.phone}
@@ -110,10 +129,14 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.addressTxt}>
             {organization?.organization?.org_phone_s}
           </Text>
-        </View>
+        </TouchableOpacity>
       ) : null}
       {organization?.organization?.org_email ? (
-        <View style={styles.contactView}>
+        <TouchableOpacity
+          style={styles.contactView}
+          onPress={() =>
+            Linking.openURL(`mailto:${organization?.organization?.org_email}`)
+          }>
           <View style={styles.iconView}>
             <Image
               style={styles.email}
@@ -124,10 +147,14 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.addressTxt}>
             {organization?.organization?.org_email}
           </Text>
-        </View>
+        </TouchableOpacity>
       ) : null}
       {organization?.organization?.org_web_add ? (
-        <View style={styles.contactView}>
+        <TouchableOpacity
+          style={styles.contactView}
+          onPress={() =>
+            Linking.openURL(`${organization?.organization?.org_web_add}`)
+          }>
           <View style={styles.iconView}>
             <Image
               style={styles.globe}
@@ -138,11 +165,15 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.addressTxt}>
             {organization?.organization?.org_web_add}
           </Text>
-        </View>
+        </TouchableOpacity>
       ) : null}
 
       {organization?.organization?.org_fb ? (
-        <View style={styles.contactView}>
+        <TouchableOpacity
+          style={styles.contactView}
+          onPress={() =>
+            Linking.openURL(`${organization?.organization?.org_fb}`)
+          }>
           <View style={styles.iconView}>
             <Image
               style={styles.social}
@@ -153,7 +184,7 @@ const SinglePartners: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.addressTxt}>
             {organization?.organization?.org_fb}
           </Text>
-        </View>
+        </TouchableOpacity>
       ) : null}
       <View style={styles.btn}>
         {/* <AppButton

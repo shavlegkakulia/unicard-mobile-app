@@ -122,7 +122,7 @@ export default {
   generalErrors: {
     errorOccurred: 'Error',
     wrongUser: 'Wrong User or Password',
-    contentNotFound: 'Page Not Found',
+    contentNotFound: 'Content Not Found',
     wrongEmail: 'Wrong Email',
     pwdMatchText:
       'Password must contain at least:: \n- 8 symbols \n- 1 Uppercase Letter \n- 1 Lowercase Letter \n- 1 Digit \n- 1 Special Symbol (except dot (.) and @ symbols)',

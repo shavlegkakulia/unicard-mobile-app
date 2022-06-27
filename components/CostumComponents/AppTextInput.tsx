@@ -23,6 +23,7 @@ export const requireTypes = {
   minLength: 'minLength',
   maxLength: 'maxLength',
   repeatPassword: 'repeatPassword',
+  mutch: 'mutch',
 };
 
 export interface IAppTextInputProps {
@@ -37,13 +38,21 @@ export interface IAppTextInputProps {
   maxLength?: number;
   onChange: (value: string) => void;
   name?: string;
-  requireType?: string;
+  requireType?: string | null;
   chekCount?: number;
   onPressProp?: () => void;
   borderColor?: string;
+  search?: boolean;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  skipError?:boolean;
 }
 
-export const inputErrors: any[] = [];
+export let inputErrors: any[] = [];
+
+export const deleteError = (name: string) => {
+  inputErrors = [...inputErrors.filter(err => err !== name)];
+};
 
 const AppTextInput: React.FC<IAppTextInputProps> = props => {
   const translate = useSelector<ITranslateReducer>(
@@ -64,7 +73,10 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     chekCount,
     onChange,
     onPressProp,
-    borderColor,
+    search,
+    onFocus,
+    onBlur,
+    skipError
   } = props;
 
   const errorMessages = {
@@ -80,8 +92,6 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
   const [visible, setVisible] = useState(secureTextEntry);
   const [hasError, setHasEror] = useState<string | undefined>(undefined);
   const [isFocused, setIsFocused] = useState(false);
-
-  let search = true;
 
   let iconUrl = !secureTextEntry
     ? icon
@@ -108,8 +118,14 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
 
     return result;
   };
-
+useEffect(() => {
+if(skipError) setHasEror(undefined)
+}, [skipError])
   const check = (imediately?: boolean) => {
+    if(skipError) {
+      setHasEror(undefined);
+      return;
+    }
     if (requireType === requireTypes.require) {
       if (!value) {
         if (inputErrors.indexOf(name) < 0) {
@@ -194,7 +210,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
         inputErrors.push(...filtered);
         setHasEror(undefined);
       }
-    } else if (requireType === requireTypes.min) {
+    } else if (requireType !== null && requireType === requireTypes.min) {
       if (minValue) {
         if (!value) {
           if (inputErrors.indexOf(name) < 0) {
@@ -280,7 +296,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     if (requireType) {
       check();
     }
-  }, [value, chekCount]);
+  }, [value, chekCount, translate.key]);
 
   const mainstyle = Platform.select({
     ios: styles.main,
@@ -300,14 +316,20 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
             secureTextEntry={visible}
             textContentType={textContentType || 'none'}
             style={styles.inputPlaceholder}
+            onFocus={onFocus}
+            onBlur={onBlur}
           />
         </View>
 
         <TouchableOpacity
           style={styles.iconWrapper}
-          onPress={
-            !search ? () => setVisible(!visible) : () => onPressProp?.()
-          }>
+          onPress={() => {
+            if (!search) {
+              setVisible(!visible);
+            } else {
+              onPressProp?.();
+            }
+          }}>
           {iconUrl !== undefined && (
             <Image
               source={iconUrl}

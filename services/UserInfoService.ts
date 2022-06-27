@@ -80,16 +80,10 @@ class UserInfoService {
     return from(result);
   }
 
-  UploadPhoto(data: any) { console.log(data)
+  UploadPhoto(base64?: string) { console.log(base64)
     const result = axios.post<IUploadPhotoResponse>(
       `${envs.API_URL}api/File/UploadImage`,
-      data, {
-        headers: {
-          'Content-Type': 'multipart/form-data; ',
-        }
-      }
-      
-      
+      base64, {objectResponse: true}
     );
     return from(result);
   }

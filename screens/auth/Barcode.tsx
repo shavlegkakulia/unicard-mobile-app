@@ -66,7 +66,6 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     });
   };
   useEffect(() => {
-    console.log('cardInfo', cardInfo);
     if (cardInfo?.vcard) {
       getBarcodeFile();
     }
@@ -85,16 +84,14 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     <View style={styles.main}>
       {cardInfo && (
         <>
-          <View style={styles.barcodeImageView}>
+  
             <Image
-              resizeMode="cover"
-              style={{
-                width: 330,
-                height: 50,
-              }}
+            
+              resizeMode="contain"
+              style={styles.barcodeImageView}
               source={{uri: `data:image/gif;base64,${barcode}`}}
             />
-          </View>
+      
           <View style={styles.barcodeNum}>
             <Text style={styles.num}>
               {cardInfo?.vcard?.replace(
@@ -140,8 +137,8 @@ const styles = StyleSheet.create({
   },
   barcodeImageView: {
     position: 'absolute',
-    top: 335,
-    left: -90,
+    top: 300,
+    left: -45,
     right: 0,
     bottom: 0,
     justifyContent: 'center',
@@ -149,8 +146,8 @@ const styles = StyleSheet.create({
     zIndex: 100,
     transform: [{rotate: '90deg'}],
     backgroundColor: Colors.white,
-    width: 400,
-    height: 70,
+    width: '70%',
+    height: 80,
     borderRadius: 10,
   },
   loading: {

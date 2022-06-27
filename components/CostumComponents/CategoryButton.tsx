@@ -22,12 +22,13 @@ const styles = StyleSheet.create({
   btnStyle: {
     backgroundColor: Colors.bgGreenLight,
     height: 35,
+    width: 265,
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   btnTitle: {
-    fontSize: 12,
+    fontSize: 10,
     color: Colors.white,
     lineHeight: 14.4,
     fontFamily: 'BPG DejaVu Sans Mt',

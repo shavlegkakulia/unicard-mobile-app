@@ -135,7 +135,7 @@ const SidebarRightDrawer: React.FC<ScreenNavigationProp> = () => {
             style={styles.input}
             value={searchValue}
             onChangeText={v => setSearchValue(v)}
-            placeholder="რაში დავხარჯო"
+            placeholder={translate.t('home.whatShouldSpend')}
             placeholderTextColor={Colors.switchGrey}
           />
         </View>

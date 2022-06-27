@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -19,21 +19,25 @@ import {notAuthRoutes} from '../../navigation/routes';
 
 import Colors from '../../theme/Colors';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
-
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 
 const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const [passData, setPassData] = useState<IRegisterRequestData>();
   const [loading, setLoading] = useState(false);
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
-
+  const [error, setError] = useState(false);
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const params = props.route.params;
+  console.log('params', params)
 
   const OtpAuth = () => {
-    if(loading) return;
+    if (loading) {
+      return;
+    }
     setLoading(true);
     AuthService.SendOtp({phone: params.data.phone}).subscribe({
       next: Response => {
@@ -41,6 +45,7 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
           return;
         }
         if (passData?.password !== passData?.confirm_password) {
+          setError(true);
           return;
         }
 
@@ -48,13 +53,25 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
           data: {...params.data, ...passData},
         });
       },
-      complete: () => {setLoading(false)},
+      complete: () => {
+        setLoading(false);
+      },
       error: err => {
-        setLoading(false)
+        setLoading(false);
         console.log(err);
       },
     });
   };
+
+  const mutchErrorHandler = () => {
+    if (passData?.confirm_password?.length === 0) {
+      setError(false);
+    }
+  };
+  useEffect(() => {
+    mutchErrorHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [passData?.confirm_password]);
 
   return (
     <>
@@ -80,7 +97,7 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
             placeholder={translate.t('common.repeatPassword')}
             secureTextEntry={true}
             value={passData?.confirm_password}
-            requireType={requireTypes.repeatPassword}
+            requireType={!error ? requireTypes.repeatPassword : ''}
             name="repeatPassword"
             onChange={e => {
               setPassData({
@@ -89,6 +106,13 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
               });
             }}
           />
+          {error && (
+            <View style={styles.error}>
+              <Text style={styles.errorTxt}>
+                {translate.t('generalErrors.passwordDontMutch')}
+              </Text>
+            </View>
+          )}
         </View>
         <View style={styles.checkboxWrapper}>
           <CheckBox
@@ -104,8 +128,10 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
           />
           <TouchableOpacity>
             <Text style={styles.text}>
-            {translate.t('common.accept')}
-               <Text style={styles.subText}>{translate.t('common.termsAndConditions')}</Text>
+              {translate.t('common.accept')}
+              <Text style={styles.subText}>
+                {translate.t('common.termsAndConditions')}
+              </Text>
             </Text>
           </TouchableOpacity>
         </View>
@@ -167,6 +193,15 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     flex: 1,
+  },
+  error: {
+    marginTop: 15,
+  },
+  errorTxt: {
+    color: Colors.red,
+    fontSize: 10,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
   },
 });
 

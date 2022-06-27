@@ -1,18 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Colors from '../theme/Colors';
 import {authRoutes} from '../navigation/routes';
-import navigation from '../navigation/navigation';
 import {IgetNewsResponse} from '../services/NewsService';
 
 const NewsCard: React.FC<IgetNewsResponse> = props => {
   const navigation = useNavigation();
-    let imgUrl = '';
-    if (props.image?.length) {
-      imgUrl = props.image;
-    }
+  let imgUrl = '';
+  if (props.image?.length) {
+    imgUrl = props.image;
+  }
   return (
     <TouchableOpacity
       style={styles.cardWrapper}
@@ -20,9 +19,12 @@ const NewsCard: React.FC<IgetNewsResponse> = props => {
         id: props.id,
       })}>
       <Image style={styles.img} resizeMode={'cover'} source={{uri: imgUrl}} />
-      
+
       <Text style={styles.wrap} numberOfLines={5}>
-        <Text style={styles.time}>{props.createDate}{'\n'}</Text>
+        <Text style={styles.time}>
+          {props.createDate}
+          {'\n'}
+        </Text>
         <Text style={styles.title}>{props.title}</Text>
         <Text style={styles.desc}>{props.description} </Text>
       </Text>
@@ -42,11 +44,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     // alignItems: 'center',
     //paddingVertical: 10,
-    paddingRight: 10
-},
+    paddingRight: 10,
+  },
   img: {
     width: 187,
-    marginRight: 10
+    marginRight: 10,
   },
   wrap: {
     width: 155,

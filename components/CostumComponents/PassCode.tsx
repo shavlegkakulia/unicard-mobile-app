@@ -281,9 +281,10 @@ const PassCode: React.FC<IPageProps> = props => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* <TouchableOpacity style={styles.goback} onPress={() => nav.goBack()}>
-        <Text style={styles.gobackTxt}>X</Text>
-      </TouchableOpacity> */}
+      <TouchableOpacity style={styles.goback} onPress={() => nav.goBack()}>
+        {/* <Text style={styles.gobackTxt}>X</Text> */}
+        <Image style={styles.cancel} source={require('../../assets/img/cancelIcon.png')} />
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -373,13 +374,10 @@ const styles = StyleSheet.create({
   goback: {
     alignItems: 'center',
   },
-  gobackTxt: {
-    fontSize: 18,
-    color: Colors.bgGreen,
-    fontFamily: 'BPG DejaVu Sans Mt',
-    fontWeight: '700',
-    lineHeight: 24,
-  }
+  cancel: {
+    width: 17.01,
+    height: 17.01,
+  },
 });
 
 export default PassCode;

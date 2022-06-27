@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, ScrollView, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import {ScreenNavigationProp} from '../../../interfaces/commons';
 import Colors from '../../../theme/Colors';
 import {
@@ -8,11 +15,15 @@ import {
 } from '../../../services/SinglePartnersService';
 import SinglePartnersService from '../../../services/SinglePartnersService';
 import AppButton from '../../../components/CostumComponents/AppButton';
-import { authRoutes } from '../../../navigation/routes';
-import { useSelector } from 'react-redux';
-import { ITranslateReducer, ITranslateState } from '../../../Store/types/translate';
+import {authRoutes} from '../../../navigation/routes';
+import {useSelector} from 'react-redux';
+import {
+  ITranslateReducer,
+  ITranslateState,
+} from '../../../Store/types/translate';
 
 const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
+  const [loading, setLoading] = useState(true);
   const translate = useSelector<ITranslateReducer>(
     tran => tran.TranslateReducer,
   ) as ITranslateState;
@@ -30,14 +41,23 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
           setOrganization(Response.data);
         }
       },
+      complete: () => setLoading(false),
       error: err => {
         console.log(err.response);
+        setLoading(true);
       },
     });
   };
   useEffect(() => {
     getOrgDetails();
   }, []);
+  if (loading) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size={'small'} color={Colors.bgGreen} />
+      </View>
+    );
+  }
 
   return (
     <ScrollView>
@@ -54,7 +74,9 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
           <View style={styles.scoreView}>
             <Text style={styles.greenText}>
               {organization?.organization?.unit_score}{' '}
-              {organization?.organization?.unit_score ? translate.t('common.score') : ''}
+              {organization?.organization?.unit_score
+                ? translate.t('common.score')
+                : ''}
             </Text>
             <Text style={styles.pointText}>
               {organization?.organization?.unit_score
@@ -243,6 +265,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 48,
     marginBottom: 41,
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

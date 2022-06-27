@@ -30,6 +30,7 @@ export default {
     accumulated: 'დაგროვებული',
     continue: 'გაგრძელება',
     changePin: 'პინ-კოდის შეცვლა',
+    enterByPin: 'პინ კოდით შესვლა',
     wentWrong: 'დაფიქსირდა შეცდომა',
     search: 'პარტნიორების ძებნა',
     score: 'ქულა',
@@ -69,6 +70,7 @@ export default {
     phoneValidate: 'მინიმალური სიგრძე უნდა იყოს 18',
     wrongMail: 'არასწორი E-mail',
     foreign: 'უცხო ქვეყნის მოქალაქე',
+    wrongPin: 'არასწორი პინ კოდი'
   },
   home: {
     whatShouldSpend: 'რაში დავხარჯო',

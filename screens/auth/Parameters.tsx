@@ -27,6 +27,7 @@ import UserInfoService, {
 } from '../../services/UserInfoService';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
+import { getString } from '../../utils/converts';
 
 export const PASSCODEENABLED = 'PASSCODEENABLED';
 export const BIOMETRICENABLED = 'BIOMETRICENABLED';
@@ -49,20 +50,40 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
   const [isBiometricEnabled, setIsBiometricEnabled] = useState(false);
   const [cameraHandler, setCameraHandler] = useState(false);
 
-  const choosePhoto = async () => {
+  const UploadImage = (base64?: string) => {
+    UserInfoService.UploadPhoto(base64).subscribe({
+      next: Response => {
+        //temporary while response is not normalized
+        getUserInfo();
+        if(Response.data.resultCode === '200') {
+          
+          getUserInfo();
+        }
+      },complete:() => {
+        setCameraHandler(!cameraHandler);
+      },
+      error: err => {
+        setCameraHandler(!cameraHandler);
+        console.log('err', err);
+      }
+    })
+  }
+
+  const choosePhoto = async () => { console.log('*******************')
     const result = await launchImageLibrary({
       mediaType: 'photo',
       selectionLimit: 1,
-      includeBase64: true,
       quality: 0.2,
       maxWidth: 300,
       maxHeight: 300,
+      includeBase64: true
     });
+    
     if (result.assets) {
-      const {base64, fileName} = result.assets[0];
-      console.log(base64, fileName);
-      //uploadImage(getString(fileName), getString(base64));
-    }
+      const { base64, fileName } = result.assets[0];
+
+      UploadImage(`"${base64}"`);
+    } else
     setCameraHandler(!cameraHandler);
   };
 
@@ -92,14 +113,18 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
             },
           );
           if (result.assets) {
-            const {base64, fileName} = result.assets[0];
-            //uploadImage(getString(fileName), getString(base64));
-            //updateUserProfileImage(getString(base64).replace(/'/g, "'"));
+            const { base64, fileName } = result.assets[0];
+      
+            UploadImage(`"${base64}"`);
+          } else {
+            setCameraHandler(!cameraHandler);
           }
         } else {
+          setCameraHandler(!cameraHandler);
           console.log('Camera permission denied');
         }
       } catch (err) {
+        setCameraHandler(!cameraHandler);
         console.warn(err);
       }
     } else {
@@ -191,10 +216,14 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
             <TouchableOpacity
               style={styles.circle}
               onPress={() => setCameraHandler(true)}>
-              <Image
+                {user?.url ? <Image
                 style={styles.avatar}
-                source={require('../../assets/img/avatar.png')}
-              />
+                source={{uri: user.url}}
+              /> : <Image
+              style={styles.avatar}
+              source={require('../../assets/img/avatar.png')}
+            />}
+              
             </TouchableOpacity>
           </View>
 

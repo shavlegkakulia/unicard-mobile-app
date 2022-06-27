@@ -46,6 +46,17 @@ export interface IgetUserServiceResponse extends IresponseData {
   is_main_card?: true;
   full_address?: string;
   non_required_filled?: true;
+  url?: string;
+}
+
+interface IUploadPhotoRequest {
+  file: string;
+}
+
+interface IUploadPhotoResponse extends IresponseData {
+  fileName: string;
+  fullPath: string;
+  type: number;
 }
 
 class UserInfoService {
@@ -65,6 +76,20 @@ class UserInfoService {
     }
     const result = axios.get<IgetUserServiceResponse>(
       `${envs.API_URL}api/Mobile/GetClientInfo${query}`,
+    );
+    return from(result);
+  }
+
+  UploadPhoto(base64?: string) {
+    const result = axios.post<IUploadPhotoResponse>(
+      `${envs.API_URL}api/File/UploadImage`,
+      base64,
+      {
+        headers: {
+          'Content-type': 'application/json',
+        },
+        objectResponse: true,
+      },
     );
     return from(result);
   }

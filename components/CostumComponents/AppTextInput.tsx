@@ -45,7 +45,8 @@ export interface IAppTextInputProps {
   search?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
-  skipError?:boolean;
+  skipError?: boolean;
+  borderCol?: string;
 }
 
 export let inputErrors: any[] = [];
@@ -76,7 +77,8 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     search,
     onFocus,
     onBlur,
-    skipError
+    skipError,
+    borderCol,
   } = props;
 
   const errorMessages = {
@@ -305,7 +307,7 @@ if(skipError) setHasEror(undefined)
 
   return (
     <>
-      <KeyboardAvoidingView style={mainstyle}>
+      <KeyboardAvoidingView style={[mainstyle, {borderBottomColor: borderCol}]}>
         <View style={styles.inputWrapper}>
           <TextInput
             placeholder={placeholder || ''}

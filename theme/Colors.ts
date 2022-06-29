@@ -23,7 +23,7 @@ enum Colors {
   authBtn = '#ff8f0038',
   authBtnText = '#FF9637',
   borderCol = '#C1C1C1',
-  borderBotCol = '##E0E0E0',
+  borderBotCol = '#E0E0E0',
   urlColor = '#007AFF',
 }
 

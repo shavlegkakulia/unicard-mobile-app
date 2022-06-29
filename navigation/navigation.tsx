@@ -51,7 +51,7 @@ export default () => {
         if(!response?.data?.resultCode) {
           return Promise.resolve(response);
         }
-        if (response?.data?.resultCode !== "200") {
+        if (!response?.data?.resultCode.startsWith('20')) {
           try{
             response.errorMessage =
             response?.data?.errors[0]?.ErrorMessage || response?.data?.errors?.[0]?.displayText || 'generalErrors.errorOccurred';

@@ -32,34 +32,48 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   ) as ITranslateState;
 
   const params = props.route.params;
-  console.log('params', params)
+  console.log('params', params);
 
-  const OtpAuth = () => {
-    if (loading) {
+  // const OtpAuth = () => {
+  //   if (loading) {
+  //     return;
+  //   }
+  //   setLoading(true);
+  //   AuthService.SendOtp({phone: params.data.phone}).subscribe({
+  //     next: Response => {
+  //       if (inputErrors.length > 0) {
+  //         return;
+  //       }
+  //       if (passData?.password !== passData?.confirm_password) {
+  //         setError(true);
+  //         return;
+  //       }
+
+  //       props.navigation.navigate(notAuthRoutes.smsCode, {
+  //         data: {...params.data, ...passData},
+  //       });
+  //     },
+  //     complete: () => {
+  //       setLoading(false);
+  //     },
+  //     error: err => {
+  //       setLoading(false);
+  //       console.log(err);
+  //     },
+  //   }); 
+  // };
+
+  const nextAuthStep = () => {
+    if (inputErrors.length > 0) {
       return;
     }
-    setLoading(true);
-    AuthService.SendOtp({phone: params.data.phone}).subscribe({
-      next: Response => {
-        if (inputErrors.length > 0) {
-          return;
-        }
-        if (passData?.password !== passData?.confirm_password) {
-          setError(true);
-          return;
-        }
+    if (passData?.password !== passData?.confirm_password) {
+      setError(true);
+      return;
+    }
 
-        props.navigation.navigate(notAuthRoutes.smsCode, {
-          data: {...params.data, ...passData},
-        });
-      },
-      complete: () => {
-        setLoading(false);
-      },
-      error: err => {
-        setLoading(false);
-        console.log(err);
-      },
+    props.navigation.navigate(notAuthRoutes.smsCode, {
+      data: {...params.data, ...passData},
     });
   };
 
@@ -141,7 +155,8 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
           // onPress={() => {
           //   // props.navigation.navigate(notAuthRoutes.smsCode, passData);
           // }}
-          onPress={OtpAuth}
+          // onPress={OtpAuth}
+          onPress={nextAuthStep}
           loading={loading}
           title={translate.t('common.next')}
           backgroundColor={Colors.bgGreen}

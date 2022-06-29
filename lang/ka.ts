@@ -62,7 +62,7 @@ export default {
     doYouWantCard: 'გაქვთ თუ არა უნიქარდის ბარათი?',
     userRegistration: 'მომხმარებლის რეგისტრაცია',
     addCardNumber: 'მიუთითეთ ბარათის ნომერი',
-    changePwd: 'პაროლის შევცვლა',
+    changePwd: 'პაროლის შეცვლა',
     birtDate: 'დაბადების თარიღი',
     fillFild: 'შეავსეთ ველი',
     idValidate: 'ციფრების მინიმალური სიგრძე უნდა იყოს 6',
@@ -88,7 +88,7 @@ export default {
   settings: {
     easyLogin: 'მარტივი შესვლა',
     scanFace: 'გასაგრძელებლად დაასკანირეთ თქვენი სახე მოწყობილობაზე',
-    changePwd: 'პაროლის შევცვლა',
+    changePwd: 'პაროლის შეცვლა',
     changePin: 'პინ-კოდის შეცვლა',
     changePhoto: 'ფოტო სურათის შეცვლა',
     takePhoto: 'სურათის გადაღება',

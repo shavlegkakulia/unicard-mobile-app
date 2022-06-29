@@ -41,6 +41,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
 
   const [isPasscodeEnabled, setIsPasscodeEnabed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
@@ -74,10 +75,29 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
     return () => {
       ks.current?.remove();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const validateText = () => {
+    if (!userData?.username || !userData?.password) {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  };
+  const errorDecline = () => {
+    if (userData?.username?.length! > 0 || ![]) {
+      setError(false);
+    }
+  };
+
+  useEffect(() => {
+    errorDecline();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData?.username, userData?.password]);
 
   const LogIn = () => {
     if (!userData?.username || !userData?.password || loading) {
+      validateText();
       return;
     }
     setLoading(true);
@@ -142,6 +162,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.inputView}>
         <AppTextInput
+          borderCol={error ? Colors.red : Colors.darkGrey}
           placeholder={translate.t('common.email')}
           value={userData?.username}
           onChange={e =>
@@ -149,6 +170,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
           }
         />
         <AppTextInput
+          borderCol={error ? Colors.red : Colors.darkGrey}
           placeholder={translate.t('common.password')}
           secureTextEntry={true}
           value={userData?.password}

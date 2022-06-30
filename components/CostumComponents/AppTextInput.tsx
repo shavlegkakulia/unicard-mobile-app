@@ -9,6 +9,8 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
@@ -45,6 +47,7 @@ export interface IAppTextInputProps {
   search?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
+  inputStyle?: StyleProp<ViewStyle>
   skipError?: boolean;
   borderCol?: string;
 }
@@ -78,7 +81,8 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     onFocus,
     onBlur,
     skipError,
-    borderCol,
+    inputStyle,
+    borderCol
   } = props;
 
   const errorMessages = {
@@ -307,7 +311,7 @@ if(skipError) setHasEror(undefined)
 
   return (
     <>
-      <KeyboardAvoidingView style={[mainstyle, {borderBottomColor: borderCol}]}>
+      <KeyboardAvoidingView style={[mainstyle, inputStyle, {borderBottomColor: borderCol}]}>
         <View style={styles.inputWrapper}>
           <TextInput
             placeholder={placeholder || ''}

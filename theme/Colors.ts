@@ -25,6 +25,7 @@ enum Colors {
   borderCol = '#C1C1C1',
   borderBotCol = '##E0E0E0',
   urlColor = '#007AFF',
+  none = 'rgba(0, 0, 0, 0)'
 }
 
 export default Colors;

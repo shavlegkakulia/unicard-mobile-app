@@ -59,6 +59,19 @@ interface IUploadPhotoResponse extends IresponseData {
   type: number;
 }
 
+export interface ICountry {
+  countryId?: number,
+  countryCode?: string,
+  ord?: number,
+  countryName?: string,
+  countryCodeLong?: string,
+  dialCode?: string
+}
+
+export interface IGetCountriesResponse extends IresponseData {
+  countries?: Array<ICountry>;
+}
+
 class UserInfoService {
   GenerateUserInfo(data?: IgetUserInfoDetailsRequest) {
     let query = '';
@@ -91,6 +104,11 @@ class UserInfoService {
         objectResponse: true,
       },
     );
+    return from(result);
+  }
+
+  GetCountries() {
+    const result = axios.get<IGetCountriesResponse>(`${envs.API_URL}api/Mobile/GetCountries`);
     return from(result);
   }
 }

@@ -9,6 +9,8 @@ import {
   Text,
   KeyboardAvoidingView,
   Platform,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
@@ -46,6 +48,7 @@ export interface IAppTextInputProps {
   onFocus?: () => void;
   onBlur?: () => void;
   skipError?:boolean;
+  inputStyle?: StyleProp<ViewStyle>
 }
 
 export let inputErrors: any[] = [];
@@ -76,7 +79,8 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     search,
     onFocus,
     onBlur,
-    skipError
+    skipError,
+    inputStyle
   } = props;
 
   const errorMessages = {
@@ -305,7 +309,7 @@ if(skipError) setHasEror(undefined)
 
   return (
     <>
-      <KeyboardAvoidingView style={mainstyle}>
+      <KeyboardAvoidingView style={[mainstyle, inputStyle]}>
         <View style={styles.inputWrapper}>
           <TextInput
             placeholder={placeholder || ''}

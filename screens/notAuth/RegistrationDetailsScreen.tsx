@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput, {
@@ -16,6 +16,10 @@ import {RouteProp, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import CheckBox from '@react-native-community/checkbox';
+import UserInfoService, { ICountry } from '../../services/UserInfoService';
+import Select from '../../components/CostumComponents/Select/Select';
+import { CountryItem } from '../../components/CostumComponents/Select/CountryItem';
+import { required } from '../../components/Validation';
 
 type RouteParamList = {
   params: {
@@ -31,6 +35,8 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const [toggleCheckBox, setToggleCheckBox] = useState<boolean>(false);
   const [foreign, setForeign] = useState<boolean>(false);
   const [chekCount, setChekCount] = useState<number>(0);
+  const [countries, setCountriew] = useState<ICountry[] | undefined>();
+  const [country, setCountry] = useState<ICountry>();
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
@@ -62,6 +68,19 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
     deleteError('personalnumber')
     console.log(toggleCheckBox);
   };
+
+  useEffect(() => {console.log('************')
+    UserInfoService.GetCountries().subscribe({
+      next: Response => {
+        if(Response.data.resultCode === '200') {
+          setCountriew(Response.data.countries);
+        }
+      },
+      error: err => {
+        console.log(err)
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -182,29 +201,50 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             }
           />
 
-          <AppTextInput
-            placeholder={'+995 5xx xxx xxx'}
-            icon={0}
-            secureTextEntry={false}
-            textContentType={'telephoneNumber'}
-            value={regData?.phone}
-            requireType={requireTypes.maxLength}
-            maxLength={18}
-            chekCount={chekCount}
-            name="telephoneNumber"
-            onChange={e =>
-              setRegData({
-                user_name: regData?.user_name,
-                surname: regData?.surname,
-                person_code: regData?.person_code,
-                birthDate: regData?.birthDate,
-                phone: e,
-                email: regData?.email,
-                new_card_registration: route?.params?.hasCard ? '1' : '0',
-                card: route?.params?.cardNumber,
-              })
-            }
-          />
+          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1, overflow: 'hidden'}}>
+            <Select<ICountry>
+              Item={i => (
+                <CountryItem
+                  {...i}
+                  style={styles.countryItem}
+                  placeholder={'არჩევა'}
+                />
+              )}
+              onChange={value => {
+                setCountry(value);
+              }}
+              values={countries}
+              value={country}
+              activeItemStyle={[styles.currentAccountItem]}
+              requireds={[required]}
+              customKey={'countryCode'}
+              context={'reg'}
+            />
+            <AppTextInput
+            inputStyle={{width: 235}}
+              placeholder={'5xx xxx xxx'}
+              icon={0}
+              secureTextEntry={false}
+              textContentType={'telephoneNumber'}
+              value={regData?.phone}
+              requireType={requireTypes.maxLength}
+              maxLength={18}
+              chekCount={chekCount}
+              name="telephoneNumber"
+              onChange={e =>
+                setRegData({
+                  user_name: regData?.user_name,
+                  surname: regData?.surname,
+                  person_code: regData?.person_code,
+                  birthDate: regData?.birthDate,
+                  phone: e,
+                  email: regData?.email,
+                  new_card_registration: route?.params?.hasCard ? '1' : '0',
+                  card: route?.params?.cardNumber,
+                })
+              }
+            />
+          </View>
 
           <AppTextInput
             placeholder={translate.t('common.email')}
@@ -277,6 +317,13 @@ const styles = StyleSheet.create({
     fontFamily: 'BPG DejaVu Sans',
     lineHeight: 16.8,
   },
+  countryItem: {
+    borderRadius: 7,
+  },
+  currentAccountItem: {
+    borderRadius: 7,
+    marginTop: 35
+  }
 });
 
 export default RegistrationDetailsScreen;

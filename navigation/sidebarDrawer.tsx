@@ -29,13 +29,10 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
     state => state.AuthReducer,
   ) as IAuthState;
 
-
-
   const goTo = (roteName: string) => {
     subscriptionService?.sendData('close-leftdrawer', true);
     navigation.navigate(roteName);
   };
-  
 
   if (loading) {
     return (
@@ -59,7 +56,7 @@ const SidebarDrawer: React.FC<ScreenNavigationProp> = props => {
           <View style={styles.avatarView}>
             <Image
               style={styles.avatar}
-              source={require('../assets/img/avatar.png')}
+              source={{uri: authdata.userInfo?.url}}
             />
           </View>
 

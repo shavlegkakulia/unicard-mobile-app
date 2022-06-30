@@ -62,7 +62,7 @@ export default {
     doYouWantCard: 'გაქვთ თუ არა უნიქარდის ბარათი?',
     userRegistration: 'მომხმარებლის რეგისტრაცია',
     addCardNumber: 'მიუთითეთ ბარათის ნომერი',
-    changePwd: 'პაროლის შევცვლა',
+    changePwd: 'პაროლის შეცვლა',
     birtDate: 'დაბადების თარიღი',
     fillFild: 'შეავსეთ ველი',
     idValidate: 'ციფრების მინიმალური სიგრძე უნდა იყოს 6',
@@ -88,7 +88,7 @@ export default {
   settings: {
     easyLogin: 'მარტივი შესვლა',
     scanFace: 'გასაგრძელებლად დაასკანირეთ თქვენი სახე მოწყობილობაზე',
-    changePwd: 'პაროლის შევცვლა',
+    changePwd: 'პაროლის შეცვლა',
     changePin: 'პინ-კოდის შეცვლა',
     changePhoto: 'ფოტო სურათის შეცვლა',
     takePhoto: 'სურათის გადაღება',
@@ -127,7 +127,7 @@ export default {
   generalErrors: {
     errorOccurred: 'დაფიქსირდა შეცდომა',
     wrongUser: 'მომხმარებლის არასწორი სახელი ან პაროლი',
-    contentNotFound: 'გვერდი ვერ მოიძებნა',
+    contentNotFound: 'ქონთენთი ვერ მოიძებნა',
     wrongEmail: 'არასწორი E-mail',
     pwdMatchText:
       'პაროლი უნდა შეიცავდეს მინიმუმ: \n- 8 სიმბოლოს \n- ერთ დიდ ასოს \n- ერთ პატარა ასოს \n- ერთ ციფრს \n- ერთ სპეციალურ სიმბოლოს (გარდა წერტილისა და @ სიმბოლოსი)',

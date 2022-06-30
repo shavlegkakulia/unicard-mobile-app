@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -20,52 +20,52 @@ import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
   const [loading, setLoading] = useState(false);
+  const [otp, setOtp] = useState<IRegisterRequestData>();
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
 
+  const OtpAuth = () => {
+    if (loading) {
+      return;
+    }
+    setLoading(true);
+    AuthService.SendOtp({phone: params.data.phone}).subscribe({
+      next: Response => {
+        // props.navigation.navigate(notAuthRoutes.smsCode, {
+        //   data: {...params.data},
+        // });
+      },
+      complete: () => {
+        setLoading(false);
+      },
+      error: err => {
+        setLoading(false);
+        console.log(err);
+      },
+    });
+  };
+  useEffect(() => {
+    OtpAuth();
+  }, []);
+
   const params = props.route.params;
-  console.log('params>>>>', params);
 
   const register = () => {
     if (loading) {
       return;
     }
     setLoading(true);
-    const {
-      user_name,
-      surname,
-      person_code,
-      birthDate,
-      phone,
-      email,
-      password,
-      fb_token,
-      new_card_registration,
-      card,
-    } = params.data;
 
     const data: IRegisterRequestData = {
-      user_name,
-      surname,
-      person_code,
-      birthDate,
-      phone,
-      email,
-      password,
-      fb_token,
-      new_card_registration,
-      card,
+      ...params.data,
+      sms_code_otp: otp,
     };
     AuthService.SignUp(data).subscribe({
       next: Response => {
-        console.log('rees',Response.data)
-        if (Response.data.succes) {
-          
-          props.navigation.navigate(
-            notAuthRoutes.registrationDone,
-            props.route.params,
-          );
+        if (Response.status === 200) {
+          console.log('rees', data);
+          props.navigation.navigate(notAuthRoutes.registrationDone);
         }
       },
       complete: () => {
@@ -88,9 +88,15 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.inputView}>
         <Text style={styles.text}>{translate.t('common.smsCode')}</Text>
+        
 
-        <TextInput style={styles.input} keyboardType="numeric" />
-        <TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          keyboardType="numeric"
+          value={otp?.sms_code_otp}
+          onChangeText={e => setOtp(e)}
+        />
+        <TouchableOpacity onPress={OtpAuth}>
           <Text style={styles.text}>
             {translate.t('common.fromTheBegining')}
           </Text>

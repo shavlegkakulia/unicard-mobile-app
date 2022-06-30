@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -8,28 +8,40 @@ import {authRoutes} from '../../navigation/routes';
 import AuthService, {
   IChangePasswordRequestData,
 } from '../../services/AuthService';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
+import {IAuthReducer, IAuthState} from '../../Store/types/auth';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 const ChangePassword: React.FC<ScreenNavigationProp> = props => {
-  const translate = useSelector<ITranslateReducer>(state => state.TranslateReducer) as ITranslateState;
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
 
   const [password, setPassword] = useState<IChangePasswordRequestData>();
   const [loading, setLoading] = useState(false);
 
+  const authdata = useSelector<IAuthReducer>(
+    state => state.AuthReducer,
+  ) as IAuthState;
+  console.log('authdata', authdata.isAuthentificated);
+
   const changePassword = () => {
-    if(loading) return;
+    if (loading) {
+      return;
+    }
     const data: IChangePasswordRequestData = {
       password: '',
     };
     setLoading(true);
     AuthService.ChangePassword(data).subscribe({
       next: Response => {
-        if(Response.data.succes) {
-          props.navigation.navigate(authRoutes.barcode);
+        if (Response.data.succes) {
+          props.navigation.navigate(authRoutes.PasswordChangingMessage);
         }
       },
-      complete: () => {setLoading(false)},
+      complete: () => {
+        setLoading(false);
+      },
       error: err => {
         setLoading(false);
         console.log('>>>', err);
@@ -97,7 +109,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     flex: 1,
-    marginTop: 70
+    marginTop: 70,
   },
 });
 

@@ -30,7 +30,7 @@ const OrderIsDone: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.buttonView}>
         <AppButton
-          onPress={() => {}}
+          onPress={() => props.navigation.navigate(authRoutes.home)}
           title={translate.t('common.continue')}
           backgroundColor={Colors.bgGreen}
         />

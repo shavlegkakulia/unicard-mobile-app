@@ -80,6 +80,21 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
     );
   }
 
+  //აპლიკაცია რომ გაეშვება, შეფასებისთვის ფუნქცია
+  // const rateApp = () => {
+  //   if (Platform.OS != 'ios') {
+  //     //To open the Google Play Store
+  //     Linking.openURL(`market://details?id=${GOOGLE_PACKAGE_NAME}`).catch(err =>
+  //       alert('Please check for the Google Play Store')
+  //     );
+  //   } else {
+  //     //To open the Apple App Store
+  //     Linking.openURL(
+  //       `itms://itunes.apple.com/in/app/apple-store/${APPLE_STORE_ID}`
+  //     ).catch(err => alert('Please check for the App Store'));
+  //   }
+  // }
+
   return (
     <ScrollView>
       <View style={main}>
@@ -99,7 +114,9 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
             </View>
             <Text style={styles.txt}>{contact?.work_hours}</Text>
           </View>
-          <View style={styles.row}>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => Linking.openURL(`tel:${contact?.phone}`)}>
             <View style={styles.IconView}>
               <Image
                 style={styles.phoneIcon}
@@ -107,8 +124,10 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
               />
             </View>
             <Text style={styles.txt}>{contact?.phone}</Text>
-          </View>
-          <View style={styles.row}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => Linking.openURL(`mailto:${contact?.contact_email}`)}>
             <View style={styles.IconView}>
               <Image
                 style={styles.mailIcon}
@@ -116,7 +135,7 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
               />
             </View>
             <Text style={styles.txt}>{contact?.contact_email}</Text>
-          </View>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.row}
             onPress={() => Linking.openURL('https://www.unicard.ge/')}>
@@ -150,7 +169,7 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
             </View>
             <Text style={styles.txt}>{translate.t('aboutUs.shareApp')}</Text>
           </TouchableOpacity>
-          <View style={styles.row}>
+          <TouchableOpacity style={styles.row}>
             <View style={styles.IconView}>
               <Image
                 style={styles.starIcon}
@@ -158,7 +177,7 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
               />
             </View>
             <Text style={styles.txt}>{translate.t('aboutUs.evaluate')}</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       ) : (
         <Loader visible={true} />

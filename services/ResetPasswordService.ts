@@ -1,0 +1,31 @@
+import axios from 'axios';
+import {from} from 'rxjs';
+import envs from '../config/env';
+
+interface IresponseResetPasswordData {
+  resultCode?: string;
+  displayText?: string;
+  errorMessage?: string;
+}
+
+export interface IpostResetPasswordDetail {
+  lang: string;
+  app_source?: string;
+}
+
+export interface IpostRessetPasswordResponse
+  extends IresponseResetPasswordData {
+  user_name?: string;
+  sms_code?: string;
+  new_password?: string;
+}
+
+class ContactService {
+  GenerateContact(data: IpostResetPasswordDetail) {
+    const result = axios.post<IresponseResetPasswordData>(
+      `${envs.API_URL}api/Mobile/ResetPassword`,
+    );
+    return from(result);
+  }
+}
+export default new ContactService();

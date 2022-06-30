@@ -17,10 +17,12 @@ import {notAuthRoutes} from '../../navigation/routes';
 import Colors from '../../theme/Colors';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
+import {IpostRessetPasswordResponse} from '../../services/ResetPasswordService';
 
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState<IRegisterRequestData>();
+  const [name, setName] = useState<IpostRessetPasswordResponse>();
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
@@ -30,7 +32,7 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
       return;
     }
     setLoading(true);
-    AuthService.SendOtp({phone: params.data.phone}).subscribe({
+    AuthService.SendOtp({phone: params?.data?.phone}).subscribe({
       next: Response => {
         // props.navigation.navigate(notAuthRoutes.smsCode, {
         //   data: {...params.data},
@@ -88,13 +90,12 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.inputView}>
         <Text style={styles.text}>{translate.t('common.smsCode')}</Text>
-        
 
         <TextInput
           style={styles.input}
           keyboardType="numeric"
-          value={otp?.sms_code_otp}
-          onChangeText={e => setOtp(e)}
+          value={otp ? otp?.sms_code_otp : name?.user_name}
+          onChangeText={otp ? e => setOtp(e) : e => setName(e)}
         />
         <TouchableOpacity onPress={OtpAuth}>
           <Text style={styles.text}>

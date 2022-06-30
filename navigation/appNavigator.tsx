@@ -54,6 +54,8 @@ import MyCardInfo from '../screens/notAuth/MyCardInfo';
 import Organizations from '../screens/auth/organizations';
 import {use} from '../Store/actions/translate';
 import SearchScreen from '../screens/auth/SearchScreen';
+import ResetPassStepOne from '../screens/notAuth/ResetPassStepOne';
+import ResetPassStepTwo from '../screens/notAuth/ResetPassStepTwo';
 
 const authStack = createStackNavigator();
 
@@ -1299,6 +1301,46 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerTintColor: Colors.bgGreen,
+                  }}
+                />
+                <authStack.Screen
+                  name={notAuthRoutes.ResetPassStepOne}
+                  component={ResetPassStepOne}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerBackTitleVisible: false,
+                    title: '',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
+                  }}
+                />
+                <authStack.Screen
+                  name={notAuthRoutes.ResetPassStepTwo}
+                  component={ResetPassStepTwo}
+                  options={{
+                    cardStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerBackTitleVisible: false,
+                    title: '',
+                    headerStyle: {
+                      backgroundColor: Colors.bgColor,
+                    },
+                    headerTintColor: Colors.bgGreen,
+                    headerTitleStyle: {
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      fontSize: 20,
+                    },
                   }}
                 />
               </>

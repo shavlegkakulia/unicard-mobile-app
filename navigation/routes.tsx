@@ -35,4 +35,6 @@ export enum notAuthRoutes {
   smsCode = 'smsCode',
   authPage = 'authPage',
   myCardInfo = 'myCardInfo',
+  ResetPassStepOne = 'ResetPassStepOne',
+  ResetPassStepTwo = 'ResetPassStepTwo',
 }

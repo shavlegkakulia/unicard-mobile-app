@@ -10,16 +10,17 @@ import {notAuthRoutes} from '../../navigation/routes';
 import {IRegisterRequestData} from '../../services/AuthService';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {inputErrors} from './../../components/CostumComponents/AppTextInput';
+import DatePicker from 'react-native-date-picker';
 
 import Colors from '../../theme/Colors';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import CheckBox from '@react-native-community/checkbox';
-import UserInfoService, { ICountry } from '../../services/UserInfoService';
+import UserInfoService, {ICountry} from '../../services/UserInfoService';
 import Select from '../../components/CostumComponents/Select/Select';
-import { CountryItem } from '../../components/CostumComponents/Select/CountryItem';
-import { required } from '../../components/Validation';
+import {CountryItem} from '../../components/CostumComponents/Select/CountryItem';
+import {required} from '../../components/Validation';
 
 type RouteParamList = {
   params: {
@@ -31,12 +32,16 @@ type RouteParamList = {
 
 const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
-  const [regData, setRegData] = useState<IRegisterRequestData>();
+  const [date, setDate] = useState(new Date());
+  const [regData, setRegData] = useState<IRegisterRequestData>({});
   const [toggleCheckBox, setToggleCheckBox] = useState<boolean>(false);
   const [foreign, setForeign] = useState<boolean>(false);
   const [chekCount, setChekCount] = useState<number>(0);
   const [countries, setCountriew] = useState<ICountry[] | undefined>();
   const [country, setCountry] = useState<ICountry>();
+
+  const [open, setOpen] = useState(false);
+  const [dateTitle, setDateTiTle] = useState(true);
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
@@ -44,14 +49,18 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
   const nextStep = () => {
     setChekCount(t => ++t);
     if (inputErrors.length > 0) {
-      console.log(inputErrors)
+      console.log(inputErrors);
       return;
     }
     props.navigation.navigate(notAuthRoutes.passwordInfo, {
       data: {
         ...regData,
-        fb_token: route?.params?.fb_token,
-        card: route?.params?.cardNumber,
+        fb_token:
+          route?.params?.fb_token?.length! > 0 ? route?.params?.fb_token : '',
+        card:
+          route?.params?.cardNumber?.length! > 0
+            ? route?.params?.cardNumber
+            : '',
       },
     });
   };
@@ -65,22 +74,24 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
 
   const activeToggle = () => {
     setToggleCheckBox(prev => !prev);
-    deleteError('personalnumber')
+    deleteError('personalnumber');
     console.log(toggleCheckBox);
   };
 
-  useEffect(() => {console.log('************')
+  useEffect(() => {
+    console.log('************');
     UserInfoService.GetCountries().subscribe({
       next: Response => {
-        if(Response.data.resultCode === '200') {
+        if (Response.data.resultCode === '200') {
           setCountriew(Response.data.countries);
         }
       },
       error: err => {
-        console.log(err)
-      }
+        console.log(err);
+      },
     });
   }, []);
+
 
   return (
     <>
@@ -94,20 +105,21 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             icon={0}
             secureTextEntry={false}
             textContentType={'name'}
-            value={regData?.user_name}
+            value={regData?.name}
             requireType={requireTypes.require}
             name="name"
             chekCount={chekCount}
             onChange={e =>
               setRegData({
-                user_name: e,
+                name: e,
                 surname: regData?.surname,
                 person_code: regData?.person_code,
-                birthDate: regData?.birthDate,
+                birthDate: date?.toLocaleDateString().split('.').join('/'),
                 phone: regData?.phone,
                 email: regData?.email,
                 new_card_registration: route?.params?.hasCard ? '1' : '0',
                 card: route?.params?.cardNumber,
+                user_name: regData?.email,
               })
             }
           />
@@ -121,10 +133,11 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             chekCount={chekCount}
             onChange={e =>
               setRegData({
-                user_name: regData?.user_name,
+                name: regData?.name,
+                user_name: regData?.email,
                 surname: e,
                 person_code: regData?.person_code,
-                birthDate: regData?.birthDate,
+                birthDate: date?.toLocaleDateString().split('.').join('/'),
                 phone: regData?.phone,
                 email: regData?.email,
                 new_card_registration: route?.params?.hasCard ? '1' : '0',
@@ -148,10 +161,11 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             chekCount={chekCount}
             onChange={e =>
               setRegData({
-                user_name: regData?.user_name,
+                name: regData?.name,
+                user_name: regData?.email,
                 surname: regData?.surname,
                 person_code: e,
-                birthDate: regData?.birthDate,
+                birthDate: date?.toLocaleDateString().split('.').join('/'),
                 phone: regData?.phone,
                 email: regData?.email,
                 new_card_registration: route?.params?.hasCard ? '1' : '0',
@@ -177,32 +191,24 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
               </TouchableOpacity>
             </View>
           ) : null}
+          <TouchableOpacity
+          style={styles.dateView}
+            onPress={() => setOpen(true)}>
+            <Text style={styles.dateTxt}>
+              {!dateTitle
+                ? date?.toLocaleDateString().split('.').join('/')
+                : 'MM/DD/YYYY'}
+            </Text>
+          </TouchableOpacity>
 
-          <AppTextInput
-            placeholder={translate.t('auth.birtDate')}
-            icon={0}
-            secureTextEntry={false}
-            textContentType={''}
-            value={regData?.birthDate}
-            requireType={requireTypes.minLength}
-            minLength={4}
-            chekCount={chekCount}
-            name="birthdate"
-            onChange={e =>
-              setRegData({
-                user_name: regData?.user_name,
-                surname: regData?.surname,
-                person_code: regData?.person_code,
-                birthDate: e,
-                phone: regData?.phone,
-                email: regData?.email,
-                new_card_registration: route?.params?.hasCard ? '1' : '0',
-                card: route?.params?.cardNumber,
-              })
-            }
-          />
-
-          <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flex: 1, overflow: 'hidden'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flex: 1,
+              overflow: 'hidden',
+            }}>
             <Select<ICountry>
               Item={i => (
                 <CountryItem
@@ -222,7 +228,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
               context={'reg'}
             />
             <AppTextInput
-            inputStyle={{width: 235}}
+              inputStyle={{width: 235}}
               placeholder={'5xx xxx xxx'}
               icon={0}
               secureTextEntry={false}
@@ -234,10 +240,11 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
               name="telephoneNumber"
               onChange={e =>
                 setRegData({
-                  user_name: regData?.user_name,
+                  name: regData?.name,
+                  user_name: regData?.email,
                   surname: regData?.surname,
                   person_code: regData?.person_code,
-                  birthDate: regData?.birthDate,
+                  birthDate: date?.toLocaleDateString().split('.').join('/'),
                   phone: e,
                   email: regData?.email,
                   new_card_registration: route?.params?.hasCard ? '1' : '0',
@@ -257,18 +264,20 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             value={regData?.email}
             onChange={e =>
               setRegData({
-                user_name: regData?.user_name,
+                name: regData?.name,
+                user_name: e,
                 surname: regData?.surname,
                 person_code: regData?.person_code,
-                birthDate: regData?.birthDate,
+                birthDate: date?.toLocaleDateString().split('.').join('/'),
                 phone: regData?.phone,
                 email: e,
-                new_card_registration: route?.params?.hasCard ? '1' : '0',
+                new_card_registration: route?.params?.hasCard ? '0' : '1',
                 card: route?.params?.cardNumber,
               })
             }
           />
         </View>
+
         <View style={styles.button}>
           <AppButton
             onPress={nextStep}
@@ -276,6 +285,22 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             backgroundColor={Colors.bgGreen}
           />
         </View>
+        <DatePicker
+          title={'მიუთითეთ თარიღი'}
+          textColor={Colors.darkGrey}
+          modal
+          open={open}
+          mode="date"
+          date={date}
+          onConfirm={dateB => {
+            setOpen(false);
+            setDate(dateB);
+            setDateTiTle(false);
+          }}
+          onCancel={() => {
+            setOpen(false);
+          }}
+        />
       </KeyboardAwareScrollView>
     </>
   );
@@ -323,8 +348,21 @@ const styles = StyleSheet.create({
   },
   currentAccountItem: {
     borderRadius: 7,
-    marginTop: 35
-  }
+    marginTop: 35,
+  },
+  dateView: {
+    marginTop: 35,
+    width: 325,
+    paddingVertical: 12,
+    paddingHorizontal: 7,
+    borderBottomColor: Colors.darkGrey,
+    borderBottomWidth: 1,
+  },
+  dateTxt: {
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
+    color: Colors.darkGrey,
+  },
 });
 
 export default RegistrationDetailsScreen;

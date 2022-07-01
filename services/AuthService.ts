@@ -30,6 +30,7 @@ export interface IAyuthData {
 
 export interface IRegisterRequestData {
   user_name?: string;
+  name?: string;
   surname?: string;
   person_code?: string;
   birthDate?: string;

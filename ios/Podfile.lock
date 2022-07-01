@@ -288,6 +288,8 @@ PODS:
   - React-jsinspector (0.67.3)
   - React-logger (0.67.3):
     - glog
+  - react-native-date-picker (4.2.2):
+    - React-Core
   - react-native-fbsdk (3.0.0):
     - React
     - react-native-fbsdk/Core (= 3.0.0)
@@ -441,6 +443,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-fbsdk (from `../node_modules/react-native-fbsdk`)
   - react-native-fingerprint-scanner (from `../node_modules/react-native-fingerprint-scanner`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -524,6 +527,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-date-picker:
+    :path: "../node_modules/react-native-date-picker"
   react-native-fbsdk:
     :path: "../node_modules/react-native-fbsdk"
   react-native-fingerprint-scanner:
@@ -610,6 +615,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 15ea57ead631a11fad57634ff69f78e797113a39
   React-jsinspector: 1e1e03345cf6d47779e2061d679d0a87d9ae73d8
   React-logger: 1e10789cb84f99288479ba5f20822ce43ced6ffe
+  react-native-date-picker: 9088350e06918f7d842a34c171acadc66583cb94
   react-native-fbsdk: 8e92c7a334fd8d9c2b5d8b8fcd7ae2c314161099
   react-native-fingerprint-scanner: ac6656f18c8e45a7459302b84da41a44ad96dbbe
   react-native-image-picker: e95b4785b685cfc06609bc50ed6fb55b59990c99

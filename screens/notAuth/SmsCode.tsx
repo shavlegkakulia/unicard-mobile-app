@@ -22,7 +22,6 @@ import {IpostRessetPasswordResponse} from '../../services/ResetPasswordService';
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState<IRegisterRequestData>();
-  const [name, setName] = useState<IpostRessetPasswordResponse>();
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
@@ -62,11 +61,11 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
     const data: IRegisterRequestData = {
       ...params.data,
       sms_code_otp: otp,
+      
     };
     AuthService.SignUp(data).subscribe({
       next: Response => {
         if (Response.status === 200) {
-          console.log('rees', data);
           props.navigation.navigate(notAuthRoutes.registrationDone);
         }
       },
@@ -94,8 +93,8 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
         <TextInput
           style={styles.input}
           keyboardType="numeric"
-          value={otp ? otp?.sms_code_otp : name?.user_name}
-          onChangeText={otp ? e => setOtp(e) : e => setName(e)}
+          value={otp?.sms_code_otp}
+          onChangeText={e => setOtp(e)}
         />
         <TouchableOpacity onPress={OtpAuth}>
           <Text style={styles.text}>

@@ -36,7 +36,7 @@ export interface IAppTextInputProps {
   keyboardType?: KeyboardTypeOptions | undefined;
   value?: string;
   minValue?: number;
-  minLength?: number;
+  // minLength?: number;
   maxLength?: number;
   onChange: (value: string) => void;
   name?: string;
@@ -47,7 +47,7 @@ export interface IAppTextInputProps {
   search?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
-  inputStyle?: StyleProp<ViewStyle>
+  inputStyle?: StyleProp<ViewStyle>;
   skipError?: boolean;
   borderCol?: string;
 }
@@ -70,7 +70,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     keyboardType,
     value,
     minValue,
-    minLength,
+    // minLength,
     maxLength,
     name,
     requireType,
@@ -82,7 +82,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     onBlur,
     skipError,
     inputStyle,
-    borderCol
+    borderCol,
   } = props;
 
   const errorMessages = {
@@ -90,7 +90,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     password: translate.t('generalErrors.pwdMatchText'),
     required: translate.t('generalErrors.requiredField'),
     min: translate.t('generalErrors.minValue') + minValue,
-    minLength: translate.t('generalErrors.minLength') + minLength,
+    // minLength: translate.t('generalErrors.minLength') + minLength,
     maxLength: translate.t('generalErrors.maxLength') + maxLength,
     repeatPassword: translate.t('generalErrors.wrongRepeatPwd'),
   };
@@ -119,16 +119,19 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
     }
     const text = value;
     const pattern =
+      // eslint-disable-next-line no-useless-escape
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!=+\/\\#$%^&*~`}{\]\[|()_+-])[A-Za-z\d#?!$()>`}{\]\[|=+\/\\<%^&_,*-]{8,100}$/gm;
     const result = pattern.test(text);
 
     return result;
   };
-useEffect(() => {
-if(skipError) setHasEror(undefined)
-}, [skipError])
+  useEffect(() => {
+    if (skipError) {
+      setHasEror(undefined);
+    }
+  }, [skipError]);
   const check = (imediately?: boolean) => {
-    if(skipError) {
+    if (skipError) {
       setHasEror(undefined);
       return;
     }
@@ -246,29 +249,29 @@ if(skipError) setHasEror(undefined)
           setHasEror(undefined);
         }
       }
-    } else if (requireType === requireTypes.minLength) {
-      if (minLength) {
-        if (!value) {
-          if (inputErrors.indexOf(name) < 0) {
-            inputErrors.push(name);
-          }
-          if (isFocused || imediately) {
-            setHasEror(errorMessages.minLength);
-          }
-        } else if (value && value.length < minLength) {
-          if (inputErrors.indexOf(name) < 0) {
-            inputErrors.push(name);
-          }
-          if (isFocused || imediately) {
-            setHasEror(errorMessages.minLength);
-          }
-        } else {
-          const filtered = [...inputErrors.filter(n => n !== name)];
-          inputErrors.splice(0, inputErrors.length);
-          inputErrors.push(...filtered);
-          setHasEror(undefined);
-        }
-      }
+    // } else if (requireType === requireTypes.minLength) {
+    //   if (minLength) {
+    //     if (!value) {
+    //       if (inputErrors.indexOf(name) < 0) {
+    //         inputErrors.push(name);
+    //       }
+    //       if (isFocused || imediately) {
+    //         setHasEror(errorMessages.minLength);
+    //       }
+    //     } else if (value && value.length < minLength) {
+    //       if (inputErrors.indexOf(name) < 0) {
+    //         inputErrors.push(name);
+    //       }
+    //       if (isFocused || imediately) {
+    //         setHasEror(errorMessages.minLength);
+    //       }
+    //     } else {
+    //       const filtered = [...inputErrors.filter(n => n !== name)];
+    //       inputErrors.splice(0, inputErrors.length);
+    //       inputErrors.push(...filtered);
+    //       setHasEror(undefined);
+    //     }
+    //   }
     } else if (requireType === requireTypes.maxLength) {
       if (maxLength) {
         if (!value) {
@@ -302,6 +305,7 @@ if(skipError) setHasEror(undefined)
     if (requireType) {
       check();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, chekCount, translate.key]);
 
   const mainstyle = Platform.select({
@@ -311,7 +315,8 @@ if(skipError) setHasEror(undefined)
 
   return (
     <>
-      <KeyboardAvoidingView style={[mainstyle, inputStyle, {borderBottomColor: borderCol}]}>
+      <KeyboardAvoidingView
+        style={[mainstyle, inputStyle, {borderBottomColor: borderCol}]}>
         <View style={styles.inputWrapper}>
           <TextInput
             placeholder={placeholder || ''}

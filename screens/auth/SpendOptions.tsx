@@ -93,7 +93,9 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
         }
       },
       complete: () => {
-        if (loadingRef.current) clearTimeout(loadingRef.current);
+        if (loadingRef.current) {
+          clearTimeout(loadingRef.current);
+        }
         loadingRef.current = setTimeout(() => {
           setLoading(false);
         }, 1000);
@@ -110,7 +112,7 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageIndex, props.route.params]);
   const ItemChunk = 8;
-  let offersList: IgetProducteListResponse[][] | undefined = undefined;
+  let offersList: IgetProducteListResponse[][] | undefined;
   offersList = ChunkArrays(list!, ItemChunk);
 
   let isEndFetching = false;
@@ -138,7 +140,7 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
       setPageIndex(prevState => prevState + 1);
     }
   };
-  
+
   if (loading) {
     return (
       <View style={styles.loading}>
@@ -168,11 +170,13 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
               pagingEnabled={true}
               horizontal>
               {offersList.map((data, i) => (
-                <View key={i} style={[styles.dataContent, itemStyle]}>
+                <ScrollView
+                  key={i}
+                  contentContainerStyle={[styles.dataContent, itemStyle]}>
                   {data.map((item, index) => (
                     <ShopingCard product={item} key={index} />
                   ))}
-                </View>
+                </ScrollView>
               ))}
             </ScrollView>
           ) : (

@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   errorContainer: {
     backgroundColor: Colors.red,
-    zIndex: 9,
+    zIndex: 300,
     elevation: 9999,
     position: 'absolute',
     top: 0,

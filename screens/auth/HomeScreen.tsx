@@ -27,9 +27,9 @@ import ProductList, {
   IgetProducteListResponse,
 } from '../../services/ProductListService';
 import GetBalanceService, {
-  IgetBalanceRequest,
+  IgetBalanceDetailsRequest,
   IgetBalanceResponse,
-} from '../../services/GetBalanceService';
+} from '../../services/CardBalanceService';
 import {ChunkArrays} from '../../utils/ChunkArray';
 import {paginationDotCount} from '../../utils/PaginationDotCount';
 import {useSelector} from 'react-redux';
@@ -95,7 +95,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
   }, [translate.key]);
 
   const getBalance = () => {
-    const req: IgetBalanceRequest = {
+    const req: IgetBalanceDetailsRequest = {
       user_id: '',
       lang: '',
     };

@@ -46,7 +46,6 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
     state => state.TranslateReducer,
   ) as ITranslateState;
 
-
   const nextStep = () => {
     setChekCount(t => ++t);
     if (inputErrors.length > 0) {
@@ -199,26 +198,14 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
           <TouchableOpacity
             style={styles.dateView}
             onPress={() => setOpen(true)}>
-            <Text style={styles.dateTxt}>
+            <Text style={!dateTitle ? styles.dateTextBlack : styles.dateTxt}>
               {!dateTitle
                 ? date?.toLocaleDateString().split('.').join('/')
                 : 'MM/DD/YYYY'}
             </Text>
           </TouchableOpacity>
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              flex: 1,
-              overflow: 'hidden',
-              // backgroundColor: 'red',
-              width: 325,
-              borderBottomColor: Colors.darkGrey,
-              borderBottomWidth: 1,
-              paddingLeft: 7,
-            }}>
+          <View style={styles.selectView}>
             <Select<ICountry>
               Item={i => (
                 <CountryItem
@@ -298,7 +285,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
         </View>
         <DatePicker
           title={'მიუთითეთ თარიღი'}
-          textColor={Colors.darkGrey}
+          textColor={Colors.black}
           modal
           open={open}
           mode="date"
@@ -373,6 +360,23 @@ const styles = StyleSheet.create({
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.8,
     color: Colors.darkGrey,
+  },
+  dateTextBlack: {
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
+    color: Colors.black,
+  },
+  selectView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+    overflow: 'hidden',
+    // backgroundColor: 'red',
+    width: 325,
+    borderBottomColor: Colors.darkGrey,
+    borderBottomWidth: 1,
+    paddingLeft: 7,
   },
 });
 

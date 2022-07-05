@@ -10,7 +10,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import Colors from '../../../theme/Colors';
-import { getString } from '../../../utils/converts';
+import {getString} from '../../../utils/converts';
 import Validation from '../../Validation';
 
 interface GenericSelectProps<TValue> {
@@ -49,7 +49,9 @@ export const Select = <TValue extends Object>({
     );
 
     return () => {
-      if (customKey) Validation.delete(customKey);
+      if (customKey) {
+        Validation.delete(customKey);
+      }
     };
   }, [value]);
 
@@ -66,7 +68,9 @@ export const Select = <TValue extends Object>({
       return JSON.stringify(value) === JSON.stringify(e);
     });
     setVisible(!visible);
-    if (val) onChange(val);
+    if (val) {
+      onChange(val);
+    }
   };
 
   const activeItem = useMemo(() => {
@@ -84,7 +88,7 @@ export const Select = <TValue extends Object>({
   const scrollStyle: ViewStyle = {
     maxHeight: Dimensions.get('window').height - 200,
   };
-  
+
   return (
     <>
       <Modal
@@ -102,7 +106,7 @@ export const Select = <TValue extends Object>({
                   <TouchableOpacity
                     key={i}
                     onPress={() => onSelectChange(value)}>
-                    <Item {...value} />
+                    <Item {...value} isOptionList={true} />
                   </TouchableOpacity>
                 ))}
               </ScrollView>

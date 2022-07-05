@@ -67,8 +67,8 @@ export default {
     bDayValidate: 'The minimum length must be 4',
     phoneValidate: 'The minimum length must be 18',
     wrongEmail: 'Wrong E-mail',
-    foreign: 'Foreign Citizen',
-    wrongPin: 'Incorrect Pin-Code'
+    foreign: 'I am not Georgian',
+    wrongPin: 'Incorrect Pin-Code',
   },
   home: {
     whatShouldSpend: 'How to spend',

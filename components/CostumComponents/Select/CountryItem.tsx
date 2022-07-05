@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { ICountry } from '../../../services/UserInfoService';
+import {ICountry} from '../../../services/UserInfoService';
 import Colors from '../../../theme/Colors';
 
 interface IItemProps extends ICountry {
@@ -16,36 +16,46 @@ interface IItemProps extends ICountry {
   activeItemStyle?: StyleProp<ViewStyle>;
   disable?: boolean;
   placeholder?: string;
+  isOptionList?: boolean;
 }
 
 export const CountryPlaceholder: React.FC<IItemProps> = ({
   placeholder,
-  activeItemStyle
-}) => { console.log(activeItemStyle, placeholder)
+  activeItemStyle,
+}) => {
+  console.log(activeItemStyle, placeholder);
   return (
     <View style={[styles.item, styles.placeholderItem, activeItemStyle]}>
-      {placeholder !== undefined ? <Text style={styles.placeholderItem}>{placeholder}</Text> : null}
+      {placeholder !== undefined ? (
+        <Text style={styles.placeholderItem}>{placeholder}</Text>
+      ) : null}
     </View>
   );
 };
 
 export const CountryItem: React.FC<IItemProps> = props => {
-
   if (!props.dialCode) {
     return <CountryPlaceholder {...props} placeholder={props.placeholder} />;
   } else {
-    return <View style={[styles.item, styles.placeholderItem]}>
-    <Text style={styles.placeholderItem}>+{props.dialCode}</Text>
-  </View>
+    return (
+      <View style={[styles.item, styles.placeholderItem]}>
+        <Text style={styles.placeholderText}>
+          {props.isOptionList ? props.countryName : `+${props.dialCode}`}
+        </Text>
+      </View>
+    );
   }
 };
 
 const styles = StyleSheet.create({
   item: {
-    paddingHorizontal: 15,
-    paddingVertical: 14,
+    // paddingHorizontal: 15,
+    // paddingVertical: 14,
     marginTop: 35,
-    width: 100,
+    // width: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    // marginLeft: 7,
   },
   activeIitem: {
     borderTopColor: Colors.bgGreen,
@@ -92,14 +102,20 @@ const styles = StyleSheet.create({
     color: Colors.black,
   },
   placeholderItem: {
-    paddingVertical: 9,
-    color: Colors.black,
-    textAlign: 'center'
+    // paddingVertical: 4,
+    textAlign: 'center',
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 19.2,
+    color: Colors.bgGreen,
+    fontSize: 14,
+    // borderBottomColor: Colors.darkGrey,
+    // borderBottomWidth: 1,
   },
   placeholderText: {
-    fontFamily: 'FiraGO-Book',
+    marginTop: 5,
+    fontFamily: 'BPG DejaVu Sans Mt',
     fontSize: 14,
     lineHeight: 17,
     color: Colors.black,
-  }
+  },
 });

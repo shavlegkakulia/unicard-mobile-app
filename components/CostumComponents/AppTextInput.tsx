@@ -29,6 +29,7 @@ export const requireTypes = {
 };
 
 export interface IAppTextInputProps {
+  border?: StyleProp<ViewStyle>;
   placeholder?: string;
   icon?: ImageSourcePropType;
   secureTextEntry?: boolean;
@@ -49,7 +50,6 @@ export interface IAppTextInputProps {
   onBlur?: () => void;
   inputStyle?: StyleProp<ViewStyle>;
   skipError?: boolean;
-  borderCol?: string;
 }
 
 export let inputErrors: any[] = [];
@@ -323,6 +323,7 @@ const AppTextInput: React.FC<IAppTextInputProps> = props => {
             onChangeText={onChange}
             value={value}
             placeholderTextColor={Colors.darkGrey}
+            
             keyboardType={keyboardType || 'default'}
             secureTextEntry={visible}
             textContentType={textContentType || 'none'}
@@ -370,7 +371,7 @@ const styles = StyleSheet.create({
     width: 325,
     paddingVertical: 12,
     paddingHorizontal: 7,
-    borderBottomColor: Colors.darkGrey,
+    borderBottomColor:  Colors.darkGrey,
     borderBottomWidth: 1,
   },
   mainAndroid: {

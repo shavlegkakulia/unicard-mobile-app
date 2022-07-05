@@ -13,6 +13,7 @@ import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
+import {PUSH} from '../../Store/actions/errors';
 
 import Colors from '../../theme/Colors';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
@@ -20,11 +21,13 @@ import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import {IpostRessetPasswordResponse} from '../../services/ResetPasswordService';
 
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState<IRegisterRequestData>();
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
+
 
   const OtpAuth = () => {
     if (loading) {
@@ -42,12 +45,13 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
       },
       error: err => {
         setLoading(false);
-        console.log(err);
+        console.log('otp error', err);
       },
     });
   };
   useEffect(() => {
     OtpAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const params = props.route.params;
@@ -61,7 +65,6 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
     const data: IRegisterRequestData = {
       ...params.data,
       sms_code_otp: otp,
-      
     };
     AuthService.SignUp(data).subscribe({
       next: Response => {
@@ -74,7 +77,8 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
       },
       error: err => {
         setLoading(false);
-        console.log('>>>', err);
+        dispatch(PUSH(err.data.displayText));
+        console.log('>>>', err.data.displayText);
       },
     });
   };

@@ -46,6 +46,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
     state => state.TranslateReducer,
   ) as ITranslateState;
 
+
   const nextStep = () => {
     setChekCount(t => ++t);
     if (inputErrors.length > 0) {
@@ -61,6 +62,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
           route?.params?.cardNumber?.length! > 0
             ? route?.params?.cardNumber
             : '',
+        phone: country?.dialCode?.concat(regData?.phone || ''),
       },
     });
   };
@@ -83,7 +85,11 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
     UserInfoService.GetCountries().subscribe({
       next: Response => {
         if (Response.data.resultCode === '200') {
-          setCountriew(Response.data.countries);
+          let _c = [...(Response.data.countries || [])];
+          const georgia = _c.filter(el => el.dialCode === '995');
+          _c = [georgia[0], ..._c.filter(el => el.dialCode !== '995')];
+
+          setCountriew(_c);
         }
       },
       error: err => {
@@ -91,7 +97,6 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
       },
     });
   }, []);
-
 
   return (
     <>
@@ -192,7 +197,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
             </View>
           ) : null}
           <TouchableOpacity
-          style={styles.dateView}
+            style={styles.dateView}
             onPress={() => setOpen(true)}>
             <Text style={styles.dateTxt}>
               {!dateTitle
@@ -208,6 +213,11 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
               justifyContent: 'space-between',
               flex: 1,
               overflow: 'hidden',
+              // backgroundColor: 'red',
+              width: 325,
+              borderBottomColor: Colors.darkGrey,
+              borderBottomWidth: 1,
+              paddingLeft: 7,
             }}>
             <Select<ICountry>
               Item={i => (
@@ -228,8 +238,9 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
               context={'reg'}
             />
             <AppTextInput
-              inputStyle={{width: 235}}
+              inputStyle={{width: 290}}
               placeholder={'5xx xxx xxx'}
+              borderCol={Colors.bgColor}
               icon={0}
               secureTextEntry={false}
               textContentType={'telephoneNumber'}

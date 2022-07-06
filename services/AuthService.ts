@@ -47,6 +47,7 @@ export interface IRegisterRequestData {
 interface IRegisterResponse {
   succes?: boolean;
   resultCode?: string;
+  displayText?: string;
 }
 export interface IAuthOtp {
   phone?: string;

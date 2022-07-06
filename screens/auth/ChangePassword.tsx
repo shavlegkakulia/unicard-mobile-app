@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput, {
   inputErrors,
@@ -11,11 +11,13 @@ import {authRoutes} from '../../navigation/routes';
 import AuthService, {
   IChangePasswordRequestData,
 } from '../../services/AuthService';
+import {PUSH} from '../../Store/actions/errors';
 import {IAuthReducer, IAuthState} from '../../Store/types/auth';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 const ChangePassword: React.FC<ScreenNavigationProp> = props => {
+  const dispatch = useDispatch();
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
@@ -50,6 +52,8 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
         console.log('@@@@@@@@@@@@@', Response.data.resultCode);
         if (Response.data.resultCode === '200') {
           props.navigation.navigate(authRoutes.PasswordChangingMessage);
+        } else {
+          dispatch(PUSH(Response.data.displayText));
         }
       },
       complete: () => {
@@ -57,6 +61,7 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
       },
       error: err => {
         setLoading(false);
+        dispatch(PUSH(err.data.displayText));
         console.log('>>>', err);
       },
     });
@@ -77,8 +82,6 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
         <AppTextInput
           placeholder={translate.t('common.oldPassword')}
           secureTextEntry={true}
-          requireType={requireTypes.password}
-          name="password"
           value={password?.password}
           onChange={e => {
             setPassword({

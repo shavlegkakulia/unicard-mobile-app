@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
-import AppTextInput from '../../components/CostumComponents/AppTextInput';
+import AppTextInput, {
+  inputErrors,
+  requireTypes,
+} from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {authRoutes} from '../../navigation/routes';
 import AuthService, {
@@ -19,6 +22,7 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
 
   const [password, setPassword] = useState<IChangePasswordRequestData>();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const authdata = useSelector<IAuthReducer>(
     state => state.AuthReducer,
@@ -29,13 +33,22 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
     if (loading) {
       return;
     }
+    if (inputErrors.length > 0) {
+      return;
+    }
+    if (password?.new_password !== password?.confirm_password) {
+      setError(true);
+      return;
+    }
     const data: IChangePasswordRequestData = {
-      password: '',
+      password: password?.password,
+      new_password: password?.new_password,
     };
     setLoading(true);
     AuthService.ChangePassword(data).subscribe({
       next: Response => {
-        if (Response.data.succes) {
+        console.log('@@@@@@@@@@@@@', Response.data.resultCode);
+        if (Response.data.resultCode === '200') {
           props.navigation.navigate(authRoutes.PasswordChangingMessage);
         }
       },
@@ -48,12 +61,24 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
       },
     });
   };
+  const mutchErrorHandler = () => {
+    if (password?.confirm_password?.length === 0) {
+      setError(false);
+    }
+  };
+  useEffect(() => {
+    mutchErrorHandler();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [password?.confirm_password]);
+
   return (
     <>
       <View style={styles.inputView}>
         <AppTextInput
           placeholder={translate.t('common.oldPassword')}
           secureTextEntry={true}
+          requireType={requireTypes.password}
+          name="password"
           value={password?.password}
           onChange={e => {
             setPassword({
@@ -67,6 +92,8 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
           placeholder={translate.t('common.newPassword')}
           secureTextEntry={true}
           value={password?.new_password}
+          requireType={requireTypes.password}
+          name="password"
           onChange={e => {
             setPassword({
               password: password?.password,
@@ -79,6 +106,7 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
           placeholder={translate.t('common.repeatPassword')}
           secureTextEntry={true}
           value={password?.confirm_password}
+          requireType={!error ? requireTypes.repeatPassword : ''}
           onChange={e => {
             setPassword({
               password: password?.password,
@@ -87,12 +115,17 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
             });
           }}
         />
+        {error && (
+          <View style={styles.error}>
+            <Text style={styles.errorTxt}>
+              {translate.t('generalErrors.passwordDontMutch')}
+            </Text>
+          </View>
+        )}
       </View>
       <View style={styles.btn}>
         <AppButton
-          onPress={() =>
-            props.navigation.navigate(authRoutes.PasswordChangingMessage)
-          }
+          onPress={changePassword}
           loading={loading}
           title={translate.t('common.change')}
           backgroundColor={Colors.bgGreen}
@@ -111,6 +144,16 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 70,
   },
+  error: {
+    marginTop: 15,
+  },
+  errorTxt: {
+    color: Colors.red,
+    fontSize: 10,
+    fontFamily: 'BPG DejaVu Sans Mt',
+    lineHeight: 16.8,
+  },
 });
 
 export default ChangePassword;
+// Bbcd123! Abcd123! Cabc123!

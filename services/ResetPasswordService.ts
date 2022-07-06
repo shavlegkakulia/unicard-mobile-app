@@ -13,7 +13,7 @@ export interface IpostResetPasswordDetail {
   app_source?: string;
 }
 
-export interface IpostRessetPasswordResponse extends IpostResetPasswordDetail {
+export interface IpostRessetPasswordResponse extends IresponseResetPasswordData {
   user_name?: string;
   sms_code?: string;
   new_password?: string;
@@ -23,7 +23,7 @@ export interface IpostRessetPasswordResponse extends IpostResetPasswordDetail {
 class ResetPassService {
   GenerateReset(data: IpostRessetPasswordResponse) {
     console.log('data', data);
-    const result = axios.post<IresponseResetPasswordData>(
+    const result = axios.post<IpostRessetPasswordResponse>(
       `${envs.API_URL}api/Mobile/ResetPassword`,
       data,
       {

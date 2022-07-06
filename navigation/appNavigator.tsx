@@ -925,8 +925,9 @@ const AppNavigator = () => {
                       backgroundColor: Colors.bgColor,
                     },
                     headerBackTitle: '',
+                    headerBackTitleVisible: false,
                     title: '',
-                    headerTintColor: Colors.black,
+                    headerTintColor: Colors.bgGreen,
                     headerStyle: {
                       backgroundColor: Colors.bgColor,
                     },

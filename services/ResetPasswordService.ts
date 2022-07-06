@@ -13,19 +13,26 @@ export interface IpostResetPasswordDetail {
   app_source?: string;
 }
 
-export interface IpostRessetPasswordResponse
-  extends IresponseResetPasswordData {
+export interface IpostRessetPasswordResponse extends IpostResetPasswordDetail {
   user_name?: string;
   sms_code?: string;
   new_password?: string;
+  repet_password?: string;
 }
 
-class ContactService {
-  GenerateContact(data: IpostResetPasswordDetail) {
+class ResetPassService {
+  GenerateReset(data: IpostRessetPasswordResponse) {
+    console.log('data', data);
     const result = axios.post<IresponseResetPasswordData>(
       `${envs.API_URL}api/Mobile/ResetPassword`,
+      data,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
     );
     return from(result);
   }
 }
-export default new ContactService();
+export default new ResetPassService();

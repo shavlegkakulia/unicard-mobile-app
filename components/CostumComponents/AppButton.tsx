@@ -9,7 +9,7 @@ import {
 import Colors from '../../theme/Colors';
 
 export interface IAppBtnProps {
-  onPress: () => void;
+  onPress: () => void | undefined;
   title: string;
   backgroundColor: string;
   loading?: boolean;

@@ -70,7 +70,8 @@ export default {
     phoneValidate: 'მინიმალური სიგრძე უნდა იყოს 18',
     wrongMail: 'არასწორი E-mail',
     foreign: 'არ ვარ საქართველოს მოქალაქე',
-    wrongPin: 'არასწორი პინ კოდი'
+    wrongPin: 'არასწორი პინ კოდი',
+    resetPass: 'პაროლის აღდგენა',
   },
   home: {
     whatShouldSpend: 'რაში დავხარჯო',

@@ -6,11 +6,8 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
-import {ScrollView} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
-import AppTextInput from '../../components/CostumComponents/AppTextInput';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {notAuthRoutes} from '../../navigation/routes';
 import {PUSH} from '../../Store/actions/errors';
@@ -19,23 +16,30 @@ import Colors from '../../theme/Colors';
 import AuthService, {IRegisterRequestData} from '../../services/AuthService';
 import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import {IpostRessetPasswordResponse} from '../../services/ResetPasswordService';
+import ResetPassService from '../../services/ResetPasswordService';
 
 const SmsCode: React.FC<ScreenNavigationProp> = props => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [otp, setOtp] = useState<IRegisterRequestData>();
+  const [resetOtp, setResetOtp] = useState<IpostRessetPasswordResponse>();
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
-
+  let reset = props.route.params;
 
   const OtpAuth = () => {
     if (loading) {
       return;
     }
     setLoading(true);
-    AuthService.SendOtp({phone: params?.data?.phone}).subscribe({
+    AuthService.SendOtp(
+      reset.isResetPassword === true
+        ? {user_name: reset.data.user_name}
+        : {phone: params?.data?.phone},
+    ).subscribe({
       next: Response => {
+        console.log(reset.data.user_name);
         // props.navigation.navigate(notAuthRoutes.smsCode, {
         //   data: {...params.data},
         // });
@@ -55,6 +59,32 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
   }, []);
 
   const params = props.route.params;
+
+  const resetPassword = () => {
+    const data: IpostRessetPasswordResponse = {
+      ...reset.data,
+      sms_code: resetOtp,
+    };
+    ResetPassService.GenerateReset(data).subscribe({
+      next: Response => {
+        console.log('responseeeee>>>>>>', Response.data);
+        if (Response.data.resultCode === '200') {
+          console.log(Response);
+          props.navigation.navigate(notAuthRoutes.authScreen);
+        } else {
+          dispatch(PUSH(Response.data.displayText));
+        }
+      },
+      complete: () => {
+        setLoading(false);
+      },
+      error: err => {
+        setLoading(false);
+        dispatch(PUSH(err.data.displayText));
+        console.log('!!!!!!!!!', err.data.displayText);
+      },
+    });
+  };
 
   const register = () => {
     if (loading) {
@@ -97,8 +127,16 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
         <TextInput
           style={styles.input}
           keyboardType="numeric"
-          value={otp?.sms_code_otp}
-          onChangeText={e => setOtp(e)}
+          value={
+            reset.isResetPassword === true
+              ? resetOtp?.sms_code
+              : otp?.sms_code_otp
+          }
+          onChangeText={
+            reset.isResetPassword === true
+              ? e => setResetOtp(e)
+              : e => setOtp(e)
+          }
         />
         <TouchableOpacity onPress={OtpAuth}>
           <Text style={styles.text}>
@@ -108,7 +146,7 @@ const SmsCode: React.FC<ScreenNavigationProp> = props => {
       </View>
       <View style={styles.button}>
         <AppButton
-          onPress={register}
+          onPress={reset.isResetPassword === true ? resetPassword : register}
           title={translate.t('common.next')}
           loading={loading}
           backgroundColor={Colors.bgGreen}

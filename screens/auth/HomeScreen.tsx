@@ -10,7 +10,6 @@ import {
   NativeScrollEvent,
   ActivityIndicator,
   Platform,
-  Alert,
 } from 'react-native';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 // import {en} from '../../lang';
@@ -174,7 +173,7 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
             style={styles.mark}
             source={require('../../assets/img/UniMark.png')}
           />
-          <Text style={styles.amount}>{balance?.balance}</Text>
+          <Text style={styles.amount}>{balance?.scores_left}</Text>
         </View>
       </TouchableOpacity>
 
@@ -241,7 +240,7 @@ const styles = StyleSheet.create({
   },
   amount: {
     color: Colors.amountTxt,
-    fontSize: 28,
+    fontSize: 20,
     fontFamily: 'BPG DejaVu Sans Mt',
     // lineHeight: 24,
     marginTop: 5,

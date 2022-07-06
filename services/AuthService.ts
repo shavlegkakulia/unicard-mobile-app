@@ -3,9 +3,9 @@ import {from, Observable, Subscriber} from 'rxjs';
 import storage from './../services/StorageService';
 import envs from './../config/env';
 import Store from '../Store';
-import { PASSCODEENABLED } from '../screens/auth/Parameters';
-import { AuthActions, IAuthAction } from '../Store/types/auth';
-import { EN_US, KA_GE, ka_ge } from '../lang';
+import {PASSCODEENABLED} from '../screens/auth/Parameters';
+import {AuthActions, IAuthAction} from '../Store/types/auth';
+import {EN_US, KA_GE, ka_ge} from '../lang';
 import storage_keys from '../constants/storageKeys';
 
 export interface IInterceptop {
@@ -48,7 +48,8 @@ interface IRegisterResponse {
   succes: boolean;
 }
 export interface IAuthOtp {
-  phone: string;
+  phone?: string;
+  user_name?: string;
 }
 
 export interface IChangePasswordRequestData {
@@ -56,7 +57,6 @@ export interface IChangePasswordRequestData {
   new_password?: string;
   confirm_password?: string;
 }
-
 
 export default new (class AuthService {
   refreshStarted: any;
@@ -169,7 +169,6 @@ export default new (class AuthService {
     await this.removeToken();
   }
 
-
   SendOtp(data: IAuthOtp | undefined) {
     const response = axios.post<IRegisterResponse>(
       `${envs.API_URL}api/Mobile/SendOTP`,
@@ -203,7 +202,7 @@ export default new (class AuthService {
   registerAuthInterceptor(callBack: any) {
     const setAuthToken = async (config: AxiosRequestConfig) => {
       config.headers = config.headers || {};
-      let { token } = Store.getState().AuthReducer;
+      let {token} = Store.getState().AuthReducer;
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -225,12 +224,11 @@ export default new (class AuthService {
     //add auth header
     let requestInterceptor = axios.interceptors.request.use(
       async (config: AxiosRequestConfig) => {
-        let { token, isAuthentificated } = Store.getState().AuthReducer;
+        let {token, isAuthentificated} = Store.getState().AuthReducer;
         if (isAuthentificated && !config.anonymous) {
           //if refreshStarted wait
           if (this.refreshStarted && !config.skipRefresh) {
             return waitForRefresh(config).then(async (config: any) => {
-              
               if (!token) {
                 return Promise.reject({status: 401});
               }
@@ -242,7 +240,7 @@ export default new (class AuthService {
           await setAuthToken(config);
         }
         const lkey = await storage.getItem(storage_keys.locales);
-        config.headers['lang'] = lkey === ka_ge ? KA_GE : EN_US;
+        config.headers.lang = lkey === ka_ge ? KA_GE : EN_US;
         return config;
       },
     );
@@ -268,7 +266,7 @@ export default new (class AuthService {
         //if refresh already started wait and retry with new token
         if (this.refreshStarted) {
           return waitForRefresh().then(async _ => {
-            let { token } = Store.getState().AuthReducer;
+            let {token} = Store.getState().AuthReducer;
             if (!token) {
               return Promise.reject({status: 401});
             }
@@ -286,15 +284,12 @@ export default new (class AuthService {
           },
           skipRefresh: true,
         };
-        let { refreshToken } = Store.getState().AuthReducer;
+        let {refreshToken} = Store.getState().AuthReducer;
         const refreshObj = new URLSearchParams();
         refreshObj.append('grant_type', 'refresh_token');
         refreshObj.append('client_id', 'ClientApp');
         refreshObj.append('client_secret', 'secret');
-        refreshObj.append(
-          'refresh_token',
-          (refreshToken) || '',
-        );
+        refreshObj.append('refresh_token', refreshToken || '');
         return await axios
           .post<IAuthResponse>(
             `${envs.API_URL}connect/token`,
@@ -305,12 +300,12 @@ export default new (class AuthService {
             if (!response.data.access_token) {
               throw response;
             }
-            if(isPassCodeEnabled) {
+            if (isPassCodeEnabled) {
               await this.removeToken();
-            await this.setToken(
-              response.data.access_token,
-              response.data.refresh_token,
-            );
+              await this.setToken(
+                response.data.access_token,
+                response.data.refresh_token,
+              );
             }
             Store.dispatch<IAuthAction>({
               type: AuthActions.setToken,

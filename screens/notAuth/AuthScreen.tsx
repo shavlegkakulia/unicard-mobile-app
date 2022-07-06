@@ -195,9 +195,7 @@ const AuthScreen: React.FC<ScreenNavigationProp> = props => {
         </View>
         <TouchableOpacity
           style={styles.passwordForgView}
-          onPress={() =>
-            props.navigation.navigate(notAuthRoutes.ResetPassStepOne)
-          }>
+          onPress={() => props.navigation.navigate(notAuthRoutes.ResetPass)}>
           <Text style={styles.text}>{translate.t('common.forgotPwd')}</Text>
         </TouchableOpacity>
       </View>

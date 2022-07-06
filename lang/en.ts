@@ -69,6 +69,7 @@ export default {
     wrongEmail: 'Wrong E-mail',
     foreign: 'I am not Georgian',
     wrongPin: 'Incorrect Pin-Code',
+    resetPass: 'Reset Password',
   },
   home: {
     whatShouldSpend: 'How to spend',

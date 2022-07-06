@@ -17,10 +17,9 @@ import {ITranslateReducer, ITranslateState} from '../Store/types/translate';
 import {StatusBar} from 'react-native';
 import AsyncStorage from './../services/StorageService';
 import {PASSCODEENABLED} from '../screens/auth/Parameters';
-import { PUSH } from '../Store/actions/errors';
-import { stringToObject } from '../utils/common';
+import {PUSH} from '../Store/actions/errors';
+import {stringToObject} from '../utils/common';
 import NetInfo from '@react-native-community/netinfo';
-
 
 export default () => {
   const authReducer = useSelector<IAuthReducer>(
@@ -35,57 +34,74 @@ export default () => {
   const dispatch = useDispatch();
 
   const RegisterCommonInterceptor = () => {
-    let requestInterceptor = axios.interceptors.request.use(async(config: any) => {
-      const lkey = await storage.getItem(storage_keys.locales);
-      config.headers['lang'] = lkey === ka_ge ? KA_GE : EN_US;
+    let requestInterceptor = axios.interceptors.request.use(
+      async (config: any) => {
+        const lkey = await storage.getItem(storage_keys.locales);
+        config.headers.lang = lkey === ka_ge ? KA_GE : EN_US;
 
-      return config;
-    });
+        return config;
+      },
+    );
 
     let responseInterceptor = axios.interceptors.response.use(
       (response: any) => {
         if (!response.config.objectResponse || response.data.expires_in) {
           return Promise.resolve(response);
         }
-        console.log('>>>response>>>', response.data)
-        if(!response?.data?.resultCode) {
+        console.log('>>>response>>>', response.data);
+        if (!response?.data?.resultCode) {
           return Promise.resolve(response);
         }
         if (!response?.data?.resultCode.startsWith('20')) {
-          try{
+          try {
             response.errorMessage =
-            response?.data?.errors[0]?.ErrorMessage || response?.data?.errors?.[0]?.displayText || 'generalErrors.errorOccurred';
-            }
-            catch(err) {
-              response.errorMessage =
-              response?.data?.Errors?.[0]?.DisplayText || 'generalErrors.errorOccurred';
-            }
+              response?.data?.errors[0]?.ErrorMessage ||
+              response?.data?.errors?.[0]?.displayText ||
+              'generalErrors.errorOccurred';
+          } catch (err) {
+            response.errorMessage =
+              response?.data?.Errors?.[0]?.DisplayText ||
+              'generalErrors.errorOccurred';
+          }
           response.customError = true;
-          if (!response.config.skipCustomErrorHandling)
-          dispatch(PUSH(response.errorMessage === 'generalErrors.errorOccurred' ? translateReducer.t(response.errorMessage) : response.errorMessage))
- 
+          if (!response.config.skipCustomErrorHandling) {
+            dispatch(
+              PUSH(
+                response.errorMessage === 'generalErrors.errorOccurred'
+                  ? translateReducer.t(response.errorMessage)
+                  : response.errorMessage,
+              ),
+            );
+          }
 
           return Promise.reject(response);
         }
         return Promise.resolve(response);
-      }, async error => {
-        if(error?.response?.status === 401) {
+      },
+      async error => {
+        if (error?.response?.status === 401) {
           return Promise.reject(error);
         }
         console.log('>>>>>>>>>>>>>>>', stringToObject(error.response).data);
         let netInfo = await NetInfo.fetch();
         if (!netInfo.isConnected) {
-          if (!error.config.skipCustomErrorHandling)
-          dispatch(PUSH(translateReducer.t("generalErrors.netError")));
-           
-          error.errorMessage = translateReducer.t("generalErrors.netError");
+          if (!error.config.skipCustomErrorHandling) {
+            dispatch(PUSH(translateReducer.t('generalErrors.netError')));
+          }
+
+          error.errorMessage = translateReducer.t('generalErrors.netError');
         } else {
-          if (stringToObject(error.response).data.error !== 'invalid_grant' && stringToObject(error.response).data.error !== 'require_otp' && stringToObject(error.response).data.error !== 'invalid_username_or_password') {
-             dispatch(PUSH(translateReducer.t("generalErrors.errorOccurred")));
+          if (
+            stringToObject(error.response).data.error !== 'invalid_grant' &&
+            stringToObject(error.response).data.error !== 'require_otp' &&
+            stringToObject(error.response).data.error !==
+              'invalid_username_or_password'
+          ) {
+            dispatch(PUSH(translateReducer.t('generalErrors.errorOccurred')));
           }
         }
         return Promise.reject(error);
-      }
+      },
     );
     return {
       unsubscribe: () => {

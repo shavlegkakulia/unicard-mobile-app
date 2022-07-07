@@ -166,7 +166,11 @@ const HomeScreen: React.FC<ScreenNavigationProp> = props => {
         onPress={() => props.navigation.navigate(authRoutes.barcode)}>
         <Image
           style={styles.img}
-          source={require('../../assets/img/greenCard.png')}
+          source={
+            translate.key === 'en'
+              ? require('../../assets/img/greenCardEng.png')
+              : require('../../assets/img/greenCard.png')
+          }
         />
         <View style={styles.markView}>
           <Image

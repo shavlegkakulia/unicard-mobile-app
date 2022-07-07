@@ -14,7 +14,6 @@ type RouteParamList = {
     fb_token?: string;
   };
 };
-
 const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
   const route = useRoute<RouteProp<RouteParamList, 'params'>>();
   const translate = useSelector<ITranslateReducer>(
@@ -28,11 +27,19 @@ const RegistrationScreen: React.FC<ScreenNavigationProp> = props => {
         <View style={styles.imageWrapper}>
           <Image
             style={styles.image}
-            source={require('../../assets/img/cardGreen.png')}
+            source={
+              translate.key === 'en'
+                ? require('../../assets/img/greenCardEng.png')
+                : require('../../assets/img/cardGreen.png')
+            }
           />
           <Image
             style={styles.image}
-            source={require('../../assets/img/cardBlack.png')}
+            source={
+              translate.key === 'en'
+                ? require('../../assets/img/blackCardEng.png')
+                : require('../../assets/img/cardBlack.png')
+            }
           />
         </View>
       </View>

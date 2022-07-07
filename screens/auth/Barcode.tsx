@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 import Loader from '../../components/loader';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import CardService, {
@@ -15,12 +16,17 @@ import CardService, {
   IgetBarcodeDetailsRequest,
   IgetBarcodeResponse,
 } from '../../services/CardService';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
 import Colors from '../../theme/Colors';
 
 const Barcode: React.FC<ScreenNavigationProp> = () => {
   const [cardInfo, setCardInfo] = useState<IgetBarcodeResponse>();
   const [file, setFile] = useState<IBarcodeResponseData>();
   const [loading, setLoading] = useState<boolean>(true);
+  const translate = useSelector<ITranslateReducer>(
+    state => state.TranslateReducer,
+  ) as ITranslateState;
+
   let barcode = file?.barcode;
   const getBarcode = () => {
     const req: IgetBarcodeDetailsRequest = {
@@ -101,7 +107,11 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
           <Image
             style={styles.img}
             resizeMode={'contain'}
-            source={require('../../assets/img/barcodeImg.png')}
+            source={
+              translate.key === 'en'
+                ? require('../../assets/img/barcodeImgEngl.png')
+                : require('../../assets/img/barcodeImg.png')
+            }
           />
         </>
       )}

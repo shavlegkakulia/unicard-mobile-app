@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
   },
   listView: {
     marginHorizontal: Platform.OS === 'ios' ? 20 : 0,
-    marginTop: Platform.OS === 'ios' ? 103 : 50,
+    marginTop: Platform.OS === 'ios' ? 60 : 50,
   },
   row: {
     flexDirection: 'row',

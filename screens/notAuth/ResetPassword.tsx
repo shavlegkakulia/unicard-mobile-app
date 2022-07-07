@@ -63,6 +63,8 @@ const ResetPassword: React.FC<ScreenNavigationProp> = props => {
             })
           }
           placeholder="სახელი"
+          requireType={requireTypes.password}
+          name="password"
           value={resetPassData?.user_name}
         />
       </View>

@@ -292,7 +292,9 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
                 //props.navigation.navigate(authRoutes.changePin);
               }
             }}>
-            <Text style={styles.infoText}>Biometric</Text>
+            <Text style={styles.infoText}>
+              {translate.t('auth.biometric')}
+            </Text>
             <Switch
               trackColor={{true: Colors.bgGreen}}
               thumbColor={Colors.white}
@@ -352,7 +354,7 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
 };
 const styles = StyleSheet.create({
   main: {
-    marginHorizontal: 20,
+    paddingHorizontal: 15,
   },
   centeredView: {
     flex: 1,
@@ -444,7 +446,7 @@ const styles = StyleSheet.create({
     lineHeight: 16.8,
   },
   infoText: {
-    fontSize: 14,
+    fontSize: 12,
     color: Colors.bgGreen,
     fontWeight: '400',
     fontFamily: 'BPG DejaVu Sans Mt',

@@ -70,6 +70,7 @@ export default {
     foreign: 'I am not Georgian',
     wrongPin: 'Incorrect Pin-Code',
     resetPass: 'Reset Password',
+    biometric: 'Biometric Authentication',
   },
   home: {
     whatShouldSpend: 'How to spend',

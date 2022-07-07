@@ -1,11 +1,5 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, View, ActivityIndicator} from 'react-native';
 import {useSelector} from 'react-redux';
 import {ScreenNavigationProp} from '../../interfaces/commons';
 import {en} from '../../lang';
@@ -19,19 +13,14 @@ import NewsService, {
 
 const News: React.FC<ScreenNavigationProp> = props => {
   const [loading, setLoading] = useState<boolean>(true);
-  const renderItem = useCallback(({item}) => {
-    return <NewsCard {...item} />;
-  }, []);
 
   const translate = useSelector<ITranslateReducer>(
     state => state.TranslateReducer,
   ) as ITranslateState;
 
-  const keyExtractor = (item: IgetNewsResponse) => {
-    return item?.id + new Date().toLocaleTimeString();
-  };
-
   const [news, setNews] = useState<Igeneralresp>();
+
+  console.log('??????????', news);
 
   const getNewsList = () => {
     NewsService.GenerateNews().subscribe({
@@ -65,20 +54,16 @@ const News: React.FC<ScreenNavigationProp> = props => {
   return (
     <ScrollView>
       <View style={styles.flatlist}>
-        <FlatList
-          contentContainerStyle={{
-            alignSelf: 'flex-start',
-          }}
-          bounces={false}
-          data={news?.news}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          keyExtractor={keyExtractor}
-          contentInset={{right: 20}}
-          numColumns={news && Math.ceil(news?.news?.length || 4) / 4}
-          key={news && new Date().toLocaleTimeString()}
-        />
+        {news?.news?.map(e => (
+          <NewsCard
+            image={e.image}
+            description={e.description}
+            key={e.id}
+            title={e.title}
+            createDate={e.createDate}
+            id={e.id}
+          />
+        ))}
       </View>
     </ScrollView>
   );

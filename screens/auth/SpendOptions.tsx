@@ -53,6 +53,7 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
     // }
     const filter = props?.route?.params?.filter;
 
+
     let req: IgetProducteListRequest = {
       page_index: pageIndex.toString(),
       row_count: '12',
@@ -164,7 +165,6 @@ const SpendOptions: React.FC<ScreenNavigationProp> = props => {
           {offersList !== undefined && offersList.length > 0 ? (
             <ScrollView
               scrollToOverflowEnabled={true}
-              // contentContainerStyle={{paddingRight: 5}}
               onScroll={({nativeEvent}) => onChangeSectionStep(nativeEvent)}
               showsHorizontalScrollIndicator={false}
               pagingEnabled={true}

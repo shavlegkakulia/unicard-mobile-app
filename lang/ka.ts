@@ -72,6 +72,7 @@ export default {
     foreign: 'არ ვარ საქართველოს მოქალაქე',
     wrongPin: 'არასწორი პინ კოდი',
     resetPass: 'პაროლის აღდგენა',
+    biometric: 'ბიომეტრიული ავთენთიფიკაცია',
   },
   home: {
     whatShouldSpend: 'რაში დავხარჯო',

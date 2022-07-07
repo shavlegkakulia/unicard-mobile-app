@@ -69,7 +69,7 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     if (cardInfo?.vcard) {
       getBarcodeFile();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardInfo, loading]);
 
   if (loading) {
@@ -84,20 +84,18 @@ const Barcode: React.FC<ScreenNavigationProp> = () => {
     <View style={styles.main}>
       {cardInfo && (
         <>
-  
-            <Image
-            
-              resizeMode="contain"
-              style={styles.barcodeImageView}
-              source={{uri: `data:image/gif;base64,${barcode}`}}
-            />
-      
+          <Image
+            resizeMode="contain"
+            style={styles.barcodeImageView}
+            source={{uri: `data:image/gif;base64,${barcode}`}}
+          />
+
           <View style={styles.barcodeNum}>
             <Text style={styles.num}>
               {cardInfo?.vcard?.replace(
-                  /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
-                  '$1  $2  $3  $4',
-                )}
+                /\b(\d{4})(\d{4})(\d{4})(\d{4})\b/,
+                '$1  $2  $3  $4',
+              )}
             </Text>
           </View>
           <Image
@@ -137,8 +135,8 @@ const styles = StyleSheet.create({
   },
   barcodeImageView: {
     position: 'absolute',
-    top: 300,
-    left: -45,
+    top: 330,
+    left: -70,
     right: 0,
     bottom: 0,
     justifyContent: 'center',
@@ -146,7 +144,7 @@ const styles = StyleSheet.create({
     zIndex: 100,
     transform: [{rotate: '90deg'}],
     backgroundColor: Colors.white,
-    width: '70%',
+    width: '90%',
     height: 80,
     borderRadius: 10,
   },

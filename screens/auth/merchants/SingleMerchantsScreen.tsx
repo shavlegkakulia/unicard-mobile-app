@@ -6,6 +6,7 @@ import {
   ScrollView,
   Image,
   ActivityIndicator,
+  Linking,
 } from 'react-native';
 import {ScreenNavigationProp} from '../../../interfaces/commons';
 import Colors from '../../../theme/Colors';
@@ -21,6 +22,7 @@ import {
   ITranslateReducer,
   ITranslateState,
 } from '../../../Store/types/translate';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
   const [loading, setLoading] = useState(true);
@@ -101,7 +103,11 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
         </View>
       ) : null}
       {organization?.organization?.org_phone_s ? (
-        <View style={styles.contactView}>
+        <TouchableOpacity
+          style={styles.contactView}
+          onPress={() =>
+            Linking.openURL(`tel:${organization?.organization?.org_phone_s}`)
+          }>
           <View style={styles.iconView}>
             <Image
               style={styles.phone}
@@ -112,10 +118,14 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.addressTxt}>
             {organization?.organization?.org_phone_s}
           </Text>
-        </View>
+        </TouchableOpacity>
       ) : null}
       {organization?.organization?.org_email ? (
-        <View style={styles.contactView}>
+        <TouchableOpacity
+          style={styles.contactView}
+          onPress={() =>
+            Linking.openURL(`mailto:${organization?.organization?.org_email}`)
+          }>
           <View style={styles.iconView}>
             <Image
               style={styles.email}
@@ -126,10 +136,14 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.addressTxt}>
             {organization?.organization?.org_email}
           </Text>
-        </View>
+        </TouchableOpacity>
       ) : null}
       {organization?.organization?.org_web_add ? (
-        <View style={styles.contactView}>
+        <TouchableOpacity
+          style={styles.contactView}
+          onPress={() =>
+            Linking.openURL(`${organization?.organization?.org_web_add}`)
+          }>
           <View style={styles.iconView}>
             <Image
               style={styles.globe}
@@ -140,11 +154,15 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.addressTxt}>
             {organization?.organization?.org_web_add}
           </Text>
-        </View>
+        </TouchableOpacity>
       ) : null}
 
       {organization?.organization?.org_fb ? (
-        <View style={styles.contactView}>
+        <TouchableOpacity
+          style={styles.contactView}
+          onPress={() =>
+            Linking.openURL(`${organization?.organization?.org_fb}`)
+          }>
           <View style={styles.iconView}>
             <Image
               style={styles.social}
@@ -155,7 +173,7 @@ const SingleMerchantsScreen: React.FC<ScreenNavigationProp> = props => {
           <Text style={styles.addressTxt}>
             {organization?.organization?.org_fb}
           </Text>
-        </View>
+        </TouchableOpacity>
       ) : null}
       <View style={styles.btn}>
         <AppButton
@@ -176,6 +194,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 5,
     shadowRadius: 8,
     paddingHorizontal: 34,
+    marginBottom: 15,
   },
   main: {
     alignItems: 'center',

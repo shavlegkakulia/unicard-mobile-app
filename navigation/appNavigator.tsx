@@ -614,6 +614,7 @@ const AppNavigator = () => {
                     cardStyle: {
                       backgroundColor: Colors.bgColor,
                     },
+                    headerBackTitleVisible: false,
                     headerTitle: () => (
                       <Text style={styles.headerTitle}>
                         {translate.t('news.getGift')}

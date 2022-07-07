@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import AppTextInput, {
@@ -77,7 +78,7 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
   }, [password?.confirm_password]);
 
   return (
-    <>
+    <KeyboardAwareScrollView>
       <View style={styles.inputView}>
         <AppTextInput
           placeholder={translate.t('common.oldPassword')}
@@ -134,17 +135,15 @@ const ChangePassword: React.FC<ScreenNavigationProp> = props => {
           backgroundColor={Colors.bgGreen}
         />
       </View>
-    </>
+    </KeyboardAwareScrollView>
   );
 };
 const styles = StyleSheet.create({
   inputView: {
-    flex: 3,
     alignItems: 'center',
     marginTop: 20,
   },
   btn: {
-    flex: 1,
     marginTop: 70,
   },
   error: {

@@ -60,18 +60,22 @@ const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
   }
 
   return (
-    <ScrollView style={styles.main}>
-      <View style={styles.imgView}>
-        <Image
-          resizeMode="cover"
-          style={styles.img}
-          source={{uri: news?.news?.image}}
-        />
-      </View>
-      <View>
-        <Text style={styles.title}>{news?.news?.title}</Text>
-        <Text style={styles.date}>{news?.news?.createDate}</Text>
-        <Text style={styles.desc}>{htmlToString(news?.news?.description)}</Text>
+    <ScrollView>
+      <View style={styles.main}>
+        <View style={styles.imgView}>
+          <Image
+            resizeMode="cover"
+            style={styles.img}
+            source={{uri: news?.news?.image}}
+          />
+        </View>
+        <View>
+          <Text style={styles.title}>{news?.news?.title}</Text>
+          <Text style={styles.date}>{news?.news?.createDate}</Text>
+          <Text style={styles.desc}>
+            {htmlToString(news?.news?.description)}
+          </Text>
+        </View>
       </View>
     </ScrollView>
   );
@@ -79,7 +83,8 @@ const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
 const styles = StyleSheet.create({
   main: {
     marginHorizontal: 30,
-    marginVertical: 20,
+   marginTop: 20,
+   marginBottom: 50,
   },
 
   title: {

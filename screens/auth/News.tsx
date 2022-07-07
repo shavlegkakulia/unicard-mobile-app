@@ -20,7 +20,6 @@ const News: React.FC<ScreenNavigationProp> = props => {
 
   const [news, setNews] = useState<Igeneralresp>();
 
-  console.log('??????????', news);
 
   const getNewsList = () => {
     NewsService.GenerateNews().subscribe({

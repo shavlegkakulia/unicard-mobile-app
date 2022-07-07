@@ -251,6 +251,10 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
             </Text>
           </View>
         </TouchableOpacity>
+        
+        
+        
+        
         <View style={styles.param}>
           <View style={styles.wrapp}>
             <Image
@@ -268,6 +272,7 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
             <Text style={styles.infoText}>
               {translate.t('settings.changePin')}
             </Text>
+            <View style={styles.switchView}>
             <Switch
               trackColor={{true: Colors.bgGreen}}
               thumbColor={Colors.white}
@@ -275,8 +280,17 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
               onValueChange={togglePinSwitch}
               value={isPinEnabled}
             />
+            </View>
+           
           </TouchableOpacity>
         </View>
+
+
+
+
+
+
+
 
         <View style={styles.param}>
           <View style={styles.wrapp}>
@@ -292,18 +306,25 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
                 //props.navigation.navigate(authRoutes.changePin);
               }
             }}>
-            <Text style={styles.infoText}>
-              {translate.t('auth.biometric')}
-            </Text>
-            <Switch
+            <Text style={styles.infoText}>{translate.t('auth.biometric')}</Text>
+              <View style={styles.switchView}>
+              <Switch
               trackColor={{true: Colors.bgGreen}}
               thumbColor={Colors.white}
               ios_backgroundColor={Colors.switchGrey}
               onValueChange={toggleBiometricSwitch}
               value={isBiometricEnabled}
             />
+              </View>
+            
           </TouchableOpacity>
         </View>
+
+
+
+
+
+
 
         <TouchableOpacity
           style={styles.param}
@@ -354,7 +375,7 @@ const Parameters: React.FC<ScreenNavigationProp> = props => {
 };
 const styles = StyleSheet.create({
   main: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 20,
   },
   centeredView: {
     flex: 1,
@@ -452,6 +473,7 @@ const styles = StyleSheet.create({
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.8,
     marginTop: 5,
+    width: 200,
   },
   email: {
     fontSize: 10,
@@ -475,7 +497,7 @@ const styles = StyleSheet.create({
     height: 24,
   },
   wrapp: {
-    width: 60,
+    width: 40,
     alignItems: 'center',
   },
   pinIcon: {
@@ -514,6 +536,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontFamily: 'BPG DejaVu Sans Mt',
     lineHeight: 16.8,
+  },
+  switchView: {
+    width: 100,
+    alignItems: 'flex-end',
   },
 });
 

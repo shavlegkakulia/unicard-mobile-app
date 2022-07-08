@@ -60,7 +60,7 @@ const SingleNewsScreen: React.FC<ScreenNavigationProp> = props => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={true}>
       <View style={styles.main}>
         <View style={styles.imgView}>
           <Image

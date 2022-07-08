@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   dataContent: {
     flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
   },
   loading: {
     flex: 1,

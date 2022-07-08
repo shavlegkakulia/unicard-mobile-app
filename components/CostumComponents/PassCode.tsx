@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 
 import Colors from '../../theme/Colors';
@@ -22,21 +22,23 @@ import {authRoutes} from '../../navigation/routes';
 import {useDispatch, useSelector} from 'react-redux';
 import {login} from '../../Store/actions/auth';
 import AuthService from '../../services/AuthService';
-import { IAuthReducer, IAuthState } from '../../Store/types/auth';
-import { PUSH } from '../../Store/actions/errors';
-import { ITranslateReducer, ITranslateState } from '../../Store/types/translate';
-import { IRefreshCallbakParams } from './AuthPage';
+import {IAuthReducer, IAuthState} from '../../Store/types/auth';
+import {PUSH} from '../../Store/actions/errors';
+import {ITranslateReducer, ITranslateState} from '../../Store/types/translate';
+import {IRefreshCallbakParams} from './AuthPage';
 
 interface IPageProps {
   isLogin?: boolean;
-  onRefresh: (callback: (par: IRefreshCallbakParams) => void) => Promise<void>
+  onRefresh: (callback: (par: IRefreshCallbakParams) => void) => Promise<void>;
 }
 
 const PassCode: React.FC<IPageProps> = props => {
   const [user, setUser] = useState<IgetUserServiceResponse>();
   const [{code, code2}, setCode] = useState({code: '', code2: ''});
   const [loading, setLoading] = useState(false);
-  const auth = useSelector<IAuthReducer>(state => state.AuthReducer) as IAuthState;
+  const auth = useSelector<IAuthReducer>(
+    state => state.AuthReducer,
+  ) as IAuthState;
 
   const nav = useNavigation();
   const dispatch = useDispatch();
@@ -64,7 +66,9 @@ const PassCode: React.FC<IPageProps> = props => {
   };
 
   const removePassCode = () => {
-    if (code.length <= 0) return;
+    if (code.length <= 0) {
+      return;
+    }
 
     if (props.isLogin) {
       let _code = code.slice(0, code.length - 1);
@@ -98,8 +102,9 @@ const PassCode: React.FC<IPageProps> = props => {
     });
   };
   useEffect(() => {
-    if(!props.isLogin)
-    getUserInfo();
+    if (!props.isLogin) {
+      getUserInfo();
+    }
   }, []);
 
   useEffect(() => {
@@ -118,11 +123,11 @@ const PassCode: React.FC<IPageProps> = props => {
       (async () => {
         const token = await AuthService.getToken();
         const refresh = await AuthService.getRefreshToken();
-       
-        if (token && refresh) {  
+
+        if (token && refresh) {
           props.onRefresh(res => {
             const {accesToken, refreshToken, skip} = res;
-            if (accesToken !== undefined) { 
+            if (accesToken !== undefined) {
               dispatch(login(accesToken, refreshToken));
             } else {
               if (!skip) {
@@ -131,17 +136,16 @@ const PassCode: React.FC<IPageProps> = props => {
             }
 
             setLoading(false);
-          })
+          });
         }
       })();
       if (code.length === 4 && code !== code2) {
         setCode({code: '', code2: code2});
       }
-    } if(props.isLogin && code2.length === 4 && code !== code2) {
-      dispatch(PUSH(translate.t('auth.wrongPin')))
     }
- 
-   
+    if (props.isLogin && code2.length === 4 && code !== code2) {
+      dispatch(PUSH(translate.t('auth.wrongPin')));
+    }
   }, [code, code2]);
 
   let p1 = false;
@@ -180,7 +184,7 @@ const PassCode: React.FC<IPageProps> = props => {
   }
 
   useEffect(() => {
-    if (code2.length > 0 && !props.isLogin) { 
+    if (code2.length > 0 && !props.isLogin) {
       if (code2 === code) {
         (async () => {
           await AsyncStorage.setItem(PASSCODEENABLED, code);
@@ -191,115 +195,139 @@ const PassCode: React.FC<IPageProps> = props => {
           });
         })();
       } else {
-        if(code2.length === 4 && code.length === 4) {
+        if (code2.length === 4 && code.length === 4) {
           dispatch(PUSH(translate.t('generalErrors.errorOccurred')));
           setCode({code: '', code2: ''});
         }
       }
     }
-    
   }, [code2]);
 
   return (
-<>
-<ScrollView>
-      <View style={styles.titleView}>
-        <Text style={styles.title}>{translate.t(`common.${props.isLogin ? 'enterByPin' : 'changePin'}`)}</Text>
-      </View>
-      {user !== undefined && <View style={styles.avatarView}>
-        <Image
-          style={styles.avatar}
-          source={require('../../assets/img/avatar.png')}
-        />
-        <Text style={styles.name}>
-          {user?.name} {user?.surname}
-        </Text>
-      </View>}
-      <View style={[styles.dotCenter, props.isLogin ? {marginTop: 120} : {}]}>
-        <View style={styles.dotsView}>
-          <View style={[styles.dot, p1 && styles.activeDot]} />
-          <View style={[styles.dot, p2 && styles.activeDot]} />
-          <View style={[styles.dot, p3 && styles.activeDot]} />
-          <View style={[styles.dot, p4 && styles.activeDot]} />
+    <>
+      <ScrollView>
+        <View
+          style={
+            auth.isAuthentificated === false ? styles.title2 : styles.titleView
+          }>
+          <Text style={styles.title}>
+            {translate.t(
+              `common.${props.isLogin ? 'enterByPin' : 'changePin'}`,
+            )}
+          </Text>
         </View>
-      </View>
-      <View style={styles.numbersMainView}>
-        <View style={styles.numberView}>
-          <TouchableOpacity
-            style={styles.number}
-            onPress={() => setPssCode('1')}>
-            <Text style={styles.numberTxt}>1</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.number}
-            onPress={() => setPssCode('2')}>
-            <Text style={styles.numberTxt}>2</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.number}
-            onPress={() => setPssCode('3')}>
-            <Text style={styles.numberTxt}>3</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.numberView}>
-          <TouchableOpacity
-            style={styles.number}
-            onPress={() => setPssCode('4')}>
-            <Text style={styles.numberTxt}>4</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.number}
-            onPress={() => setPssCode('5')}>
-            <Text style={styles.numberTxt}>5</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.number}
-            onPress={() => setPssCode('6')}>
-            <Text style={styles.numberTxt}>6</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.numberView}>
-          <TouchableOpacity
-            style={styles.number}
-            onPress={() => setPssCode('7')}>
-            <Text style={styles.numberTxt}>7</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.number}
-            onPress={() => setPssCode('8')}>
-            <Text style={styles.numberTxt}>8</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.number}
-            onPress={() => setPssCode('9')}>
-            <Text style={styles.numberTxt}>9</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.numberView}>
-          <TouchableOpacity style={styles.number}>
+        {user !== undefined && (
+          <View style={styles.avatarView}>
             <Image
-              style={styles.face}
-              source={require('../../assets/img/face.png')}
+              style={styles.avatar}
+              source={require('../../assets/img/avatar.png')}
             />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.number}
-            onPress={() => setPssCode('0')}>
-            <Text style={styles.numberTxt}>0</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.number} onPress={removePassCode}>
-            <Text style={styles.numberTxtDelete}>{translate.t('common.delete')}</Text>
-          </TouchableOpacity>
+            <Text style={styles.name}>
+              {user?.name} {user?.surname}
+            </Text>
+          </View>
+        )}
+        <View style={[styles.dotCenter, props.isLogin ? {marginTop: 120} : {}]}>
+          <View style={styles.dotsView}>
+            <View style={[styles.dot, p1 && styles.activeDot]} />
+            <View style={[styles.dot, p2 && styles.activeDot]} />
+            <View style={[styles.dot, p3 && styles.activeDot]} />
+            <View style={[styles.dot, p4 && styles.activeDot]} />
+          </View>
         </View>
-      </View>
-      <TouchableOpacity style={styles.goback} onPress={() => nav.goBack()}>
-        {/* <Text style={styles.gobackTxt}>X</Text> */}
-        <Image style={styles.cancel} source={require('../../assets/img/cancelIcon.png')} />
-      </TouchableOpacity>
-    </ScrollView>
-    <Modal visible={loading} transparent={true} >
-      <ActivityIndicator size={'small'} color={Colors.bgGreen} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} />
-    </Modal>
+        <View
+          style={
+            auth.isAuthentificated === false
+              ? styles.numbersMainView2
+              : styles.numbersMainView
+          }>
+          <View style={styles.numberView}>
+            <TouchableOpacity
+              style={styles.number}
+              onPress={() => setPssCode('1')}>
+              <Text style={styles.numberTxt}>1</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.number}
+              onPress={() => setPssCode('2')}>
+              <Text style={styles.numberTxt}>2</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.number}
+              onPress={() => setPssCode('3')}>
+              <Text style={styles.numberTxt}>3</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.numberView}>
+            <TouchableOpacity
+              style={styles.number}
+              onPress={() => setPssCode('4')}>
+              <Text style={styles.numberTxt}>4</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.number}
+              onPress={() => setPssCode('5')}>
+              <Text style={styles.numberTxt}>5</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.number}
+              onPress={() => setPssCode('6')}>
+              <Text style={styles.numberTxt}>6</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.numberView}>
+            <TouchableOpacity
+              style={styles.number}
+              onPress={() => setPssCode('7')}>
+              <Text style={styles.numberTxt}>7</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.number}
+              onPress={() => setPssCode('8')}>
+              <Text style={styles.numberTxt}>8</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.number}
+              onPress={() => setPssCode('9')}>
+              <Text style={styles.numberTxt}>9</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.numberView}>
+            <TouchableOpacity style={styles.number}>
+              <Image
+                style={styles.face}
+                source={require('../../assets/img/face.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.number}
+              onPress={() => setPssCode('0')}>
+              <Text style={styles.numberTxt}>0</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.number} onPress={removePassCode}>
+              <Text style={styles.numberTxtDelete}>
+                {translate.t('common.delete')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <TouchableOpacity style={styles.goback} onPress={() => nav.goBack()}>
+          {/* <Text style={styles.gobackTxt}>X</Text> */}
+          {auth.isAuthentificated === false ? (
+            <Image
+              style={styles.cancel}
+              source={require('../../assets/img/cancelIcon.png')}
+            />
+          ) : null}
+        </TouchableOpacity>
+      </ScrollView>
+      <Modal visible={loading} transparent={true}>
+        <ActivityIndicator
+          size={'small'}
+          color={Colors.bgGreen}
+          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+        />
+      </Modal>
     </>
   );
 };
@@ -307,7 +335,11 @@ const PassCode: React.FC<IPageProps> = props => {
 const styles = StyleSheet.create({
   titleView: {
     alignItems: 'center',
-     marginTop: 20,
+    marginTop: 20,
+  },
+  title2: {
+    alignItems: 'center',
+    marginTop: 60,
   },
   title: {
     fontSize: 20,
@@ -354,6 +386,13 @@ const styles = StyleSheet.create({
   numbersMainView: {
     alignItems: 'center',
     marginTop: 40,
+    height: 360,
+    justifyContent: 'space-between',
+    marginBottom: 35,
+  },
+  numbersMainView2: {
+    alignItems: 'center',
+    marginTop: 60,
     height: 360,
     justifyContent: 'space-between',
     marginBottom: 35,

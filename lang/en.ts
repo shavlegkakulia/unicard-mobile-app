@@ -71,6 +71,9 @@ export default {
     wrongPin: 'Incorrect Pin-Code',
     resetPass: 'Reset Password',
     biometric: 'Biometric Authentication',
+    addCardNumber: 'Add Card Number',
+    userRegistration: 'User Registration',
+
   },
   home: {
     whatShouldSpend: 'How to spend',

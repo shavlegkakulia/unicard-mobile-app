@@ -5,6 +5,7 @@ import {
   TextInput,
   StyleSheet,
   View,
+  Linking,
 } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -34,41 +35,15 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
   const params = props.route.params;
   console.log('params', params);
 
-  // const OtpAuth = () => {
-  //   if (loading) {
-  //     return;
-  //   }
-  //   setLoading(true);
-  //   AuthService.SendOtp({phone: params.data.phone}).subscribe({
-  //     next: Response => {
-  //       if (inputErrors.length > 0) {
-  //         return;
-  //       }
-  //       if (passData?.password !== passData?.confirm_password) {
-  //         setError(true);
-  //         return;
-  //       }
-
-  //       props.navigation.navigate(notAuthRoutes.smsCode, {
-  //         data: {...params.data, ...passData},
-  //       });
-  //     },
-  //     complete: () => {
-  //       setLoading(false);
-  //     },
-  //     error: err => {
-  //       setLoading(false);
-  //       console.log(err);
-  //     },
-  //   }); 
-  // };
-
   const nextAuthStep = () => {
     if (inputErrors.length > 0) {
       return;
     }
     if (passData?.password !== passData?.confirm_password) {
       setError(true);
+      return;
+    }
+    if (toggleCheckBox === false) {
       return;
     }
 
@@ -140,9 +115,15 @@ const PasswordInfo: React.FC<ScreenNavigationProp> = props => {
             offAnimationType="stroke"
             style={styles.checkbox}
           />
-          <TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              Linking.openURL(
+                'https://www.unicard.ge/theme/pages/assets/img/uniTos-ge.pdf',
+              )
+            }>
             <Text style={styles.text}>
-              {translate.t('common.accept')}
+              {translate.t('common.accept')}{' '}
               <Text style={styles.subText}>
                 {translate.t('common.termsAndConditions')}
               </Text>

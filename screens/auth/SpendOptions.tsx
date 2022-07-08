@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   dataContent: {
     flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
   },
   notFound: {
     alignSelf: 'center',

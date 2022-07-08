@@ -66,9 +66,9 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'space-evenly',
     flexWrap: 'wrap',
     marginTop: 20,
-    marginLeft: 10,
   },
 });
 

@@ -1,7 +1,7 @@
 import {RouteProp, useRoute} from '@react-navigation/native';
 import React, {useEffect, useRef, createRef, useState} from 'react';
 import {Text, StyleSheet, View, Image, TextInput, Platform} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useSelector} from 'react-redux';
 import AppButton from '../../components/CostumComponents/AppButton';
 import {ScreenNavigationProp} from '../../interfaces/commons';
@@ -141,7 +141,11 @@ const MyCardInfo: React.FC<ScreenNavigationProp> = props => {
 
           <Image
             style={styles.image}
-            source={require('../../assets/img/blurCard.png')}
+            source={
+              translate.key === 'en'
+                ? require('../../assets/img/RegCardEng.png')
+                : require('../../assets/img/blurCard.png')
+            }
           />
         </View>
       </View>

@@ -100,7 +100,11 @@ const AboutUs: React.FC<ScreenNavigationProp> = () => {
       <View style={main}>
         <Image
           style={styles.img}
-          source={require('../../assets/img/UniCardImg.png')}
+          source={
+            translate.key === 'en'
+              ? require('../../assets/img/unicardLogoEng.png')
+              : require('../../assets/img/UniCardImg.png')
+          }
         />
       </View>
       {contact ? (
@@ -205,7 +209,7 @@ const styles = StyleSheet.create({
     elevation: 20,
   },
   img: {
-    width: 175.96,
+    width: 180.96,
     height: 98,
   },
   listView: {

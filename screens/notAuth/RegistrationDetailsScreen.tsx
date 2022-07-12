@@ -211,7 +211,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
                 <CountryItem
                   {...i}
                   style={styles.countryItem}
-                  placeholder={'არჩევა'}
+                  placeholder={translate.t('auth.select')}
                 />
               )}
               onChange={value => {
@@ -284,7 +284,7 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
           />
         </View>
         <DatePicker
-          title={'მიუთითეთ თარიღი'}
+          title={translate.t('auth.selectDate')}
           textColor={Colors.black}
           modal
           open={open}

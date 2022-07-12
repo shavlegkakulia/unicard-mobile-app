@@ -62,7 +62,7 @@ const ResetPassword: React.FC<ScreenNavigationProp> = props => {
               repet_password: resetPassData?.repet_password,
             })
           }
-          placeholder="სახელი"
+          placeholder={translate.t('common.name')}
           requireType={requireTypes.password}
           name="password"
           value={resetPassData?.user_name}
@@ -80,7 +80,7 @@ const ResetPassword: React.FC<ScreenNavigationProp> = props => {
           secureTextEntry={true}
           requireType={requireTypes.password}
           name="password"
-          placeholder="ახალი პაროლი"
+          placeholder={translate.t('common.newPassword')}
           value={resetPassData?.new_password}
         />
       </View>
@@ -93,7 +93,7 @@ const ResetPassword: React.FC<ScreenNavigationProp> = props => {
               repet_password: e,
             })
           }
-          placeholder="გაიმეორეთ პაროლი"
+          placeholder={translate.t('common.repeatPassword')}
           requireType={!error ? requireTypes.repeatPassword : ''}
           value={resetPassData?.repet_password}
           secureTextEntry={true}
@@ -109,7 +109,7 @@ const ResetPassword: React.FC<ScreenNavigationProp> = props => {
       <View style={styles.buttonWrapper}>
         <AppButton
          onPress={nextStep}
-          title={'შემდეგი'}
+          title={translate.t('common.next')}
           backgroundColor={Colors.bgGreen}
         />
       </View>

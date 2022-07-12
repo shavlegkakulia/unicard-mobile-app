@@ -73,6 +73,8 @@ export default {
     wrongPin: 'არასწორი პინ კოდი',
     resetPass: 'პაროლის აღდგენა',
     biometric: 'ბიომეტრიული ავთენთიფიკაცია',
+    select: 'არჩევა',
+    selectDate: 'მიუთითეთ თარიღი',
   },
   home: {
     whatShouldSpend: 'რაში დავხარჯო',

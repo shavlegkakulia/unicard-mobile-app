@@ -73,6 +73,8 @@ export default {
     biometric: 'Biometric Authentication',
     addCardNumber: 'Add Card Number',
     userRegistration: 'User Registration',
+    select: 'Select',
+    selectDate: 'Select Date',
 
   },
   home: {

@@ -17,15 +17,16 @@ interface IItemProps extends ICountry {
   disable?: boolean;
   placeholder?: string;
   isOptionList?: boolean;
+  isActive?:boolean;
 }
 
 export const CountryPlaceholder: React.FC<IItemProps> = ({
   placeholder,
   activeItemStyle,
 }) => {
-  console.log('activeItemStyle, placeholder', activeItemStyle, placeholder );
+
   return (
-    <View style={[styles.item, styles.placeholderItem, activeItemStyle]}>
+    <View style={[styles.item, activeItemStyle]}>
       {placeholder !== undefined ? (
         <Text style={styles.placeholderItem}>{placeholder}</Text>
       ) : null}
@@ -37,10 +38,11 @@ export const CountryItem: React.FC<IItemProps> = props => {
   if (!props.dialCode) {
     return <CountryPlaceholder {...props} placeholder={props.placeholder} />;
   } else {
+   // console.log('activeItemStyle, placeholder', props.activeItemStyle );
     return (
-      <View style={[styles.item, styles.placeholderItem]}>
-        <Text style={styles.placeholderText}>
-          {props.isOptionList ? props.countryName : `+${props.dialCode}`}
+      <View style={[styles.item]}>
+        <Text style={[styles.placeholderText, props.isActive && {color: Colors.bgGreen}]}>
+          {props.isOptionList ? props.countryName : `+${props.dialCode}`}1
         </Text>
       </View>
     );

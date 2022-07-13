@@ -76,7 +76,7 @@ export const Select = <TValue extends Object>({
   const activeItem = useMemo(() => {
     return value ? (
       <TouchableOpacity onPress={() => setVisible(!visible)}>
-        <Item {...value} activeItemStyle={activeItemStyle} />
+        <Item {...value} activeItemStyle={[activeItemStyle]} />
       </TouchableOpacity>
     ) : (
       <TouchableOpacity onPress={() => setVisible(!visible)}>
@@ -102,11 +102,11 @@ export const Select = <TValue extends Object>({
           <View style={styles.centeredView}>
             <View style={styles.modalContent}>
               <ScrollView style={scrollStyle}>
-                {values?.map((value, i) => (
+                {values?.map((v, i) => (
                   <TouchableOpacity
                     key={i}
-                    onPress={() => onSelectChange(value)}>
-                    <Item {...value} isOptionList={true} />
+                    onPress={() => onSelectChange(v)}>
+                    <Item {...v} isOptionList={true} isActive={value.countryCode === v.countryCode} />
                   </TouchableOpacity>
                 ))}
               </ScrollView>

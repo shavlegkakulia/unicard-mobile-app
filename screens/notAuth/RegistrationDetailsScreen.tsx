@@ -284,9 +284,10 @@ const RegistrationDetailsScreen: React.FC<ScreenNavigationProp> = props => {
           />
         </View>
         <DatePicker
-          title={translate.t('auth.selectDate')}
+          title={translate.t('auth.select')}
           textColor={Colors.black}
           modal
+          locale={translate.key === 'en' ? 'en' : 'ka'}
           open={open}
           mode="date"
           date={date}

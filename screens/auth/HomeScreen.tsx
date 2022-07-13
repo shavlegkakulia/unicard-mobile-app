@@ -262,6 +262,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 62 : 35,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    // width: 'auto',
   },
   title: {
     fontSize: 14,

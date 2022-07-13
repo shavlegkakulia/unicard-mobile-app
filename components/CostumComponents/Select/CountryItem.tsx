@@ -23,7 +23,7 @@ export const CountryPlaceholder: React.FC<IItemProps> = ({
   placeholder,
   activeItemStyle,
 }) => {
-  console.log(activeItemStyle, placeholder);
+  console.log('activeItemStyle, placeholder', activeItemStyle, placeholder );
   return (
     <View style={[styles.item, styles.placeholderItem, activeItemStyle]}>
       {placeholder !== undefined ? (
